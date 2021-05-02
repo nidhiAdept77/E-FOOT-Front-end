@@ -2,28 +2,21 @@ import { Fragment, useState, useContext } from 'react'
 import { isObjEmpty } from '@utils'
 import classnames from 'classnames'
 import { useSkin } from '@hooks/useSkin'
-// import useJwt from '@src/auth/jwt/useJwt'
-import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-// import { handleLogin } from '@store/actions/auth'
-import { Link, useHistory } from 'react-router-dom'
-import { AbilityContext } from '@src/utility/context/Can'
+import { Link, } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
-import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import { Row, Col, CardTitle, CardText, FormGroup, Label, Button, Form, Input, CustomInput } from 'reactstrap'
 import themeConfig from '@configs/themeConfig'
 import '@styles/base/pages/page-auth.scss'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import FormFeedback from 'reactstrap/lib/FormFeedback'
 
 const Register = () => {
-  const ability = useContext(AbilityContext)
 
   const [skin, setSkin] = useSkin()
 
-  const history = useHistory()
-
-  const dispatch = useDispatch()
-
-  const { register, errors, handleSubmit, trigger } = useForm()
+  // const { register, errors, handleSubmit, trigger } = useForm()
 
   const [email, setEmail] = useState('')
   const [valErrors, setValErrors] = useState({})
@@ -45,44 +38,33 @@ const Register = () => {
     )
   }
 
+  const LoginSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required(),
+    username: yup.string().min(6).required()
+  })
+  
+  const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
+  
   const onSubmit = () => {
     if (isObjEmpty(errors)) {
-      // useJwt
-      //   .register({ username, email, password })
-      //   .then(res => {
-      //     if (res.data.error) {
-      //       const arr = {}
-      //       for (const property in res.data.error) {
-      //         if (res.data.error[property] !== null) arr[property] = res.data.error[property]
-      //       }
-      //       setValErrors(arr)
-      //       if (res.data.error.email !== null) console.error(res.data.error.email)
-      //       if (res.data.error.username !== null) console.error(res.data.error.username)
-      //     } else {
-      //       setValErrors({})
-      //       const data = { ...res.data.user, accessToken: res.data.accessToken }
-      //       ability.update(res.data.user.ability)
-      //       dispatch(handleLogin(data))
-      //       history.push('/')
-      //     }
-      //   })
-      //   .catch(err => console.log(err))
+      // Provide Registration Logic here.
     }
   }
 
-  const handleUsernameChange = e => {
-    const errs = valErrors
-    if (errs.username) delete errs.username
-    setUsername(e.target.value)
-    setValErrors(errs)
-  }
+  // const handleUsernameChange = e => {
+  //   const errs = valErrors
+  //   if (errs.username) delete errs.username
+  //   setUsername(e.target.value)
+  //   setValErrors(errs)
+  // }
 
-  const handleEmailChange = e => {
-    const errs = valErrors
-    if (errs.email) delete errs.email
-    setEmail(e.target.value)
-    setValErrors(errs)
-  }
+  // const handleEmailChange = e => {
+  //   const errs = valErrors
+  //   if (errs.email) delete errs.email
+  //   setEmail(e.target.value)
+  //   setValErrors(errs)
+  // }
 
   return (
     <div className='auth-wrapper auth-v2'>
@@ -105,7 +87,7 @@ const Register = () => {
 
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
-                <Label className='form-label' for='register-username'>
+                <Label className='form-label' for='username'>
                   Username
                 </Label>
                 <Input
@@ -113,47 +95,44 @@ const Register = () => {
                   type='text'
                   value={username}
                   placeholder='johndoe'
-                  id='register-username'
-                  name='register-username'
-                  onChange={handleUsernameChange}
-                  className={classnames({ 'is-invalid': errors['register-username'] })}
+                  id='username'
+                  name='username'
+                  onChange={e => setUsername(e.target.value)}
+                  className={classnames({ 'is-invalid': errors['username'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
-                {Object.keys(valErrors).length && valErrors.username ? (
-                  <small className='text-danger'>{valErrors.username}</small>
-                ) : null}
+                {errors && errors.username && <FormFeedback>{errors.username.message}</FormFeedback>}
               </FormGroup>
               <FormGroup>
-                <Label className='form-label' for='register-email'>
+                <Label className='form-label' for='email'>
                   Email
                 </Label>
                 <Input
                   type='email'
                   value={email}
-                  id='register-email'
-                  name='register-email'
-                  onChange={handleEmailChange}
+                  id='email'
+                  name='email'
+                  onChange={e => setEmail(e.target.value)}
                   placeholder='john@example.com'
-                  className={classnames({ 'is-invalid': errors['register-email'] })}
+                  className={classnames({ 'is-invalid': errors['email'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
-                {Object.keys(valErrors).length && valErrors.email ? (
-                  <small className='text-danger'>{valErrors.email}</small>
-                ) : null}
+                {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
               </FormGroup>
               <FormGroup>
-                <Label className='form-label' for='register-password'>
+                <Label className='form-label' for='password'>
                   Password
                 </Label>
                 <InputPasswordToggle
                   value={password}
-                  id='register-password'
-                  name='register-password'
+                  id='password'
+                  name='password'
                   className='input-group-merge'
                   onChange={e => setPassword(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['register-password'] })}
+                  className={classnames({ 'is-invalid': errors['password'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
+                {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
               </FormGroup>
               <FormGroup>
                 <CustomInput
@@ -178,23 +157,6 @@ const Register = () => {
                 <span>Sign in instead</span>
               </Link>
             </p>
-            <div className='divider my-2'>
-              <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
-              <Button.Ripple color='facebook'>
-                <Facebook size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='twitter'>
-                <Twitter size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='google'>
-                <Mail size={14} />
-              </Button.Ripple>
-              <Button.Ripple className='mr-0' color='github'>
-                <GitHub size={14} />
-              </Button.Ripple>
-            </div>
           </Col>
         </Col>
       </Row>

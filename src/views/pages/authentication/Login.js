@@ -2,17 +2,15 @@ import { useState, useContext, Fragment } from 'react'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
-// import useJwt from '@src/auth/jwt/useJwt'
-import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
-// import { handleLogin } from '@store/actions/auth'
-import { AbilityContext } from '@src/utility/context/Can'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
-import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
-import { Facebook, Twitter, Mail, GitHub, HelpCircle, Coffee } from 'react-feather'
+import { isObjEmpty } from '@utils'
+import { Coffee } from 'react-feather'
 import themeConfig from '@configs/themeConfig'  
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Alert,
   Row,
@@ -23,9 +21,8 @@ import {
   Input,
   FormGroup,
   Label,
-  CustomInput,
   Button,
-  UncontrolledTooltip
+  FormFeedback
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
@@ -46,31 +43,21 @@ const ToastContent = ({ name, role }) => (
 
 const Login = props => {
   const [skin, setSkin] = useSkin()
-  const ability = useContext(AbilityContext)
-  const dispatch = useDispatch()
-  const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
-
+  
+  const LoginSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required()
+  })
+  
+  const { register, errors, handleSubmit } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
   const onSubmit = data => {
     if (isObjEmpty(errors)) {
-      // useJwt
-      //   .login({ email, password })
-      //   .then(res => {
-      //     const data = { ...res.data.userData, accessToken: res.data.accessToken, refreshToken: res.data.refreshToken }
-      //     dispatch(handleLogin(data))
-      //     ability.update(res.data.userData.ability)
-      //     history.push(getHomeRouteForLoggedInUser(data.role))
-      //     toast.success(
-      //       <ToastContent name={data.fullName || data.username || 'John Doe'} role={data.role || 'admin'} />,
-      //       { transition: Slide, hideProgressBar: true, autoClose: 2000 }
-      //     )
-      //   })
-      //   .catch(err => console.log(err))
+      // Provide login logic here
     }
   }
 
@@ -94,24 +81,26 @@ const Login = props => {
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
-                <Label className='form-label' for='login-email'>
+                <Label className='form-label' for='email'>
                   Email
                 </Label>
                 <Input
                   autoFocus
                   type='email'
                   value={email}
-                  id='login-email'
-                  name='login-email'
+                  id='email'
+                  name='email'
                   placeholder='john@example.com'
                   onChange={e => setEmail(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['login-email'] })}
+                  className={classnames({ 'is-invalid': errors['email'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
+                  invalid={errors.email && true}              
                 />
+                {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
               </FormGroup>
               <FormGroup>
                 <div className='d-flex justify-content-between'>
-                  <Label className='form-label' for='login-password'>
+                  <Label className='form-label' for='password'>
                     Password
                   </Label>
                   <Link to='/forgot-password'>
@@ -120,13 +109,15 @@ const Login = props => {
                 </div>
                 <InputPasswordToggle
                   value={password}
-                  id='login-password'
-                  name='login-password'
+                  id='password'
+                  name='password'
                   className='input-group-merge'
                   onChange={e => setPassword(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['login-password'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
+                  className={classnames({ 'is-invalid': errors['password'] })}
+                  innerRef={register({ required: true })}
+                  invalid={errors.password && true}
                 />
+                {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
               </FormGroup>
               <Button.Ripple type='submit' color='primary' block>
                 Sign in
