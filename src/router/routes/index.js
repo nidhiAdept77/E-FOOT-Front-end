@@ -2,7 +2,7 @@
 import DashboardRoutes from './Dashboards'
 
 // ** Document title
-const TemplateTitle = '%s - Vuexy React Admin Template'
+const TemplateTitle = '%s - EFOOT-NL Dashboard'
 
 // ** Default Route
 const DefaultRoute = '/dashboard/ecommerce'
