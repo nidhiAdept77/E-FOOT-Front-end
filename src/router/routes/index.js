@@ -1,5 +1,5 @@
 // ** Routes Imports
-import DashboardRoutes from './Dashboards'
+import PagesRoutes from './Pages'
 
 // ** Document title
 const TemplateTitle = '%s - EFOOT-NL Dashboard'
@@ -8,5 +8,5 @@ const TemplateTitle = '%s - EFOOT-NL Dashboard'
 const DefaultRoute = '/dashboard/ecommerce'
 
 // ** Merge Routes
-const Routes = []
+const Routes = [...PagesRoutes]
 export { DefaultRoute, Routes, TemplateTitle }

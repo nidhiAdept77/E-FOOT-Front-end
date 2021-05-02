@@ -18,7 +18,7 @@ const LayoutWrapper = props => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state)
-  const navbarStore = store.navbar
+  const navbarStore = store.navbar || {}
   const contentWidth = store.layout.contentWidth
 
   //** Vars
@@ -59,7 +59,7 @@ const LayoutWrapper = props => {
     <div
       className={classnames('app-content content overflow-hidden', {
         [wrapperClass]: wrapperClass,
-        'show-overlay': navbarStore.query.length
+        'show-overlay': navbarStore.query ? navbarStore.query.length : 0
       })}
     >
       <div className='content-overlay'></div>

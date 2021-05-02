@@ -4,7 +4,8 @@
 const themeConfig = {
   app: {
     appName: 'E-FOOT.NL',
-    appLogoImage: require('@src/assets/images/logo/logo.png').default
+    appLogoImage: require('@src/assets/images/logo/logo.png').default,
+    smallLogoImage: require('@src/assets/images/logo/logo-36X36.png').default
   },
   layout: {
     isRTL: false,
