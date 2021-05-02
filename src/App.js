@@ -1,8 +1,6 @@
-function App() {
-  return (
-    <div className="App">
-    </div>
-  );
-}
+// ** Router Import
+import Router from './router/Router'
 
-export default App;
+const App = props => <Router />
+
+export default App
