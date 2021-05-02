@@ -18,7 +18,6 @@ import {
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getBookmarks, updateBookmarked, handleSearchQuery } from '@store/actions/navbar'
 
 const NavbarBookmarks = props => {
   // ** Props
@@ -31,11 +30,6 @@ const NavbarBookmarks = props => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.navbar)
-
-  // ** ComponentDidMount
-  useEffect(() => {
-    dispatch(getBookmarks())
-  }, [])
 
   // ** Loops through Bookmarks Array to return Bookmarks
   const renderBookmarks = () => {
@@ -91,7 +85,7 @@ const NavbarBookmarks = props => {
   }
 
   // ** Removes query in store
-  const handleClearQueryInStore = () => dispatch(handleSearchQuery(''))
+  const handleClearQueryInStore = () => ''
 
   // ** Loops through Bookmarks Array to return Bookmarks
   const onKeyDown = e => {
@@ -104,7 +98,7 @@ const NavbarBookmarks = props => {
   }
 
   // ** Function to toggle Bookmarks
-  const handleBookmarkUpdate = id => dispatch(updateBookmarked(id))
+  const handleBookmarkUpdate = id => id
 
   // ** Function to handle Bookmarks visibility
   const handleBookmarkVisibility = () => {
