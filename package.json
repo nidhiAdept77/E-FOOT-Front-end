@@ -86,7 +86,11 @@
     "wnumb": "1.2.0",
     "xlsx": "0.16.2",
     "yarn": "1.21.1",
-    "yup": "0.32.8"
+    "yup": "0.32.8",
+    "apollo-boost": "0.4.9",
+    "apollo-link-ws": "^1.0.20",
+    "graphql": "15.5.0",
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "scripts": {
     "start": "react-app-rewired start",

@@ -3,9 +3,11 @@ import { combineReducers } from 'redux'
 
 // ** Reducers Imports
 import layout from './layout'
+import toastNotification from './toastNotification'
 
 const rootReducer = combineReducers({
-  layout
+  layout,
+  toastNotification
 })
 
 export default rootReducer

@@ -1,9 +1,9 @@
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState } from 'react'
 import { isObjEmpty } from '@utils'
 import classnames from 'classnames'
 import { useSkin } from '@hooks/useSkin'
 import { useForm } from 'react-hook-form'
-import { Link, } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Row, Col, CardTitle, CardText, FormGroup, Label, Button, Form, Input, CustomInput } from 'reactstrap'
 import themeConfig from '@configs/themeConfig'
@@ -11,9 +11,13 @@ import '@styles/base/pages/page-auth.scss'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import FormFeedback from 'reactstrap/lib/FormFeedback'
+import { showToastMessage } from '../../../redux/actions/toastNotification'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-const Register = () => {
-
+const Register = (props) => {
+  console.log('props: ', props)
+  // let {showToastMessage} = props
   const [skin, setSkin] = useSkin()
 
   // const { register, errors, handleSubmit, trigger } = useForm()
@@ -46,26 +50,14 @@ const Register = () => {
   
   const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
   
+  props.showToastMessage("this is a test.", 'error')
   const onSubmit = () => {
     if (isObjEmpty(errors)) {
       // Provide Registration Logic here.
     }
   }
-
-  // const handleUsernameChange = e => {
-  //   const errs = valErrors
-  //   if (errs.username) delete errs.username
-  //   setUsername(e.target.value)
-  //   setValErrors(errs)
-  // }
-
-  // const handleEmailChange = e => {
-  //   const errs = valErrors
-  //   if (errs.email) delete errs.email
-  //   setEmail(e.target.value)
-  //   setValErrors(errs)
-  // }
-
+  // useEffect(() => {
+  // }, [])
   return (
     <div className='auth-wrapper auth-v2'>
       <Row className='auth-inner m-0'>
@@ -164,4 +156,10 @@ const Register = () => {
   )
 }
 
-export default Register
+Register.propTypes = {
+  showToastMessage: PropTypes.func.isRequired
+}
+const mapStateToProps = state => ({
+  
+})
+export default connect(mapStateToProps, {showToastMessage})(Register)
