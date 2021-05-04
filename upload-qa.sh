@@ -1,0 +1,1 @@
+scp -i ~/Desktop/server-keys/dhiren-aws.pem build.tar.gz ubuntu@13.127.134.171:/home/ubuntu/ef-nl-frontend/app/
