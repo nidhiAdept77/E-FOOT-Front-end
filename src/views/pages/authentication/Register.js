@@ -16,8 +16,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 const Register = (props) => {
-  console.log('props: ', props)
-  // let {showToastMessage} = props
+  const {showToastMessage} = props
   const [skin, setSkin] = useSkin()
 
   // const { register, errors, handleSubmit, trigger } = useForm()
@@ -50,7 +49,6 @@ const Register = (props) => {
   
   const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
   
-  props.showToastMessage("this is a test.", 'error')
   const onSubmit = () => {
     if (isObjEmpty(errors)) {
       // Provide Registration Logic here.
