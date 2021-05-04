@@ -26,6 +26,10 @@ import {
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
+import { loginUser } from '../../../redux/actions/auth'
+import { showToastMessage } from '../../../redux/actions/toastNotification'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -45,6 +49,7 @@ const Login = props => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {loginUser, showToastMessage} = props
 
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
@@ -55,9 +60,10 @@ const Login = props => {
   })
   
   const { register, errors, handleSubmit } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
-  const onSubmit = data => {
+  const onSubmit = async data => {
     if (isObjEmpty(errors)) {
-      // Provide login logic here
+      console.log('data: ', data)
+      await loginUser(data)
     }
   }
 
@@ -132,4 +138,12 @@ const Login = props => {
   )
 }
 
-export default Login
+Login.propTypes = {
+  showToastMessage: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired
+}
+const mapStateToProps = state => ({
+  
+})
+
+export default connect(mapStateToProps, {showToastMessage, loginUser})(Login)
