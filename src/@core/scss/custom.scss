@@ -1,5 +1,8 @@
 .blank-page-header{
+    background: #fff;
+    box-shadow: $box-shadow;
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     .brand-logo {
         display: flex;
@@ -8,10 +11,34 @@
         .brand-text {
             font-weight: 600;
         }
+        align-content: flex-start;
+        justify-content: flex-start;
     }
+    .flex30{
+        flex-basis:30%;
+    }
+
+    .flex70{
+        flex-basis:70%;
+    }
+}
+.menu{
+    width: 100%;
+    .nav-link-style{
+        color: $secondary !important;
+        &:active,
+        &.active,
+        &:focus,
+        &:hover{
+            color: $secondary !important;
+        }
+    }
+
 }
 
 .blank-header-nav{
     padding: 0px 2rem;
-    background: #fff;
+}
+.align-center{
+    align-items: center;
 }

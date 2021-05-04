@@ -259,6 +259,9 @@
           color: $body-color;
           padding: 0 0.5rem;
           position: relative;
+          &:hover {
+            color: $primary;
+          }
         }
 
         &.dropdown-user {

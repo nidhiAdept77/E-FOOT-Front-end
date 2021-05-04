@@ -11,8 +11,11 @@ import { ArrowUp } from 'react-feather'
 // ** Custom Hooks
 import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarType } from '@hooks/useNavbarType'
+import { useNavbarColor } from '@hooks/useNavbarColor'
+import NavbarComponent from './components/navbar'
+
 import { useSkin } from '@hooks/useSkin'
-import Nav from 'reactstrap/lib/Nav'
+import Menus from './components/Menus'
 
 const BlankLayout = ({ children, ...rest }) => {
   // ** Hooks
@@ -21,6 +24,7 @@ const BlankLayout = ({ children, ...rest }) => {
   const [navbarScrolled, setNavbarScrolled] = useState(false)
   const [footerType, setFooterType] = useFooterType()
   const layoutStore = useSelector(state => state.layout)
+  const [navbarColor, setNavbarColor] = useNavbarColor()
 
 
   // ** States
@@ -94,30 +98,7 @@ const BlankLayout = ({ children, ...rest }) => {
     static: 'navbar-static-top',
     hidden: 'd-none'
   }
-  // import { Nav, NavItem, NavLink } from 'reactstrap'
-
-const NavCenter = () => {
-  return (
-    <Nav className='justify-content-center'>
-      <NavItem>
-        {/* <NavLink href='#' active>
-          Active
-        </NavLink> */}
-      </NavItem>
-      {/* <NavItem>
-        <NavLink href='#'>Link</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink href='#'>Link</NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink disabled href='#'>
-          Disabled
-        </NavLink>
-      </NavItem> */}
-    </Nav>
-  )
-}
+  const bgColorCondition = navbarColor !== '' && navbarColor !== 'light' && navbarColor !== 'white'
   return (
     <div className='blank-page'>
         <div className={classnames(
@@ -137,26 +118,29 @@ const NavCenter = () => {
             }
           )}  {...(isHidden ? { 'data-col': '1-column' } : {})}>
           
-          <Navbar
-            expand='lg'
-            className={classnames('header-navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center', {
-              'navbar-scrolled': navbarScrolled
-            }, 'blank-header-nav')}>
-            <div className='navbar-header d-xl-block d-none'>
-              <ul className='nav navbar-nav'>
-                <NavItem>
-                  <div className="blank-page-header">
-                    <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-                      <img src={themeConfig.app.smallLogoImage} alt='logo' />
-                      <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
-                    </Link>
-                  </div>
-                </NavItem>
-              </ul>
+          <div className="blank-page-header">
+            <div className="blank-header-nav flex30">
+              <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
+                <img src={themeConfig.app.smallLogoImage} alt='logo' />
+                <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
+              </Link>
             </div>
-          </Navbar>
-          {/* <NavCenter /> */}
-          
+            <div className='flex70'>
+              <Navbar
+                expand='lg'
+                light={skin !== 'dark'}
+                dark={skin === 'dark' || bgColorCondition}
+                color={bgColorCondition ? navbarColor : undefined}
+                className={classnames(
+                  `header-navbar navbar align-items-center`
+                )}
+              >
+                <div className="navbar-container d-flex content">
+                  <Menus />
+                </div>
+              </Navbar>
+            </div>
+          </div>
           {children}
           
           {/* Scroll to top for the pages */}
