@@ -11,10 +11,6 @@ const ResetPasswordV1 = () => {
       <div className='auth-inner py-2'>
         <Card className='mb-0'>
           <CardBody>
-            <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-              <img src={themeConfig.app.smallLogoImage} alt='logo' />
-              <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
-            </Link>
             <CardTitle tag='h4' className='mb-1'>
               Reset Password 🔒
             </CardTitle>

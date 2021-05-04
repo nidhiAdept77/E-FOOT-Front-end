@@ -6,8 +6,8 @@ $auth-1-inner-max-width: 400px !default;
 .auth-wrapper {
   display: flex;
   flex-basis: 100%;
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
+  height: calc(100vh - 5.45rem);
+  min-height: calc(var(--vh, 1vh) * 100 - 5.45rem);
   width: 100%;
 
   .auth-inner {

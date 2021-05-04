@@ -1,0 +1,17 @@
+.blank-page-header{
+    display: flex;
+    align-items: flex-start;
+    .brand-logo {
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0;
+        .brand-text {
+            font-weight: 600;
+        }
+    }
+}
+
+.blank-header-nav{
+    padding: 0px 2rem;
+    background: #fff;
+}
