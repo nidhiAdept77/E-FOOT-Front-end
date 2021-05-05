@@ -11,7 +11,7 @@ export const useFooterType = () => {
       return themeConfig.layout.footer.type
     } catch (error) {
       // ** If error also initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.footer.type
     }
   })
@@ -26,7 +26,7 @@ export const useFooterType = () => {
       setFooterType(valueToStore)
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

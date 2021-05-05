@@ -11,7 +11,7 @@ export const useNavbarType = () => {
       return themeConfig.layout.navbar.type
     } catch (error) {
       // ** If error return initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.navbar.type
     }
   })
@@ -26,7 +26,7 @@ export const useNavbarType = () => {
       setNavbarType(valueToStore)
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

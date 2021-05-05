@@ -12,7 +12,7 @@ export const useLayout = () => {
       return themeConfig.layout.type
     } catch (error) {
       // ** If error return initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.type
     }
   })
@@ -27,7 +27,7 @@ export const useLayout = () => {
       setLayout(valueToStore)
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

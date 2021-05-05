@@ -11,7 +11,7 @@ export const useNavbarColor = () => {
       return themeConfig.layout.navbar.backgroundColor
     } catch (error) {
       // ** If error return initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.navbar.backgroundColor
     }
   })
@@ -26,7 +26,7 @@ export const useNavbarColor = () => {
       setNavbarColor(valueToStore)
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

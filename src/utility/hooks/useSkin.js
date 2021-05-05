@@ -14,7 +14,7 @@ export const useSkin = () => {
       return item ? JSON.parse(item) : themeConfig.layout.skin
     } catch (error) {
       // ** If error also return initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.skin
     }
   })
@@ -30,7 +30,7 @@ export const useSkin = () => {
       window.localStorage.setItem('skin', JSON.stringify(valueToStore))
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

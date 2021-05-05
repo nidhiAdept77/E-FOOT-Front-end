@@ -1,7 +1,8 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER} from '../../actions/types'
 
 const initialState = {
-    user: {}
+    user: {},
+    loading: false
 }
 
 export default function (state = initialState, action) {
@@ -16,6 +17,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 user: {}
+            }
+        case SET_LOADER:
+            return {
+                ...state,
+                loading: payload
             }
         default:
             return state

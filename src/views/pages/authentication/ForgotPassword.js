@@ -1,4 +1,4 @@
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn } from '../../../utils'
 import { useSkin } from '@hooks/useSkin'
 import { ChevronLeft } from 'react-feather'
 import { Link, Redirect } from 'react-router-dom'

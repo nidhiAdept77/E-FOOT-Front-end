@@ -1,10 +1,10 @@
-import { useState, useContext, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
 import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
-import { Link } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { isObjEmpty } from '@utils'
 import { Coffee } from 'react-feather'
@@ -50,7 +50,12 @@ const Login = props => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {loginUser, showToastMessage} = props
-
+  const history = useHistory()
+  useEffect(() => {
+    if (localStorage.getItem('userId')) {
+      history.push('/dashboard')
+    }
+  }, [])
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
   
@@ -62,8 +67,22 @@ const Login = props => {
   const { register, errors, handleSubmit } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
   const onSubmit = async data => {
     if (isObjEmpty(errors)) {
-      console.log('data: ', data)
-      await loginUser(data)
+      try {
+        const result = await loginUser(data)
+        if (result.success) {
+          showToastMessage("Welcome to Efoot-nl", 'success')
+          history.push("/dashboard")
+        } else {
+          let message = "Unable to Login"
+          if (result.message && result.message.length) {
+            message = result.message[0]
+          }
+          showToastMessage(message, 'error')
+        }
+      } catch (error) {
+        console.log('error: ', error)
+        showToastMessage(error.message, 'error')
+      }
     }
   }
 

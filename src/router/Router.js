@@ -2,7 +2,7 @@
 import { Suspense, useContext, lazy } from 'react'
 
 // ** Utils
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn } from '../utils'
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
@@ -70,6 +70,7 @@ const Router = () => {
     let action, resource
 
     // ** Assign vars based on route meta
+    console.log('route: ', route)
     if (route.meta) {
       action = route.meta.action ? route.meta.action : null
       resource = route.meta.resource ? route.meta.resource : null
@@ -195,7 +196,7 @@ const Router = () => {
           }}
         />
         {/* Not Auth Route */}
-        <Route
+        {/* <Route
           exact
           path='/misc/not-authorized'
           render={props => (
@@ -203,7 +204,7 @@ const Router = () => {
               <NotAuthorized />
             </Layouts.BlankLayout>
           )}
-        />
+        /> */}
         {ResolveRoutes()}
 
         {/* NotFound Error page */}

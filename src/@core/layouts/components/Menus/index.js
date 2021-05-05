@@ -4,14 +4,9 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap'
+  NavLink } from 'reactstrap'
 import UserDropdown from '../navbar/UserDropdown'
 
 function Menus(props) {
@@ -22,7 +17,9 @@ function Menus(props) {
     return (
         <div className="menu">
             <Navbar light expand="md">
-            <NavbarToggler onClick={toggle} />
+                <div className="nav-bar-toggle-div">
+                    <NavbarToggler onClick={toggle} />
+                </div>
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto align-center" navbar>
                     <NavItem>

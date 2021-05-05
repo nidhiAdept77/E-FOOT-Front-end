@@ -11,7 +11,7 @@ export const useRouterTransition = () => {
       return themeConfig.layout.routerTransition
     } catch (error) {
       // ** If error return initialValue
-      console.log(error)
+      console.error(error)
       return themeConfig.layout.routerTransition
     }
   })
@@ -26,7 +26,7 @@ export const useRouterTransition = () => {
       setTransition(valueToStore)
     } catch (error) {
       // ** A more advanced implementation would handle the error case
-      console.log(error)
+      console.error(error)
     }
   }
 

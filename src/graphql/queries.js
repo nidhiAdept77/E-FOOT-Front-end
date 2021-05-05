@@ -46,6 +46,5 @@ export async function getMessages() {
 
 export async function onMessageAdded(handleMessage){
     let observable = client.subscribe({query:  messageAddedSubscription})
-    console.log('observable: ', observable);
     return observable.subscribe(({data}) =>  handleMessage(data.messageAdded))
   }

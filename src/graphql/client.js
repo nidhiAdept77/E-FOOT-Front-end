@@ -7,8 +7,8 @@ import { CONSTANTS } from '../utils/CONSTANTS'
 import { getAccessToken } from './auth'
 
 
-const httpUrl = CONSTANTS.BACKEND_BASE_URL
-const wsUrl = CONSTANTS.BACKEND_WS_URL
+const httpUrl = `${CONSTANTS.BACKEND_BASE_URL}/graphql`
+const wsUrl = `${CONSTANTS.BACKEND_WS_URL}/graphql`
 
 const httpLink = ApolloLink.from([
   new ApolloLink((operation, forward) => {
