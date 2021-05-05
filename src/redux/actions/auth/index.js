@@ -6,43 +6,47 @@ import {getFieldValue} from '../../../utils'
 import {request} from '../../../utils/apiService'
 
 
-export const getUserDetails = userId => async dispatch => {
-    const userQuery = gql`
-        query userById($id: ID!){
-            userById(id: $id){
-                _id
-                firstName
-                lastName
-                roles
-                email
-                isOnline
-                createdAt
-                updatedAt
-                status
-                isOnline
-                profileBg
-                profilePicture
-                userName
-                ability{
-                action
-                subject
+export const getUserDetails = () => async dispatch => {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+        const userQuery = gql`
+            query userById($id: ID!){
+                userById(id: $id){
+                    _id
+                    firstName
+                    lastName
+                    roles
+                    email
+                    isOnline
+                    createdAt
+                    updatedAt
+                    status
+                    isOnline
+                    profileBg
+                    profilePicture
+                    userName
+                    ability{
+                    action
+                    subject
+                    }
                 }
             }
-        }
-    `
-    const {data} = await client.query({
-        query: userQuery,
-        variables: {
-            id: userId
-        }
-    })
-    const userData = getFieldValue(data, 'userById')
-    localStorage.setItem('userData', JSON.stringify(userData))
-    dispatch({
-        type: SET_USER_DETAIL,
-        payload: userData
-    })
-    return userData
+        `
+        const {data} = await client.query({
+            query: userQuery,
+            variables: {
+                id: userId
+            }
+        })
+        const userData = getFieldValue(data, 'userById')
+        localStorage.setItem('userData', JSON.stringify(userData))
+        dispatch({
+            type: SET_USER_DETAIL,
+            payload: userData
+        })
+        return userData
+    }
+    return false
 }
 
 export const removeUserDetails = () => dispatch => {
@@ -75,7 +79,6 @@ export const loginUser =  (data) => async dispatch => {
 export const registerUser = (registerData) => async dispatch => {
     try {
         const {email, password, userName, firstName, lastName} = registerData
-        console.log('email, password, userName, firstName, lastName: ', email, password, userName, firstName, lastName)
         dispatch({
             type: SET_LOADER,
             payload: true
@@ -107,7 +110,6 @@ export const registerUser = (registerData) => async dispatch => {
                 }
             }
         })
-        console.log('data: ', data)
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -121,4 +123,14 @@ export const registerUser = (registerData) => async dispatch => {
         })
         return false
     }
+}
+
+export const logoutUser = () => dispatch => {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userData')
+    dispatch({
+        type: REMOVE_USER_DETAIL,
+        payload: {}
+    })
 }

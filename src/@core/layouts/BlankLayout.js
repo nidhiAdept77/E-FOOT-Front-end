@@ -136,7 +136,7 @@ const BlankLayout = ({ children, ...rest }) => {
                 )}
               >
                 <div className="navbar-container d-flex content">
-                  <Menus />
+                  <Menus showUserComp={true} />
                 </div>
               </Navbar>
             </div>

@@ -2,7 +2,7 @@
 import { Suspense, useContext, lazy } from 'react'
 
 // ** Utils
-import { isUserLoggedIn } from '../utils'
+import { isUserAdmin, isUserLoggedIn } from '../utils'
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
@@ -70,7 +70,6 @@ const Router = () => {
     let action, resource
 
     // ** Assign vars based on route meta
-    console.log('route: ', route)
     if (route.meta) {
       action = route.meta.action ? route.meta.action : null
       resource = route.meta.resource ? route.meta.resource : null
@@ -94,6 +93,12 @@ const Router = () => {
     } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
       // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
       return <Redirect to='/misc/not-authorized' />
+    } else if (route.meta && route.meta.adminRoute && isUserLoggedIn()) {
+      if (!isUserAdmin()) {
+        return <Redirect to='/misc/not-authorized' />
+      } else {
+        return <route.component {...props} />
+      }
     } else {
       // ** If none of the above render component
       return <route.component {...props} />

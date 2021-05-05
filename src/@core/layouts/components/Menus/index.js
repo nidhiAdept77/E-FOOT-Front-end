@@ -8,12 +8,15 @@ import {
   NavItem,
   NavLink } from 'reactstrap'
 import UserDropdown from '../navbar/UserDropdown'
+import IntlDropdown from '../navbar/IntlDropdown'
+import { FormattedMessage } from 'react-intl'
 
 function Menus(props) {
     const [isOpen, setIsOpen] = useState(false)
     const toggle = () => {
         setIsOpen(!isOpen)
     }
+    const {showUserComp} = props
     return (
         <div className="menu">
             <Navbar light expand="md">
@@ -23,21 +26,26 @@ function Menus(props) {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="ml-auto align-center" navbar>
                     <NavItem>
-                        <NavLink className="nav-link" href="/">Home</NavLink>
+                        <NavLink className="nav-link" href="/"><FormattedMessage id={"Home"} /></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" href="/">Tips 'N Trick</NavLink>
+                        <NavLink className="nav-link" href="/"> <FormattedMessage id={"PLAY FIFA AS AN INTERNSHIP"} /></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" href="/">FIFA SPELEN ALS STAGE </NavLink>
+                        <NavLink className="nav-link" href="/"><FormattedMessage id={"Tips 'N Trick"} /></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" href="/">ONZE DIENSTEN</NavLink>
+                        <NavLink className="nav-link" href="/"><FormattedMessage id={"PLAY FIFA AS AN INTERNSHIP"} /></NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" href="/">Contact</NavLink>
+                        <NavLink className="nav-link" href="/"><FormattedMessage id={"Contact"} /></NavLink>
                     </NavItem>
-                    <UserDropdown />
+                    {showUserComp && 
+                        <>
+                            <IntlDropdown />
+                            <UserDropdown />
+                        </>
+                    }
                     </Nav>
                 </Collapse>
             </Navbar>

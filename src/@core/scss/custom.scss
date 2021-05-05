@@ -53,7 +53,9 @@
     background: #807d7d75;
     z-index: 100;
 }
-
+.capitalize{
+    text-transform: capitalize;
+}
 @media (max-width: 767px) {
     .nav-bar-toggle-div{
         width: 100%;

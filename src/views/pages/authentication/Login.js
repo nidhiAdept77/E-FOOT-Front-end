@@ -80,7 +80,7 @@ const Login = props => {
           showToastMessage(message, 'error')
         }
       } catch (error) {
-        console.log('error: ', error)
+        console.error('error: ', error)
         showToastMessage(error.message, 'error')
       }
     }
