@@ -31,20 +31,6 @@ import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const ToastContent = ({ name, role }) => (
-  <Fragment>
-    <div className='toastify-header'>
-      <div className='title-wrapper'>
-        <Avatar size='sm' color='success' icon={<Coffee size={12} />} />
-        <h6 className='toast-title font-weight-bold'>Welcome, {name}</h6>
-      </div>
-    </div>
-    <div className='toastify-body'>
-      <span>You have successfully logged in as an {role} user to E-FOOT.NL. Now you can start to explore. Enjoy!</span>
-    </div>
-  </Fragment>
-)
-
 const Login = props => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
@@ -64,7 +50,7 @@ const Login = props => {
     password: yup.string().min(5).required()
   })
   
-  const { register, errors, handleSubmit } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
+  const { register, errors, handleSubmit } = useForm({ mode: 'onBlur', resolver: yupResolver(LoginSchema) })
   const onSubmit = async data => {
     if (isObjEmpty(errors)) {
       try {

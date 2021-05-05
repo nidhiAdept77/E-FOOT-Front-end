@@ -1,10 +1,10 @@
-import { Home, Circle } from 'react-feather'
+import { Inbox } from 'react-feather'
 
 export default [
   {
     id: 'dashboard',
     title: 'Dashboard',
-    icon: <Home />,
+    icon: <Inbox />,
     navLink: '/dashboard'
   }
 ]

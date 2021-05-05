@@ -32,6 +32,7 @@ const UserDropdown = (props) => {
   }, [])
 
   const handleLogout = () => {
+    console.log('logoutUser: ', logoutUser)
     logoutUser()
     showToastMessage("See you soon", 'success')
     history.push('/login')
@@ -52,15 +53,15 @@ const UserDropdown = (props) => {
             }
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem tag={Link} to='/login' onClick={() => handleLogout}>
+            <DropdownItem tag={Link} to='/dashboard'>
               <Inbox size={14} className='mr-75' />
               <span className='align-middle'>Dashbard</span>
             </DropdownItem>
-            <DropdownItem tag={Link} to='/login' onClick={() => {}}>
+            <DropdownItem tag={Link} to='/profile'>
               <User size={14} className='mr-75' />
               <span className='align-middle'>Profile</span>
             </DropdownItem>
-            <DropdownItem tag={Link} to='/login' onClick={() => {}}>
+            <DropdownItem tag={Link} onClick={handleLogout}>
               <Power size={14} className='mr-75' />
               <span className='align-middle'>Logout</span>
             </DropdownItem>

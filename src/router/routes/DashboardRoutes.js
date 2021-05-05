@@ -6,8 +6,7 @@ const DashboardRoutes = [
     path: '/dashboard',
     component: lazy(() => import('../../views/Dashboard')),
     meta: {
-        auth: true,
-        adminRoute: true
+        auth: true
     }
   }
 ]

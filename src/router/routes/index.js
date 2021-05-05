@@ -6,7 +6,7 @@ import DashboardRoutes from './DashboardRoutes'
 const TemplateTitle = '%s - EFOOT-NL Dashboard'
 
 // ** Default Route
-const DefaultRoute = '/'
+const DefaultRoute = '/dashboard'
 // ** Merge Routes
 const Routes = [...DashboardRoutes, ...PagesRoutes]
 export { DefaultRoute, Routes, TemplateTitle }
