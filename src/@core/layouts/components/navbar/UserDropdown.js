@@ -25,6 +25,7 @@ const UserDropdown = (props) => {
   const {showToastMessage, getUserDetails, user, logoutUser} = props
   const history = useHistory()
   useEffect(async () => {
+    // const userData = localStorage.getItem('userData')
     if (isUserLoggedIn() !== null) {
       setUserLoggedIn(true)
       await getUserDetails()

@@ -6,7 +6,7 @@ const PagesRoutes = [
     component: lazy(() => import('../../views/pages/authentication/Login')),
     layout: 'BlankLayout',
     meta: {
-      authRoute: true
+      publicRoute: true
     }
   },
   {
@@ -14,7 +14,7 @@ const PagesRoutes = [
     component: lazy(() => import('../../views/pages/authentication/Register')),
     layout: 'BlankLayout',
     meta: {
-      authRoute: true
+      publicRoute: true
     }
   },
   {
@@ -22,11 +22,11 @@ const PagesRoutes = [
     component: lazy(() => import('../../views/pages/authentication/ForgotPassword')),
     layout: 'BlankLayout',
     meta: {
-      authRoute: true
+      publicRoute: true
     }
   },
   {
-    path: '/pages/reset-password/:data',
+    path: '/pages/reset-password/:token',
     component: lazy(() => import('../../views/pages/authentication/ResetPassword')),
     layout: 'BlankLayout',
     meta: {

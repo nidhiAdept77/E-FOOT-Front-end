@@ -34,11 +34,6 @@ const Login = props => {
   const [password, setPassword] = useState('')
   const {loginUser, showToastMessage, loading} = props
   const history = useHistory()
-  useEffect(() => {
-    if (localStorage.getItem('userId')) {
-      history.push('/dashboard')
-    }
-  }, [])
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
   
@@ -54,9 +49,7 @@ const Login = props => {
         const result = await loginUser(data)
         if (result.success) {
           showToastMessage("Welcome to Efoot-nl", 'success')
-          setTimeout(() => {
-            history.push("/dashboard")
-          }, 3000)
+          history.push("/dashboard")
         } else {
           let message = "Unable to Login"
           if (result.message && result.message.length) {

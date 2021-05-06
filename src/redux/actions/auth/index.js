@@ -72,13 +72,15 @@ export const loginUser =  (data) => async dispatch => {
             data
         )
         localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
-        localStorage.setItem('userId', getFieldValue(result, 'data.userId'))
-        setTimeout(() => {
-            dispatch({
-                type: SET_LOADER,
-                payload: false
-            })
-        }, 4000)
+        localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
+        localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+        await getUserDetails(getFieldValue(result, 'data.userId'))
+        
+        debugger
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
         return result.data
     } catch (error) {
         console.error('error: ', error)
@@ -155,6 +157,7 @@ export const forgotPassUser = email => async dispatch => {
             mutation forgotPassword($email:String){
                 forgotPassword(email:$email){
                     success
+            
                     message
                 }
             }
@@ -176,9 +179,57 @@ export const forgotPassUser = email => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return false
+        return {success:false, message: error.message}
     }
 }
+
+export const resetPassUser = (resetToken, password) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const resetPassMutation = gql`
+            mutation resetPassword($input:ResetPasswordInput){
+                resetPassword(input:$input){
+                    success
+                    message
+                }
+            }
+        `
+        console.log({
+            mutation: resetPassMutation,
+            variables: {
+                input: {
+                    resetToken,
+                    password
+                }
+            }
+        })
+        const {data} = await client.mutate({
+            mutation: resetPassMutation,
+            variables: {
+                input: {
+                    resetToken,
+                    password
+                }
+            }
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.resetPassword
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return {success:false, message: error.message}
+    }
+}
+
 export const setLoader = value => dispatch => {
     dispatch({
         type: SET_LOADER,

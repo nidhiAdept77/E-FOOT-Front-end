@@ -6,7 +6,7 @@ const DashboardRoutes = [
     path: '/dashboard',
     component: lazy(() => import('../../views/Dashboard')),
     meta: {
-      publicRoute: true
+      authRoute: true
     }
   }
 ]
