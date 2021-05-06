@@ -4,7 +4,7 @@ import {
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import { CONSTANTS } from '../utils/CONSTANTS'
-import { getAccessToken } from './auth'
+import { getAccessToken } from '../utils/'
 
 
 const httpUrl = `${CONSTANTS.BACKEND_BASE_URL}/graphql`

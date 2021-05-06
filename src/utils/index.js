@@ -12,6 +12,10 @@ export const isUserLoggedIn = () => {
     return !!(userId && authToken)
 }
 
+export const getAccessToken = () => {
+    const authToken = localStorage.getItem('authToken')
+    return authToken
+}
 
 export const isUserAdmin = () => {
     const userData = JSON.parse(localStorage.getItem('userData'))

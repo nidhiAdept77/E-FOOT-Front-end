@@ -2,12 +2,24 @@ import { Fragment, useState } from 'react'
 import classnames from 'classnames'
 import { useForm, Controller } from 'react-hook-form'
 import { Button, Media, Label, Row, Col, Input, FormGroup, Alert, Form } from 'reactstrap'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import _ from 'underscore'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import FormFeedback from 'reactstrap/lib/FormFeedback'
+import {updateUserProfile} from '../../../redux/actions/auth'
+import {showToastMessage} from '../../../redux/actions/toastNotification'
 
-const GeneralTabs = ({ data }) => {
-  const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
-
-  const [avatar, setAvatar] = useState(data.avatar ? data.avatar : '')
-
+const GeneralTabs = ({ user, showToastMessage, updateUserProfile, loading }) => {
+  
+  const [avatar, setAvatar] = useState(user.avatar ? user.avatar : '')
+  const genralTabSchema = yup.object().shape({
+    userName: yup.string().min(6).required(),
+    firstName: yup.string().required(),
+    lastName: yup.string().required()
+  })
+  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema) })
   const onChange = e => {
     const reader = new FileReader(),
       files = e.target.files
@@ -17,8 +29,18 @@ const GeneralTabs = ({ data }) => {
     reader.readAsDataURL(files[0])
   }
 
-  const onSubmit = data => {
-
+  const onSubmit = async data => {
+    if (_.isEmpty(errors)) {
+      try {
+        delete data['email']
+        const result = await updateUserProfile(data)
+        const resultType = result.success ? "success" : "error"
+        showToastMessage(result.message, resultType)
+      } catch (error) {
+        console.error('error: ', error)
+        showToastMessage(error.message, 'error')
+      }
+    }
   }
 
   return (
@@ -44,7 +66,7 @@ const GeneralTabs = ({ data }) => {
             <FormGroup>
               <Label for='userName'>Username</Label>
               <Controller
-                defaultValue={data.userName}
+                defaultValue={user.userName}
                 control={control}
                 as={Input}
                 id='userName'
@@ -56,13 +78,14 @@ const GeneralTabs = ({ data }) => {
                   'is-invalid': errors.userName
                 })}
               />
+              {errors && errors.userName && <FormFeedback>{errors.userName.message}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col sm='6'>
             <FormGroup>
               <Label for='email'>E-mail</Label>
               <Controller
-                defaultValue={data.email}
+                defaultValue={user.email}
                 control={control}
                 as={Input}
                 type='email'
@@ -82,7 +105,7 @@ const GeneralTabs = ({ data }) => {
             <FormGroup>
               <Label for='name'>First Name</Label>
               <Controller
-                defaultValue={data.firstName}
+                defaultValue={user.firstName}
                 control={control}
                 as={Input}
                 id='name'
@@ -94,13 +117,14 @@ const GeneralTabs = ({ data }) => {
                   'is-invalid': errors.firstName
                 })}
               />
+              {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col sm='6'>
             <FormGroup>
               <Label for='name'>Last Name</Label>
               <Controller
-                defaultValue={data.lastName}
+                defaultValue={user.lastName}
                 control={control}
                 as={Input}
                 id='name'
@@ -112,6 +136,7 @@ const GeneralTabs = ({ data }) => {
                   'is-invalid': errors.lastName
                 })}
               />
+              {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col className='mt-2' sm='12'>
@@ -128,4 +153,14 @@ const GeneralTabs = ({ data }) => {
   )
 }
 
-export default GeneralTabs
+GeneralTabs.propTypes = {
+  showToastMessage: PropTypes.func.isRequired,
+  updateUserProfile: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    loading: state.auth.loading,
+    user: state.auth.user
+})
+export default connect(mapStateToProps, {updateUserProfile, showToastMessage})(GeneralTabs)

@@ -13,7 +13,7 @@ import PasswordTabContent from './components/PasswordTabContent'
 import InfoTabContent from './components/InfoTabContent'
 import PsnTabContent from './components/PsnTabContent'
 import BankDetailsTabContent from './components/BankDetailsTabContent'
-
+import LoaderComponent from '../components/Loader'
 function Profile({loading, user, showToastMessage}) {
     const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
@@ -24,6 +24,7 @@ function Profile({loading, user, showToastMessage}) {
 
     return (
         <Fragment>
+            <LoaderComponent loading={loading} />
             <Breadcrumbs breadCrumbTitle='My Profile' breadCrumbActive='My Profile' />
             <Row>
                 {user ?
@@ -36,7 +37,7 @@ function Profile({loading, user, showToastMessage}) {
                                 <CardBody>
                                     <TabContent activeTab={activeTab}>
                                         <TabPane tabId='1'>
-                                            <GeneralTabContent data={user} />
+                                            <GeneralTabContent />
                                         </TabPane>
                                         <TabPane tabId='2'>
                                             <InfoTabContent data={user} />

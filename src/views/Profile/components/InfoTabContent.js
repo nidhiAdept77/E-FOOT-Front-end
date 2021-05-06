@@ -68,22 +68,6 @@ const InfoTabContent = ({ data }) => {
         </Col>
         <Col sm='6'>
           <FormGroup>
-            <Label for='website'>Website</Label>
-            <Input
-              type='url'
-              id='website'
-              name='website'
-              defaultValue={data.website || ''}
-              placeholder='Website Address'
-              className={classnames({
-                'is-invalid': errors.website
-              })}
-              innerRef={register({ required: true })}
-            />
-          </FormGroup>
-        </Col>
-        <Col sm='6'>
-          <FormGroup>
             <Label for='phone'>Phone</Label>
             <Input
               id='phone'

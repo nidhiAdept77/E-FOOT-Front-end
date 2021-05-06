@@ -15,20 +15,30 @@ export const getUserDetails = () => async dispatch => {
                     _id
                     firstName
                     lastName
-                    roles
+                    userName
                     email
-                    isOnline
-                    createdAt
-                    updatedAt
+                    roles
+                    userName
+                    profilePicture
+                    profileBg
+                    ability{
+                        action
+                        subject
+                    }
                     status
                     isOnline
-                    profileBg
-                    profilePicture
-                    userName
-                    ability{
-                    action
-                    subject
-                    }
+                    bio
+                    birthDate
+                    phone
+                    playStationId
+                    xboxId
+                    epicGamesId
+                    accountNumber
+                    ibanNumber
+                    paypalEmail
+                    country
+                    createdAt
+                    updatedAt
                 }
             }
         `
@@ -211,6 +221,79 @@ export const resetPassUser = (resetToken, password) => async dispatch => {
             payload: false
         })
         return data.resetPassword
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return {success:false, message: error.message}
+    }
+}
+
+export const updateUserProfile = (userProfileData) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const updateProfileMutation = gql`
+           mutation updateProfile($input: ProfileInput){
+                updateProfile(input: $input){
+                    success
+                    message
+                    user{
+                        _id
+                        firstName
+                        lastName
+                        userName
+                        email
+                        roles
+                        userName
+                        profilePicture
+                        profileBg
+                        ability{
+                            action
+                            subject
+                        }
+                        status
+                        isOnline
+                        bio
+                        birthDate
+                        phone
+                        playStationId
+                        xboxId
+                        epicGamesId
+                        accountNumber
+                        ibanNumber
+                        paypalEmail
+                        country
+                        createdAt
+                        updatedAt
+                    }
+                }
+            }
+        `
+        const {data} = await client.mutate({
+            mutation: updateProfileMutation,
+            variables: {
+                input: userProfileData
+            }
+        })
+        const {success} = data.updateProfile
+        if (success) {
+            const userData = getFieldValue(data, 'updateProfile.user')
+            localStorage.setItem('userData', JSON.stringify(userData))
+            dispatch({
+                type: SET_USER_DETAIL,
+                payload: userData
+            })
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.updateProfile
     } catch (error) {
         console.error('error: ', error)
         dispatch({
