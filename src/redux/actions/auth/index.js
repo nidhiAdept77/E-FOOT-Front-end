@@ -145,6 +145,40 @@ export const logoutUser = () => dispatch => {
     })
 }
 
+export const forgotPassUser = email => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const forgotPassMutation = gql`
+            mutation forgotPassword($email:String){
+                forgotPassword(email:$email){
+                    success
+                    message
+                }
+            }
+        `
+        const {data} = await client.mutate({
+            mutation: forgotPassMutation,
+            variables: {
+                email
+            }
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.forgotPassword
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return false
+    }
+}
 export const setLoader = value => dispatch => {
     dispatch({
         type: SET_LOADER,
