@@ -45,7 +45,7 @@ export default [
   },
   {
     id: 'howToPlay',
-    title: 'HowTo Play',
+    title: 'How To Play',
     icon: <Server />,
     navLink: '/how-to-play'
   },
