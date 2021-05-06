@@ -52,7 +52,7 @@ const Register = (props) => {
     lastName: yup.string().required()
   })
   
-  const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onChange', resolver: yupResolver(LoginSchema) })
+  const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onBlur', resolver: yupResolver(LoginSchema) })
   
   const onSubmit = async data => {
     try {
