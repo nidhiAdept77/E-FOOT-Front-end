@@ -57,7 +57,9 @@ const Login = props => {
         const result = await loginUser(data)
         if (result.success) {
           showToastMessage("Welcome to Efoot-nl", 'success')
-          history.push("/dashboard")
+          setTimeout(() => {
+            history.push("/dashboard")
+          }, 2000)
         } else {
           let message = "Unable to Login"
           if (result.message && result.message.length) {
