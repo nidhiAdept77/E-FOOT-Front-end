@@ -11,19 +11,23 @@ export default [
     id: 'myMatch',
     title: 'My Match',
     icon: <Trello />,
-    navLink: '/my-match'
+    // navLink: '/my-match'
+    navLink: '/#'
   },
   {
     id: 'findMyMatch',
     title: "Find My Match",
     icon: <Radio />,
-    navLink: '/find-my-match'
+    // navLink: '/find-my-match'
+    navLink: '/#'
+
   },
   {
     id: 'wallet',
     title: 'Wallet',
     icon: <CreditCard />,
-    navLink: '/wallet'
+    // navLink: '/wallet'
+    navLink: '/#'
   },
   {
     id: 'profile',
@@ -35,30 +39,35 @@ export default [
     id: 'tournament',
     title: 'Tournament',
     icon: <Crosshair />,
-    navLink: '/contact-us'
+    // navLink: '/contact-us'
+    navLink: '/#'
   },
   {
     id: 'contact',
     title: 'Contact Us',
     icon: <Mail />,
-    navLink: '/contact-us'
+    // navLink: '/contact-us'
+    navLink: '/#'
   },
   {
     id: 'howToPlay',
     title: 'How To Play',
     icon: <Server />,
-    navLink: '/how-to-play'
+    // navLink: '/how-to-play'
+    navLink: '/#'
   },
   {
     id: 'terms',
     title: 'Terms Of Use',
     icon: <LifeBuoy />,
-    navLink: '/terms'
+    // navLink: '/terms'
+    navLink: '/#'
   },
   {
     id: 'privacy',
     title: 'Privacy Policy',
     icon: <Shield />,
-    navLink: '/privacy'
+    // navLink: '/privacy'
+    navLink: '/#'
   }
 ]

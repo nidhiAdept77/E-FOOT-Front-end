@@ -33,7 +33,6 @@ const UserDropdown = (props) => {
   }, [])
 
   const handleLogout = () => {
-    console.log('logoutUser: ', logoutUser)
     logoutUser()
     showToastMessage("See you soon", 'success')
     history.push('/login')

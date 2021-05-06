@@ -9,9 +9,6 @@ export const getFieldValue = (obj, key) => {
 export const isUserLoggedIn = () => {
     const userId = localStorage.getItem('userId')
     const authToken = localStorage.getItem('authToken')
-    const userData = localStorage.getItem('userData')
-    console.log('userData: ', userData)
-    console.log('!!(userId && authToken): ', !!(userId && authToken))
     return !!(userId && authToken)
 }
 

@@ -197,15 +197,6 @@ export const resetPassUser = (resetToken, password) => async dispatch => {
                 }
             }
         `
-        console.log({
-            mutation: resetPassMutation,
-            variables: {
-                input: {
-                    resetToken,
-                    password
-                }
-            }
-        })
         const {data} = await client.mutate({
             mutation: resetPassMutation,
             variables: {
