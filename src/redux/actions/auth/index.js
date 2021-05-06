@@ -61,6 +61,10 @@ export const loginUser =  (data) => async dispatch => {
         'Content-Type': 'application/json'
     }
     try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
         const result = await request(
             `${CONSTANTS.BACKEND_BASE_URL}/users/login`,
             'post',
@@ -69,6 +73,12 @@ export const loginUser =  (data) => async dispatch => {
         )
         localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
         localStorage.setItem('userId', getFieldValue(result, 'data.userId'))
+        setTimeout(() => {
+            dispatch({
+                type: SET_LOADER,
+                payload: false
+            })
+        }, 4000)
         return result.data
     } catch (error) {
         console.error('error: ', error)
@@ -133,4 +143,11 @@ export const logoutUser = () => dispatch => {
         type: REMOVE_USER_DETAIL,
         payload: {}
     })
+}
+
+export const setLoader = value => dispatch => {
+    dispatch({
+        type: SET_LOADER,
+        payload: value
+    }, 4000)
 }

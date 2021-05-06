@@ -30,12 +30,13 @@ import { loginUser } from '../../../redux/actions/auth'
 import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import LoaderComponent from '../../components/Loader'
 
 const Login = props => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {loginUser, showToastMessage} = props
+  const {loginUser, showToastMessage, loading} = props
   const history = useHistory()
   useEffect(() => {
     if (localStorage.getItem('userId')) {
@@ -59,7 +60,7 @@ const Login = props => {
           showToastMessage("Welcome to Efoot-nl", 'success')
           setTimeout(() => {
             history.push("/dashboard")
-          }, 2000)
+          }, 3000)
         } else {
           let message = "Unable to Login"
           if (result.message && result.message.length) {
@@ -76,6 +77,7 @@ const Login = props => {
 
   return (
     <div className='auth-wrapper auth-v2'>
+      <LoaderComponent loading={loading} />
       <Row className='auth-inner m-0'>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -147,10 +149,11 @@ const Login = props => {
 
 Login.propTypes = {
   showToastMessage: PropTypes.func.isRequired,
-  loginUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
-  
+  loading: state.auth.loading
 })
 
 export default connect(mapStateToProps, {showToastMessage, loginUser})(Login)

@@ -26,8 +26,8 @@ const PagesRoutes = [
     }
   },
   {
-    path: '/pages/reset-password-v1',
-    component: lazy(() => import('../../views/pages/authentication/ResetPasswordV1')),
+    path: '/pages/reset-password/:data',
+    component: lazy(() => import('../../views/pages/authentication/ResetPassword')),
     layout: 'BlankLayout',
     meta: {
       publicRoute: true
