@@ -5,11 +5,13 @@ import { combineReducers } from 'redux'
 import layout from './layout'
 import toastNotification from './toastNotification'
 import auth from './auth'
+import country from './country'
 
 const rootReducer = combineReducers({
   layout,
   toastNotification,
-  auth
+  auth,
+  country
 })
 
 export default rootReducer

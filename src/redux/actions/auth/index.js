@@ -85,8 +85,6 @@ export const loginUser =  (data) => async dispatch => {
         localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
         localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
         await getUserDetails(getFieldValue(result, 'data.userId'))
-        
-        debugger
         dispatch({
             type: SET_LOADER,
             payload: false
