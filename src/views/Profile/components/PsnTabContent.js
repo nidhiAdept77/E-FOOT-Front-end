@@ -1,72 +1,87 @@
 import { useState, Fragment } from 'react'
-import { isObjEmpty } from '@utils'
-import Avatar from '@components/avatar'
-import { Link, User } from 'react-feather'
-import { Form, Label, Input, Button, Row, Col, FormGroup } from 'reactstrap'
-import {getFieldValue} from '../../../utils'
+import { Form, Label, Input, Button, Row, Col, FormGroup, FormFeedback } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
+import _ from 'underscore'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import {updateUserProfile} from '../../../redux/actions/auth'
+import {showToastMessage} from '../../../redux/actions/toastNotification'
 
-const PsnTabContent = ({ data }) => {
-  const { register, errors, handleSubmit, control, trigger } = useForm({
-    defaultValues: { dob: data.dob || new Date() }
-  })
 
-  const onSubmit = data => {
-    
+const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
+  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur' })
+
+  const onSubmit = async data => {
+    if (_.isEmpty(errors)) {
+      try {
+        // const {birthDate, country, phone, bio} = data
+        const result = await updateUserProfile(data)
+        const resultType = result.success ? "success" : "error"
+        showToastMessage(result.message, resultType)
+      } catch (error) {
+        console.error('error: ', error)
+        showToastMessage(error.message, 'error')
+      }
+    }
   }
 
-  return (
-    <Form onSubmit={e => e.preventDefault()}>
+  return user ? (
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col sm='6'>
           <FormGroup>
-            <Label for='playstationId'>Playstation Id</Label>
+            <Label for='playStationId'>Playstation Id</Label>
             <Input
-              type='url'
-              id='playstationId'
-              name='playstationId'
-              defaultValue={data.playstationId || ''}
+              id='playStationId'
+              name='playStationId'
+              defaultValue={user.playStationId || ''}
               placeholder='Playstation Id'
               className={classnames({
-                'is-invalid': errors.playstationId
+                'is-invalid': errors.playStationId
               })}
+              onChange={e => setValue('playStationId', e.target.value)}
               innerRef={register({ required: true })}
             />
+              {errors && errors.playStationId && <FormFeedback>{errors.playStationId.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col sm='6'>
           <FormGroup>
-            <Label for='xBoxId'>Xbox Id</Label>
+            <Label for='xboxId'>Xbox Id</Label>
             <Input
-              id='xBoxId'
-              name='xBoxId'
-              defaultValue={data.xBoxId || ''}
+              id='xboxId'
+              name='xboxId'
+              defaultValue={user.xboxId || ''}
               placeholder='X-box Id'
               className={classnames({
-                'is-invalid': errors.xBoxId
+                'is-invalid': errors.xboxId
               })}
+              onChange={e => setValue('xboxId', e.target.value)}
               innerRef={register({ required: true })}
             />
+              {errors && errors.xboxId && <FormFeedback>{errors.xboxId.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col sm='6'>
           <FormGroup>
-            <Label for='epicGameId'>Epic Games Id</Label>
+            <Label for='epicGamesId'>Epic Games Id</Label>
             <Input
-              id='epicGameId'
-              name='epicGameId'
-              defaultValue={data.epicGameId || ''}
+              id='epicGamesId'
+              name='epicGamesId'
+              defaultValue={user.epicGamesId || ''}
               placeholder="Epic Games Id"
               className={classnames({
-                'is-invalid': errors.epicGameId
+                'is-invalid': errors.epicGamesId
               })}
+              onChange={e => setValue('epicGamesId', e.target.value)}
               innerRef={register({ required: true })}
             />
+            {errors && errors.epicGamesId && <FormFeedback>{errors.epicGamesId.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col className='mt-1' sm='12'>
-          <Button.Ripple className='mr-1' color='primary'>
+          <Button.Ripple className='mr-1'  type="submit" color='primary'>
             Save changes
           </Button.Ripple>
           <Button.Ripple color='secondary' outline>
@@ -75,7 +90,18 @@ const PsnTabContent = ({ data }) => {
         </Col>
       </Row>
     </Form>
-  )
+  ) : null
 }
 
-export default PsnTabContent
+PsnTabContent.propTypes = {
+  showToastMessage: PropTypes.func.isRequired,
+  updateUserProfile: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    loading: state.auth.loading,
+    user: state.auth.user
+})
+
+export default connect(mapStateToProps, {updateUserProfile, showToastMessage})(PsnTabContent)

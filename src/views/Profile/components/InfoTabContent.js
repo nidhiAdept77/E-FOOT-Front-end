@@ -6,8 +6,6 @@ import Cleave from 'cleave.js/react'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import CountryDropdown from '../../components/CountryDropdown'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 import _ from 'underscore'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -20,16 +18,9 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
   
 
   const onSubmit = async data => {
-    console.log('data: ', data)
     if (_.isEmpty(errors)) {
       try {
         const {birthDate, country, phone, bio} = data
-        console.log({
-          birthDate: birthDate[0],
-          country: country.countryName,
-          phone: phone.toString(),
-          bio
-        })
         const result = await updateUserProfile({
           birthDate: birthDate[0],
           country: country.countryName,
@@ -45,7 +36,7 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
     }
   }
 
-  return (
+  return user ? (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col sm='12'>
@@ -122,7 +113,7 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
         </Col>
       </Row>
     </Form>
-  )
+  ) : null
 }
 InfoTabContent.propTypes = {
   showToastMessage: PropTypes.func.isRequired,

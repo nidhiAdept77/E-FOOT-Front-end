@@ -40,13 +40,13 @@ function Profile({loading, user, showToastMessage}) {
                                             <GeneralTabContent />
                                         </TabPane>
                                         <TabPane tabId='2'>
-                                            <InfoTabContent data={user} />
+                                            <InfoTabContent />
                                         </TabPane>
                                         <TabPane tabId='3'>
-                                            <PsnTabContent data={user} />
+                                            <PsnTabContent />
                                         </TabPane>
                                         <TabPane tabId='4'>
-                                            <BankDetailsTabContent data={user} />
+                                            <BankDetailsTabContent />
                                         </TabPane>
                                         <TabPane tabId='5'>
                                             <PasswordTabContent />

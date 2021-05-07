@@ -42,7 +42,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, loading }) => 
     }
   }
 
-  return (
+  return user ? (
     <Fragment>
       <Media>
         <Media className='mr-25' left>
@@ -149,7 +149,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, loading }) => 
         </Row>
       </Form>
     </Fragment>
-  )
+  ) : null
 }
 
 GeneralTabs.propTypes = {
