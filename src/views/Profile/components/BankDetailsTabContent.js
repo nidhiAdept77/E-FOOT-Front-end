@@ -77,9 +77,6 @@ const BankDetailsTabContent = ({ user, showToastMessage, updateUserProfile }) =>
           <Button.Ripple type='submit' className='mr-1' color='primary'>
             Save changes
           </Button.Ripple>
-          <Button.Ripple color='secondary' outline>
-            Cancel
-          </Button.Ripple>
         </Col>
       </Row>
     </Form>

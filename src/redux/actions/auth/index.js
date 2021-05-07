@@ -301,7 +301,43 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
         return {success:false, message: error.message}
     }
 }
-
+export const changeUserPass = (password, oldPassword) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const changePassMutation = gql`
+            mutation changePassword($input: ChangePasswordInput){
+                changePassword(input:$input){
+                    success
+                    message
+                }
+            }
+        `
+        const {data} = await client.mutate({
+            mutation: changePassMutation,
+            variables: {
+                input: {
+                    password,
+                    oldPassword
+                }
+            }
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.changePassword
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return {success:false, message: error.message}
+    }
+}
 export const setLoader = value => dispatch => {
     dispatch({
         type: SET_LOADER,

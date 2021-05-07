@@ -48,19 +48,19 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
         </Col>
         <Col sm='6'>
           <FormGroup>
-            <Label for='xboxId'>Xbox Id</Label>
+            <Label for='xBoxId'>Xbox Id</Label>
             <Input
-              id='xboxId'
-              name='xboxId'
-              defaultValue={user.xboxId || ''}
+              id='xBoxId'
+              name='xBoxId'
+              defaultValue={user.xBoxId || ''}
               placeholder='X-box Id'
               className={classnames({
-                'is-invalid': errors.xboxId
+                'is-invalid': errors.xBoxId
               })}
-              onChange={e => setValue('xboxId', e.target.value)}
+              onChange={e => setValue('xBoxId', e.target.value)}
               innerRef={register({ required: true })}
             />
-              {errors && errors.xboxId && <FormFeedback>{errors.xboxId.message}</FormFeedback>}
+              {errors && errors.xBoxId && <FormFeedback>{errors.xBoxId.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col sm='6'>
@@ -83,9 +83,6 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
         <Col className='mt-1' sm='12'>
           <Button.Ripple className='mr-1'  type="submit" color='primary'>
             Save changes
-          </Button.Ripple>
-          <Button.Ripple color='secondary' outline>
-            Cancel
           </Button.Ripple>
         </Col>
       </Row>

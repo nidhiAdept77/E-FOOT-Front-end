@@ -107,9 +107,6 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
           <Button.Ripple className='mr-1' type="submit" color='primary'>
             Save changes
           </Button.Ripple>
-          <Button.Ripple color='secondary' outline>
-            Cancel
-          </Button.Ripple>
         </Col>
       </Row>
     </Form>

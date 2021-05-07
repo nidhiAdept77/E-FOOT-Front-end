@@ -2,24 +2,44 @@ import * as yup from 'yup'
 import classnames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Form, FormGroup, Row, Col, Button } from 'reactstrap'
+import { Form, FormGroup, Row, Col, Button, FormFeedback } from 'reactstrap'
 import InputPasswordToggle from '@components/input-password-toggle'
+import _ from 'underscore'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import {changeUserPass} from '../../../redux/actions/auth'
+import {showToastMessage} from '../../../redux/actions/toastNotification'
 
-const PasswordTabContent = () => {
+
+const PasswordTabContent = ({changeUserPass, showToastMessage}) => {
   const SignupSchema = yup.object().shape({
-    'old-password': yup.string().required(),
-    'new-password': yup.string().required(),
-    'retype-new-password': yup
+    oldPassword: yup.string().required(),
+    newPassword: yup.string().required(),
+    retypeNewPassword: yup
       .string()
       .required()
-      .oneOf([yup.ref(`new-password`), null], 'Passwords must match')
+      .oneOf([yup.ref(`newPassword`), null], 'Passwords must match')
   })
 
-  const { register, errors, handleSubmit, trigger } = useForm({
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
     resolver: yupResolver(SignupSchema)
   })
 
-  const onSubmit = () => trigger()
+  const onSubmit = async (data) => {
+    if (_.isEmpty(errors)) {
+      try {
+        const result = await changeUserPass(data.newPassword, data.oldPassword)
+        const resultType = result.success ? "success" : "error"
+        setValue('oldPassword', '')
+        setValue('newPassword', '')
+        setValue('retypeNewPassword', '')
+        showToastMessage(result.message, resultType)
+      } catch (error) {
+        console.error('error: ', error)
+        showToastMessage(error.message, 'error')
+      }
+    }
+  }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -28,13 +48,14 @@ const PasswordTabContent = () => {
           <FormGroup>
             <InputPasswordToggle
               label='Old Password'
-              htmlFor='old-password'
-              name='old-password'
+              htmlFor='oldPassword'
+              name='oldPassword'
               innerRef={register({ required: true })}
               className={classnames('input-group-merge', {
-                'is-invalid': errors['old-password']
+                'is-invalid': errors['oldPassword']
               })}
             />
+            {errors && errors.oldPassword && <FormFeedback>{errors.oldPassword.message}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -43,34 +64,33 @@ const PasswordTabContent = () => {
           <FormGroup>
             <InputPasswordToggle
               label='New Password'
-              htmlFor='new-password'
-              name='new-password'
+              htmlFor='newPassword'
+              name='newPassword'
               innerRef={register({ required: true })}
               className={classnames('input-group-merge', {
-                'is-invalid': errors['new-password']
+                'is-invalid': errors['newPassword']
               })}
             />
+            {errors && errors.newPassword && <FormFeedback>{errors.newPassword.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col sm='6'>
           <FormGroup>
             <InputPasswordToggle
               label='Retype New Password'
-              htmlFor='retype-new-password'
-              name='retype-new-password'
+              htmlFor='retypeNewPassword'
+              name='retypeNewPassword'
               innerRef={register({ required: true })}
               className={classnames('input-group-merge', {
-                'is-invalid': errors['retype-new-password']
+                'is-invalid': errors['retypeNewPassword']
               })}
             />
+            {errors && errors.retypeNewPassword && <FormFeedback>{errors.retypeNewPassword.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col className='mt-1' sm='12'>
           <Button.Ripple type='submit' className='mr-1' color='primary'>
             Save changes
-          </Button.Ripple>
-          <Button.Ripple color='secondary' outline>
-            Cancel
           </Button.Ripple>
         </Col>
       </Row>
@@ -78,4 +98,10 @@ const PasswordTabContent = () => {
   )
 }
 
-export default PasswordTabContent
+PasswordTabContent.propTypes = {
+  showToastMessage: PropTypes.func.isRequired,
+  changeUserPass: PropTypes.func.isRequired
+}
+const mapStateToProps = state => ({
+})
+export default connect(mapStateToProps, {changeUserPass, showToastMessage})(PasswordTabContent)
