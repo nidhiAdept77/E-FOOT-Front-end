@@ -25,7 +25,7 @@ const BankDetailsTabContent = ({ user, showToastMessage, updateUserProfile }) =>
     }
   }
 
-  return user ? (
+  return !_.isEmpty(user) ? (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col sm='6'>

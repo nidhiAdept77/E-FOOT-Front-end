@@ -14,7 +14,10 @@ import {showToastMessage} from '../../../redux/actions/toastNotification'
 import 'cleave.js/dist/addons/cleave-phone.us'
 
 const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) => {
-  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur' })
+  const { register, errors, handleSubmit, control, setValue } = useForm({ 
+    mode: 'onBlur', 
+    defaultValues: {birthDate: user.birthDate ? new Date(parseInt(user.birthDate)) : new Date()}
+  })
   
 
   const onSubmit = async data => {
@@ -23,7 +26,7 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
         const {birthDate, country, phone, bio} = data
         const result = await updateUserProfile({
           birthDate: birthDate[0],
-          country: country.countryName,
+          country: country.label,
           phone,
           bio
         })
@@ -36,7 +39,7 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
     }
   }
 
-  return user ? (
+  return !_.isEmpty(user) ? (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col sm='12'>
@@ -78,7 +81,7 @@ const InfoTabContent = ({ user, showToastMessage, updateUserProfile, loading }) 
           </FormGroup>
         </Col>
         <Col sm='6'>
-          <CountryDropdown errors={errors} register={register} control={control} setValue={setValue} />
+          <CountryDropdown errors={errors} register={register} control={control} value={user.country} setValue={setValue} />
         </Col>
         <Col sm='6'>
           <FormGroup>

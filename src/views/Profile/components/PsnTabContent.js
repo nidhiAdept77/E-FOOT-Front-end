@@ -26,7 +26,7 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
     }
   }
 
-  return user ? (
+  return !_.isEmpty(user) ? (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Row>
         <Col sm='6'>
@@ -48,19 +48,19 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
         </Col>
         <Col sm='6'>
           <FormGroup>
-            <Label for='xBoxId'>Xbox Id</Label>
+            <Label for='xboxId'>Xbox Id</Label>
             <Input
-              id='xBoxId'
-              name='xBoxId'
-              defaultValue={user.xBoxId || ''}
+              id='xboxId'
+              name='xboxId'
+              defaultValue={user.xboxId || ''}
               placeholder='X-box Id'
               className={classnames({
-                'is-invalid': errors.xBoxId
+                'is-invalid': errors.xboxId
               })}
-              onChange={e => setValue('xBoxId', e.target.value)}
+              onChange={e => setValue('xboxId', e.target.value)}
               innerRef={register({ required: true })}
             />
-              {errors && errors.xBoxId && <FormFeedback>{errors.xBoxId.message}</FormFeedback>}
+              {errors && errors.xboxId && <FormFeedback>{errors.xboxId.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col sm='6'>

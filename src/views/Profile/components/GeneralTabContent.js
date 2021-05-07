@@ -11,7 +11,6 @@ import {updateUserProfile} from '../../../redux/actions/auth'
 import {showToastMessage} from '../../../redux/actions/toastNotification'
 
 const GeneralTabs = ({ user, showToastMessage, updateUserProfile, loading }) => {
-  
   const [avatar, setAvatar] = useState(user.avatar ? user.avatar : '')
   const genralTabSchema = yup.object().shape({
     userName: yup.string().min(6).required(),
@@ -42,7 +41,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, loading }) => 
     }
   }
 
-  return user ? (
+  return !_.isEmpty(user) ? (
     <Fragment>
       <Media>
         <Media className='mr-25' left>
