@@ -47,7 +47,7 @@ const UserDropdown = (props) => {
               <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles[0]) || 'User'}</span>
             </div>
             {user.profilePicture ? 
-              <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
+              <Avatar size='sm' img={user.profilePicture}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
             :
               <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' status='online' content={`${user.firstName} ${user.lastName}`} initials />
             }

@@ -39,7 +39,6 @@ function CountryDropdown({country, loading, getAllCountries, removeCountryData, 
                     className={classnames('country', {
                         'is-invalid': errors.country
                     })}
-                    // onChange={data => { console.log(data) }}
                     innerRef={register({ required: true })}
                     classNamePrefix='select'
                     theme={selectThemeColors} />

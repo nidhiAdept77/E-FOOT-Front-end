@@ -13,7 +13,9 @@ export const isUserLoggedIn = () => {
   
 }
 
-export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
+export const getUserData = () => {
+  return localStorage.getItem('userData')  ? JSON.parse(localStorage.getItem('userData')) : {}
+}
 
 /**
  * This function is used for demo purpose route navigation

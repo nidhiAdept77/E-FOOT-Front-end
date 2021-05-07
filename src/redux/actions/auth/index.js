@@ -6,7 +6,7 @@ import {getFieldValue} from '../../../utils'
 import {request} from '../../../utils/apiService'
 
 
-export const getUserDetails = () => async dispatch => {
+const getUserData = async () => {
     const userId = localStorage.getItem('userId')
     if (userId) {
         const userQuery = gql`
@@ -49,6 +49,14 @@ export const getUserDetails = () => async dispatch => {
             }
         })
         const userData = getFieldValue(data, 'userById')
+        return userData
+    }
+    return {}
+}
+
+export const getUserDetails = () => async dispatch => {
+    const userData = await getUserData()
+    if (userData) {
         localStorage.setItem('userData', JSON.stringify(userData))
         dispatch({
             type: SET_USER_DETAIL,
@@ -301,6 +309,7 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
         return {success:false, message: error.message}
     }
 }
+
 export const changeUserPass = (password, oldPassword) => async dispatch => {
     try {
         dispatch({
@@ -338,6 +347,45 @@ export const changeUserPass = (password, oldPassword) => async dispatch => {
         return {success:false, message: error.message}
     }
 }
+
+export const uploadProfilePhoto = (imageData) => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+
+    const headers = {
+        // 'Content-Type':'multipart/form-data',
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    const formData = new FormData()
+    formData.append('document', imageData)
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/users/profile-photo`,
+            'post',
+            headers,
+            formData
+        )
+        const userData = await getUserData()
+        dispatch({
+            type: SET_USER_DETAIL,
+            payload: userData
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+} 
+
 export const setLoader = value => dispatch => {
     dispatch({
         type: SET_LOADER,

@@ -18,6 +18,6 @@ export const getAccessToken = () => {
 }
 
 export const isUserAdmin = () => {
-    const userData = JSON.parse(localStorage.getItem('userData'))
+    const userData = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')) : {}
     return userData && userData.roles.includes(CONSTANTS.USERS_ROLES.ADMIN)
 }
