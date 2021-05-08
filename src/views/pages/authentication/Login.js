@@ -27,6 +27,11 @@ import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import LoaderComponent from '../../components/Loader'
+import { Facebook, Mail } from 'react-feather'
+import { GoogleLogin } from 'react-google-login'
+import { CONSTANTS } from '../../../utils/CONSTANTS'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 
 const Login = props => {
   const [skin, setSkin] = useSkin()
@@ -64,6 +69,20 @@ const Login = props => {
     }
   }
 
+  const responseGoogle = (response) => {
+    console.log(response)
+    if (response.accessToken) {
+
+    }
+  }
+
+  const responseFacebook = (response) => {
+    console.log(response)
+    if (response.accessToken) {
+
+    }
+  }  
+
   return (
     <div className='auth-wrapper auth-v2'>
       <LoaderComponent loading={loading} />
@@ -78,7 +97,38 @@ const Login = props => {
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
               Welcome to E-FOOT.NL! 👋
             </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
+            <div className='auth-footer-btn d-flex justify-content-center'>
+              <Row>
+                <Col md={6} sm={12}>
+                  {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
+                    appId={CONSTANTS.FACEBOOK_APP_ID}
+                    callback={responseFacebook}
+                    render={renderProps => (
+                      <Button.Ripple color='facebook' onClick={renderProps.onClick}>
+                        <Facebook size={14} />
+                      </Button.Ripple>
+                    )}
+                  />}
+                </Col>
+                <Col md={6} sm={12}>
+                  {CONSTANTS.GOOLE_CLIENT_ID && <GoogleLogin
+                    clientId={CONSTANTS.GOOLE_CLIENT_ID}
+                    render={renderProps => (
+                      <Button.Ripple color='google' onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <Mail size={14} />
+                      </Button.Ripple>
+                    )}
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                  />}
+                </Col>
+              </Row>
+            </div>
+            <div className='divider my-2'>
+              <div className='divider-text'>or</div>
+            </div>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='email'>

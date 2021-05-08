@@ -82,8 +82,6 @@ const Register = (props) => {
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
               Adventure starts here 🚀
             </CardTitle>
-            <CardText className='mb-2'>Make your app management easy and fun!</CardText>
-
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='username'>
@@ -166,19 +164,6 @@ const Register = (props) => {
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
                 {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <CustomInput
-                  type='checkbox'
-                  id='terms'
-                  name='terms'
-                  value='terms'
-                  label={<Terms />}
-                  className='custom-control-Primary'
-                  innerRef={register({ required: true })}
-                  onChange={e => setTerms(e.target.checked)}
-                  invalid={errors.terms && true}
-                />
               </FormGroup>
               <Button.Ripple type='submit' block color='primary'>
                 Sign up

@@ -5,5 +5,7 @@ export const CONSTANTS = {
     USERS_ROLES: {
         USER: "user",
         ADMIN: "admin"
-    }
+    },
+    GOOLE_CLIENT_ID: env.GOOLE_CLIENT_ID || "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
+    FACEBOOK_APP_ID: env.FACEBOOK_APP_ID || "2887719924809264"
 }

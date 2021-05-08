@@ -51,6 +51,7 @@ window.env = {
   "QT4_IM_MODULE": "xim",
   "OLDPWD": "/home/bharti/Documents/personal/ef-nl/ef-nl-backend",
   "npm_package_dependencies_chart_js": "2.9.4",
+  "npm_package_dependencies_i": "^0.3.6",
   "npm_package_dependencies_react_player": "2.6.2",
   "npm_package_browserslist_production_0": ">0.2%",
   "npm_config_force": "",
@@ -224,7 +225,7 @@ window.env = {
   "npm_package_dependencies_postcss_rtl": "1.5.0",
   "npm_package_dependencies_sweetalert2": "10.14.0",
   "npm_package_dependencies_wnumb": "1.2.0",
-  "npm_package_gitHead": "5622dc5ef3fea093652592bc1ca53466f3a89789",
+  "npm_package_gitHead": "38c5a5ece0c15afd6910cc08b30f17946d2bea1a",
   "npm_config_fund": "true",
   "npm_config_fetch_retry_maxtimeout": "60000",
   "npm_config_loglevel": "notice",
@@ -281,6 +282,7 @@ window.env = {
   "UPSTART_SESSION": "unix:abstract=/com/ubuntu/upstart-session/1000/1442",
   "npm_package_dependencies_classnames": "2.2.6",
   "npm_package_dependencies_intl_messageformat": "7.8.4",
+  "npm_package_dependencies_react_facebook_login": "^4.1.1",
   "npm_package_dependencies_sass": "1.26.8",
   "npm_package_dependencies_yarn": "1.21.1",
   "npm_package_devDependencies_eslint_plugin_react": "^7.20.6",
@@ -323,6 +325,8 @@ window.env = {
   "VTE_VERSION": "4205",
   "WEB_PUBLIC_URL": "http://localhost:3000",
   "npm_package_dependencies_apollo_link_ws": "^1.0.20",
+  "npm_package_dependencies_npm": "^7.12.0",
+  "npm_package_dependencies_react_google_login": "^5.2.2",
   "npm_package_dependencies_react_rating": "2.0.5",
   "npm_config_git": "git",
   "npm_config_optional": "true",
@@ -335,5 +339,7 @@ window.env = {
   "INIT_CWD": "/home/bharti/Documents/personal/ef-nl/ef-nl-frontend",
   "SKIP_PREFLIGHT_CHECK": "true",
   "BACKEND_BASE_URL": "http://localhost:9000",
-  "BACKEND_WS_URL": "ws://localhost:9000"
+  "BACKEND_WS_URL": "ws://localhost:9000",
+  "GOOLE_CLIENT_ID": "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
+  "FACEBOOK_APP_ID": "2887719924809264"
 };
