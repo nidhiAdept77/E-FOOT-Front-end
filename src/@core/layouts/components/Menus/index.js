@@ -28,18 +28,6 @@ function Menus(props) {
                     <NavItem>
                         <NavLink className="nav-link" href="/"><FormattedMessage id={"Home"} /></NavLink>
                     </NavItem>
-                    <NavItem>
-                        <NavLink className="nav-link" href="/"> <FormattedMessage id={"PLAY FIFA AS AN INTERNSHIP"} /></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className="nav-link" href="/"><FormattedMessage id={"Tips 'N Trick"} /></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className="nav-link" href="/"><FormattedMessage id={"PLAY FIFA AS AN INTERNSHIP"} /></NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className="nav-link" href="/"><FormattedMessage id={"Contact"} /></NavLink>
-                    </NavItem>
                     {showUserComp && 
                         <>
                             <IntlDropdown />
