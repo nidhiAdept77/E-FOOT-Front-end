@@ -89,10 +89,12 @@ export const loginUser =  (data) => async dispatch => {
             headers,
             data
         )
-        localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
-        localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
-        localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
-        await getUserDetails(getFieldValue(result, 'data.userId'))
+        if (result.data.success) {
+            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
+            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+            await getUserDetails(getFieldValue(result, 'data.userId'))
+        }
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -103,6 +105,74 @@ export const loginUser =  (data) => async dispatch => {
         return {success:false, message:[error.message]}
     }
 }
+
+export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/users/oauth/google`,
+            'post',
+            headers,
+            {
+                tokenId,
+                googleId
+            }
+        )
+        if (result.data.success) {
+            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
+            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+} 
+
+export const loginWithFacebook = (accessToken, userId) => async dispatch => {
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/users/oauth/facebook`,
+            'post',
+            headers,
+            {
+                accessToken,
+                userId
+            }
+        )
+        if (result.data.success) {
+            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
+            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+} 
 
 export const registerUser = (registerData) => async dispatch => {
     try {
