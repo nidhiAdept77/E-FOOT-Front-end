@@ -1,9 +1,10 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 // ** Store & Actions
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import { handleMenuCollapsed, handleContentWidth, handleMenuHidden } from '@store/actions/layout'
 
 // ** Third Party Components
@@ -31,6 +32,10 @@ import { useNavbarColor } from '@hooks/useNavbarColor'
 // ** Styles
 import '@styles/base/core/menu/menu-types/vertical-menu.scss'
 import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
+
+// ** Custom Imports
+import firebase from '@src/firebase'
+import _ from 'underscore'
 
 const VerticalLayout = props => {
   // ** Props
@@ -85,12 +90,25 @@ const VerticalLayout = props => {
       window.addEventListener('resize', handleWindowWidth)
     }
   }, [windowWidth])
+  const {user} = props
 
   //** ComponentDidMount
-  useEffect(() => {
+  useEffect(async () => {
     setIsMounted(true)
     return () => setIsMounted(false)
   }, [])
+
+  useEffect(async () => {
+    if (!_.isEmpty(user)) {
+      try {
+        const messaging = firebase.messaging()
+        const token = await messaging.getToken()
+        console.log('token: ', token)
+      } catch (error) {
+        console.error('error: ', error)
+      }
+    }
+  }, [user])
 
   // ** Vars
   const footerClasses = {
@@ -210,7 +228,7 @@ const VerticalLayout = props => {
 
       {themeConfig.layout.scrollTop === true ? (
         <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300} style={{ bottom: '8%', 'z-index': 10000 }}>
+          <ScrollToTop showUnder={300} style={{ bottom: '5%', zIndex: 10000 }}>
             <Button className='btn-icon' color='primary'>
               <ArrowUp size={14} />
             </Button>
@@ -220,5 +238,12 @@ const VerticalLayout = props => {
     </div>
   )
 }
-
-export default VerticalLayout
+VerticalLayout.propTypes = {
+  user: PropTypes.object.isRequired
+}
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  }
+}
+export default connect(mapStateToProps, {})(VerticalLayout)

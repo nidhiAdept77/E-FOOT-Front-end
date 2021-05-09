@@ -62,5 +62,5 @@ export default BreadCrumbs
 // ** PropTypes
 BreadCrumbs.propTypes = {
   breadCrumbTitle: Proptypes.string.isRequired,
-  breadCrumbActive: Proptypes.string.isRequired
+  breadCrumbActive: Proptypes.string
 }

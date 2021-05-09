@@ -6,41 +6,53 @@ import {getFieldValue} from '../../../utils'
 import {request} from '../../../utils/apiService'
 
 
+const UserFragemnt = gql`
+    fragment UserDetail on Users{
+        _id
+        firstName
+        lastName
+        email
+        method
+        googleId
+        facebookId
+        roles
+        userName
+        profilePicture
+        isImageOns3
+        profileBg
+        ability{
+            action
+            subject
+        }
+        verificationToken
+        status
+        isOnline
+        bio
+        birthDate
+        country
+        phone
+        playStationId
+        xboxId
+        epicGamesId
+        accountNumber
+        ibanNumber
+        paypalEmail
+        createdAt
+        updatedAt
+    }
+`
+
+
 const getUserData = async () => {
     const userId = localStorage.getItem('userId')
     if (userId) {
         const userQuery = gql`
             query userById($id: ID!){
                 userById(id: $id){
-                    _id
-                    firstName
-                    lastName
-                    userName
-                    email
-                    roles
-                    userName
-                    profilePicture
-                    profileBg
-                    ability{
-                        action
-                        subject
-                    }
-                    status
-                    isOnline
-                    bio
-                    birthDate
-                    phone
-                    playStationId
-                    xboxId
-                    epicGamesId
-                    accountNumber
-                    ibanNumber
-                    paypalEmail
-                    country
-                    createdAt
-                    updatedAt
+                    ...UserDetail
                 }
             }
+        ${UserFragemnt}
         `
         const {data} = await client.query({
             query: userQuery,
@@ -319,36 +331,11 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
                     success
                     message
                     user{
-                        _id
-                        firstName
-                        lastName
-                        userName
-                        email
-                        roles
-                        userName
-                        profilePicture
-                        profileBg
-                        ability{
-                            action
-                            subject
-                        }
-                        status
-                        isOnline
-                        bio
-                        birthDate
-                        phone
-                        playStationId
-                        xboxId
-                        epicGamesId
-                        accountNumber
-                        ibanNumber
-                        paypalEmail
-                        country
-                        createdAt
-                        updatedAt
+                        ...UserDetail
                     }
                 }
             }
+            ${UserFragemnt}
         `
         const {data} = await client.mutate({
             mutation: updateProfileMutation,
