@@ -45,9 +45,10 @@ const BreadCrumbs = props => {
                 ) : (
                   ''
                 )}
+                {breadCrumbActive && (
                 <BreadcrumbItem tag='li' active>
                   {breadCrumbActive}
-                </BreadcrumbItem>
+                </BreadcrumbItem>) }
               </Breadcrumb>
             </div>
           </div>

@@ -146,7 +146,7 @@ const BlankLayout = ({ children, ...rest }) => {
           {/* Scroll to top for the pages */}
           {themeConfig.layout.scrollTop === true ? (
             <div className='scroll-to-top'>
-              <ScrollToTop showUnder={300} style={{ bottom: '5%' }}>
+              <ScrollToTop showUnder={300}  style={{ bottom: '8%', 'z-index': 10000 }}>
                 <Button className='btn-icon' color='primary'>
                   <ArrowUp size={14} />
                 </Button>
