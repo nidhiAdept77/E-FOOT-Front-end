@@ -1,4 +1,4 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, SET_LOADER} from '../../actions/types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
@@ -527,4 +527,87 @@ export const setLoader = value => dispatch => {
         type: SET_LOADER,
         payload: value
     }, 4000)
+}
+
+export const getAllOnlineUser = () => dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const onlineSubscription = gql`
+           subscription{
+                onlineUsers{
+                    _id
+                        firstName
+                        lastName
+                        profilePicture
+                        isImageOns3
+                        profileBg
+                        updatedAt
+                }
+            }
+        `
+
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.log('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+
+}
+
+export const getInitOnlineUsers = () => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const InitOnlineUser = gql`
+            mutation{
+            getOnlineUsers{
+                success
+                data{
+                firstName
+                lastName
+                lastName 
+                profilePicture 
+                isImageOns3 
+                profileBg 
+                updatedAt
+                }
+            }
+            }
+        `
+        const {data} = await client.mutate({
+            mutation:InitOnlineUser
+        })
+        dispatch({
+            type: SET_ONLINE_USERS,
+            payload: data.getOnlineUsers.data
+        })
+
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.log('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const removeOnlineUsers = () => dispatch => {
+    dispatch({
+        type: REMOVE_ONLINE_USERS
+    })
 }

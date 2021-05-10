@@ -11,13 +11,16 @@ import ChallangeOverview from './components/ChallangeOverview'
 import WinsCards from './components/WinsCards'
 import ChallangesCard from './components/ChallangesCard'
 import Breadcrumbs from '@components/breadcrumbs'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-const Dashboard = () => {
+
+const Dashboard = ({loading}) => {
   const { colors } = useContext(ThemeColors),
     trackBgColor = '#e9ecef'
   return (
     <div id='dashboard-analytics'>
-      {/* <LoaderComponent loading={true} /> */}
+      <LoaderComponent loading={loading} />
       <Breadcrumbs breadCrumbTitle='Dashboard' />
       <Row className='match-height'>
       </Row>
@@ -58,4 +61,10 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+Dashboard.propTypes = {
+  loading: PropTypes.bool.isRequired
+}
+const mapStateToProps = state => ({
+    loading: state.auth.loading
+})
+export default connect(mapStateToProps, {})(Dashboard)

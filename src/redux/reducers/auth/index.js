@@ -1,8 +1,9 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER, SET_ONLINE_USERS, REMOVE_ONLINE_USERS} from '../../actions/types'
 
 const initialState = {
     user: {},
-    loading: false
+    loading: false,
+    onlineUsers: []
 }
 
 export default function (state = initialState, action) {
@@ -17,6 +18,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 user: {}
+            }
+        case SET_ONLINE_USERS:
+            return {
+                ...state,
+                onlineUsers: payload
+            }
+        case REMOVE_ONLINE_USERS:
+            return {
+                ...state,
+                onlineUsers: []
             }
         case SET_LOADER:
             return {
