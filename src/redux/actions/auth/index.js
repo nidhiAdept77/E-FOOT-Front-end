@@ -89,32 +89,44 @@ export const removeUserDetails = () => dispatch => {
     })
 }
 
-export const loginUser =  (data) => async dispatch => {
-    const headers = {
-        'Content-Type': 'application/json'
-    }
+export const loginUser =  ({email, password}) => async dispatch => {
+
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
-        const result = await request(
-            `${CONSTANTS.BACKEND_BASE_URL}/users/login`,
-            'post',
-            headers,
-            data
-        )
-        if (result.data.success) {
-            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
-            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
-            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
-            await getUserDetails(getFieldValue(result, 'data.userId'))
+        const loginMutation = gql`
+            mutation userLogin($input: LoginInput){
+                userLogin(input:$input){
+                    success
+                    token
+                    user{
+                        ...UserDetail
+                    }
+                }
+            }
+            ${UserFragemnt}`
+        const {data} = await client.mutate({
+            mutation: loginMutation,
+            variables: {
+                input: {
+                    email,
+                    password
+                }
+            }
+        })
+        if (data.userLogin.success) {
+            localStorage.setItem('authToken', getFieldValue(data, 'userLogin.token'))
+            localStorage.setItem('userId', getFieldValue(data, 'userLogin.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(data, 'userLogin.user')))
+            await getUserDetails(getFieldValue(data, 'userLogin.userId'))
         }
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        return result.data
+        return data.userLogin
     } catch (error) {
         console.error('error: ', error)
         return {success:false, message:[error.message]}
@@ -122,33 +134,41 @@ export const loginUser =  (data) => async dispatch => {
 }
 
 export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
-    const headers = {
-        'Content-Type': 'application/json'
-    }
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
-        const result = await request(
-            `${CONSTANTS.BACKEND_BASE_URL}/users/oauth/google`,
-            'post',
-            headers,
-            {
-                tokenId,
-                googleId
+        const loginGoogleMutation = gql`
+            mutation userGoogleLogin($input: LoginGoogleInput){
+                userGoogleLogin(input: $input){
+                    success
+                    token
+                    user{
+                        ...UserDetail
+                    }
+                }
             }
-        )
-        if (result.data.success) {
-            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
-            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
-            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+            ${UserFragemnt}`
+        const {data} = await client.mutate({
+            mutation: loginGoogleMutation,
+            variables: {
+                input: {
+                    tokenId, 
+                    googleId
+                }
+            }
+        })
+        if (data.userGoogleLogin.success) {
+            localStorage.setItem('authToken', getFieldValue(data, 'userGoogleLogin.token'))
+            localStorage.setItem('userId', getFieldValue(data, 'userGoogleLogin.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(data, 'userGoogleLogin.user')))
         }
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        return result.data
+        return data.userGoogleLogin
     } catch (error) {
         console.error('error: ', error)
         return {success:false, message:[error.message]}
@@ -156,33 +176,41 @@ export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
 } 
 
 export const loginWithFacebook = (accessToken, userId) => async dispatch => {
-    const headers = {
-        'Content-Type': 'application/json'
-    }
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
-        const result = await request(
-            `${CONSTANTS.BACKEND_BASE_URL}/users/oauth/facebook`,
-            'post',
-            headers,
-            {
-                accessToken,
-                userId
+        const loginFacebookMutation = gql`
+            mutation userFacebookLogin($input: LoginFbInput){
+                userFacebookLogin(input:$input){
+                    success
+                    token
+                    user{
+                        ...UserDetail
+                    }
+                }
             }
-        )
-        if (result.data.success) {
-            localStorage.setItem('authToken', getFieldValue(result, 'data.token'))
-            localStorage.setItem('userId', getFieldValue(result, 'data.user._id'))
-            localStorage.setItem('userData', JSON.stringify(getFieldValue(result, 'data.user')))
+            ${UserFragemnt}`
+        const {data} = await client.mutate({
+            mutation: loginFacebookMutation,
+            variables: {
+                input: {
+                    accessToken, 
+                    userId
+                }
+            }
+        })
+        if (data.userFacebookLogin.success) {
+            localStorage.setItem('authToken', getFieldValue(data, 'userFacebookLogin.token'))
+            localStorage.setItem('userId', getFieldValue(data, 'userFacebookLogin.user._id'))
+            localStorage.setItem('userData', JSON.stringify(getFieldValue(data, 'userFacebookLogin.user')))
         }
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        return result.data
+        return data.userFacebookLogin
     } catch (error) {
         console.error('error: ', error)
         return {success:false, message:[error.message]}
