@@ -36,6 +36,7 @@ import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
 // ** Custom Imports
 import firebase from '@src/firebase'
 import _ from 'underscore'
+import {addUserFireBaseToken} from '@src/redux/actions/auth'
 
 const VerticalLayout = props => {
   // ** Props
@@ -90,7 +91,7 @@ const VerticalLayout = props => {
       window.addEventListener('resize', handleWindowWidth)
     }
   }, [windowWidth])
-  const {user} = props
+  const {user, addUserFireBaseToken} = props
 
   //** ComponentDidMount
   useEffect(async () => {
@@ -103,7 +104,19 @@ const VerticalLayout = props => {
       try {
         const messaging = firebase.messaging()
         const token = await messaging.getToken()
-        console.log('token: ', token)
+        if (token) {
+          const {firebase} = user
+          if (firebase && firebase.web && firebase.web.length) {
+            const isRegitered = firebase.web.includes(token)
+            if (!isRegitered) {
+              const result = await addUserFireBaseToken(token)
+              console.log('result: ', result)
+            }
+          } else {
+            const result = await addUserFireBaseToken(token)
+            console.log('result: ', result)
+          }
+        }
       } catch (error) {
         console.error('error: ', error)
       }
@@ -239,6 +252,7 @@ const VerticalLayout = props => {
   )
 }
 VerticalLayout.propTypes = {
+  addUserFireBaseToken: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 }
 const mapStateToProps = state => {
@@ -246,4 +260,4 @@ const mapStateToProps = state => {
     user: state.auth.user
   }
 }
-export default connect(mapStateToProps, {})(VerticalLayout)
+export default connect(mapStateToProps, {addUserFireBaseToken})(VerticalLayout)

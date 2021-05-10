@@ -24,7 +24,7 @@ const Register = (props) => {
 
   const [email, setEmail] = useState('')
   const [valErrors, setValErrors] = useState({})
-  const [username, setUsername] = useState('')
+  const [userName, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -47,7 +47,7 @@ const Register = (props) => {
   const LoginSchema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
-    username: yup.string().min(6).required(),
+    userName: yup.string().min(6).required(),
     firstName: yup.string().required(),
     lastName: yup.string().required()
   })
@@ -84,21 +84,21 @@ const Register = (props) => {
             </CardTitle>
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
-                <Label className='form-label' for='username'>
+                <Label className='form-label' for='userName'>
                   Username
                 </Label>
                 <Input
                   autoFocus
                   type='text'
-                  value={username}
+                  value={userName}
                   placeholder='johndoe'
-                  id='username'
-                  name='username'
+                  id='userName'
+                  name='userName'
                   onChange={e => setUsername(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['username'] })}
+                  className={classnames({ 'is-invalid': errors['userName'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
-                {errors && errors.username && <FormFeedback>{errors.username.message}</FormFeedback>}
+                {errors && errors.userName && <FormFeedback>{errors.userName.message}</FormFeedback>}
               </FormGroup>
               <FormGroup>
                 <Label className='form-label' for='email'>
@@ -143,7 +143,7 @@ const Register = (props) => {
                   id='firstName'
                   name='firstName'
                   onChange={e => setFirstName(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['username'] })}
+                  className={classnames({ 'is-invalid': errors['firstName'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
                 {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
@@ -160,7 +160,7 @@ const Register = (props) => {
                   id='lastName'
                   name='lastName'
                   onChange={e => setLastName(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['username'] })}
+                  className={classnames({ 'is-invalid': errors['lastName'] })}
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
                 {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}

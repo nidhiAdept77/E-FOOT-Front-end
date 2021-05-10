@@ -15,6 +15,9 @@ const UserFragemnt = gql`
         method
         googleId
         facebookId
+        firebase{
+            web
+        }
         roles
         userName
         profilePicture
@@ -357,6 +360,54 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
             payload: false
         })
         return data.updateProfile
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return {success:false, message: error.message}
+    }
+}
+
+export const addUserFireBaseToken = (token) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const addFireBaseTokenMutation = gql`
+           mutation addFireBasetoken($token: String){
+                addFireBasetoken(token: $token){
+                    success
+                    message
+                    user{
+                        ...UserDetail
+                    }
+                }
+            }
+            ${UserFragemnt}
+        `
+        const {data} = await client.mutate({
+            mutation: addFireBaseTokenMutation,
+            variables: {
+                token
+            }
+        })
+        const {success} = data.addFireBasetoken
+        if (success) {
+            const userData = getFieldValue(data, 'updateProfile.user')
+            localStorage.setItem('userData', JSON.stringify(userData))
+            dispatch({
+                type: SET_USER_DETAIL,
+                payload: userData
+            })
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.addFireBasetoken
     } catch (error) {
         console.error('error: ', error)
         dispatch({
