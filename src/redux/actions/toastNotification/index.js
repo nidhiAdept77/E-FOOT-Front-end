@@ -4,7 +4,7 @@ import Avatar from '@components/avatar'
 import { Bell, Check, X, AlertTriangle, Info } from 'react-feather'
 import { Fragment } from 'react'
 
-const ProgressToast = (icon, toastTitle, toastMessage, type) => (
+export const ProgressToast = (icon, toastTitle, toastMessage, type) => (
     <Fragment>
       <div className='toastify-header'>
         <div className='title-wrapper'>
@@ -20,11 +20,7 @@ const ProgressToast = (icon, toastTitle, toastMessage, type) => (
       </div>
     </Fragment>
 )
-export const showToastMessage = (message, type) => dispatch => {
-    dispatch({
-        type: SHOW_TOAST_NOFITICATION,
-        payload: true
-    })
+export const callShowTostMessage = (message, type) => {
     let icon = <Bell size={12} />
     switch (type) {
         case 'success':
@@ -50,6 +46,13 @@ export const showToastMessage = (message, type) => dispatch => {
             toast(ProgressToast(icon, "Default!", message, 'primary'))
             break
     }
+}
+export const showToastMessage = (message, type) => dispatch => {
+    dispatch({
+        type: SHOW_TOAST_NOFITICATION,
+        payload: true
+    })
+    callShowTostMessage(message, type)
     setTimeout(() => {
         dispatch({
             type: REMOVE_TOAST_NOFITICATION,

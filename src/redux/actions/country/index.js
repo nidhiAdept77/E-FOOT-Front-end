@@ -10,18 +10,24 @@ export const getAllCountries = () => async dispatch => {
     const CountryQuery = gql`
         query countries{
             countries{
-                countryName
-                isoCode
+                statusCode
+                success
+                data{
+                    countryName
+                    isoCode
+                }
             }
         }
     `
     const {data} = await client.query({
         query: CountryQuery
     })
-    dispatch({
-        type: SET_COUNTRY_DETAILS,
-        payload: data.countries
-    })
+    if (data.countries.success) {
+        dispatch({
+            type: SET_COUNTRY_DETAILS,
+            payload: data.countries.data
+        })
+    }
     dispatch({
         type: SET_LOADER,
         payload: false

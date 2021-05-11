@@ -1,10 +1,10 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, SET_LOADER} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER} from '../../actions/types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
-import {getFieldValue} from '../../../utils'
+import {getFieldValue, handleAuthResponse} from '../../../utils'
 import {request} from '../../../utils/apiService'
-
+import _ from 'underscore'
 
 const UserFragemnt = gql`
     fragment UserDetail on Users{
@@ -48,30 +48,44 @@ const UserFragemnt = gql`
 
 const getUserData = async () => {
     const userId = localStorage.getItem('userId')
-    if (userId) {
-        const userQuery = gql`
-            query userById($id: ID!){
-                userById(id: $id){
-                    ...UserDetail
+    try {
+        if (userId) {
+            const userQuery = gql`
+                query userById($id: ID!){
+                    userById(id: $id){
+                        statusCode
+                        success
+                        nextToken
+                        message
+                        user{
+                            ...UserDetail
+                        }
+                    }
                 }
+            ${UserFragemnt}
+            `
+            const {data} = await client.query({
+                query: userQuery,
+                variables: {
+                    id: userId
+                }
+            })
+            handleAuthResponse(data.userById)
+            if (getFieldValue(data, 'userById.success')) {
+                const userData = getFieldValue(data, 'userById.user')
+                return userData
             }
-        ${UserFragemnt}
-        `
-        const {data} = await client.query({
-            query: userQuery,
-            variables: {
-                id: userId
-            }
-        })
-        const userData = getFieldValue(data, 'userById')
-        return userData
+            return {}
+        }
+        return {}
+    } catch (error) {
+        console.error('error: ', error)
     }
-    return {}
 }
 
 export const getUserDetails = () => async dispatch => {
     const userData = await getUserData()
-    if (userData) {
+    if (!_.isEmpty(userData)) {
         localStorage.setItem('userData', JSON.stringify(userData))
         dispatch({
             type: SET_USER_DETAIL,
@@ -100,6 +114,7 @@ export const loginUser =  ({email, password}) => async dispatch => {
             mutation userLogin($input: LoginInput){
                 userLogin(input:$input){
                     success
+                    statusCode
                     token
                     user{
                         ...UserDetail
@@ -143,6 +158,7 @@ export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
             mutation userGoogleLogin($input: LoginGoogleInput){
                 userGoogleLogin(input: $input){
                     success
+                    statusCode
                     token
                     user{
                         ...UserDetail
@@ -185,6 +201,7 @@ export const loginWithFacebook = (accessToken, userId) => async dispatch => {
             mutation userFacebookLogin($input: LoginFbInput){
                 userFacebookLogin(input:$input){
                     success
+                    statusCode
                     token
                     user{
                         ...UserDetail
@@ -266,10 +283,22 @@ export const registerUser = (registerData) => async dispatch => {
     }
 }
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = () => async dispatch => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('userId')
     localStorage.removeItem('userData')
+    const logoutMutate = gql`
+        mutation {
+            logOutUser{
+                statusCode
+                success
+                message
+            }
+        }
+    `
+    const {data} = await client.mutate({
+        mutation: logoutMutate
+    })
     dispatch({
         type: REMOVE_USER_DETAIL,
         payload: {}
@@ -285,8 +314,8 @@ export const forgotPassUser = email => async dispatch => {
         const forgotPassMutation = gql`
             mutation forgotPassword($email:String){
                 forgotPassword(email:$email){
+                    statusCode
                     success
-            
                     message
                 }
             }
@@ -321,6 +350,7 @@ export const resetPassUser = (resetToken, password) => async dispatch => {
         const resetPassMutation = gql`
             mutation resetPassword($input:ResetPasswordInput){
                 resetPassword(input:$input){
+                    statusCode
                     success
                     message
                 }
@@ -359,8 +389,10 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
         const updateProfileMutation = gql`
            mutation updateProfile($input: ProfileInput){
                 updateProfile(input: $input){
+                    statusCode
                     success
                     message
+                    nextToken
                     user{
                         ...UserDetail
                     }
@@ -374,6 +406,7 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
                 input: userProfileData
             }
         })
+        handleAuthResponse(data.updateProfile)
         const {success} = data.updateProfile
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
@@ -407,8 +440,10 @@ export const addUserFireBaseToken = (token) => async dispatch => {
         const addFireBaseTokenMutation = gql`
            mutation addFireBasetoken($token: String){
                 addFireBasetoken(token: $token){
+                    statusCode
                     success
                     message
+                    nextToken
                     user{
                         ...UserDetail
                     }
@@ -422,6 +457,7 @@ export const addUserFireBaseToken = (token) => async dispatch => {
                 token
             }
         })
+        handleAuthResponse(data.addFireBasetoken)
         const {success} = data.addFireBasetoken
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
@@ -455,6 +491,7 @@ export const changeUserPass = (password, oldPassword) => async dispatch => {
         const changePassMutation = gql`
             mutation changePassword($input: ChangePasswordInput){
                 changePassword(input:$input){
+                    statusCode
                     success
                     message
                 }
@@ -487,6 +524,8 @@ export const changeUserPass = (password, oldPassword) => async dispatch => {
 export const uploadProfilePhoto = (imageData) => async dispatch => {
     const authtoken = localStorage.getItem('authToken')
     const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const _ = require('underscore')
 
     const headers = {
         // 'Content-Type':'multipart/form-data',
@@ -506,11 +545,14 @@ export const uploadProfilePhoto = (imageData) => async dispatch => {
             headers,
             formData
         )
-        const userData = await getUserData()
-        dispatch({
-            type: SET_USER_DETAIL,
-            payload: userData
-        })
+        const userData = await getUserData(getFieldValue(result, 'data.user'))
+        handleAuthResponse(result.data)
+        if (!_.isEmpty(userData)) {
+            dispatch({
+                type: SET_USER_DETAIL,
+                payload: userData
+            })
+        }
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -529,38 +571,38 @@ export const setLoader = value => dispatch => {
     }, 4000)
 }
 
-export const getAllOnlineUser = () => dispatch => {
+export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {
     try {
-        dispatch({
-            type: SET_LOADER,
-            payload: true
-        })
         const onlineSubscription = gql`
            subscription{
                 onlineUsers{
                     _id
-                        firstName
-                        lastName
-                        profilePicture
-                        isImageOns3
-                        profileBg
-                        updatedAt
+                    firstName
+                    lastName
+                    profilePicture
+                    isImageOns3
+                    profileBg
+                    updatedAt
                 }
             }
         `
-
-        dispatch({
-            type: SET_LOADER,
-            payload: false
-        })
+        const observable = client.subscribe({query:  onlineSubscription})
+        return observable.subscribe(({data}) =>  handleUserAdded(data.onlineUsers))
     } catch (error) {
-        console.log('error: ', error)
+        console.error('error: ', error)
         dispatch({
             type: SET_LOADER,
             payload: false
         })
     }
 
+}
+
+export const updateOnlineUsers = (user) => dispatch => {
+    dispatch({
+        type: UPDATE_ONLINE_USERS,
+        payload: {user}
+    })
 }
 
 export const getInitOnlineUsers = () => async dispatch => {
@@ -572,22 +614,26 @@ export const getInitOnlineUsers = () => async dispatch => {
         const InitOnlineUser = gql`
             mutation{
             getOnlineUsers{
+                statusCode
                 success
+                nextToken
                 data{
-                firstName
-                lastName
-                lastName 
-                profilePicture 
-                isImageOns3 
-                profileBg 
-                updatedAt
+                    firstName
+                    lastName
+                    lastName 
+                    profilePicture 
+                    isImageOns3 
+                    profileBg 
+                    updatedAt
                 }
             }
             }
         `
-        const {data} = await client.mutate({
+        const result = await client.mutate({
             mutation:InitOnlineUser
         })
+        const data = result.data
+        handleAuthResponse(data.getOnlineUsers)
         dispatch({
             type: SET_ONLINE_USERS,
             payload: data.getOnlineUsers.data
@@ -598,7 +644,7 @@ export const getInitOnlineUsers = () => async dispatch => {
             payload: false
         })
     } catch (error) {
-        console.log('error: ', error)
+        console.error('error: ', error)
         dispatch({
             type: SET_LOADER,
             payload: false

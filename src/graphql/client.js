@@ -26,7 +26,7 @@ const wsLink = new WebSocketLink({ uri:wsUrl,
     connectionParams: () =>  ({ 
       accessToken:getAccessToken() 
     }),
-  lazy: false,
+  lazy: true,
   reconnect: true
 }})
 

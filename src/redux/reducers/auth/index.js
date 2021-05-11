@@ -1,4 +1,4 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER, SET_ONLINE_USERS, REMOVE_ONLINE_USERS} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER, SET_ONLINE_USERS, UPDATE_ONLINE_USERS, REMOVE_ONLINE_USERS} from '../../actions/types'
 
 const initialState = {
     user: {},
@@ -23,6 +23,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 onlineUsers: payload
+            }
+        case UPDATE_ONLINE_USERS:
+            return {
+                ...state,
+                onlineUsers: [payload.user, ...state.onlineUsers]
             }
         case REMOVE_ONLINE_USERS:
             return {

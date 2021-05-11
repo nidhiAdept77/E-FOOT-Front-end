@@ -28,6 +28,8 @@ import { useSkin } from '@hooks/useSkin'
 import { useNavbarType } from '@hooks/useNavbarType'
 import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarColor } from '@hooks/useNavbarColor'
+import {getInitOnlineUsers, removeOnlineUsers, addUserFireBaseToken, getAllOnlineUserSubs, updateOnlineUsers} from '@src/redux/actions/auth'
+
 
 // ** Styles
 import '@styles/base/core/menu/menu-types/vertical-menu.scss'
@@ -36,11 +38,10 @@ import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
 // ** Custom Imports
 import firebase from '@src/firebase'
 import _ from 'underscore'
-import {addUserFireBaseToken} from '@src/redux/actions/auth'
 
 const VerticalLayout = props => {
   // ** Props
-  const { children, navbar, footer, menu, routerProps, currentActiveItem } = props
+  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers } = props
 
   // ** Hooks
   const [skin, setSkin] = useSkin()
@@ -78,6 +79,8 @@ const VerticalLayout = props => {
   // ** Handles Content Width
   const setIsHidden = val => dispatch(handleMenuHidden(val))
 
+  let userSubcription
+
   //** This function will detect the Route Change and will hide the menu on menu item click
   useEffect(() => {
     if (menuVisibility && windowWidth < 1200) {
@@ -96,7 +99,15 @@ const VerticalLayout = props => {
   //** ComponentDidMount
   useEffect(async () => {
     setIsMounted(true)
-    return () => setIsMounted(false)
+    getInitOnlineUsers()
+    userSubcription = getAllOnlineUserSubs(user => {
+  
+      updateOnlineUsers(user)
+    })
+    return () => {
+      removeOnlineUsers()
+      setIsMounted(false)
+    }
   }, [])
 
   useEffect(async () => {
@@ -110,11 +121,9 @@ const VerticalLayout = props => {
             const isRegitered = firebase.web.includes(token)
             if (!isRegitered) {
               const result = await addUserFireBaseToken(token)
-              console.log('result: ', result)
             }
           } else {
             const result = await addUserFireBaseToken(token)
-            console.log('result: ', result)
           }
         }
       } catch (error) {
@@ -253,11 +262,17 @@ const VerticalLayout = props => {
 }
 VerticalLayout.propTypes = {
   addUserFireBaseToken: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  onlineUsers: PropTypes.array.isRequired,
+  getInitOnlineUsers: PropTypes.func.isRequired,
+  removeOnlineUsers: PropTypes.func.isRequired,
+  getAllOnlineUserSubs: PropTypes.func.isRequired,
+  updateOnlineUsers: PropTypes.func.isRequired
 }
 const mapStateToProps = state => {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    onlineUsers: state.auth.onlineUsers
   }
 }
-export default connect(mapStateToProps, {addUserFireBaseToken})(VerticalLayout)
+export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers})(VerticalLayout)
