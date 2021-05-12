@@ -98,15 +98,17 @@ const VerticalLayout = props => {
   //** ComponentDidMount
   useEffect(async () => {
     setIsMounted(true)
-    getInitOnlineUsers()
+    await getInitOnlineUsers()
     userSubcription = getAllOnlineUserSubs(user => {
-      const currentUserId = localStorage.getItem('userId')
-      if (currentUserId !== user._id) {
-        const isUserPresent = onlineUsers.find(ou => ou._id === user._id && ou.isOnline === user.isOnline)
-        if (_.isEmpty(isUserPresent)) {
-          updateOnlineUsers(user)
+      setTimeout(() => {
+        const currentUserId = localStorage.getItem('userId')
+        if (currentUserId !== user._id && onlineUsers) {
+          const isUserPresent = onlineUsers.find(ou => ou._id === user._id && ou.isOnline === user.isOnline)
+          if (_.isEmpty(isUserPresent)) {
+            updateOnlineUsers(user)
+          }
         }
-      }
+      }, 1000)
     })
     return () => {
       removeOnlineUsers()

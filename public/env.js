@@ -220,7 +220,7 @@ window.env = {
   "npm_package_dependencies_postcss_rtl": "1.5.0",
   "npm_package_dependencies_sweetalert2": "10.14.0",
   "npm_package_dependencies_wnumb": "1.2.0",
-  "npm_package_gitHead": "9fa384044278a97068236b5c4ead2f169eb48ec8",
+  "npm_package_gitHead": "5046b45ee3141ee170297b76904a1380409c5611",
   "npm_config_fund": "true",
   "npm_config_fetch_retry_maxtimeout": "60000",
   "npm_config_loglevel": "notice",
@@ -333,5 +333,6 @@ window.env = {
   "BACKEND_BASE_URL": "http://localhost:9000",
   "BACKEND_WS_URL": "ws://localhost:9000",
   "GOOLE_CLIENT_ID": "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
-  "FACEBOOK_APP_ID": "2887719924809264"
+  "FACEBOOK_APP_ID": "2887719924809264",
+  "PORT": "3002"
 };

@@ -24,7 +24,7 @@ const OnlineUsers = ({ onlineUsers }) => {
           All online users
         </UncontrolledTooltip>
       </CardHeader>
-      <CardBody>{renderTasks(onlineUsers)}</CardBody>
+      <CardBody>{ onlineUsers && renderTasks(onlineUsers) }</CardBody>
     </Card>
   ) : null
 }

@@ -23,7 +23,7 @@ function CountryDropdown({country, loading, getAllCountries, removeCountryData, 
         const countryOp = country.find(c => c.countryName === value)
         return  countryOp ? {value: countryOp.isoCode, label: countryOp.countryName} : null
     }
-    return (
+    return country && country.length ? (
         <div>
             <LoaderComponent loading={loading} />
             <FormGroup>
@@ -45,7 +45,7 @@ function CountryDropdown({country, loading, getAllCountries, removeCountryData, 
                 {errors && errors.country && <FormFeedback>{errors.country.message}</FormFeedback>}
             </FormGroup>    
         </div>
-    )
+    ) : null
 }
 
 CountryDropdown.propTypes = {

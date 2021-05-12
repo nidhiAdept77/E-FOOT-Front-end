@@ -80,6 +80,7 @@ const getUserData = async () => {
         return {}
     } catch (error) {
         console.error('error: ', error)
+        return {}
     }
 }
 
@@ -413,11 +414,13 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
         const {success} = data.updateProfile
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
-            localStorage.setItem('userData', JSON.stringify(userData))
-            dispatch({
-                type: SET_USER_DETAIL,
-                payload: userData
-            })
+            if (!_.isEmpty(userData)) {
+                localStorage.setItem('userData', JSON.stringify(userData))
+                dispatch({
+                    type: SET_USER_DETAIL,
+                    payload: userData
+                })
+            }
         }
         dispatch({
             type: SET_LOADER,
@@ -464,11 +467,13 @@ export const addUserFireBaseToken = (token) => async dispatch => {
         const {success} = data.addFireBasetoken
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
-            localStorage.setItem('userData', JSON.stringify(userData))
-            dispatch({
-                type: SET_USER_DETAIL,
-                payload: userData
-            })
+            if (!_.isEmpty(userDetails)) {
+                localStorage.setItem('userData', JSON.stringify(userData))
+                dispatch({
+                    type: SET_USER_DETAIL,
+                    payload: userData
+                })
+            }
         }
         dispatch({
             type: SET_LOADER,
@@ -549,12 +554,14 @@ export const uploadProfilePhoto = (imageData) => async dispatch => {
             formData
         )
         const userData = await getUserData(getFieldValue(result, 'data.user'))
-        handleAuthResponse(result.data)
         if (!_.isEmpty(userData)) {
-            dispatch({
-                type: SET_USER_DETAIL,
-                payload: userData
-            })
+            handleAuthResponse(result.data)
+            if (!_.isEmpty(userData)) {
+                dispatch({
+                    type: SET_USER_DETAIL,
+                    payload: userData
+                })
+            }
         }
         dispatch({
             type: SET_LOADER,

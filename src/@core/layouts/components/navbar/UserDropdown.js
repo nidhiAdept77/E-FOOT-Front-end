@@ -32,7 +32,8 @@ const UserDropdown = (props) => {
     }
   }, [])
 
-  const handleLogout = async () => {
+  const handleLogout = async (event) => {
+    event.preventDefault()
     const result = await logoutUser()
     if (result.success) {
       showToastMessage("See you soon", 'success')
@@ -63,7 +64,7 @@ const UserDropdown = (props) => {
               <User size={14} className='mr-75' />
               <span className='align-middle'>Profile</span>
             </DropdownItem>
-            <DropdownItem tag={Link} onClick={handleLogout}>
+            <DropdownItem tag={Link} to="#" onClick={e => handleLogout(e)}>
               <Power size={14} className='mr-75' />
               <span className='align-middle'>Logout</span>
             </DropdownItem>

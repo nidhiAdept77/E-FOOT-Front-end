@@ -136,7 +136,6 @@ const Register = (props) => {
                   First Name
                 </Label>
                 <Input
-                  autoFocus
                   type='text'
                   value={firstName}
                   placeholder='john'
@@ -153,7 +152,6 @@ const Register = (props) => {
                   last Name
                 </Label>
                 <Input
-                  autoFocus
                   type='text'
                   value={lastName}
                   placeholder='doe'
