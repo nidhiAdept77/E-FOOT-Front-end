@@ -23,9 +23,7 @@ const Dashboard = ({loading}) => {
       <LoaderComponent loading={loading} />
       <Breadcrumbs breadCrumbTitle='Dashboard' />
       <Row className='match-height'>
-      </Row>
-      <Row className='match-height'>
-        <Col md={8} >
+        <Col lg={9} md={8} >
           <Row>
             <Col md={12}>
               <Row className='card-margin'>
@@ -53,7 +51,7 @@ const Dashboard = ({loading}) => {
             </Col>  
           </Row>
         </Col>
-        <Col lg='4' md='4' sm='12'>
+        <Col lg='3' md='4' sm='12'>
           <OnlineUsers colors={colors} trackBgColor={trackBgColor} />
         </Col>
       </Row>

@@ -32,10 +32,12 @@ const UserDropdown = (props) => {
     }
   }, [])
 
-  const handleLogout = () => {
-    logoutUser()
-    showToastMessage("See you soon", 'success')
-    history.push('/login')
+  const handleLogout = async () => {
+    const result = await logoutUser()
+    if (result.success) {
+      showToastMessage("See you soon", 'success')
+      history.push('/login')
+    }
   }
 
   return (

@@ -1,4 +1,4 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER} from '../../actions/types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS} from '../../actions/types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
@@ -284,9 +284,6 @@ export const registerUser = (registerData) => async dispatch => {
 }
 
 export const logoutUser = () => async dispatch => {
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('userId')
-    localStorage.removeItem('userData')
     const logoutMutate = gql`
         mutation {
             logOutUser{
@@ -299,10 +296,16 @@ export const logoutUser = () => async dispatch => {
     const {data} = await client.mutate({
         mutation: logoutMutate
     })
-    dispatch({
-        type: REMOVE_USER_DETAIL,
-        payload: {}
-    })
+    if (data.logOutUser.success) {
+        localStorage.removeItem('authToken')
+        localStorage.removeItem('userId')
+        localStorage.removeItem('userData')
+        dispatch({
+            type: REMOVE_USER_DETAIL,
+            payload: {}
+        })
+    }
+    return data.logOutUser
 }
 
 export const forgotPassUser = email => async dispatch => {
@@ -580,9 +583,8 @@ export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {
                     firstName
                     lastName
                     profilePicture
-                    isImageOns3
                     profileBg
-                    updatedAt
+                    isOnline
                 }
             }
         `
@@ -599,10 +601,17 @@ export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {
 }
 
 export const updateOnlineUsers = (user) => dispatch => {
-    dispatch({
-        type: UPDATE_ONLINE_USERS,
-        payload: {user}
-    })
+    if (user.isOnline) {
+        dispatch({
+            type: UPDATE_ONLINE_USERS,
+            payload: {user}
+        })
+    } else {
+        dispatch({
+            type: UPDATE_OFFLINE_USERS,
+            payload: {user}
+        })
+    }
 }
 
 export const getInitOnlineUsers = () => async dispatch => {
@@ -618,6 +627,7 @@ export const getInitOnlineUsers = () => async dispatch => {
                 success
                 nextToken
                 data{
+                    _id
                     firstName
                     lastName
                     lastName 
@@ -625,6 +635,7 @@ export const getInitOnlineUsers = () => async dispatch => {
                     isImageOns3 
                     profileBg 
                     updatedAt
+                    isOnline
                 }
             }
             }

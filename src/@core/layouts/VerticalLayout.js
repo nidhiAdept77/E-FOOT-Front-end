@@ -41,7 +41,7 @@ import _ from 'underscore'
 
 const VerticalLayout = props => {
   // ** Props
-  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers } = props
+  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, user, addUserFireBaseToken, onlineUsers } = props
 
   // ** Hooks
   const [skin, setSkin] = useSkin()
@@ -94,18 +94,23 @@ const VerticalLayout = props => {
       window.addEventListener('resize', handleWindowWidth)
     }
   }, [windowWidth])
-  const {user, addUserFireBaseToken} = props
 
   //** ComponentDidMount
   useEffect(async () => {
     setIsMounted(true)
     getInitOnlineUsers()
     userSubcription = getAllOnlineUserSubs(user => {
-  
-      updateOnlineUsers(user)
+      const currentUserId = localStorage.getItem('userId')
+      if (currentUserId !== user._id) {
+        const isUserPresent = onlineUsers.find(ou => ou._id === user._id && ou.isOnline === user.isOnline)
+        if (_.isEmpty(isUserPresent)) {
+          updateOnlineUsers(user)
+        }
+      }
     })
     return () => {
       removeOnlineUsers()
+      userSubcription.subscription.unsubscribe()
       setIsMounted(false)
     }
   }, [])

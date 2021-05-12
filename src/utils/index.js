@@ -42,8 +42,9 @@ export const isUserAdmin = () => {
 
 export const getTimeString = (date) => {
     date = parseInt(date)
-    const formatedDate = moment(date).format('YYYYDDMM')
-    return moment().from(formatedDate, 'YYYYDDMM')
+    const currentData = moment(date)
+    const endDate = moment()
+    return currentData.to(endDate, true)
 }
 
 export const handleAuthResponse = (data) => {
