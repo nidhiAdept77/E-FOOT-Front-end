@@ -9,3 +9,5 @@ export const handleMenuHidden = value => dispatch => dispatch({ type: 'HANDLE_ME
 
 // ** Handles RTL (Bool)
 export const handleRTL = value => dispatch => dispatch({ type: 'HANDLE_RTL', value })
+
+export const handleStaticPage = value => dispatch => dispatch({ type: 'HANDLE_STATIC_PAGE', value })

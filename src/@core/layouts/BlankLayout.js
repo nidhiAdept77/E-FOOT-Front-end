@@ -12,14 +12,16 @@ import { ArrowUp } from 'react-feather'
 import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarType } from '@hooks/useNavbarType'
 import { useNavbarColor } from '@hooks/useNavbarColor'
+import { useSkin } from '@hooks/useSkin'
+
 import NavbarComponent from './components/navbar'
 
-import { useSkin } from '@hooks/useSkin'
 import Menus from './components/Menus'
 
 const BlankLayout = ({ children, ...rest }) => {
   // ** Hooks
   const [skin, setSkin] = useSkin()
+
   const [navbarType, setNavbarType] = useNavbarType()
   const [navbarScrolled, setNavbarScrolled] = useState(false)
   const [footerType, setFooterType] = useFooterType()
@@ -119,27 +121,33 @@ const BlankLayout = ({ children, ...rest }) => {
           )}  {...(isHidden ? { 'data-col': '1-column' } : {})}>
           
           <div className="blank-page-header">
-            <div className="blank-header-nav flex30">
+            {/* <div className="blank-header-nav flex30">
               <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
                 <img src={themeConfig.app.smallLogoImage} alt='logo' />
                 <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
               </Link>
-            </div>
-            <div className='flex70'>
+            </div> */}
+            {/* <div className='flex70'> */}
               <Navbar
-                expand='lg'
-                light={skin !== 'dark'}
-                dark={skin === 'dark' || bgColorCondition}
-                color={bgColorCondition ? navbarColor : undefined}
-                className={classnames(
-                  `header-navbar navbar align-items-center`
-                )}
+                 expand='lg'
+                 light={skin !== 'dark'}
+                 dark={skin === 'dark' || bgColorCondition}
+                 color={bgColorCondition ? navbarColor : undefined}
+                 className={classnames(
+                   `header-navbar navbar align-items-center ${navbarClasses[navbarType] || 'floating-nav'} navbar-shadow`
+                 )}
               >
-                <div className="navbar-container d-flex content">
-                  <Menus showUserComp={true} />
+                <div className="navbar-container d-flex justify-content-between">
+                  <div className="blank-header-nav">
+                    <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
+                      <img src={themeConfig.app.smallLogoImage} alt='logo' />
+                      <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
+                    </Link>
+                  </div>
+                  <Menus showUserComp={true} setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} />
                 </div>
               </Navbar>
-            </div>
+            {/* </div> */}
           </div>
           {children}
           

@@ -3,12 +3,12 @@
         background-color: $theme-dark-body-bg !important;
     }
     .menu{
-        background-color: $theme-dark-body-bg !important;
+        background-color: $theme-dark-card-bg !important;
         .navbar{
-            background-color: $theme-dark-body-bg !important;
+            background-color: $theme-dark-card-bg !important;
         }
         .header-navbar{
-            background-color: $theme-dark-body-bg !important;
+            background-color: $theme-dark-card-bg !important;
         }
     }
     
@@ -40,6 +40,11 @@
     .flex70{
         flex-basis:70%;
     }
+    .header-navbar {
+        &.floating-nav{
+            width: calc(100vw - (100vw - 100%) - calc(#{$content-padding} * 2));
+        }
+    }
     @include media-breakpoint-down(sm) {
         .flex30{
             flex-basis:unset;
@@ -54,7 +59,7 @@
     }
 }
 .menu{
-    width: 100%;
+    // width: 100%;
     .nav-link-style{
         color: $secondary !important;
         &:active,
