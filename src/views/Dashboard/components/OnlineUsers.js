@@ -1,30 +1,99 @@
-import Avatar from '@components/avatar'
-import { HelpCircle, MoreVertical } from 'react-feather'
-import { Card, CardHeader, CardTitle, CardBody, Media, UncontrolledTooltip } from 'reactstrap'
+
+import { HelpCircle } from 'react-feather'
+import { Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip } from 'reactstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import OnlineUserRow from './OnlineUserRow'
+import { useEffect, useState, useRef } from 'react'
+import {CONSTANTS} from '@src/utils/CONSTANTS'
+import InfiniteScroll from "react-infinite-scroll-component"
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
+const OnlineUsers = ({ onlineUsers, scrollContainer }) => {
+  const [items, setItems] = useState([])
+  const [hasMore, setHasMore] = useState(false)
+  const [loading, setLoading] = useState(false)
+  
+  useEffect(() => {
+    if (onlineUsers) {
+      if (items.length) {
+        setItems(onlineUsers.slice(0, items.length))
+      } else {
+        setItems(onlineUsers.slice(0, 10))
+        if (onlineUsers.length > 10) setHasMore(true)
+      }
+    }
+    return () => {
+      setItems([])
+    }
+  }, [onlineUsers])
 
-const OnlineUsers = ({ onlineUsers }) => {
-  const renderTasks = (onlineUsers) => {
-    return onlineUsers.length > 0 ? onlineUsers.map(user => {
-      return (
-        <OnlineUserRow user={user} />
-      )
-    }) : null
+  const loadItems = (prevArray = [], startCursor = 0) => {
+    let newArray = prevArray
+
+    if (onlineUsers.length >= (items.length + CONSTANTS.ARRAY_SIZE)) {
+      for (let i = startCursor; i < startCursor + CONSTANTS.ARRAY_SIZE; i++) {
+        const newItem = onlineUsers[i]
+        newArray = [...newArray, newItem]
+      }
+      setHasMore(true)
+    } else {
+      setHasMore(false)
+    }
+    return newArray
+  }
+  
+  const handleLoadMore = () => {
+    setLoading(true)
+    setTimeout(() => {
+      const newUserList = loadItems(items, items.length)
+      setLoading(false)
+      setItems(newUserList)
+    }, 1500)
+  }
+
+  const renderTasks = onlineUsers => {
+  return onlineUsers.length > 0 ? onlineUsers.map((user, index) => {
+  return (user && <OnlineUserRow user = {user}
+    index = {index}
+    key = {
+      `${user.userName}-${index}`
+    } />
+  )
+  }) : null
   }
 
   return onlineUsers ? (
     <Card className='card-employee-task'>
       <CardHeader>
-        <CardTitle tag='h4'>Online Users ({onlineUsers.length})</CardTitle>
+        <CardTitle tag='h4'> {hasMore} Online Users ({onlineUsers.length})</CardTitle>
         <HelpCircle size={18} id="onlineUsersHelp" className='text-muted cursor-pointer' />
         <UncontrolledTooltip placement='auto' target='onlineUsersHelp'>
-          All online users
+          All online users 
         </UncontrolledTooltip>
       </CardHeader>
-      <CardBody>{ onlineUsers && renderTasks(onlineUsers) }</CardBody>
+      <CardBody className="pr-0">
+      { onlineUsers && 
+            <>
+                <PerfectScrollbar
+                  id="online-card-body"
+                  className='online-card-body'
+                  options={{ wheelPropagation: false }}
+                >
+                  <InfiniteScroll
+                    dataLength={items.length}
+                    next={handleLoadMore}
+                    hasMore={hasMore}
+                    
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="online-card-body" >
+                    {renderTasks(items)}
+                  </InfiniteScroll>
+                </PerfectScrollbar>
+            </>
+
+      }
+      </CardBody>
     </Card>
   ) : null
 }

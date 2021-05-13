@@ -106,3 +106,19 @@
         }
     }
 }
+
+.online-card-body{
+    overflow-y: scroll;
+    max-height: 380px;
+    position: relative;
+    .ps__rail-y {
+      z-index: 3;
+    }
+    .infinite-scroll-component {
+        overflow: inherit !important;
+    }
+}
+
+.box-shadow-google{
+    box-shadow: $box-shadow-google;
+}

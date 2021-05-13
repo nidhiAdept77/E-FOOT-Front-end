@@ -5,9 +5,9 @@ import { Media } from 'reactstrap'
 import Avatar from '@components/avatar'
 import {getFullNameFromUser} from '@src/utils'
 
-function OnlineUserRow({ user }) {
+function OnlineUserRow({ user, index }) {
     return (
-        <div key={user.firstName} className='employee-task d-flex justify-content-between align-items-center'>
+        <div key={`${user.userName}-${index}`} className='employee-task d-flex justify-content-between align-items-center'>
           <Media className= "w-100">
             {user.profilePicture ? 
               <Avatar size='sm' imgClassName='rounded' className='mr-75' img={user.profilePicture}  imgHeight='42' imgWidth='42' status='online' />

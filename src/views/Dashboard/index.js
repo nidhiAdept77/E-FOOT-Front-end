@@ -13,6 +13,7 @@ import ChallangesCard from './components/ChallangesCard'
 import Breadcrumbs from '@components/breadcrumbs'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import CardTransactions from './components/CardTransactions'
 
 
 const Dashboard = ({loading}) => {
@@ -46,14 +47,19 @@ const Dashboard = ({loading}) => {
 
               </Row>
             </Col>
-            <Col lg='12' md='12' sm='12' xs='12'>
-              <CardUserTimeline />
-            </Col>  
           </Row>
         </Col>
         <Col lg='3' md='4' sm='12'>
           <OnlineUsers colors={colors} trackBgColor={trackBgColor} />
         </Col>
+      </Row>
+      <Row className='match-height'>
+            <Col lg='8' md='8' sm='12' xs='12'>
+              <CardUserTimeline />
+            </Col>
+            <Col lg='4' md='4' sm='12' xs='12'>
+              <CardTransactions />
+            </Col>
       </Row>
     </div>
   )
