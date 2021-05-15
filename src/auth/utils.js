@@ -1,4 +1,5 @@
 import useJwt from '@src/@core/auth/jwt/useJwt'
+import { removeSigninUserDetails } from '../utils'
 
 /**
  * Return if user is logged in
@@ -8,13 +9,20 @@ import useJwt from '@src/@core/auth/jwt/useJwt'
 // eslint-disable-next-line arrow-body-style
 export const isUserLoggedIn = () => {
   const userId = localStorage.getItem('userId')
-  const authToken = localStorage.getItem('authToken')
-  return !!(userId && authToken)
+    const authToken = localStorage.getItem('authToken')
+    const userData = localStorage.getItem('userData')
+    const result = !!(userId && 
+        authToken && 
+        (!!(userData && (!(userData === 'undefined') && !(userData === 'null') && !(userData === '') && !_.isEmpty(userData)))))
+    if (!result) {
+        removeSigninUserDetails()
+    }
+    return result
   
 }
 
 export const getUserData = () => {
-  return localStorage.getItem('userData')  ? JSON.parse(localStorage.getItem('userData')) : {}
+  return isUserLoggedIn() && localStorage.getItem('userData')  ? JSON.parse(localStorage.getItem('userData')) : {}
 }
 
 /**

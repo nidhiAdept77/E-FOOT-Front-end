@@ -2,7 +2,7 @@ import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USE
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
-import {getFieldValue, handleAuthResponse} from '../../../utils'
+import {getFieldValue, handleAuthResponse, removeSigninUserDetails} from '../../../utils'
 import {request} from '../../../utils/apiService'
 import _ from 'underscore'
 
@@ -298,9 +298,7 @@ export const logoutUser = () => async dispatch => {
         mutation: logoutMutate
     })
     if (data.logOutUser.success) {
-        localStorage.removeItem('authToken')
-        localStorage.removeItem('userId')
-        localStorage.removeItem('userData')
+        removeSigninUserDetails()
         dispatch({
             type: REMOVE_USER_DETAIL,
             payload: {}

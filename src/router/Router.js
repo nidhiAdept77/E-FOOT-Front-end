@@ -2,7 +2,7 @@
 import { Suspense, useContext, lazy } from 'react'
 
 // ** Utils
-import { isUserAdmin, isUserLoggedIn } from '../utils'
+import { isUserAdmin, isUserLoggedIn, removeSigninUserDetails } from '../utils'
 import { useLayout } from '@hooks/useLayout'
 import { useRouterTransition } from '@hooks/useRouterTransition'
 
@@ -79,13 +79,15 @@ const Router = () => {
        ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
        ** Then redirect user to login
        */
-
+       removeSigninUserDetails()
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.authRoute && !isUserLoggedIn()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
+      removeSigninUserDetails()
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.adminRoute && isUserLoggedIn()) {
       if (!isUserAdmin()) {
+        // removeSigninUserDetails()
         return <Redirect to='/misc/not-authorized' />
       } else {
         return <route.component {...props} />
@@ -188,7 +190,7 @@ const Router = () => {
           exact
           path='/'
           render={() => {
-            return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
+            return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : (<Redirect to='/login' />)
           }}
         />
         {/* Not Auth Route */}
