@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import OnlineUsers from '@src/views/Dashboard/components/OnlineUsers'
 import AppCollapse from '@components/app-collapse'
-import { User } from 'react-feather'
+import { FaUser } from "react-icons/fa"
 
 function OnlineUserPopUp({onlineUsers}) {
     const { colors } = useContext(ThemeColors),
@@ -18,7 +18,7 @@ function OnlineUserPopUp({onlineUsers}) {
                     [
                         {
                             title: (<>
-                                <User /> Online User ( {onlineUsers.length} )
+                                <FaUser id="user-icon" /> Online User ( {onlineUsers.length} )
                             </>),
                             content: (
                                 <OnlineUsers colors={colors} trackBgColor={trackBgColor} showheader={false} />

@@ -14,7 +14,7 @@ import * as Icon from 'react-feather'
 
 const ThemeNavbar = props => {
   // ** Props
-  const { skin, setSkin, setMenuVisibility } = props
+  const { skin, setSkin, setMenuVisibility, showOnlineUserPopup, handleOnlineUserHidden, location } = props
 
   return (
     <Fragment>
@@ -29,7 +29,7 @@ const ThemeNavbar = props => {
         </NavItem>
       </ul>
       {/* <Menus showUserComp={false} /> */}
-      <NavbarUser skin={skin} setSkin={setSkin} />
+      <NavbarUser skin={skin} setSkin={setSkin} showOnlineUserPopup={showOnlineUserPopup} handleOnlineUserHidden={handleOnlineUserHidden} location={location} />
     </Fragment>
   )
 }

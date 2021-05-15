@@ -219,7 +219,7 @@ const VerticalLayout = props => {
         )}
       >
         <div className='navbar-container d-flex content'>
-          {navbar ? navbar : <NavbarComponent setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} />}
+          {navbar ? navbar : <NavbarComponent setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} showOnlineUserPopup={showOnlineUserPopup} handleOnlineUserHidden={handleOnlineUserHidden} location={location} />}
         </div>
       </Navbar>
       {children}

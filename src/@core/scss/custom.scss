@@ -108,6 +108,9 @@
     .card-body{
         height: 400px;
     }
+    svg#user-icon {
+        transform: none;
+    }
 }
 
 @media (max-width: 767px) {
