@@ -2,7 +2,7 @@ import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USE
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
-import {getFieldValue, handleAuthResponse} from '../../../utils'
+import {getFieldValue, handleAuthResponse, removeSigninUserDetails} from '../../../utils'
 import {request} from '../../../utils/apiService'
 import _ from 'underscore'
 
@@ -136,7 +136,6 @@ export const loginUser =  ({email, password}) => async dispatch => {
             localStorage.setItem('authToken', getFieldValue(data, 'userLogin.token'))
             localStorage.setItem('userId', getFieldValue(data, 'userLogin.user._id'))
             localStorage.setItem('userData', JSON.stringify(getFieldValue(data, 'userLogin.user')))
-            await getUserDetails(getFieldValue(data, 'userLogin.userId'))
         }
         dispatch({
             type: SET_LOADER,
@@ -298,9 +297,7 @@ export const logoutUser = () => async dispatch => {
         mutation: logoutMutate
     })
     if (data.logOutUser.success) {
-        localStorage.removeItem('authToken')
-        localStorage.removeItem('userId')
-        localStorage.removeItem('userData')
+        removeSigninUserDetails()
         dispatch({
             type: REMOVE_USER_DETAIL,
             payload: {}
@@ -580,20 +577,28 @@ export const setLoader = value => dispatch => {
         payload: value
     }, 4000)
 }
-
+const onlineUserFragment = gql`
+    fragment onlineUserDetail on Users{
+        _id
+        firstName
+        lastName
+        lastName 
+        profilePicture 
+        isImageOns3 
+        profileBg 
+        updatedAt
+        isOnline
+    }
+`
 export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {
     try {
         const onlineSubscription = gql`
            subscription{
                 onlineUsers{
-                    _id
-                    firstName
-                    lastName
-                    profilePicture
-                    profileBg
-                    isOnline
+                    ...onlineUserDetail
                 }
             }
+            ${onlineUserFragment}
         `
         const observable = client.subscribe({query:  onlineSubscription})
         return observable.subscribe(({data}) =>  handleUserAdded(data.onlineUsers))
@@ -629,23 +634,16 @@ export const getInitOnlineUsers = () => async dispatch => {
         })
         const InitOnlineUser = gql`
             mutation{
-            getOnlineUsers{
-                statusCode
-                success
-                nextToken
-                data{
-                    _id
-                    firstName
-                    lastName
-                    lastName 
-                    profilePicture 
-                    isImageOns3 
-                    profileBg 
-                    updatedAt
-                    isOnline
+                getOnlineUsers{
+                    statusCode
+                    success
+                    nextToken
+                    data{
+                        ...onlineUserDetail
+                    }
                 }
             }
-            }
+            ${onlineUserFragment}
         `
         const result = await client.mutate({
             mutation:InitOnlineUser

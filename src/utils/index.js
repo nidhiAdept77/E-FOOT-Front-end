@@ -1,9 +1,7 @@
 import moment from "moment"
 import { CONSTANTS } from "./CONSTANTS"
-import {history} from '@src/history'
-import {logoutUser } from '@src/redux/actions/auth'
 import { callShowTostMessage } from "../redux/actions/toastNotification"
-
+import _ from 'underscore'
 
 export const getFieldValue = (obj, key) => {
     return key.split(".").reduce((o, x) => {
@@ -11,11 +9,25 @@ export const getFieldValue = (obj, key) => {
     }, obj)
 }
 
+export const removeSigninUserDetails = () => {
+    localStorage.removeItem('authToken')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userData')
+}
+
 export const isUserLoggedIn = () => {
     const userId = localStorage.getItem('userId')
     const authToken = localStorage.getItem('authToken')
-    return !!(userId && authToken)
+    const userData = localStorage.getItem('userData')
+    const result = !!(userId && 
+        authToken && 
+        (!!(userData && (!(userData === 'undefined') && !(userData === 'null') && !(userData === '') && !_.isEmpty(userData)))))
+    if (!result) {
+        removeSigninUserDetails()
+    }
+    return result
 }
+
 
 export const getFullNameFromUser = user => {
     const _ = require('underscore')
@@ -56,9 +68,7 @@ export const handleAuthResponse = (data) => {
         return true
     } else {
         if (data.statusCode === 443) {
-            localStorage.removeItem('authToken')
-            localStorage.removeItem('userId')
-            localStorage.removeItem('userData')
+            removeSigninUserDetails()
             window.location = "/login"
             callShowTostMessage(data.message, 'error')
         }

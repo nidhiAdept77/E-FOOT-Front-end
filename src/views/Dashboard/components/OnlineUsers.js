@@ -15,12 +15,15 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   const [loading, setLoading] = useState(false)
   
   useEffect(() => {
+    const LIMIT = 10
     if (onlineUsers) {
-      if (items.length) {
+      if (onlineUsers.length < LIMIT) {
+        setItems(onlineUsers)
+      } else if (items.length) {
         setItems(onlineUsers.slice(0, items.length))
       } else {
-        setItems(onlineUsers.slice(0, 10))
-        if (onlineUsers.length > 10) setHasMore(true)
+        setItems(onlineUsers.slice(0, LIMIT))
+        if (onlineUsers.length > LIMIT) setHasMore(true)
       }
     }
     return () => {
