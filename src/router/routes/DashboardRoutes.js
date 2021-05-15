@@ -15,6 +15,13 @@ const DashboardRoutes = [
     meta: {
       authRoute: true
     }
+  },
+  {
+    path: '/how-to-play',
+    component: lazy(() => import('../../views/HowToPlay')),
+    meta: {
+      authRoute: true
+    }
   }
 ]
 

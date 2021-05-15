@@ -9,7 +9,7 @@ import {CONSTANTS} from '@src/utils/CONSTANTS'
 import InfiniteScroll from "react-infinite-scroll-component"
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-const OnlineUsers = ({ onlineUsers, scrollContainer }) => {
+const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   const [items, setItems] = useState([])
   const [hasMore, setHasMore] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -65,13 +65,13 @@ const OnlineUsers = ({ onlineUsers, scrollContainer }) => {
 
   return onlineUsers ? (
     <Card className='card-employee-task'>
-      <CardHeader>
+      { showheader && <CardHeader>
         <CardTitle tag='h4'> {hasMore} Online Users ({onlineUsers.length})</CardTitle>
         <HelpCircle size={18} id="onlineUsersHelp" className='text-muted cursor-pointer' />
         <UncontrolledTooltip placement='auto' target='onlineUsersHelp'>
           All online users 
         </UncontrolledTooltip>
-      </CardHeader>
+      </CardHeader> }
       <CardBody className="pr-0">
       { onlineUsers && 
             <>

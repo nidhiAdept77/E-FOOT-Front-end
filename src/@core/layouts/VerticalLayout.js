@@ -1,7 +1,8 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
 
 // ** Store & Actions
 import { useSelector, useDispatch, connect } from 'react-redux'
@@ -29,6 +30,7 @@ import { useNavbarType } from '@hooks/useNavbarType'
 import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarColor } from '@hooks/useNavbarColor'
 import {getInitOnlineUsers, removeOnlineUsers, addUserFireBaseToken, getAllOnlineUserSubs, updateOnlineUsers} from '@src/redux/actions/auth'
+import {handleOnlineUserHidden} from '@src/redux/actions/layout'
 
 
 // ** Styles
@@ -38,10 +40,12 @@ import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
 // ** Custom Imports
 import firebase from '@src/firebase'
 import _ from 'underscore'
+import {CONSTANTS} from '@src/utils/CONSTANTS'
+import OnlineUserPopUp from './components/OnlineUserPopUp'
 
 const VerticalLayout = props => {
   // ** Props
-  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, user, addUserFireBaseToken, onlineUsers } = props
+  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, user, addUserFireBaseToken, onlineUsers, handleOnlineUserHidden, showOnlineUserPopup } = props
 
   // ** Hooks
   const [skin, setSkin] = useSkin()
@@ -85,6 +89,13 @@ const VerticalLayout = props => {
   useEffect(() => {
     if (menuVisibility && windowWidth < 1200) {
       setMenuVisibility(false)
+    }
+    if (!_.isEmpty(location)) {
+      let payload =  CONSTANTS.ROUTES_HIDE_ONLINE_POPUP.findIndex(li => {
+        return li === location.pathname
+      })
+      payload = !(payload > -1)
+      handleOnlineUserHidden(payload)
     }
   }, [location])
 
@@ -247,6 +258,7 @@ const VerticalLayout = props => {
           themeConfig={themeConfig}
         />
       ) : null}
+      {showOnlineUserPopup && <OnlineUserPopUp />}
       <footer
         className={classnames(`footer footer-light ${footerClasses[footerType] || 'footer-static'}`, {
           'd-none': footerType === 'hidden'
@@ -272,14 +284,17 @@ VerticalLayout.propTypes = {
   user: PropTypes.object.isRequired,
   onlineUsers: PropTypes.array.isRequired,
   getInitOnlineUsers: PropTypes.func.isRequired,
+  handleOnlineUserHidden: PropTypes.func.isRequired,
   removeOnlineUsers: PropTypes.func.isRequired,
   getAllOnlineUserSubs: PropTypes.func.isRequired,
-  updateOnlineUsers: PropTypes.func.isRequired
+  updateOnlineUsers: PropTypes.func.isRequired,
+  showOnlineUserPopup: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
-    onlineUsers: state.auth.onlineUsers
+    onlineUsers: state.auth.onlineUsers,
+    showOnlineUserPopup: state.layout.showOnlineUserPopup
   }
 }
-export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers})(VerticalLayout)
+export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, handleOnlineUserHidden})(VerticalLayout)

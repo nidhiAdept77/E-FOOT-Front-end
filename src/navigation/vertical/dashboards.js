@@ -53,8 +53,8 @@ export default [
     id: 'howToPlay',
     title: 'How To Play',
     icon: <Server />,
-    // navLink: '/how-to-play'
-    navLink: '/#'
+    navLink: '/how-to-play'
+    // navLink: '/#'
   },
   {
     id: 'terms',
