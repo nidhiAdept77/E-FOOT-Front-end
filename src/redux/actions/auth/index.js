@@ -136,7 +136,6 @@ export const loginUser =  ({email, password}) => async dispatch => {
             localStorage.setItem('authToken', getFieldValue(data, 'userLogin.token'))
             localStorage.setItem('userId', getFieldValue(data, 'userLogin.user._id'))
             localStorage.setItem('userData', JSON.stringify(getFieldValue(data, 'userLogin.user')))
-            await getUserDetails(getFieldValue(data, 'userLogin.userId'))
         }
         dispatch({
             type: SET_LOADER,

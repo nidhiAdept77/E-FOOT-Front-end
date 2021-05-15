@@ -22,7 +22,7 @@ import {
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
-import { loginUser, loginWithFacebook, loginWithgoogle } from '../../../redux/actions/auth'
+import { loginUser, loginWithFacebook, loginWithgoogle, getUserDetails } from '../../../redux/actions/auth'
 import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -37,7 +37,7 @@ const Login = props => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {loginUser, showToastMessage, loading, loginWithgoogle, loginWithFacebook} = props
+  const {loginUser, showToastMessage, loading, loginWithgoogle, loginWithFacebook, getUserDetails} = props
   const history = useHistory()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
@@ -53,6 +53,7 @@ const Login = props => {
       try {
         const result = await loginUser(data)
         if (result.success) {
+          await getUserDetails()
           showToastMessage("Welcome to Efoot-nl", 'success')
           history.push("/dashboard")
         } else {
@@ -76,6 +77,7 @@ const Login = props => {
       try {
         const result = await loginWithgoogle(tokenId, googleId)
         if (result.success) {
+          await getUserDetails()
           showToastMessage("Welcome to Efoot-nl", 'success')
           history.push("/dashboard")
         } else {
@@ -98,6 +100,7 @@ const Login = props => {
       try {
         const result = await loginWithFacebook(accessToken, userID)
         if (result.success) {
+          await getUserDetails()
           showToastMessage("Welcome to Efoot-nl", 'success')
           history.push("/dashboard")
         } else {
@@ -227,10 +230,11 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   loginWithgoogle: PropTypes.func.isRequired,
   loginWithFacebook: PropTypes.func.isRequired,
+  getUserDetails: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
   loading: state.auth.loading
 })
 
-export default connect(mapStateToProps, {showToastMessage, loginUser, loginWithgoogle, loginWithFacebook})(Login)
+export default connect(mapStateToProps, {showToastMessage, loginUser, loginWithgoogle, loginWithFacebook, getUserDetails})(Login)

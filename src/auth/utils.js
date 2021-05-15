@@ -1,5 +1,6 @@
 import useJwt from '@src/@core/auth/jwt/useJwt'
 import { removeSigninUserDetails } from '../utils'
+import _ from 'underscore'
 
 /**
  * Return if user is logged in
