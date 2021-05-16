@@ -1,23 +1,17 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import Breadcrumbs from '@components/breadcrumbs'
-import { Row } from 'reactstrap'
+import JombotronHowtoPlay from './components/JombotronHowtoPlay'
+import HowToPlayContent from './components/HowToPlayContent'
 
-
-function HowToPlay(props) {
+function HowToPlay() {
     return (
         <Fragment>
-            {/* <LoaderComponent loading={loading} /> */}
-            <Breadcrumbs breadCrumbTitle='How To Play' breadCrumbActive='How To Play' />
-            <Row>
-            </Row>
+            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="How To Play" />} breadCrumbActive={<FormattedMessage id="How To Play" />} />
+            <JombotronHowtoPlay />
+            <HowToPlayContent />
         </Fragment>
     )
 }
 
-HowToPlay.propTypes = {
-
-}
-
 export default HowToPlay
-

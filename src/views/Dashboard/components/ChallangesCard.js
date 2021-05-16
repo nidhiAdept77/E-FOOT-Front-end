@@ -61,7 +61,7 @@ const ChallangesCard = ({ warning }) => {
         columnWidth: '20%',
         startingShape: 'rounded',
         colors: {
-          backgroundBarColors: ['#f3f3f3', '#f3f3f3', '#f3f3f3', '#f3f3f3', '#f3f3f3'],
+          backgroundBarColors: ['#c1c1c1', '#c1c1c1', '#c1c1c1', '#c1c1c1', '#c1c1c1'],
           backgroundBarRadius: 5
         }
       }
