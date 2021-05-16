@@ -1,6 +1,13 @@
 import { CreditCard, Crosshair, Inbox, LifeBuoy, List, Mail, Radio, Server, Shield, Trello, User, UserPlus, Users } from 'react-feather'
+import { AiOutlineHome } from "react-icons/ai"
 
 export default [
+  {
+    id: 'home',
+    title: 'Home',
+    icon: <AiOutlineHome />,
+    navLink: '/'
+  },
   {
     id: 'dashboard',
     title: 'Dashboard',

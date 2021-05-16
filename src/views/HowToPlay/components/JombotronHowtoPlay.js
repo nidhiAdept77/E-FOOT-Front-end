@@ -9,7 +9,7 @@ export default function JombotronHowtoPlay() {
                 <Jumbotron fluid className="how-to-play-Jumbotron">
                     <Container fluid className="jumbotron-text">
                         <h1 className="display-3"><FormattedMessage id="How To Play" /></h1>
-                        <p className="lead">Play as a Pro not as noob.</p>
+                        <p className="lead"><FormattedMessage id="Play as a Pro not as noob." /></p>
                     </Container>
                 </Jumbotron>
             </Col>
