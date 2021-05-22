@@ -141,18 +141,20 @@
     box-shadow: $box-shadow-google;
 }
 
-.how-top-play-card{
+.jumbotron-container{
     height: 400px;
-    .how-to-play-Jumbotron{
+    padding: 0 !important;
+    .jumbotron-div{
         color: #000 !important;
-        background: url('/src/assets/images/howToPlay/13095-nobg.png');
         background-repeat: no-repeat;
         background-size: 100% 400px;
         background-position:0px -50px;
         margin-bottom: 0;
         padding:0;
         height:100%;
-        // opacity: 0.5;
+        .jumbotron-overlay{
+            
+        }
         .jumbotron-text{
             width: 100%;
             height: 100%;
@@ -165,6 +167,31 @@
         h1{
             color:#000 !important;
         }
+        .jumbotron-button{
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+    }    
+}
+
+.home-page-container{
+    .jumbotron-div{
+        background-position:0px 0px;
+    }    
+}
+.how-to-play-Jumbotron{
+    background: url('/src/assets/images/howToPlay/13095-nobg.png');
+    // opacity: 0.5;
+}
+.homepage-jumbotron{
+    background: url('/src/assets/images/home/home-banner.jpeg');
+    .jumbotron-overlay{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff2b;
     }
 }
 .stepDiv{

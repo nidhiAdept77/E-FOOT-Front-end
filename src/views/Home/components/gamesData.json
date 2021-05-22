@@ -1,0 +1,25 @@
+{
+
+    "playStation": [
+        {
+            "console": "ps4",
+            "name": "Fifa Ps4",
+            "image":"/src/assets/images/games/fifa-21.png"
+        },
+        {
+            "console": "xboxOne",
+            "name": "Fifa Xbox",
+            "image":"/src/assets/images/games/fifa-21.png"
+        },
+        {
+            "console": "ps5",
+            "name": "Fifa Ps5",
+            "image":"/src/assets/images/games/fifa-21.png"
+        },
+        {
+            "console": "xboxSeriesX",
+            "name": "Fifa Xbox Series X",
+            "image":"/src/assets/images/games/fifa-21.png"
+        }
+    ]
+}
