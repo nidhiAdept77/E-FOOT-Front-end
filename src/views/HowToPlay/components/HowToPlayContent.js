@@ -6,6 +6,8 @@ import ReportingCard from './contentCardComponents/ReportingCard'
 import WithdrawalsCard from './contentCardComponents/WithdrawalsCard'
 import PlatformFessCards from './contentCardComponents/PlatformFessCards'
 import HowToStart from './contentCardComponents/HowToStart'
+import GameModes from './contentCardComponents/GameModes'
+import GameHistory from './contentCardComponents/GameHistory'
 
 
 export default function HowToPlayContent() {
@@ -17,6 +19,8 @@ export default function HowToPlayContent() {
             <WithdrawalsCard />
             <PlatformFessCards />
             <HowToStart />
+            <GameModes />
+            <GameHistory />
         </Row>
     )
 }

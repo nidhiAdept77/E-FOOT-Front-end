@@ -113,18 +113,6 @@
     }
 }
 
-@media (max-width: 767px) {
-    .nav-bar-toggle-div{
-        width: 100%;
-        text-align: right;
-    }
-    .menu{
-        .navbar-nav{
-            flex-flow: column;
-        }
-    }
-}
-
 .online-card-body{
     overflow-y: scroll;
     max-height: 380px;
@@ -148,7 +136,7 @@
         color: #000 !important;
         background-repeat: no-repeat;
         background-size: 100% 400px;
-        background-position:0px -50px;
+        // background-position:0px -50px;
         margin-bottom: 0;
         padding:0;
         height:100%;
@@ -175,14 +163,27 @@
     }    
 }
 
+body.dark-layout{
+    .jumbotron-container{
+        .jumbotron-div{
+            color: #d0d2d6 !important;
+        }
+        h1{
+            color:#d0d2d6 !important;
+        }
+        .jumbotron-text{
+            color:#d0d2d6 !important;
+        }
+    }
+}
+
 .home-page-container{
     .jumbotron-div{
         background-position:0px 0px;
     }    
 }
 .how-to-play-Jumbotron{
-    background: url('/src/assets/images/howToPlay/13095-nobg.png');
-    // opacity: 0.5;
+    background: url('/src/assets/images/howToPlay/goal-kepper.png');
 }
 .homepage-jumbotron{
     background: url('/src/assets/images/home/home-banner.jpeg');
@@ -199,4 +200,19 @@
     align-items: center;
     justify-content: center;
     border-right: 1px solid;
+}
+
+@media (max-width: 767px) {
+    .nav-bar-toggle-div{
+        width: 100%;
+        text-align: right;
+    }
+    .menu{
+        .navbar-nav{
+            flex-flow: column;
+        }
+    }
+    // .stepDiv{
+    //     border-right: 0px solid;
+    // }
 }

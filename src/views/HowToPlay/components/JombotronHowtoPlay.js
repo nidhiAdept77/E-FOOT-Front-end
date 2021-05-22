@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 export default function JombotronHowtoPlay() {
     return (
         <Row>
-            <Col className="jumbotron-container">
+            <Col className="jumbotron-container mb-2">
                 <Jumbotron fluid className="jumbotron-div how-to-play-Jumbotron">
                     <Container fluid className="jumbotron-text">
                         <h1 className="display-3"><FormattedMessage id="How To Play" /></h1>
