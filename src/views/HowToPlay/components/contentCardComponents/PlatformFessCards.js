@@ -27,7 +27,7 @@ export default function PlatformFessCards() {
                     </CardBody>
                 </Card>
             </Col>
-            <Col md="6" className="text-center mb-2 hide-image">
+            <Col md="6" className="text-center mb-2 d-block hide-image">
                 <img src={imageUrl} />
             </Col>
         </>
