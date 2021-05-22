@@ -7,7 +7,7 @@ const imageUrl = require('@src/assets/images/howToPlay/play-now.png').default
 export default function PlayNowCard() {
     return (
         <>
-            <Col md="6">
+            <Col md="6" className="hide-image">
                 <img src={imageUrl} className="w-100"/>
             </Col>
             <Col md="6">

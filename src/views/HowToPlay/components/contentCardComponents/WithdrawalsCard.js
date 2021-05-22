@@ -6,7 +6,7 @@ const imageUrl = require('@src/assets/images/howToPlay/withdraw.png').default
 export default function WithdrawalsCard() {
     return (
         <>
-            <Col sm="6" className="d-flex justify-content-center align-items-center d-none d-lg-block">
+            <Col sm="6" className="d-flex justify-content-center align-items-center hide-image">
                 <img src={imageUrl} className="w-100"/>
             </Col>
             <Col sm="6">

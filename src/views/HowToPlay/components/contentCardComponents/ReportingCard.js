@@ -33,7 +33,7 @@ export default function ReportingCard() {
                     </CardBody>
                 </Card>
             </Col>
-            <Col sm="6" className="d-flex justify-content-center align-items-center ">
+            <Col sm="6" className="d-flex justify-content-center align-items-center hide-image">
                 <img src={imageUrl} className="w-100"/>
             </Col>
         </>

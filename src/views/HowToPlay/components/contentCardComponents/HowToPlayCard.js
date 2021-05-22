@@ -32,7 +32,7 @@ export default function HowToPlayCard() {
                     </CardBody>
                 </Card>
             </Col>
-            <Col md="6" className="d-flex justify-content-center align-items-center d-none d-lg-block">
+            <Col md="6" className="d-flex justify-content-center align-items-center hide-image">
                 <img src={imageUrl} className="w-100"/>
             </Col>
         </>

@@ -6,7 +6,7 @@ const imageUrl = require('@src/assets/images/howToPlay/how-to-start.png').defaul
 export default function HowToStart() {
     return (
         <>
-            <Col md="6" className="text-center mb-2 d-none d-lg-block">
+            <Col md="6" className="text-center mb-2 hide-image">
                 <img src={imageUrl} />
             </Col>
             <Col md="6">
