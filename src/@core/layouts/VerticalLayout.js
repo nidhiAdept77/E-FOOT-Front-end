@@ -31,6 +31,7 @@ import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarColor } from '@hooks/useNavbarColor'
 import {getInitOnlineUsers, removeOnlineUsers, addUserFireBaseToken, getAllOnlineUserSubs, updateOnlineUsers} from '@src/redux/actions/auth'
 import {handleOnlineUserHidden} from '@src/redux/actions/layout'
+import {getUsersRoom, removeUsersRoom} from '@src/redux/actions/rooms'
 
 
 // ** Styles
@@ -45,7 +46,7 @@ import OnlineUserPopUp from './components/OnlineUserPopUp'
 
 const VerticalLayout = props => {
   // ** Props
-  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, user, addUserFireBaseToken, onlineUsers, handleOnlineUserHidden, showOnlineUserPopup } = props
+  const { children, navbar, footer, menu, routerProps, currentActiveItem, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, user, addUserFireBaseToken, onlineUsers, handleOnlineUserHidden, showOnlineUserPopup, getUsersRoom, removeUsersRoom } = props
 
   // ** Hooks
   const [skin, setSkin] = useSkin()
@@ -110,6 +111,7 @@ const VerticalLayout = props => {
   useEffect(async () => {
     setIsMounted(true)
     await getInitOnlineUsers()
+    await getUsersRoom()
     userSubcription = getAllOnlineUserSubs(user => {
       setTimeout(() => {
         const currentUserId = localStorage.getItem('userId')
@@ -123,6 +125,7 @@ const VerticalLayout = props => {
     })
     return () => {
       removeOnlineUsers()
+      removeUsersRoom()
       userSubcription.subscription.unsubscribe()
       setIsMounted(false)
     }
@@ -288,7 +291,9 @@ VerticalLayout.propTypes = {
   removeOnlineUsers: PropTypes.func.isRequired,
   getAllOnlineUserSubs: PropTypes.func.isRequired,
   updateOnlineUsers: PropTypes.func.isRequired,
-  showOnlineUserPopup: PropTypes.bool.isRequired
+  showOnlineUserPopup: PropTypes.bool.isRequired,
+  getUsersRoom: PropTypes.func.isRequired,
+  removeUsersRoom: PropTypes.func.isRequired
 }
 const mapStateToProps = state => {
   return {
@@ -297,4 +302,4 @@ const mapStateToProps = state => {
     showOnlineUserPopup: state.layout.showOnlineUserPopup
   }
 }
-export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, handleOnlineUserHidden})(VerticalLayout)
+export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, handleOnlineUserHidden, getUsersRoom, removeUsersRoom})(VerticalLayout)

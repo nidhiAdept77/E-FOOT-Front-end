@@ -6,12 +6,16 @@ import layout from './layout'
 import toastNotification from './toastNotification'
 import auth from './auth'
 import country from './country'
+import rooms from './rooms'
+import chats from './chats'
 
 const rootReducer = combineReducers({
   layout,
   toastNotification,
   auth,
-  country
+  country,
+  rooms,
+  chats
 })
 
 export default rootReducer

@@ -52,11 +52,17 @@ export const isUserAdmin = () => {
     return userData && userData.roles.includes(CONSTANTS.USERS_ROLES.ADMIN)
 }
 
-export const getTimeString = (date) => {
-    date = parseInt(date)
+export const getTimeString = (date, isNumeric = true) => {
+    if (isNumeric) {
+        date = parseInt(date)
+    }
     const currentData = moment(date)
     const endDate = moment()
     return currentData.to(endDate, true)
+}
+
+export const getChatTime = date => {
+    return moment(date).format("DD-MM-YYYY hh:mm a")
 }
 
 export const handleAuthResponse = (data) => {
