@@ -1,4 +1,4 @@
-const {SET_USERS_ROOMS, SET_LOADER} = require('../../actions/types')
+const {SET_USERS_ROOMS, SET_LOADER} = require('../../types')
 
 const initialState = {
     loading: false,

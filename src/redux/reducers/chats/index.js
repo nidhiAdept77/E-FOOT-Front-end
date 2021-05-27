@@ -1,4 +1,4 @@
-const {SET_GLOBAL_MESSAGES, SET_LOADER} = require('../../actions/types')
+const {SET_GLOBAL_MESSAGES, SET_LOADER} = require('../../types')
 
 const initialState = {
     loading: false,

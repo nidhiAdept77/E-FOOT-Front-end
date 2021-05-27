@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-import {SET_GLOBAL_MESSAGES, SET_LOADER} from '../../actions/types'
+import {SET_GLOBAL_MESSAGES, SET_LOADER} from '../../types'
 
 
 const MessageFragment = gql`

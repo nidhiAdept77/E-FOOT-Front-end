@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_LOADER} = require('../../actions/types')
+const {SET_USERS_ROOMS, SET_LOADER} = require('../../types')
 
 export const getUsersRoom = () => async dispatch => {
     try {
@@ -17,6 +17,7 @@ export const getUsersRoom = () => async dispatch => {
                         type
                         default
                     }
+                    nextToken
                 }
             }
         `
