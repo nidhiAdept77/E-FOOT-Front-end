@@ -1,4 +1,4 @@
-import {SET_LOADER, SET_COUNTRY_DETAILS, REMOVE_COUNTRY_DETAILS} from '../../actions/types'
+import {SET_LOADER, SET_COUNTRY_DETAILS, REMOVE_COUNTRY_DETAILS} from '../../types'
 
 const initialState = {
     loading: false,

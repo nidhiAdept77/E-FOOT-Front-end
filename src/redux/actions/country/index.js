@@ -1,4 +1,4 @@
-import {SET_LOADER, SET_COUNTRY_DETAILS, REMOVE_COUNTRY_DETAILS} from '../types'
+import {SET_LOADER, SET_COUNTRY_DETAILS, REMOVE_COUNTRY_DETAILS} from '../../types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 

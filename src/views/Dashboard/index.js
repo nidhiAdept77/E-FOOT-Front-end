@@ -50,7 +50,7 @@ const Dashboard = ({loading}) => {
           </Row>
         </Col>
         <Col lg='3' md='4' sm='12'>
-          <OnlineUsers colors={colors} trackBgColor={trackBgColor} />
+          <OnlineUsers showheader={true} colors={colors} trackBgColor={trackBgColor} />
         </Col>
       </Row>
       <Row className='match-height'>

@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import {SHOW_TOAST_NOFITICATION, REMOVE_TOAST_NOFITICATION} from '../types'
+import {SHOW_TOAST_NOFITICATION, REMOVE_TOAST_NOFITICATION} from '../../types'
 import Avatar from '@components/avatar'
 import { Bell, Check, X, AlertTriangle, Info } from 'react-feather'
 import { Fragment } from 'react'

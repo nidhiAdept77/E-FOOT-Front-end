@@ -1,4 +1,4 @@
-import {SHOW_TOAST_NOFITICATION, REMOVE_TOAST_NOFITICATION} from '../../actions/types'
+import {SHOW_TOAST_NOFITICATION, REMOVE_TOAST_NOFITICATION} from '../../types'
 
 const initialState = {
     toater: false
