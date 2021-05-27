@@ -116,3 +116,37 @@ export const addMessageToChannel = (roomId, message) => async dispatch => {
         })
     }
 }
+
+export const getGlobalMessagesSubsctions = (handleMessageAdded) => async dispatch => {
+    try {
+        const gloabalMsgSubscripton = gql`
+           subscription{
+            globalMessages{
+                    ...MessageData
+                }
+            }
+            ${MessageFragment}
+        `
+        const observable = client.subscribe({query:  gloabalMsgSubscripton})
+        return observable.subscribe(({data}) =>  handleMessageAdded(data.globalMessages))
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+
+}
+
+export const updateGlobalMessage = (messages) => dispatch => {
+    try {
+        dispatch({
+            type: SET_GLOBAL_MESSAGES,
+            payload: messages
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        
+    }
+}
