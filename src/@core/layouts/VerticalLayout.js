@@ -108,10 +108,10 @@ const VerticalLayout = props => {
   }, [windowWidth])
 
   //** ComponentDidMount
-  useEffect(async () => {
+  useEffect(() => {
     setIsMounted(true)
-    await getInitOnlineUsers()
-    await getUsersRoom()
+    getInitOnlineUsers()
+    getUsersRoom()
     userSubcription = getAllOnlineUserSubs(user => {
       setTimeout(() => {
         const currentUserId = localStorage.getItem('userId')

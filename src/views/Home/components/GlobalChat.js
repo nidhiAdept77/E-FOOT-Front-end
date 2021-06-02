@@ -16,16 +16,16 @@ const CardChat = ({loading, setGlobalMessages, removeGlobalMessages, addMessageT
   const [msg, setMsg] = useState('')
   const [chatRef, setChatRef] = useState(null)
   
-  useEffect(async () => {
-    await setGlobalMessages()
+  useEffect(() => {
+    setGlobalMessages()
     globalChatSub = getGlobalMessagesSubsctions(messages => {
-      // setTimeout(() => {
         updateGlobalMessage(messages)
-      // }, 1000)
     })
     return () => {
       removeGlobalMessages()
-      globalChatSub.subscription.unsubscribe()
+      if (globalChatSub && globalChatSub.subscription) {
+        globalChatSub.subscription.unsubscribe()
+      }
     }
   }, [])
 
