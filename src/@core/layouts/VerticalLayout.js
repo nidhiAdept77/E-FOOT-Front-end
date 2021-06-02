@@ -126,7 +126,9 @@ const VerticalLayout = props => {
     return () => {
       removeOnlineUsers()
       removeUsersRoom()
-      userSubcription.subscription.unsubscribe()
+      if (userSubcription && userSubcription.subscription) {
+        userSubcription.subscription.unsubscribe()
+      }
       setIsMounted(false)
     }
   }, [])

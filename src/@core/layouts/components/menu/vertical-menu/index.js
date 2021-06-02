@@ -1,5 +1,7 @@
 // ** React Imports
 import { Fragment, useState, useRef } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 // ** Vertical Menu Items Array
 import navigation from '@src/navigation/vertical'
@@ -11,10 +13,16 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 // ** Vertical Menu Components
 import VerticalMenuHeader from './VerticalMenuHeader'
 import VerticalNavMenuItems from './VerticalNavMenuItems'
+import { isUserAdminFromUser } from '../../../../../utils'
+import _ from 'underscore'
 
 const Sidebar = props => {
   // ** Props
-  const { menuCollapsed, routerProps, menu, currentActiveItem, skin } = props
+  const { menuCollapsed, routerProps, menu, currentActiveItem, skin, user } = props
+  let sideBarMenus = [...navigation.normalRoutes]
+  if (!_.isEmpty(user) && isUserAdminFromUser(user)) {
+    sideBarMenus = [...sideBarMenus, ...navigation.adminRoleRoutes]
+  }
 
   // ** States
   const [groupOpen, setGroupOpen] = useState([])
@@ -74,7 +82,7 @@ const Sidebar = props => {
             >
               <ul className='navigation navigation-main'>
                 <VerticalNavMenuItems
-                  items={navigation}
+                  items={sideBarMenus}
                   groupActive={groupActive}
                   setGroupActive={setGroupActive}
                   activeItem={activeItem}
@@ -85,6 +93,7 @@ const Sidebar = props => {
                   menuCollapsed={menuCollapsed}
                   menuHover={menuHover}
                   currentActiveItem={currentActiveItem}
+                  user={user}
                 />
               </ul>
             </PerfectScrollbar>
@@ -95,4 +104,13 @@ const Sidebar = props => {
   )
 }
 
-export default Sidebar
+Sidebar.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired
+}
+const mapStateToProps = state => ({
+    loading: state.auth.loading,
+    user: state.auth.user
+})
+
+export default connect(mapStateToProps, {})(Sidebar)

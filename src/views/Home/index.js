@@ -12,7 +12,7 @@ export default function index() {
         <div>
             <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Home" />} breadCrumbActive={<FormattedMessage id="Home" />} />
             <JombotronHome />
-            <Row>
+            <Row className='match-height'>
                 <Col md="8">
                     <GamesComponent />
                 </Col>

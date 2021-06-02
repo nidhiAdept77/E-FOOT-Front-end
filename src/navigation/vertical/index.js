@@ -1,5 +1,7 @@
 // ** Navigation sections imports
 import dashboards from './dashboards'
-import staticPages from './staticPage'
+import adminRoutes from './adminRoutes'
 
-export default [...dashboards]
+const normalRoutes = [...dashboards]
+const adminRoleRoutes = [...adminRoutes]
+export default {normalRoutes, adminRoleRoutes}
