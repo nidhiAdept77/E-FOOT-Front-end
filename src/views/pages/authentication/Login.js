@@ -1,5 +1,6 @@
 import { useState, Fragment, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import classnames from 'classnames'
 import { useSkin } from '@hooks/useSkin'
 import { useForm } from 'react-hook-form'
@@ -7,33 +8,20 @@ import InputPasswordToggle from '@components/input-password-toggle'
 import { isObjEmpty } from '@utils'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  Alert,
-  Row,
-  Col,
-  CardTitle,
-  CardText,
-  Form,
-  Input,
-  FormGroup,
-  Label,
-  Button,
-  FormFeedback
-} from 'reactstrap'
-
-import '@styles/base/pages/page-auth.scss'
+import { Card, CardBody, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button, Row, Col, FormFeedback } from 'reactstrap'
 import { loginUser, loginWithFacebook, loginWithgoogle, getUserDetails } from '../../../redux/actions/auth'
 import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import LoaderComponent from '../../components/Loader'
-import { Facebook, Mail } from 'react-feather'
+// import { Facebook, Mail } from 'react-feather'
 import { GoogleLogin } from 'react-google-login'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
+import '@styles/base/pages/page-auth.scss'
 
-const Login = props => {
+const Login = (props) => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -126,88 +114,93 @@ const Login = props => {
   }
 
   return (
-    <div className='auth-wrapper auth-v2'>
-      <LoaderComponent loading={loading} />
-      <Row className='auth-inner m-0'>
-        <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
-          <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
-            <img className='img-fluid' src={source} alt='Login V2' />
-          </div>
-        </Col>
-        <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
-          <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
-            <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Welcome to E-FOOT.NL! 👋
+    <div className='auth-wrapper auth-v1 px-2'>
+      <div className='auth-inner py-2'>
+        <Card className='mb-0'>
+          <CardBody>
+            <CardTitle tag='h4' className='mb-1'>
+              Welcome to E-Foot.Nl! 👋
             </CardTitle>
-            <div className='auth-footer-btn'>
-              {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
-                appId={CONSTANTS.FACEBOOK_APP_ID}
-                callback={responseFacebook}
-                render={renderProps => (
-                  <Button.Ripple color='facebook' className="w-100 mb-2" block onClick={renderProps.onClick}>
-                    {getFbSvg()}
-                    <span className='align-middle ml-25'>Login with facebook</span>
-                  </Button.Ripple>
-                )}
-              />}
-              {CONSTANTS.GOOLE_CLIENT_ID && <GoogleLogin
-                clientId={CONSTANTS.GOOLE_CLIENT_ID}
-                render={renderProps => (
-                  <Button.Ripple color='white' onClick={renderProps.onClick} className="w-100 box-shadow-google" disabled={renderProps.disabled}>
-                      {getGoogleSvg()}
-                    <span className='align-middle ml-25'>Login with Google</span>
-                  </Button.Ripple>
-                )}
-                buttonText="Login With Google"
-                className="w-100"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'}
-              />}
-            </div>
+            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
+            <Row className='auth-footer-btn'>
+              <Col md="6">
+                {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
+                  appId={CONSTANTS.FACEBOOK_APP_ID}
+                  callback={responseFacebook}
+                  render={renderProps => (
+                    <Button.Ripple color='facebook' className="w-100 mb-2" block onClick={renderProps.onClick}>
+                      {getFbSvg()}
+                      <span className='align-middle ml-25'>Login with facebook</span>
+                    </Button.Ripple>
+                  )}
+                />}
+              </Col>
+              <Col md="6">
+                {CONSTANTS.GOOLE_CLIENT_ID && <GoogleLogin
+                  clientId={CONSTANTS.GOOLE_CLIENT_ID}
+                  render={renderProps => (
+                    <Button.Ripple color='white' onClick={renderProps.onClick} className="w-100 box-shadow-google" disabled={renderProps.disabled}>
+                        {getGoogleSvg()}
+                      <span className='align-middle ml-25'>Login with Google</span>
+                    </Button.Ripple>
+                  )}
+                  buttonText="Login With Google"
+                  className="w-100"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />}
+              </Col>
+            </Row>
             <div className='divider my-2'>
               <div className='divider-text'>or</div>
             </div>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
-              <FormGroup>
-                <Label className='form-label' for='email'>
-                  Email
-                </Label>
-                <Input
-                  autoFocus
-                  type='email'
-                  value={email}
-                  id='email'
-                  name='email'
-                  placeholder='john@example.com'
-                  onChange={e => setEmail(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['email'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                  invalid={errors.email && true}              
-                />
-                {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <div className='d-flex justify-content-between'>
-                  <Label className='form-label' for='password'>
-                    Password
-                  </Label>
-                  <Link to='/forgot-password'>
-                    <small>Forgot Password?</small>
-                  </Link>
-                </div>
-                <InputPasswordToggle
-                  value={password}
-                  id='password'
-                  name='password'
-                  className='input-group-merge'
-                  onChange={e => setPassword(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['password'] })}
-                  innerRef={register({ required: true })}
-                  invalid={errors.password && true}
-                />
-                {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
-              </FormGroup>
+              <Row>
+                <Col md="6">
+                  <FormGroup>
+                    <Label className='form-label' for='email'>
+                      Email
+                    </Label>
+                    <Input
+                      autoFocus
+                      type='email'
+                      value={email}
+                      id='email'
+                      name='email'
+                      placeholder='john@example.com'
+                      onChange={e => setEmail(e.target.value)}
+                      className={classnames({ 'is-invalid': errors['email'] })}
+                      innerRef={register({ required: true, validate: value => value !== '' })}
+                      invalid={errors.email && true}              
+                    />
+                    {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
+                  </FormGroup>
+                </Col>
+                <Col md="6">
+                  <FormGroup>
+                    <div className='d-flex justify-content-between'>
+                      <Label className='form-label' for='password'>
+                        Password
+                      </Label>
+                      <Link to='/forgot-password'>
+                        <small>Forgot Password?</small>
+                      </Link>
+                    </div>
+                    <InputPasswordToggle
+                      value={password}
+                      id='password'
+                      name='password'
+                      className='input-group-merge'
+                      onChange={e => setPassword(e.target.value)}
+                      className={classnames({ 'is-invalid': errors['password'] })}
+                      innerRef={register({ required: true })}
+                      invalid={errors.password && true}
+                    />
+                    {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+                  </FormGroup>
+                </Col>
+              </Row>
               <Button.Ripple type='submit' color='primary' block>
                 Sign in
               </Button.Ripple>
@@ -218,10 +211,11 @@ const Login = props => {
                 <span>Create an account</span>
               </Link>
             </p>
-           </Col>
-        </Col>
-      </Row>
+          </CardBody>
+        </Card>
+      </div>
     </div>
+  
   )
 }
 
@@ -238,3 +232,4 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {showToastMessage, loginUser, loginWithgoogle, loginWithFacebook, getUserDetails})(Login)
+
