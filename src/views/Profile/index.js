@@ -14,6 +14,8 @@ import InfoTabContent from './components/InfoTabContent'
 import PsnTabContent from './components/PsnTabContent'
 import BankDetailsTabContent from './components/BankDetailsTabContent'
 import LoaderComponent from '../components/Loader'
+import { FormattedMessage } from 'react-intl'
+
 function Profile({loading, user, showToastMessage}) {
     const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
@@ -25,7 +27,7 @@ function Profile({loading, user, showToastMessage}) {
     return (
         <Fragment>
             <LoaderComponent loading={loading} />
-            <Breadcrumbs breadCrumbTitle='My Profile' breadCrumbActive='My Profile' />
+            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="My Profile" />} breadCrumbActive={<FormattedMessage id="My Profile" />} />
             <Row>
                 {user ?
                     <>

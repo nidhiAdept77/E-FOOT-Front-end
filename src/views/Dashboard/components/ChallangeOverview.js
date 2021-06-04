@@ -4,6 +4,7 @@ import Chart from 'react-apexcharts'
 import { HelpCircle } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
+import { FormattedMessage } from 'react-intl'
 
 const ChallangeOverview = props => {
   const [data, setData] = useState({
@@ -84,7 +85,7 @@ const ChallangeOverview = props => {
   return (
     <Card className="overview">
       <CardHeader>
-        <CardTitle tag='h4'>Challange Overview</CardTitle>
+        <CardTitle tag='h4'><FormattedMessage id="Challenge Overview" /></CardTitle>
         <HelpCircle size={18} id="challangeHelp" className='text-muted cursor-pointer' />
         <UncontrolledTooltip placement='auto' target='challangeHelp'>
           Challange information and win percentage of user

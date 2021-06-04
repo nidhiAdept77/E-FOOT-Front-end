@@ -6,12 +6,12 @@
     "PLAY FIFA AS AN INTERNSHIP": "FIFA SPELEN ALS STAGE",
     "Contact": "Contact",
     "Coming Soon...": "Binnenkort Beschikbaar...",
-    "My Match": "Mijn Match",
-    "Find My Match": "Vind Mijn Match",
+    "My Matches": "Mijn Games",
+    "Start Game": "Start Game",
     "Wallet": "Portemonnee",
     "My Profile": "Mijn profiel",
-    "Tournament": "Toernooi",
-    "Contact Us": "Neem contact op",
+    "Tournaments": "Toernooien",
+    "Contact Us": "Contact",
     "How To Play": "Hoe te spelen",
     "Terms Of Use": "Gebruiksvoorwaarden",
     "Privacy Policy": "Privacy Beleid",
@@ -20,5 +20,10 @@
     "Withdrawals": "Opnames",
     "Platform Fees": "Platformkosten",
     "How do I get started?": "Hoe begin ik eraan?",
-    "Play as a Pro not as noob.": "Speel als een pro, niet als een noob."
+    "Play as a Pro not as noob.": "Speel als een pro, niet als een noob.",
+    "Game Available": "Beschikbare Games",
+    "Challenge Overview": "Challenge Overzicht ",
+    "Change Password": "Verander Password",
+    "Admin Routes":"Beheerroutes",
+    "Create Room": "Ruimte creëren"
 }

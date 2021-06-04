@@ -108,10 +108,10 @@ const VerticalLayout = props => {
   }, [windowWidth])
 
   //** ComponentDidMount
-  useEffect(async () => {
+  useEffect(() => {
     setIsMounted(true)
-    await getInitOnlineUsers()
-    await getUsersRoom()
+    getInitOnlineUsers()
+    getUsersRoom()
     userSubcription = getAllOnlineUserSubs(user => {
       setTimeout(() => {
         const currentUserId = localStorage.getItem('userId')
@@ -126,7 +126,9 @@ const VerticalLayout = props => {
     return () => {
       removeOnlineUsers()
       removeUsersRoom()
-      userSubcription.subscription.unsubscribe()
+      if (userSubcription && userSubcription.subscription) {
+        userSubcription.subscription.unsubscribe()
+      }
       setIsMounted(false)
     }
   }, [])
@@ -272,7 +274,7 @@ const VerticalLayout = props => {
 
       {themeConfig.layout.scrollTop === true ? (
         <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300} style={{ bottom: '5%', zIndex: 10000 }}>
+          <ScrollToTop showUnder={300} style={{ bottom: '9%', right:"10px", zIndex: 10000 }}>
             <Button className='btn-icon' color='primary'>
               <ArrowUp size={14} />
             </Button>

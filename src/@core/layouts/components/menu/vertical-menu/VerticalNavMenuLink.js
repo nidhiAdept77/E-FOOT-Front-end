@@ -12,6 +12,8 @@ import navigation from '@src/navigation/vertical'
 
 // ** Utils
 import { isNavLinkActive, search, getAllParents } from '@layouts/utils'
+import { isUserAdminFromUser } from '../../../../../utils'
+import _ from 'underscore'
 
 const VerticalNavMenuLink = ({
   item,
@@ -24,7 +26,8 @@ const VerticalNavMenuLink = ({
   toggleActiveGroup,
   parentItem,
   routerProps,
-  currentActiveItem
+  currentActiveItem, 
+  user
 }) => {
   // ** Conditional Link Tag, if item has newTab or externalLink props use <a> tag else use NavLink
   const LinkTag = item.externalLink ? 'a' : NavLink
@@ -32,6 +35,11 @@ const VerticalNavMenuLink = ({
   // ** URL Vars
   const location = useLocation()
   const currentURL = location.pathname
+
+  let sideBarMenus = [...navigation.normalRoutes]
+  if (!_.isEmpty(user) && isUserAdminFromUser(user)) {
+      sideBarMenus = [...sideBarMenus, navigation.adminRoutes]
+  }
 
   // ** To match path
   const match = matchPath(currentURL, {
@@ -41,15 +49,15 @@ const VerticalNavMenuLink = ({
   })
 
   // ** Search for current item parents
-  const searchParents = (navigation, currentURL) => {
-    const parents = search(navigation, currentURL, routerProps) // Search for parent object
+  const searchParents = (sideBarMenus, currentURL) => {
+    const parents = search(sideBarMenus, currentURL, routerProps) // Search for parent object
     const allParents = getAllParents(parents, 'id') // Parents Object to Parents Array
     return allParents
   }
 
   // ** URL Vars
   const resetActiveGroup = navLink => {
-    const parents = search(navigation, navLink, match)
+    const parents = search(sideBarMenus, navLink, match)
     toggleActiveGroup(item.id, parents)
   }
 
@@ -63,7 +71,7 @@ const VerticalNavMenuLink = ({
   useEffect(() => {
     if (currentActiveItem !== null) {
       setActiveItem(currentActiveItem)
-      const arr = searchParents(navigation, currentURL)
+      const arr = searchParents(sideBarMenus, currentURL)
       setGroupActive([...arr])
     }
   }, [location])

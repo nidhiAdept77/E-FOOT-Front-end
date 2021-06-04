@@ -6,11 +6,11 @@
   "PLAY FIFA AS AN INTERNSHIP": "PLAY FIFA AS AN INTERNSHIP",
   "Contact": "Contact",
   "Coming Soon...": "Coming Soon...",
-  "My Match": "My Match",
-  "Find My Match": "Find My Match",
+  "My Matches": "My Matches",
+  "Start Game": "Start Game",
   "Wallet": "Wallet",
   "My Profile": "My Profile",
-  "Tournament": "Tournament",
+  "Tournaments": "Tournaments",
   "Contact Us": "Contact Us",
   "How To Play": "How To Play",
   "Terms Of Use": "Terms Of Use",
@@ -20,5 +20,12 @@
   "Withdrawals": "Withdrawals",
   "Platform Fees": "Platform Fees",
   "How do I get started?": "How do I get started?",
-  "Play as a Pro not as noob.": "Play as a Pro not as noob."
+  "Play as a Pro not as noob.": "Play as a Pro not as noob.",
+  "Game Available": "Game Available",
+  "Challenge Overview": "Challenge Overview",
+  "Change Password": "Change Password",
+  "Admin Routes": "Admin Routes",
+  "Create Room": "Create Room",
+  "Create Console": "Create Console",
+  "Create Games": "Create Games"
 }

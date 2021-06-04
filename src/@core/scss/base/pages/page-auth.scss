@@ -1,17 +1,14 @@
 @import '../bootstrap-extended/include'; // Bootstrap includes
 @import '../components/include'; // Components includes
 
-$auth-1-inner-max-width: 400px !default;
+$auth-1-inner-max-width: 600px !default;
 
 .auth-wrapper {
   display: flex;
   flex-basis: 100%;
   // height: calc(100vh - 5.45rem);
   // min-height: calc(var(--vh, 1vh) * 100 - 5.45rem);
-  margin-top: 4.45rem;
-  @include media-breakpoint-down(md) {
-    margin-top: 0;
-  }
+  margin-top: 8.45rem;
   @include media-breakpoint-down(xs) {
     margin-top: 10.45rem;
   }

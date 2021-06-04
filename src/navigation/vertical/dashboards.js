@@ -16,14 +16,14 @@ export default [
   },
   {
     id: 'myMatch',
-    title: 'My Match',
+    title: 'My Matches',
     icon: <Trello />,
     // navLink: '/my-match'
     navLink: '/#'
   },
   {
     id: 'findMyMatch',
-    title: "Find My Match",
+    title: "Start Game",
     icon: <Radio />,
     // navLink: '/find-my-match'
     navLink: '/#'
@@ -44,7 +44,7 @@ export default [
   },
   {
     id: 'tournament',
-    title: 'Tournament',
+    title: 'Tournaments',
     icon: <Crosshair />,
     // navLink: '/contact-us'
     navLink: '/#'
@@ -62,19 +62,5 @@ export default [
     icon: <Server />,
     navLink: '/how-to-play'
     // navLink: '/#'
-  },
-  {
-    id: 'terms',
-    title: 'Terms Of Use',
-    icon: <LifeBuoy />,
-    // navLink: '/terms'
-    navLink: '/#'
-  },
-  {
-    id: 'privacy',
-    title: 'Privacy Policy',
-    icon: <Shield />,
-    // navLink: '/privacy'
-    navLink: '/#'
   }
 ]

@@ -46,8 +46,8 @@ const UserDropdown = (props) => {
       {isLoggedInUser && !_.isEmpty(user) ? <>
           <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
             <div className='user-nav d-sm-flex d-none'>
-              <span className='user-name font-weight-bold capitalize'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
-              <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles[0]) || 'User'}</span>
+              <span className='user-name font-weight-bold capitalize w-100'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
+              <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles.join(", ")) || 'User'}</span>
             </div>
             {user.profilePicture ? 
               <Avatar size='sm' img={user.profilePicture}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>

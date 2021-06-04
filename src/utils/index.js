@@ -49,7 +49,11 @@ export const getAccessToken = () => {
 
 export const isUserAdmin = () => {
     const userData = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData')) : {}
-    return userData && userData.roles.includes(CONSTANTS.USERS_ROLES.ADMIN)
+    return userData && userData.roles && userData.roles.includes(CONSTANTS.USERS_ROLES.ADMIN)
+}
+
+export const isUserAdminFromUser = (userData) => {
+    return userData && userData.roles && userData.roles.includes(CONSTANTS.USERS_ROLES.ADMIN)
 }
 
 export const getTimeString = (date, isNumeric = true) => {
