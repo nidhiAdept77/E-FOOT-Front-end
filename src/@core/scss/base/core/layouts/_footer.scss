@@ -64,6 +64,29 @@ footer {
       background: $gray-600;
       color: $white;
     }
+    .right-content{
+      width: 60%;
+      @include media-breakpoint-down(sm) {
+        display: flex;
+        width: 100%;
+        /* border: 1px solid; */
+        justify-content: center;
+        align-content: center;
+        margin-top: 1rem;
+      }
+    }
+    .left-content{
+      width: 40%;
+      text-align: right;
+      @include media-breakpoint-down(sm) {
+        display: flex;
+        width: 100%;
+        /* border: 1px solid; */
+        justify-content: center;
+        align-content: center;
+        margin-top: 1rem;
+      }
+    }
   }
 }
 
@@ -77,8 +100,8 @@ footer {
 // scroll to Top Footer Button
 .scroll-top {
   position: fixed;
-  bottom: 5%;
-  right: 30px;
+  bottom: 9%;
+  right: 10px;
   display: none;
   z-index: 99;
 }

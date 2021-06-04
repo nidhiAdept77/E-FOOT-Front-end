@@ -111,6 +111,9 @@
     svg#user-icon {
         transform: none;
     }
+    @include media-breakpoint-down(sm) {
+        bottom: 82px;
+    }
 }
 
 .online-card-body{

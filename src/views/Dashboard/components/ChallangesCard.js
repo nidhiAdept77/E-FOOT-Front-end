@@ -4,7 +4,7 @@ import TinyChartStats from '@components/widgets/stats/TinyChartStats'
 
 const ChallangesCard = ({ warning }) => {
   const [data, setData] = useState({
-    title: "Challanges",
+    title: "Challenges",
     statistics: "1000",
     series: [
         {
@@ -22,7 +22,7 @@ const ChallangesCard = ({ warning }) => {
 
   useEffect(() => {
     setData({
-      title: "Challanges",
+      title: "Challenges",
       statistics: "1000",
       series: [
           {
@@ -102,7 +102,7 @@ const ChallangesCard = ({ warning }) => {
       title={data.title}
       stats={data.statistics}
       series={data.series}
-      tooltip="Number of challanges played by user"
+      tooltip="Number of Challenges played by user"
     />
   ) : null
 }
