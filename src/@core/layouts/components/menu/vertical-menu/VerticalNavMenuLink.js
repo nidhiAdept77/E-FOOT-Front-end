@@ -38,7 +38,7 @@ const VerticalNavMenuLink = ({
 
   let sideBarMenus = [...navigation.normalRoutes]
   if (!_.isEmpty(user) && isUserAdminFromUser(user)) {
-      sideBarMenus = [...sideBarMenus, navigation.adminRoutes]
+      sideBarMenus = [...sideBarMenus, navigation.adminRoleRoutes]
   }
 
   // ** To match path
@@ -50,6 +50,7 @@ const VerticalNavMenuLink = ({
 
   // ** Search for current item parents
   const searchParents = (sideBarMenus, currentURL) => {
+    console.log('sideBarMenus: ', sideBarMenus)
     const parents = search(sideBarMenus, currentURL, routerProps) // Search for parent object
     const allParents = getAllParents(parents, 'id') // Parents Object to Parents Array
     return allParents

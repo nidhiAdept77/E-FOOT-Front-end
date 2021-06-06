@@ -1,6 +1,5 @@
 // ** React Imports
 import { useState } from 'react'
-
 // ** Third Party Components
 import Proptypes from 'prop-types'
 import classnames from 'classnames'

@@ -7,13 +7,10 @@ import _ from 'underscore'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Default Avatar Image
-import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
-
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Button } from 'reactstrap'
 import { Inbox, Power, User } from 'react-feather'
-import { isUserLoggedIn } from '../../../../auth/utils'
+import { isUserLoggedIn } from '@src/utils'
 import { showToastMessage } from '../../../../redux/actions/toastNotification'
 import {getUserDetails, logoutUser} from '../../../../redux/actions/auth'
 
