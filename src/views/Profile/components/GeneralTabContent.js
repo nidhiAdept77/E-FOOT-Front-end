@@ -11,7 +11,7 @@ import {updateUserProfile, uploadProfilePhoto} from '../../../redux/actions/auth
 import {showToastMessage} from '../../../redux/actions/toastNotification'
 
 const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfilePhoto }) => {
-  const [avatar, setAvatar] = useState(user.profilePicture ? user.profilePicture : '')
+  const [avatar, setAvatar] = useState(user.profileImage ? user.profileImage : '')
   
   const genralTabSchema = yup.object().shape({
     userName: yup.string().min(6).required(),
@@ -21,7 +21,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
   
   useEffect(() => {
     if (!_.isEmpty(user)) {
-      setAvatar(user.profilePicture)
+      setAvatar(user.profileImage)
     }
   }, [user])
   const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema) })

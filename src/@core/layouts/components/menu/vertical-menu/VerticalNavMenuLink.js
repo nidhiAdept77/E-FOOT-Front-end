@@ -50,7 +50,6 @@ const VerticalNavMenuLink = ({
 
   // ** Search for current item parents
   const searchParents = (sideBarMenus, currentURL) => {
-    console.log('sideBarMenus: ', sideBarMenus)
     const parents = search(sideBarMenus, currentURL, routerProps) // Search for parent object
     const allParents = getAllParents(parents, 'id') // Parents Object to Parents Array
     return allParents

@@ -46,8 +46,8 @@ const UserDropdown = (props) => {
               <span className='user-name font-weight-bold capitalize w-100'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
               <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles.join(", ")) || 'User'}</span>
             </div>
-            {user.profilePicture ? 
-              <Avatar size='sm' img={user.profilePicture}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
+            {user.profileImage ? 
+              <Avatar size='sm' img={user.profileImage}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
             :
               <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' status='online' content={`${user.firstName} ${user.lastName}`} initials />
             }

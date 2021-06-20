@@ -10,7 +10,7 @@ export default function RenderChats({chats}) {
     if (_.isEmpty(chats)) return null 
     return chats.map((item, index) => {
         const {user} = item
-        const [firstName, lastName] = user.name.split(" ")
+        const {firstName, lastName} = user
         return (
           <div
             key={index}
@@ -19,8 +19,8 @@ export default function RenderChats({chats}) {
             })}
           >
             <div className='chat-avatar'>
-              { user.profilePicture ? 
-                <Avatar size='sm' img={user.profilePicture}  imgHeight='40' imgWidth='40' />
+              { user.profileImage ? 
+                <Avatar size='sm' img={user.profileImage}  imgHeight='40' imgWidth='40' />
               :
                 <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' content={`${firstName} ${lastName}`} initials />
               }
