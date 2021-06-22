@@ -20,7 +20,7 @@ const Footer = () => {
           <Mail className="left-icon" size={14} />
         </a>
         <span className="float-right">
-          <a href="/">
+          <a href="/terms-of-use">
             <FormattedMessage id={"Terms Of Use"} />
           </a>{" "} - {" "}
           <a href='/'>

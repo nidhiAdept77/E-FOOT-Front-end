@@ -64,6 +64,13 @@ const PagesRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/terms-of-use',
+    component: lazy(() => import('../../views/pages/misc/TermsOfUse')),
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 

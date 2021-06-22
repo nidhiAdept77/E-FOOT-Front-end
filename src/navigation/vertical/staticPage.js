@@ -35,6 +35,12 @@ export default [
         title: 'Contact',
         icon: <Circle size={12} />,
         navLink: '/contact'
+      },
+      {
+        id: 'terms-of-use',
+        title: 'Terms Of Use',
+        icon: <Circle size={12} />,
+        navLink: '/terms-of-use'
       }
     ]
   }

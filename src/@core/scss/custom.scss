@@ -218,7 +218,12 @@ body.dark-layout{
     .hide-image{
         display: none !important;
     }
-    // .stepDiv{
-    //     border-right: 0px solid;
-    // }
+}
+.decimal-order-list{
+    ol { counter-reset: item }
+    ol > li{ display: block }
+    ol > li:before { content: counters(item, ".") " "; counter-increment: item; font-weight:bold }
+    ol > li > ol > li{
+        margin: 0.7rem 0;
+    }
 }
