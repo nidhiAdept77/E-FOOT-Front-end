@@ -1,9 +1,10 @@
-const {SET_LAYOUT_SETTINGS, SET_LOADER, SET_TOTAL} = require('../../types')
+const {SET_LAYOUT_SETTINGS, SET_LOADER, SET_TOTAL, SET_LAYOUT_SETTING} = require('../../types')
 
 const initialState = {
     loading: false,
     layoutSettings: [],
-    total: 0
+    total: 0,
+    layoutSetting: {}
 }
 
 export default (state = initialState, action) => {
@@ -24,6 +25,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 total: payload
+            }
+        case SET_LAYOUT_SETTING:
+            return {
+                ...state,
+                layoutSetting: payload
             }
         default:
             return state

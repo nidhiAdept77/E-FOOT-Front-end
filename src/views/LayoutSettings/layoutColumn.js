@@ -26,7 +26,7 @@ export const columns = [
     sortable: false,
     cell: row => (
       <div className='d-flex'>
-          <UncontrolledDropdown>
+          {/* <UncontrolledDropdown>
             <DropdownToggle className='pr-1' tag='span'>
               <MoreVertical size={15} />
             </DropdownToggle>
@@ -44,8 +44,8 @@ export const columns = [
                 <span className='align-middle ml-50'>Delete</span>
               </DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
-          <Edit size={15} />
+          </UncontrolledDropdown> */}
+          <a href={`/layout-settings/${row._id}`}><Edit size={15} /></a>
         </div>
     )
   }
