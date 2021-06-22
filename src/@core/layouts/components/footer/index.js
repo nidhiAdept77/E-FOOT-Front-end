@@ -23,7 +23,7 @@ const Footer = () => {
           <a href="/terms-of-use">
             <FormattedMessage id={"Terms Of Use"} />
           </a>{" "} - {" "}
-          <a href='/'>
+          <a href='/privacy-policy'>
             <FormattedMessage id={"Privacy Policy"} />
             
           </a>

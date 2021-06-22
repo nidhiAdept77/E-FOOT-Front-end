@@ -71,6 +71,13 @@ const PagesRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/privacy-policy',
+    component: lazy(() => import('../../views/pages/misc/PrivacyPolicy')),
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 
