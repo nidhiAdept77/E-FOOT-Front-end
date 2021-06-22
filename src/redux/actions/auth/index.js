@@ -20,7 +20,8 @@ const UserFragemnt = gql`
         }
         roles
         userName
-        profilePicture
+        
+        profileImage
         isImageOns3
         profileBg
         ability{
@@ -583,7 +584,8 @@ const onlineUserFragment = gql`
         firstName
         lastName
         lastName 
-        profilePicture 
+        
+        profileImage
         isImageOns3 
         profileBg 
         updatedAt

@@ -3,8 +3,6 @@ import { Fragment } from 'react'
 
 // ** Custom Components
 import NavbarUser from './NavbarUser'
-import NavbarBookmarks from './NavbarBookmarks'
-import Menus from '../Menus'
 import {
   NavItem,
   NavLink

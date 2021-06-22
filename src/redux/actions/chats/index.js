@@ -13,8 +13,9 @@ const MessageFragment = gql`
         user{
             _id
             userName
-            name
-            profilePicture
+            firstName
+            lastName
+            profileImage
             isImageOns3
             profileBg
         }

@@ -10,6 +10,7 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Card, CardBody, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button, Row, Col, FormFeedback } from 'reactstrap'
 import { loginUser, loginWithFacebook, loginWithgoogle, getUserDetails } from '../../../redux/actions/auth'
+import {getLayoutSettingsBypagePostion, removeLayourSetting} from '@src/redux/actions/layoutSettings'
 import { showToastMessage } from '../../../redux/actions/toastNotification'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -25,8 +26,28 @@ const Login = (props) => {
   const [skin, setSkin] = useSkin()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {loginUser, showToastMessage, loading, loginWithgoogle, loginWithFacebook, getUserDetails} = props
+  const [headerHtml, setHeaderHtml] = useState(`
+    <CardTitle tag='h4' className='mb-1'>
+      Welcome to E-Foot.Nl! 👋
+      </CardTitle>
+    <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>`)
+  const {loginUser, showToastMessage, loading, loginWithgoogle, loginWithFacebook, getUserDetails, getLayoutSettingsBypagePostion, removeLayourSetting, layoutLoading, layoutSetting} = props
   const history = useHistory()
+  useEffect(() => {
+    getLayoutSettingsBypagePostion('login', 'header')
+    return () => {
+      removeLayourSetting()
+    }
+  }, [])
+  
+  useEffect(() => {
+    if (layoutSetting) {
+      setHeaderHtml(layoutSetting.html)
+    } else {
+
+    }
+  }, [layoutSetting])
+
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
   
@@ -115,13 +136,11 @@ const Login = (props) => {
 
   return (
     <div className='auth-wrapper auth-v1 px-2'>
+      <LoaderComponent loading={loading || layoutLoading} />
       <div className='auth-inner py-2'>
         <Card className='mb-0'>
           <CardBody>
-            <CardTitle tag='h4' className='mb-1'>
-              Welcome to E-Foot.Nl! 👋
-            </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
+            <div dangerouslySetInnerHTML={{__html: headerHtml}} />
             <Row className='auth-footer-btn'>
               <Col md="6">
                 {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
@@ -183,9 +202,6 @@ const Login = (props) => {
                       <Label className='form-label' for='password'>
                         Password
                       </Label>
-                      <Link to='/forgot-password'>
-                        <small>Forgot Password?</small>
-                      </Link>
                     </div>
                     <InputPasswordToggle
                       value={password}
@@ -198,6 +214,11 @@ const Login = (props) => {
                       invalid={errors.password && true}
                     />
                     {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+                    <div className='d-flex justify-content-end'>
+                      <Link to='/forgot-password'>
+                        <small>Forgot Password?</small>
+                      </Link>
+                    </div>
                   </FormGroup>
                 </Col>
               </Row>
@@ -225,11 +246,15 @@ Login.propTypes = {
   loginWithgoogle: PropTypes.func.isRequired,
   loginWithFacebook: PropTypes.func.isRequired,
   getUserDetails: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  getLayoutSettingsBypagePostion: PropTypes.func.isRequired,
+  layoutLoading: PropTypes.bool.isRequired,
+  removeLayourSetting: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  layoutLoading:  state.layoutSettings.loading,
+  layoutSetting: state.layoutSettings.layoutSetting
 })
 
-export default connect(mapStateToProps, {showToastMessage, loginUser, loginWithgoogle, loginWithFacebook, getUserDetails})(Login)
-
+export default connect(mapStateToProps, {showToastMessage, loginUser, loginWithgoogle, loginWithFacebook, getUserDetails, getLayoutSettingsBypagePostion, removeLayourSetting})(Login)

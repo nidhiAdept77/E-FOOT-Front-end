@@ -1,10 +1,6 @@
-import Avatar from '@components/avatar'
 import Timeline from '@components/timeline'
-import AvatarGroup from '@components/avatar-group'
 import { Aperture, BookOpen, HelpCircle, PenTool, Shield, User } from 'react-feather'
-import jsonImg from '@src/assets/images/icons/json.png'
-import ceo from '@src/assets/images/portrait/small/avatar-s-9.jpg'
-import { Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
+import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 
 const data = [

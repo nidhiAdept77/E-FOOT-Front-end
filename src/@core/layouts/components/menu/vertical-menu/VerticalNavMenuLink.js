@@ -38,7 +38,7 @@ const VerticalNavMenuLink = ({
 
   let sideBarMenus = [...navigation.normalRoutes]
   if (!_.isEmpty(user) && isUserAdminFromUser(user)) {
-      sideBarMenus = [...sideBarMenus, navigation.adminRoutes]
+      sideBarMenus = [...sideBarMenus, navigation.adminRoleRoutes]
   }
 
   // ** To match path

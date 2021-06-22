@@ -9,8 +9,8 @@ function OnlineUserRow({ user, index }) {
     return (
         <div key={`${user.userName}-${index}`} className='employee-task d-flex justify-content-between align-items-center'>
           <Media className= "w-100">
-            {user.profilePicture ? 
-              <Avatar size='sm' imgClassName='rounded' className='mr-75' img={user.profilePicture}  imgHeight='42' imgWidth='42' status='online' />
+            {user.profileImage ? 
+              <Avatar size='sm' imgClassName='rounded' className='mr-75' img={user.profileImage}  imgHeight='42' imgWidth='42' status='online' />
             :
               <Avatar size='sm' color={user.profileBg} imgClassName='rounded' className='mr-75'  imgHeight='42' imgWidth='42' status='online' content={`${user.firstName} ${user.lastName}`} initials />
             }

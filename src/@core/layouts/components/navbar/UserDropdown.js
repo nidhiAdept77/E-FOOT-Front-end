@@ -7,13 +7,10 @@ import _ from 'underscore'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Default Avatar Image
-import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
-
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Button } from 'reactstrap'
 import { Inbox, Power, User } from 'react-feather'
-import { isUserLoggedIn } from '../../../../auth/utils'
+import { isUserLoggedIn } from '@src/utils'
 import { showToastMessage } from '../../../../redux/actions/toastNotification'
 import {getUserDetails, logoutUser} from '../../../../redux/actions/auth'
 
@@ -49,8 +46,8 @@ const UserDropdown = (props) => {
               <span className='user-name font-weight-bold capitalize w-100'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
               <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles.join(", ")) || 'User'}</span>
             </div>
-            {user.profilePicture ? 
-              <Avatar size='sm' img={user.profilePicture}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
+            {user.profileImage ? 
+              <Avatar size='sm' img={user.profileImage}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
             :
               <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' status='online' content={`${user.firstName} ${user.lastName}`} initials />
             }
