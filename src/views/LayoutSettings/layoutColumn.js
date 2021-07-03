@@ -5,9 +5,28 @@ import { Link } from 'react-router-dom'
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { MoreVertical, FileText, Archive, Trash, Edit } from 'react-feather'
 import { CONSTANTS } from "../../utils/CONSTANTS"
+import {updateLayourSetting} from '@src/redux/actions/layoutSettings'
+import { showToastMessage } from '@src/redux/actions/toastNotification'
 
-const handleClick = (environment) => {
-  console.log('environment: ', environment)
+const updateConfig = {
+  testing: "isQaVisible",
+  staging: "isProdVisible",
+  live: "isLiveVisible"
+}
+
+const handleClick = async (environment, data) => {
+  data = { ...data, id: data._id, [updateConfig[environment]]: true }
+  delete data._id
+  try {
+    const result = await updateLayourSetting(data)
+    if (result.success) {
+      showToastMessage(result.message, "success")
+    } else {
+      showToastMessage(result.message, "error")
+    }
+  } catch (error) {
+    showToastMessage(error.message, "error")
+  }
 }
 
 export const columns = [
@@ -36,15 +55,15 @@ export const columns = [
               <MoreVertical size={15} />
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.TESTING)}>
+              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.TESTING, row)}>
                 <FileText size={15} />
                 <span className='align-middle ml-50'>Testing</span>
               </DropdownItem>
-              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.STAGING)}>
+              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.STAGING, row)}>
                 <Archive size={15} />
                 <span className='align-middle ml-50'>Staging</span>
               </DropdownItem>
-              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.LIVE)}>
+              <DropdownItem className='w-100' onClick={() => handleClick(CONSTANTS.ENV_TYPE.LIVE, row)}>
                 <Trash size={15} />
                 <span className='align-middle ml-50'>Live</span>
               </DropdownItem>

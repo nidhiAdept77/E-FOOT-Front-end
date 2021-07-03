@@ -164,7 +164,7 @@ export const removeLayourSetting = () => dispatch => {
         payload: {}
     })
 }
-export const updateLayourSetting = ({page, position, html, id}) => async dispatch => {
+export const updateLayourSetting = ({page, position, html, id, isProdVisible, isQaVisible, isLiveVisible}) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -195,6 +195,9 @@ export const updateLayourSetting = ({page, position, html, id}) => async dispatc
                     page,
                     position,
                     html,
+                    isProdVisible,
+                    isQaVisible,
+                    isLiveVisible,
                     _id: id
                 }
             }
