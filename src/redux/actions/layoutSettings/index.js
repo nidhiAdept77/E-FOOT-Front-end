@@ -25,6 +25,9 @@ export const getLayoutSettings = (limit, page, searchString) => async dispatch =
                     page
                     position
                     html
+                    isQaVisible
+                    isProdVisible
+                    isLiveVisible
                     }
                 }
                 nextToken
@@ -181,6 +184,9 @@ export const updateLayourSetting = ({page, position, html, id, isProdVisible, is
                         page
                         position
                         html
+                        isQaVisible
+                        isProdVisible
+                        isLiveVisible
                         createdBy
                         createdAt
                         updatedBy
@@ -275,4 +281,11 @@ export const getLayoutSettingsBypagePostion = (page, position) => async (dispatc
             payload: {}
         })
     }
+}
+
+export const updateLayoutSettingStore = (layoutSettings) => async (dispatch) => {
+  dispatch({
+    type: SET_LAYOUT_SETTINGS,
+    payload: layoutSettings
+  })
 }
