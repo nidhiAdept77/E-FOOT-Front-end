@@ -32,7 +32,7 @@ const LayoutSettingsUpdate = ({ loading, layoutSetting, getLayoutSettingById, re
     const { register, errors, handleSubmit } = useForm({ mode: 'onBlur', resolver: yupResolver(LayoutSettingsSchema) })
 
     const onSubmit = async data => {
-        data = {...data, html, id}
+        data = {...data, html, id, isProdVisible: true}
         if (_.isEmpty(errors)) {
             try {
                 const result = await updateLayourSetting(data)

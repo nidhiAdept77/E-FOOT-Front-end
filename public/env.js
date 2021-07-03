@@ -49,6 +49,7 @@ window.env = {
   "CHROME_DESKTOP": "code-url-handler.desktop",
   "HOME": "/home/bharti",
   "QT4_IM_MODULE": "xim",
+  "OLDPWD": "/home/bharti/Documents/personal/venus-protocol-ui",
   "npm_package_dependencies_chart_js": "2.9.4",
   "npm_package_dependencies_react_player": "2.6.2",
   "npm_package_browserslist_production_0": ">0.2%",
@@ -343,5 +344,6 @@ window.env = {
   "BACKEND_WS_URL": "wss://dev.backoffice.efnl.xivdp.com",
   "GOOLE_CLIENT_ID": "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
   "FACEBOOK_APP_ID": "2887719924809264",
-  "PORT": "3004"
+  "PORT": "3004",
+  "ENVIRONMENT": "testing"
 };
