@@ -30,6 +30,20 @@ const DashboardRoutes = [
     meta: {
       authRoute: true
     }
+  },
+  {
+    path: '/rooms',
+    component: lazy(() => import('../../views/Room')),
+    meta: {
+      authRoute: true
+    }
+  },
+  {
+    path: '/create-room',
+    component: lazy(() => import('../../views/Room/createRoom.js')),
+    meta: {
+      authRoute: true
+    }
   }
 ]
 

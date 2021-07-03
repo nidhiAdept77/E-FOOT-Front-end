@@ -2,7 +2,8 @@ const {SET_USERS_ROOMS, SET_LOADER} = require('../../types')
 
 const initialState = {
     loading: false,
-    rooms: []
+    rooms: [],
+    total: 0
 }
 
 export default (state = initialState, action) => {

@@ -13,10 +13,16 @@ export default [
       navLink: "/layout-settings"
     },
     {
-        id: 'createRoom',
-        title: 'Create Room',
+        id: 'rooms',
+        title: 'Rooms',
         icon: <SiGoogleclassroom />,
-        navLink: '/create-room'
+        navLink: '/rooms'
+    },
+    {
+      id: 'createRoom',
+      title: 'Create Room',
+      icon: <SiGoogleclassroom />,
+      navLink: '/create-room'
     },
     {
       id: 'createConsole',
