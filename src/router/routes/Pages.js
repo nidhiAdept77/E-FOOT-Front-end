@@ -64,6 +64,20 @@ const PagesRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/terms-of-use',
+    component: lazy(() => import('../../views/pages/misc/TermsOfUse')),
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: '/privacy-policy',
+    component: lazy(() => import('../../views/pages/misc/PrivacyPolicy')),
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 
