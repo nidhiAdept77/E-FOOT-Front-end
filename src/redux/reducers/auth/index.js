@@ -1,9 +1,10 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER, SET_ONLINE_USERS, UPDATE_ONLINE_USERS, REMOVE_ONLINE_USERS,  UPDATE_OFFLINE_USERS} from '../../types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_LOADER, SET_ONLINE_USERS, UPDATE_ONLINE_USERS, REMOVE_ONLINE_USERS,  UPDATE_OFFLINE_USERS, SET_ALL_USERS} from '../../types'
 
 const initialState = {
     user: {},
     loading: false,
-    onlineUsers: []
+    onlineUsers: [],
+    allUsers: []
 }
 
 export default function (state = initialState, action) {
@@ -43,6 +44,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 loading: payload
+            }
+        case SET_ALL_USERS: 
+            return {
+                ...state,
+                allUsers: payload
             }
         default:
             return state

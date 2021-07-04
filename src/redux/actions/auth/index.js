@@ -1,4 +1,4 @@
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS} from '../../types'
+import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS, SET_ALL_USERS} from '../../types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
@@ -673,5 +673,57 @@ export const getInitOnlineUsers = () => async dispatch => {
 export const removeOnlineUsers = () => dispatch => {
     dispatch({
         type: REMOVE_ONLINE_USERS
+    })
+}
+
+export const getAllUsers = () => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const allUser = gql`
+          query {
+            users {
+              statusCode
+              success
+              nextToken
+              data {
+                firstName
+                lastName
+                email
+                profilePicture
+                profileBg
+              }
+            }
+          }
+        `
+        const result = await client.query({
+            query:allUser
+        })
+        const data = result.data
+        //handleAuthResponse(data.users)
+        dispatch({
+            type: SET_ALL_USERS,
+            payload: getFieldValue(data, "users.data") || []
+        })
+
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const removeAllUsers = () => dispatch => {
+    dispatch({
+        type: SET_ALL_USERS,
+        payload: []
     })
 }
