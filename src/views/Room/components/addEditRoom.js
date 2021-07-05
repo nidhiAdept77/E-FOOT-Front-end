@@ -1,33 +1,26 @@
 // ** Third Party Components
 import { User, X } from "react-feather"
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  Label
+import { Button, Modal, ModalHeader, ModalBody, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Label, Col
 } from "reactstrap"
 
 import { selectThemeColors } from "@utils"
 import Select from "react-select"
 import makeAnimated from "react-select/animated"
+import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
 
 import { getAllUsers, removeAllUsers } from "@store/actions/auth"
 import { useSelector, useDispatch } from "react-redux"
+import {setAddEditPopup} from '@src/redux/actions/layout'
+
 
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss"
 import { useEffect, useState } from "react"
 
-const AddEditRoom = ({ open, handleModal }) => {
+const AddEditRoom = (props) => {
   const { allUsers } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-
+  const {addEditPopup} = useSelector(state => state.layout)
   const [selectedUsers, setSelectedUsers] = useState([])
 
   useEffect(() => {
@@ -38,22 +31,24 @@ const AddEditRoom = ({ open, handleModal }) => {
   }, [])
   // ** Custom close btn
   const CloseBtn = (
-    <X className="cursor-pointer" size={15} onClick={handleModal} />
+    <X className="cursor-pointer" size={15} onClick={e => { dispatch(setAddEditPopup(false)) }} />
   )
-
+  const handleModal = () => {
+    dispatch(setAddEditPopup(!addEditPopup))
+  }
   const animatedComponents = makeAnimated()
 
   return (
     <Modal
-      isOpen={open}
-      toggle={handleModal}
+      isOpen={addEditPopup}
+      toggle={e => handleModal()}
       className="sidebar-sm"
       modalClassName="modal-slide-in"
       contentClassName="pt-0"
     >
       <ModalHeader
         className="mb-3"
-        toggle={handleModal}
+        toggle={e => handleModal()}
         close={CloseBtn}
         tag="div"
       >
@@ -91,10 +86,10 @@ const AddEditRoom = ({ open, handleModal }) => {
             onChange={(value) => setSelectedUsers(value)}
           />
         </FormGroup>
-        <Button className="mr-1" color="primary" onClick={handleModal}>
+        <Button className="mr-1" color="primary" onClick="">
           Submit
         </Button>
-        <Button color="secondary" onClick={handleModal} outline>
+        <Button color="secondary" onClick="" outline>
           Cancel
         </Button>
       </ModalBody>
@@ -102,4 +97,31 @@ const AddEditRoom = ({ open, handleModal }) => {
   )
 }
 
-export default AddEditRoom
+const AddEditBtn = ({data, isAdd}) => {
+  const dispatch = useDispatch()
+  const {addEditPopup} = useSelector(state => state.layout)
+  const handleOpen = () => {
+    dispatch(setAddEditPopup(!addEditPopup))
+  }
+  return isAdd ? 
+        <Col className="w-100 text-right">
+            <Button className='ml-2' color='primary' onClick={e => handleOpen()}>
+            <FiPlusSquare size={15} />
+            <span className='align-middle ml-50'>Add Room</span>
+            </Button>
+            <AddEditRoom />
+        </Col>
+      :
+      <div className='demo-inline-spacing'>
+        <Button.Ripple className='btn-icon' color='flat-success'>
+          <FiEdit size={16} />
+        </Button.Ripple>
+        <Button.Ripple className='btn-icon' color='flat-danger'>
+          <FiTrash2 size={16} />
+        </Button.Ripple>
+        <AddEditRoom data={data} />
+
+      </div>
+}
+
+export default AddEditBtn

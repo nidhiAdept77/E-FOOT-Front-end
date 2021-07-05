@@ -3,20 +3,26 @@ import Breadcrumbs from '@components/breadcrumbs'
 import { FormattedMessage } from 'react-intl'
 import LoaderComponent from '../components/Loader'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Card, Row, Col, Label, Input, Button, CardHeader } from 'reactstrap'
 import DataTable from 'react-data-table-component'
 import { ChevronDown, Plus } from 'react-feather' 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import {getUsersRoom, removeUsersRoom} from '@src/redux/actions/rooms'
+import {setAddEditPopup} from '@src/redux/actions/layout'
 import ReactPaginate from 'react-paginate'
 
 // ** Add New Modal Component
-import AddEditRoom from './components/addEditRoom'
 import {columns} from "./components/roomColumns"
+import AddEditBtn from './components/addEditRoom'
 
-function Rooms({loading, total, getUsersRoom, removeUsersRoom, rooms}) {
+function Rooms(props) {
+
+    const dispatch = useDispatch()
+    const {loading, total, rooms} = useSelector(state => state.rooms)
+    const {addEditPopup} = useSelector(state => state.layout)
+    console.log('addEditPopup: ', addEditPopup)
 
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(7)
@@ -24,9 +30,10 @@ function Rooms({loading, total, getUsersRoom, removeUsersRoom, rooms}) {
     const [modal, setModal] = useState(false)
 
     useEffect(() => {
-        getUsersRoom(limit, currentPage, searchValue)
+        dispatch(getUsersRoom(limit, currentPage, searchValue))
         return () => {
-            removeUsersRoom()
+            dispatch(removeUsersRoom())
+            dispatch(setAddEditPopup(false))
         }
     }, [])
 
@@ -87,12 +94,7 @@ function Rooms({loading, total, getUsersRoom, removeUsersRoom, rooms}) {
                         onChange={e => handleFilter(e.currentTarget.value)}
                         />
                     </Col>
-                    <Col className="w-100 text-right">
-                        <Button className='ml-2' color='primary' onClick={handleModal}>
-                        <Plus size={15} />
-                        <span className='align-middle ml-50'>Add Room</span>
-                        </Button>
-                    </Col>
+                    <AddEditBtn isAdd={true} />
                 </Row>
 
                 <DataTable
@@ -107,7 +109,7 @@ function Rooms({loading, total, getUsersRoom, removeUsersRoom, rooms}) {
                     data={rooms}
                 />
             </Card>
-            <AddEditRoom open={modal} handleModal={handleModal} />
+            {/* <AddEditRoom open={addEditPopup} /> */}
         </Fragment>
     )
 }
@@ -119,11 +121,4 @@ Rooms.propTypes = {
     rooms: PropTypes.array.isRequired
 }
 
-
-const mapStateToProps = state => ({
-    loading: state.rooms.loading,
-    total: state.rooms.total,
-    rooms: state.rooms.rooms
-})
-
-export default connect(mapStateToProps, {getUsersRoom, removeUsersRoom})(Rooms)
+export default Rooms

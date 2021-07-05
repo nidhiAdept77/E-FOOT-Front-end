@@ -1,5 +1,4 @@
-import { Button } from 'reactstrap'
-import { FiEdit, FiTrash2 } from "react-icons/fi"
+import AddEditBtn from './addEditRoom'
 import UserAvatarGroup from './avatarColumn'
 export const columns = [
   {
@@ -18,14 +17,7 @@ export const columns = [
     name: "Actions",
     sortable: false,
     cell: (row) => (
-      <div className='demo-inline-spacing'>
-        <Button.Ripple className='btn-icon' color='flat-success'>
-          <FiEdit size={16} />
-        </Button.Ripple>
-        <Button.Ripple className='btn-icon' color='flat-danger'>
-          <FiTrash2 size={16} />
-        </Button.Ripple>
-      </div>
+      <AddEditBtn data={row} isAdd={false} />
     )
   }
 ]

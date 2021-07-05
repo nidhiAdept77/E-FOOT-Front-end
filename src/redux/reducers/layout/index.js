@@ -1,6 +1,6 @@
 // ** ThemeConfig Import
 import themeConfig from '@configs/themeConfig'
-import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN} from '@src/redux/types'
+import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP} from '@src/redux/types'
 // ** Returns Initial Menu Collapsed State
 const initialMenuCollapsed = () => {
   const item = window.localStorage.getItem('menuCollapsed')
@@ -14,7 +14,8 @@ const initialState = {
   menuCollapsed: initialMenuCollapsed(),
   menuHidden: themeConfig.layout.menu.isHidden,
   contentWidth: themeConfig.layout.contentWidth,
-  showOnlineUserPopup: false
+  showOnlineUserPopup: false,
+  addEditPopup: false
 }
 
 const layoutReducer = (state = initialState, action) => {
@@ -30,6 +31,8 @@ const layoutReducer = (state = initialState, action) => {
       return { ...state, isRTL: action.value }
     case HANDLE_ONLINE_USER_HIDDEN:
       return {...state, showOnlineUserPopup: action.value}
+    case ADD_EDIT_POPUP:
+      return {...state, addEditPopup: action.value}
     default:
       return state
   }
