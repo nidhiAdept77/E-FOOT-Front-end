@@ -33,8 +33,8 @@ export default [
     id: 'wallet',
     title: 'Wallet',
     icon: <CreditCard />,
-    // navLink: '/wallet'
-    navLink: '/#'
+    navLink: '/wallet'
+    // navLink: '/#'
   },
   {
     id: 'profile',
