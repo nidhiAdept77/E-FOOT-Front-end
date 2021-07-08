@@ -689,6 +689,7 @@ export const getAllUsers = () => async dispatch => {
               success
               nextToken
               data {
+                _id
                 firstName
                 lastName
                 email

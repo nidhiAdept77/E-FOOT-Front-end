@@ -1,4 +1,4 @@
-import AddEditBtn from './addEditRoom'
+import AddEditBtn from './addEditButtons'
 import UserAvatarGroup from './avatarColumn'
 export const columns = [
   {

@@ -14,6 +14,7 @@ export const getUsersRoom = () => async dispatch => {
                     data{
                         _id
                         name
+                        userIds
                         type
                         default
                     }

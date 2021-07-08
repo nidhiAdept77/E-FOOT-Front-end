@@ -6,29 +6,43 @@ import { Button, Modal, ModalHeader, ModalBody, FormGroup, InputGroup, InputGrou
 import { selectThemeColors } from "@utils"
 import Select from "react-select"
 import makeAnimated from "react-select/animated"
-import { FiEdit, FiTrash2, FiPlusSquare } from "react-icons/fi"
+import _ from 'underscore'
 
 import { getAllUsers, removeAllUsers } from "@store/actions/auth"
 import { useSelector, useDispatch } from "react-redux"
-import {setAddEditPopup} from '@src/redux/actions/layout'
+import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
 
 
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss"
 import { useEffect, useState } from "react"
 
-const AddEditRoom = (props) => {
+const AddEditRoom = () => {
   const { allUsers } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const {addEditPopup} = useSelector(state => state.layout)
-  const [selectedUsers, setSelectedUsers] = useState([])
+  const {addEditPopup, addEditPopupData} = useSelector(state => state.layout)
+  const userList = []
+  if (addEditPopupData && addEditPopupData.userIds && addEditPopupData.userIds.length) {
+    _.each(addEditPopupData.userIds, id => {
+      const user = _.findWhere(allUsers, { _id: id })
+      if (user) {
+        userList.push({
+          value: user._id,
+          label: `${user.firstName} ${user.lastName}`
+        })
+      }
+    })
+  }
+  const [selectedUsers, setSelectedUsers] = useState(userList)
 
   useEffect(() => {
     dispatch(getAllUsers())
     return () => {
       dispatch(removeAllUsers())
+      dispatch(setAddEditPopupData({}))
     }
   }, [])
+
   // ** Custom close btn
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={e => { dispatch(setAddEditPopup(false)) }} />
@@ -63,7 +77,7 @@ const AddEditRoom = (props) => {
                 <User size={15} />
               </InputGroupText>
             </InputGroupAddon>
-            <Input id="name" placeholder="Football Group" />
+            <Input id="name" value={addEditPopupData ? addEditPopupData.name : ""} placeholder="Football Group" />
           </InputGroup>
         </FormGroup>
         <FormGroup>
@@ -81,9 +95,12 @@ const AddEditRoom = (props) => {
               }
             })}
             value={selectedUsers}
+            defaultValue=""
             className="react-select"
             classNamePrefix="select"
-            onChange={(value) => setSelectedUsers(value)}
+            onChange={(value) => { 
+              setSelectedUsers(value)
+            }}
           />
         </FormGroup>
         <Button className="mr-1" color="primary" onClick="">
@@ -97,31 +114,4 @@ const AddEditRoom = (props) => {
   )
 }
 
-const AddEditBtn = ({data, isAdd}) => {
-  const dispatch = useDispatch()
-  const {addEditPopup} = useSelector(state => state.layout)
-  const handleOpen = () => {
-    dispatch(setAddEditPopup(!addEditPopup))
-  }
-  return isAdd ? 
-        <Col className="w-100 text-right">
-            <Button className='ml-2' color='primary' onClick={e => handleOpen()}>
-            <FiPlusSquare size={15} />
-            <span className='align-middle ml-50'>Add Room</span>
-            </Button>
-            <AddEditRoom />
-        </Col>
-      :
-      <div className='demo-inline-spacing'>
-        <Button.Ripple className='btn-icon' color='flat-success'>
-          <FiEdit size={16} />
-        </Button.Ripple>
-        <Button.Ripple className='btn-icon' color='flat-danger'>
-          <FiTrash2 size={16} />
-        </Button.Ripple>
-        <AddEditRoom data={data} />
-
-      </div>
-}
-
-export default AddEditBtn
+export default AddEditRoom

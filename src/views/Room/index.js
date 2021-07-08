@@ -4,9 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import LoaderComponent from '../components/Loader'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Row, Col, Label, Input, Button, CardHeader } from 'reactstrap'
+import { Card, Row, Col, Label, Input } from 'reactstrap'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Plus } from 'react-feather' 
+import { ChevronDown } from 'react-feather' 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import {getUsersRoom, removeUsersRoom} from '@src/redux/actions/rooms'
@@ -15,19 +15,18 @@ import ReactPaginate from 'react-paginate'
 
 // ** Add New Modal Component
 import {columns} from "./components/roomColumns"
-import AddEditBtn from './components/addEditRoom'
+import AddEditBtn from './components/addEditButtons'
+import AddEditRoom from './components/addEditRoom'
 
 function Rooms(props) {
 
     const dispatch = useDispatch()
     const {loading, total, rooms} = useSelector(state => state.rooms)
     const {addEditPopup} = useSelector(state => state.layout)
-    console.log('addEditPopup: ', addEditPopup)
 
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(7)
     const [currentPage, setCurrentPage] = useState(0)
-    const [modal, setModal] = useState(false)
 
     useEffect(() => {
         dispatch(getUsersRoom(limit, currentPage, searchValue))
@@ -72,9 +71,6 @@ function Rooms(props) {
         )
     }
 
-    // ** Function to handle Modal toggle
-    const handleModal = () => setModal(!modal)
-
     return (
         <Fragment>
             <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Rooms" />} breadCrumbActive={<FormattedMessage id="Rooms" />} />
@@ -109,16 +105,9 @@ function Rooms(props) {
                     data={rooms}
                 />
             </Card>
-            {/* <AddEditRoom open={addEditPopup} /> */}
+            <AddEditRoom />
         </Fragment>
     )
-}
-
-Rooms.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    getUsersRoom: PropTypes.func.isRequired,
-    removeUsersRoom: PropTypes.func.isRequired,
-    rooms: PropTypes.array.isRequired
 }
 
 export default Rooms
