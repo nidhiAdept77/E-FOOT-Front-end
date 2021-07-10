@@ -1,4 +1,4 @@
-const {SET_USERS_ROOMS, SET_LOADER} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, SET_LOADER} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -15,6 +15,11 @@ export default (state = initialState, action) => {
                 laoding: payload
             }
         case SET_USERS_ROOMS:
+            return {
+                ...state,
+                rooms: payload
+            }
+        case SET_ALL_ROOMS:
             return {
                 ...state,
                 rooms: payload

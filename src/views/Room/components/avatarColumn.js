@@ -1,25 +1,37 @@
 import AvatarGroup from '@components/avatar-group'
+import _ from 'underscore'
 
-const data = [
-  {
-    title: 'Vinnie Mostowy'
-  },
-  {
-    title: 'Elicia Rieske'
-  },
-  {
-    title: 'Julee Rossignol'
-  },
-  {
-    title: 'Darcey Nooner'
-  },
-  {
-    title: 'Jenny Looper'
-  }
-]
+import { useSelector } from "react-redux"
+import { useEffect, useState } from 'react'
 
-const UserAvatarGroup = () => {
-  return <AvatarGroup data={data} />
+const UserAvatarGroup = ({users}) => {
+  const { allUsers } = useSelector((state) => state.auth)
+
+  const [roomUser, setRoomUser] = useState([])
+
+  useEffect(() => {
+    
+    const userList = []
+
+    users.forEach(id => {
+      const user = _.findWhere(allUsers, { _id: id })
+      if (user) {
+        const {firstName, lastName, profileImage} = user
+        userList.push({
+          title: `${firstName} ${lastName}`,
+          img: profileImage
+        })
+      }
+    })
+
+    setRoomUser(userList)
+
+    return () => {
+      setRoomUser([])
+    }
+  }, [allUsers])
+
+  return <AvatarGroup data={ roomUser.length ? roomUser : [] } />
 }
 
-export default UserAvatarGroup
+export default UserAvatarGroup 

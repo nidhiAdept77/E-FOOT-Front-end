@@ -9,7 +9,7 @@ import DataTable from 'react-data-table-component'
 import { ChevronDown } from 'react-feather' 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-import {getUsersRoom, removeUsersRoom} from '@src/redux/actions/rooms'
+import {getRooms, removeRooms} from '@src/redux/actions/rooms'
 import {setAddEditPopup} from '@src/redux/actions/layout'
 import ReactPaginate from 'react-paginate'
 
@@ -29,9 +29,9 @@ function Rooms(props) {
     const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-        dispatch(getUsersRoom(limit, currentPage, searchValue))
+        dispatch(getRooms(limit, currentPage, searchValue))
         return () => {
-            dispatch(removeUsersRoom())
+            dispatch(removeRooms())
             dispatch(setAddEditPopup(false))
         }
     }, [])
@@ -39,12 +39,12 @@ function Rooms(props) {
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
-            getUsersRoom(limit, currentPage, value)
+            getRooms(limit, currentPage, value)
         }, 100)
     }
 
     const handlePagination = page => {
-        getUsersRoom(limit, page.selected, searchValue)
+        getRooms(limit, page.selected, searchValue)
         setCurrentPage(page.selected + 1)
     }
 

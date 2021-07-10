@@ -1,7 +1,6 @@
 // ** Third Party Components
 import { User, X } from "react-feather"
-import { Button, Modal, ModalHeader, ModalBody, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Label, Col
-} from "reactstrap"
+import { Button, Modal, ModalHeader, ModalBody, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Label, Form, FormFeedback } from "reactstrap"
 
 import { selectThemeColors } from "@utils"
 import Select from "react-select"
@@ -10,30 +9,44 @@ import _ from 'underscore'
 
 import { getAllUsers, removeAllUsers } from "@store/actions/auth"
 import { useSelector, useDispatch } from "react-redux"
-import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
-
+import { setAddEditPopup, setAddEditPopupData } from "@src/redux/actions/layout"
+import { updateRoom } from "@src/redux/actions/rooms"
 
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss"
 import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import classnames from 'classnames'
+
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { showToastMessage } from "../../../redux/actions/toastNotification"
 
 const AddEditRoom = () => {
   const { allUsers } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const {addEditPopup, addEditPopupData} = useSelector(state => state.layout)
-  const userList = []
-  if (addEditPopupData && addEditPopupData.userIds && addEditPopupData.userIds.length) {
-    _.each(addEditPopupData.userIds, id => {
-      const user = _.findWhere(allUsers, { _id: id })
-      if (user) {
-        userList.push({
-          value: user._id,
-          label: `${user.firstName} ${user.lastName}`
-        })
-      }
-    })
-  }
-  const [selectedUsers, setSelectedUsers] = useState(userList)
+  const { addEditPopup, addEditPopupData } = useSelector((state) => state.layout)
+  const [selectedUsers, setSelectedUsers] = useState([])
+  const {_id} = addEditPopupData
+
+  useEffect(() => {
+    const userList = []
+    if (addEditPopupData && addEditPopupData.userIds && addEditPopupData.userIds.length) {
+      _.each(addEditPopupData.userIds, (id) => {
+        const user = _.findWhere(allUsers, { _id: id })
+        if (user) {
+          userList.push({
+            value: user._id,
+            label: `${user.firstName} ${user.lastName}`
+          })
+        }
+      })
+    }
+    setSelectedUsers(userList)
+    return () => {
+      setSelectedUsers([])
+    }
+  }, [addEditPopupData.userIds])
 
   useEffect(() => {
     dispatch(getAllUsers())
@@ -47,6 +60,34 @@ const AddEditRoom = () => {
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={e => { dispatch(setAddEditPopup(false)) }} />
   )
+  
+  const roomSchema = yup.object().shape({
+    name: yup.string().required()
+    //selectedUsers: yup.array().required('Please select users')
+  })
+
+  const { register, errors, handleSubmit } = useForm({ mode: 'onBlur', resolver: yupResolver(roomSchema) })
+
+  const onSubmit = async (data) => {
+    const userIds = selectedUsers.map(user => user.value)
+    data = {...data, userIds, id: _id}
+    if (_.isEmpty(errors)) {
+        try {
+            const result = await dispatch(updateRoom(data))
+            console.log('result: ', result)
+            if (result.success) {
+              showToastMessage(result.message, 'success')
+              dispatch(setAddEditPopup(false))
+            } else {
+                showToastMessage(result.message, 'error')
+            }
+        } catch (error) {
+            console.error('error: ', error)
+            showToastMessage(error.message, 'error')
+        }
+    }
+}
+
   const handleModal = () => {
     dispatch(setAddEditPopup(!addEditPopup))
   }
@@ -69,46 +110,62 @@ const AddEditRoom = () => {
         <h5 className="modal-title">Room</h5>
       </ModalHeader>
       <ModalBody className="flex-grow-1">
-        <FormGroup>
-          <Label for="name">Room Name</Label>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <User size={15} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input id="name" value={addEditPopupData ? addEditPopupData.name : ""} placeholder="Football Group" />
-          </InputGroup>
-        </FormGroup>
-        <FormGroup>
-          <Label>Select Users</Label>
-          <Select
-            isClearable={false}
-            theme={selectThemeColors}
-            closeMenuOnSelect={false}
-            components={animatedComponents}
-            isMulti
-            options={allUsers.map(user => {
-              return {
-                value: user._id,
-                label: `${user.firstName} ${user.lastName}`
-              }
-            })}
-            value={selectedUsers}
-            defaultValue=""
-            className="react-select"
-            classNamePrefix="select"
-            onChange={(value) => { 
-              setSelectedUsers(value)
-            }}
-          />
-        </FormGroup>
-        <Button className="mr-1" color="primary" onClick="">
-          Submit
-        </Button>
-        <Button color="secondary" onClick="" outline>
-          Cancel
-        </Button>
+        <Form
+          className="auth-login-form mt-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <FormGroup>
+            <Label for="name">Room Name</Label>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>
+                  <User size={15} />
+                </InputGroupText>
+              </InputGroupAddon>
+              <Input
+                id="name"
+                value={addEditPopupData ? addEditPopupData.name : ""}
+                placeholder="Football Group"
+                className={classnames({ 'is-invalid': errors['name'] })}
+                innerRef={register({ required: true, validate: value => value !== '' })}
+                invalid={errors.name && true}   
+                name="name"   
+              />
+              {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
+            </InputGroup>
+          </FormGroup>
+          <FormGroup>
+            <Label>Select Users</Label>
+            <Select
+              isClearable={false}
+              theme={selectThemeColors}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              options={allUsers.map((user) => {
+                return {
+                  value: user._id,
+                  label: `${user.firstName} ${user.lastName}`
+                }
+              })}
+              value={selectedUsers}
+              className="select-users"
+              classNamePrefix="select-users"
+              onChange={(value) => setSelectedUsers(value)} 
+              innerRef={register({ required: true })}
+              className={classnames({ 'is-invalid': errors.selectedUsers })}  
+              name="select-users"     
+            />
+            {errors && errors.selectedUsers && <FormFeedback>{errors.selectedUsers.message}</FormFeedback>}
+          </FormGroup>
+
+          <Button.Ripple className="mr-1" color="primary" type='submit'>
+            Submit
+          </Button.Ripple>
+          <Button color="secondary" onClick={e => { dispatch(setAddEditPopup(false)) }} outline>
+            Cancel
+          </Button>
+        </Form>
       </ModalBody>
     </Modal>
   )

@@ -693,7 +693,7 @@ export const getAllUsers = () => async dispatch => {
                 firstName
                 lastName
                 email
-                profilePicture
+                profileImage
                 profileBg
               }
             }
