@@ -3,10 +3,11 @@ import { Button, Col } from "reactstrap"
 
 import { useSelector, useDispatch } from "react-redux"
 import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
+import { deleteRoom } from "@src/redux/actions/rooms"
 
 const AddEditBtn = ({isAdd, data}) => {
     const dispatch = useDispatch()
-    const {addEditPopup, addEditPopupData} = useSelector(state => state.layout)
+    const {addEditPopup} = useSelector(state => state.layout)
     const handleOpen = (setData) => {
       dispatch(setAddEditPopup(!addEditPopup))
       if (setData) {
@@ -15,6 +16,12 @@ const AddEditBtn = ({isAdd, data}) => {
           dispatch(setAddEditPopupData({}))
       }
     }
+
+    const handleClick = () => {
+      const {_id} = data
+      dispatch(deleteRoom(_id))
+    }
+
     return isAdd ? (
       <Col className="w-100 text-right">
         <Button className="ml-2" color="primary" onClick={(e) => handleOpen(false)}>
@@ -31,7 +38,7 @@ const AddEditBtn = ({isAdd, data}) => {
         >
           <FiEdit size={16} />
         </Button.Ripple>
-        <Button.Ripple className="btn-icon" color="flat-danger">
+        <Button.Ripple className="btn-icon" onClick={(e) => handleClick()} color="flat-danger">
           <FiTrash2 size={16} />
         </Button.Ripple>
       </div>

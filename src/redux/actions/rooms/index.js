@@ -136,3 +136,43 @@ export const updateRoom = ({id, name, userIds}) => async dispatch => {
         })
     }
 }
+
+export const deleteRoom = (id) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const removeRoomMutation = gql`
+            mutation removeRoom($input: RemoveRoomInput){
+                removeRoom(input: $input){
+                    statusCode
+                    success
+                    message
+                    data{
+                        _id
+                    }
+                }
+            }`
+        const {data} = await client.mutate({
+            mutation: removeRoomMutation,
+            variables: {
+                input: {
+                    _id: id
+                }
+            }
+        })
+        handleAuthResponse(data.removeRoomMutation)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.removeRoomMutation
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
