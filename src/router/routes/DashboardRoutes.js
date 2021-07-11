@@ -32,15 +32,8 @@ const DashboardRoutes = [
     }
   },
   {
-    path: '/rooms',
-    component: lazy(() => import('../../views/Room')),
-    meta: {
-      authRoute: true
-    }
-  },
-  {
-    path: '/create-room',
-    component: lazy(() => import('../../views/Room/createRoom.js')),
+    path: '/chat',
+    component: lazy(() => import('../../views/chat')),
     meta: {
       authRoute: true
     }
