@@ -1,4 +1,4 @@
-import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN} from '@src/redux/types'
+import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP, ADD_EDIT_POPUP_DATA} from '@src/redux/types'
 
 
 // ** Handles Layout Content Width (full / boxed)
@@ -16,3 +16,15 @@ export const handleRTL = value => dispatch => dispatch({ type: HANDLE_RTL, value
 export const handleStaticPage = value => dispatch => dispatch({ type: HANDLE_STATIC_PAGE, value })
 
 export const handleOnlineUserHidden = value => dispatch => dispatch({ type: HANDLE_ONLINE_USER_HIDDEN, value})
+
+export const setAddEditPopup = value => dispatch => {
+    dispatch({ 
+        type: ADD_EDIT_POPUP,
+        value
+    })
+}
+
+export const setAddEditPopupData = value => dispatch => dispatch({
+    type:ADD_EDIT_POPUP_DATA,
+    value
+})

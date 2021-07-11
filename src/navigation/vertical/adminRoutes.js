@@ -19,12 +19,6 @@ export default [
         navLink: '/rooms'
     },
     {
-      id: 'createRoom',
-      title: 'Create Room',
-      icon: <SiGoogleclassroom />,
-      navLink: '/create-room'
-    },
-    {
       id: 'createConsole',
       title: 'Create Console',
       icon: <GiGameConsole />,
