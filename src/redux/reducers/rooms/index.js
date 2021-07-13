@@ -1,4 +1,4 @@
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, SET_LOADER} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -23,6 +23,23 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 rooms: payload
+            }
+        case UPDATE_USER_ROOMS:
+            return {
+                ...state,
+                rooms: state.rooms.map(room => {
+                    if (room._id === payload._id) {
+                        console.log('payload: ', payload)
+                        console.log('room._id === payload._id: ', room._id === payload._id)
+                        return payload
+                    }
+                    return room
+                })
+            }
+        case DELETE_USER_ROOM:
+            return {
+                ...state,
+                rooms: state.rooms.filter(room => room._id !== payload._id)
             }
         default:
             return state

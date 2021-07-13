@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_LOADER, SET_ALL_ROOMS} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER} = require('../../types')
 
 export const getUsersRoom = () => async dispatch => {
     try {
@@ -124,6 +124,10 @@ export const updateRoom = ({id, name, userIds}) => async dispatch => {
         })
         handleAuthResponse(data.addRoom)
         dispatch({
+            type: UPDATE_USER_ROOMS,
+            payload: data.addRoom.data
+        })
+        dispatch({
             type: SET_LOADER,
             payload: false
         })
@@ -163,6 +167,10 @@ export const deleteRoom = (id) => async dispatch => {
             }
         })
         handleAuthResponse(data.removeRoom)
+        dispatch({
+            type: DELETE_USER_ROOM,
+            payload: data.removeRoom.data
+        })
         dispatch({
             type: SET_LOADER,
             payload: false
