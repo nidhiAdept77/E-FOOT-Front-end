@@ -1,5 +1,6 @@
 import { CreditCard, Crosshair, Inbox, LifeBuoy, List, Mail, Radio, Server, Shield, Trello, User, UserPlus, Users } from 'react-feather'
 import { AiOutlineHome } from "react-icons/ai"
+import { RiChatSmile3Line } from "react-icons/ri"
 
 export default [
   {
@@ -13,6 +14,12 @@ export default [
     title: 'Dashboard',
     icon: <Inbox />,
     navLink: '/dashboard'
+  },
+  {
+    id: 'chat',
+    title: 'Cahts',
+    icon: <RiChatSmile3Line />,
+    navLink: '/chat'
   },
   {
     id: 'myMatch',
