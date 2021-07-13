@@ -33,6 +33,8 @@ const DashboardRoutes = [
   },
   {
     path: '/chat',
+    appLayout: true,
+    className: 'chat-application',
     component: lazy(() => import('../../views/chat')),
     meta: {
       authRoute: true

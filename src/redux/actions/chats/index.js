@@ -4,7 +4,7 @@ import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG} from '../../types'
 import axios from 'axios'
-import data from '@src/assets/data/chat-data'
+import {data} from '@src/assets/data/chat-data'
 
 const MessageFragment = gql`
     fragment MessageData on Message {
@@ -193,17 +193,42 @@ export const selectChat = id => dispatch => {
     if (chat) chat.unseenMsgs = 0
     const contact = data.contacts.find(c => c.id === userId)
     if (contact.chat) contact.chat.unseenMsgs = 0
-    let result = { chat, contact }
+    const result = { chat, contact }
     dispatch({ type: SELECT_CHAT, data: result })
     dispatch(getChatContacts())
 }
 
 // ** Send Msg
 export const sendMsg = obj => {
-  return dispatch => {
-    axios.post('/apps/chat/send-msg', { obj }).then(res => {
-      dispatch({ type: SEND_MSG, data: res.data })
-      dispatch(selectChat(obj.contact.id))
-    })
+    let activeChat = data.chats.find(chat => chat.userId === obj.contact.id)
+
+  const newMessageData = {
+    message: obj.message,
+    time: new Date(),
+    senderId: 11
   }
+  // If there's new chat for user create one
+  let isNewChat = false
+  if (activeChat === undefined) {
+    isNewChat = true
+
+    const { length } = data.chats
+    // const lastId = data.chats[length - 1].id
+
+    data.chats.push({
+      id: obj.contact.id,
+      userId: obj.contact.id,
+      unseenMsgs: 0,
+      chat: [newMessageData]
+    })
+    activeChat = data.chats[data.chats.length - 1]
+  } else {
+    activeChat.chat.push(newMessageData)
+  }
+
+  const response = { newMessageData, id: obj.contact.id }
+  if (isNewChat) response.chat = activeChat
+  dispatch({ type: SEND_MSG, data: response })
+  dispatch(selectChat(obj.contact.id))
+  
 }

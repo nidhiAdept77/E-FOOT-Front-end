@@ -11,7 +11,7 @@ import classnames from 'classnames'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserProfile, getChatContacts } from './store/actions'
+import { getUserProfile, getChatContacts } from '@store/actions/chats'
 
 import '@styles/base/pages/app-chat.scss'
 import '@styles/base/pages/app-chat-list.scss'
@@ -19,7 +19,7 @@ import '@styles/base/pages/app-chat-list.scss'
 const AppChat = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.chat)
+  const store = useSelector(state => state.chats)
 
   // ** States
   const [user, setUser] = useState({})
