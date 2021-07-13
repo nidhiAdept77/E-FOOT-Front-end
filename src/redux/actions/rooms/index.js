@@ -122,12 +122,12 @@ export const updateRoom = ({id, name, userIds}) => async dispatch => {
                 }
             }
         })
-        handleAuthResponse(data.addRoomMutation)
+        handleAuthResponse(data.addRoom)
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        return data.addRoomMutation
+        return data.addRoom
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -162,12 +162,12 @@ export const deleteRoom = (id) => async dispatch => {
                 }
             }
         })
-        handleAuthResponse(data.removeRoomMutation)
+        handleAuthResponse(data.removeRoom)
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        return data.removeRoomMutation
+        return data.removeRoom
     } catch (error) {
         console.error('error: ', error)
         dispatch({
