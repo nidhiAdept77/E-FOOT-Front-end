@@ -15,7 +15,7 @@ import { updateRoom } from "@src/redux/actions/rooms"
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 import classnames from 'classnames'
 
 import * as yup from 'yup'
@@ -66,7 +66,7 @@ const AddEditRoom = () => {
     //selectedUsers: yup.array().required('Please select users')
   })
 
-  const { register, errors, handleSubmit } = useForm({ mode: 'onBlur', resolver: yupResolver(roomSchema) })
+  const { register, errors, handleSubmit, setValue, control } = useForm({ mode: 'onBlur', resolver: yupResolver(roomSchema) })
 
   const onSubmit = async (data) => {
     const userIds = selectedUsers.map(user => user.value)
@@ -74,7 +74,6 @@ const AddEditRoom = () => {
     if (_.isEmpty(errors)) {
         try {
             const result = await dispatch(updateRoom(data))
-            console.log('result: ', result)
             if (result.success) {
               showToastMessage(result.message, 'success')
               dispatch(setAddEditPopup(false))
@@ -122,15 +121,18 @@ const AddEditRoom = () => {
                   <User size={15} />
                 </InputGroupText>
               </InputGroupAddon>
-              <Input
-                id="name"
-                value={addEditPopupData ? addEditPopupData.name : ""}
-                placeholder="Football Group"
-                className={classnames({ 'is-invalid': errors['name'] })}
-                innerRef={register({ required: true, validate: value => value !== '' })}
-                invalid={errors.name && true}   
-                name="name"   
-              />
+              <Controller
+                defaultValue={addEditPopupData ? addEditPopupData.name : ""}
+                control={control}
+                as={Input}
+                id='name'
+                name='name'
+                placeholder='Username'
+                innerRef={register({ required: true })}
+                onChange={e => setValue('userName', e.target.value)}
+                className={classnames({
+                  'is-invalid': errors.name
+                })} />
               {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
             </InputGroup>
           </FormGroup>
