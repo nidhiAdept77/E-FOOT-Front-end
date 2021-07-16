@@ -2,14 +2,13 @@ import React, { Fragment, useEffect, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import { FormattedMessage } from 'react-intl'
 import LoaderComponent from '../components/Loader'
-import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Card, Row, Col, Label, Input } from 'reactstrap'
 import DataTable from 'react-data-table-component'
 import { ChevronDown } from 'react-feather' 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-import {getRooms, removeRooms} from '@src/redux/actions/rooms'
+import {getPaginatedRooms, removeRooms} from '@src/redux/actions/rooms'
 import {setAddEditPopup} from '@src/redux/actions/layout'
 import ReactPaginate from 'react-paginate'
 
@@ -18,45 +17,43 @@ import {columns} from "./components/roomColumns"
 import AddEditBtn from './components/addEditButtons'
 import AddEditRoom from './components/addEditRoom'
 
-function Rooms(props) {
+const Rooms = props => {
 
     const dispatch = useDispatch()
     const {loading, total, rooms} = useSelector(state => state.rooms)
     const {addEditPopup} = useSelector(state => state.layout)
 
     const [searchValue, setSearchValue] = useState('')
-    const [limit, setLimit] = useState(7)
+    const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-        dispatch(getRooms(limit, currentPage, searchValue))
+        dispatch(getPaginatedRooms(limit, currentPage, searchValue))
         return () => {
             dispatch(removeRooms())
             dispatch(setAddEditPopup(false))
         }
-    }, [])
+    }, [searchValue])
 
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
-            getRooms(limit, currentPage, value)
+            getPaginatedRooms(limit, currentPage, value)
         }, 100)
     }
 
     const handlePagination = page => {
-        getRooms(limit, page.selected, searchValue)
+        dispatch(getPaginatedRooms(limit, page.selected, searchValue))
         setCurrentPage(page.selected + 1)
     }
 
     // ** Custom Pagination
     const CustomPagination = () => {
-        const count = Number(Math.ceil(total / limit))
-
         return (
         <ReactPaginate
             previousLabel={''}
             nextLabel={''}
-            pageCount={count || 1}
+            pageCount={total || 1}
             activeClassName='active'
             forcePage={currentPage !== 0 ? currentPage - 1 : 0}
             onPageChange={page => handlePagination(page)}
@@ -96,6 +93,7 @@ function Rooms(props) {
                 <DataTable
                     noHeader
                     pagination
+                    paginationServer
                     columns={columns || []}
                     paginationPerPage={limit}
                     className='react-dataTable'

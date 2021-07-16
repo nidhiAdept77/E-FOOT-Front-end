@@ -1,4 +1,6 @@
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER} = require('../../types')
+import _ from 'underscore'
+
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -24,17 +26,29 @@ export default (state = initialState, action) => {
                 ...state,
                 rooms: payload
             }
-        case UPDATE_USER_ROOMS:
+        case SET_TOTAL:
             return {
                 ...state,
-                rooms: state.rooms.map(room => {
-                    if (room._id === payload._id) {
-                        console.log('payload: ', payload)
-                        console.log('room._id === payload._id: ', room._id === payload._id)
-                        return payload
-                    }
-                    return room
-                })
+                total: payload
+            }
+        case UPDATE_USER_ROOMS:
+            const rooms = state.rooms
+            const roomFound = _.findWhere(rooms, {_id: payload._id})
+            if (roomFound) {
+                return {
+                    ...state,
+                    rooms: rooms.map(room => {
+                        if (room._id === payload._id) {
+                            return payload
+                        }
+                        return room
+                    })
+                }
+            } else {
+                return {
+                    ...state,
+                    rooms: [...rooms, payload]
+                }
             }
         case DELETE_USER_ROOM:
             return {

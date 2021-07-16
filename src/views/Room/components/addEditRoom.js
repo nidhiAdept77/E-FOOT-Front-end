@@ -115,26 +115,19 @@ const AddEditRoom = () => {
         >
           <FormGroup>
             <Label for="name">Room Name</Label>
-            <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <User size={15} />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Controller
-                defaultValue={addEditPopupData ? addEditPopupData.name : ""}
-                control={control}
-                as={Input}
-                id='name'
-                name='name'
-                placeholder='Username'
-                innerRef={register({ required: true })}
-                onChange={e => setValue('userName', e.target.value)}
-                className={classnames({
-                  'is-invalid': errors.name
-                })} />
-              {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
-            </InputGroup>
+            <Controller
+              defaultValue={addEditPopupData ? addEditPopupData.name : ""}
+              control={control}
+              as={Input}
+              id='name'
+              name='name'
+              placeholder='Name'
+              innerRef={register({ required: true })}
+              onChange={e => setValue('name', e.target.value)}
+              className={classnames({
+                'is-invalid': errors.name
+              })} />
+            {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
           </FormGroup>
           <FormGroup>
             <Label>Select Users</Label>
@@ -150,12 +143,11 @@ const AddEditRoom = () => {
                   label: `${user.firstName} ${user.lastName}`
                 }
               })}
-              value={selectedUsers}
-              className="select-users"
-              classNamePrefix="select-users"
+              defaultValue={selectedUsers}
+              classNamePrefix='select'
               onChange={(value) => setSelectedUsers(value)} 
               innerRef={register({ required: true })}
-              className={classnames({ 'is-invalid': errors.selectedUsers })}  
+              className={classnames('react-select', { 'is-invalid': errors.selectedUsers })}  
               name="select-users"     
             />
             {errors && errors.selectedUsers && <FormFeedback>{errors.selectedUsers.message}</FormFeedback>}
