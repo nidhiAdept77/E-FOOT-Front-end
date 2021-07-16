@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL} = require('../../types')
 
 export const getUsersRoom = () => async dispatch => {
     try {
@@ -38,6 +38,88 @@ export const getUsersRoom = () => async dispatch => {
         }
     } catch (error) {
         console.error('error: ', error)
+    }
+}
+
+export const getPaginatedRooms = (limit, page, searchString) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const RoomQuery = gql`
+             query getRooms($limit: Int, $skip: Int, $searchString:String){
+                getRooms(limit: $limit, skip: $skip, searchString:$searchString ){
+                statusCode
+                success
+                message
+                data{
+                    totalPages
+                    skip
+                    limit
+                    data{
+                        _id
+                        name
+                        userIds
+                        userNames
+                        type
+                        default
+                        _id
+                    }
+                }
+                nextToken
+            }
+          }`
+        const {data} = await client.query({
+            query: RoomQuery,
+            variables: {
+                limit, 
+                skip: (page * limit),
+                searchString
+            }
+        })
+        handleAuthResponse(data.getRooms)
+        const {success} = data.getRooms
+        if (success) {
+            const rooms = getFieldValue(data, 'getRooms.data.data')
+            if (!_.isEmpty(rooms)) {
+                dispatch({
+                    type: SET_ALL_ROOMS,
+                    payload: rooms
+                })
+                dispatch({
+                    type: SET_TOTAL,
+                    payload: getFieldValue(data, 'getRooms.data.totalPages')
+                })
+            } else {
+                dispatch({
+                    type: SET_ALL_ROOMS,
+                    payload: []
+                })
+                dispatch({
+                    type: SET_TOTAL,
+                    payload: 0
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_ALL_ROOMS,
+            payload: []
+        })
+        dispatch({
+            type: SET_TOTAL,
+            payload: 0
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
     }
 }
 

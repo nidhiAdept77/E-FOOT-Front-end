@@ -41,13 +41,12 @@ const LayoutSettings = ({loading, getLayoutSettings, removeLayoutSettings, layou
 
     // ** Custom Pagination
     const CustomPagination = () => {
-        const count = Number(Math.ceil(total / limit))
 
         return (
         <ReactPaginate
             previousLabel={''}
             nextLabel={''}
-            pageCount={count || 1}
+            pageCount={total || 1}
             activeClassName='active'
             forcePage={currentPage !== 0 ? currentPage - 1 : 0}
             onPageChange={page => handlePagination(page)}
