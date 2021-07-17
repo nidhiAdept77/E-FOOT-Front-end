@@ -1,37 +1,39 @@
 .wallet{
     .toalBalance{
         padding: 1rem;
-        // background: linear-gradient(118deg, rgba($primary, 1), rgba($primary, 0.7));;
-        // color: #fff;
-        // border-radius: 10px;
+        color: #fff;
+        border-radius: 10px;
         .balance-content{
             display: flex;
             flex-direction: column;
             justify-content: center;
-            .walllet-icon{
-                width:100%;
-                height:100%;
-                max-height:130px;
-                max-width:130px;
-            }
-            .balance-heading{
-                font-size: 1.6rem;
-                line-height: 1.33333;
-                margin-bottom: 12px;
-                font-weight: bolder;
-            }
-            .balance{
-                font-size: 32px;
-                line-height: 1.2;
-                letter-spacing: -1px;
-                font-weight: 600;
-            }
+            font-size: 1.6rem;
+            line-height: 1.33333;
+            margin-bottom: 12px;
+            font-weight: bolder;
         }
+        .balance{
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            font-weight: 600;
+        }
+        .walllet-icon{
+            width:100%;
+            height:100%;
+            max-height:130px;
+            max-width:130px;
+        }
+        .balance-heading{
+    }
     }
     .wallet-actions{
         padding: 1rem;
         box-shadow: $box-shadow;
-        color: #fff;
         border-radius: 10px;
+        margin-bottom: 2rem;
+        .tab-content{
+            max-height: 220px;
+        }
     }
 }
