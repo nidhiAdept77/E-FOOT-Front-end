@@ -7,20 +7,23 @@ const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_
 export const getUsersRoom = () => async dispatch => {
     try {
         const RoomQuery = gql`
-            query{
-                roomByUserId{
-                    statusCode
-                    success
-                    data{
-                        _id
-                        name
-                        userIds
-                        type
-                        default
-                    }
-                    nextToken
+          query {
+            roomByUserId {
+              statusCode
+              success
+              data {
+                _id
+                name
+                userIds
+                type
+                lastMessage {
+                  message
+                  createdAt
                 }
+              }
+              nextToken
             }
+          }
         `
         const {data} = await client.query({
             query: RoomQuery
@@ -28,7 +31,7 @@ export const getUsersRoom = () => async dispatch => {
         handleAuthResponse(data.roomByUserId)
         const {success} = data.roomByUserId
         if (success) {
-            const roomData = getFieldValue(data, 'z')
+            const roomData = getFieldValue(data, 'roomByUserId.data')
             if (!_.isEmpty(roomData)) {
                 dispatch({
                     type: SET_USERS_ROOMS,
@@ -64,7 +67,6 @@ export const getPaginatedRooms = (limit, page, searchString) => async dispatch =
                         userNames
                         type
                         default
-                        _id
                     }
                 }
                 nextToken

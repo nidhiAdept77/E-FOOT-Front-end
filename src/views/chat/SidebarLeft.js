@@ -1,12 +1,14 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectChat } from './store/actions'
+
+import { getUsersRoom, removeRooms } from '@src/redux/actions/rooms'
 
 // ** Utils
 import { formatDateToMonthShort } from '@utils'
@@ -16,11 +18,13 @@ import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, CheckSquare, Bell, User, Trash } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge, CustomInput, Button } from 'reactstrap'
+import _ from 'underscore'
 
 const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
   const { chats, contacts, userProfile } = store
+  const {rooms} = useSelector(state => state.rooms)
 
   // ** Dispatch
   const dispatch = useDispatch()
@@ -32,13 +36,74 @@ const SidebarLeft = props => {
   const [status, setStatus] = useState('online')
   const [filteredChat, setFilteredChat] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
-
+  const [searchValue, setSearchValue] = useState("")
+  
+  useEffect(() => {
+    dispatch(getUsersRoom(searchValue))
+    return () => {
+      dispatch(removeRooms())
+    }
+  }, [searchValue])
+  
   // ** Handles User Chat Click
   const handleUserClick = (type, id) => {
-    dispatch(selectChat(id))
+    if (type !== 'room') {
+      dispatch(selectChat(id))
+    }
     setActive({ type, id })
     if (sidebar === true) {
       handleSidebar()
+    }
+  }
+
+  // ** Renders Rooms
+  const renderRooms = () => {
+    if (rooms && rooms.length) {
+      return rooms.map(item => {
+        const {  _id, name, userIds, type, lastMessage } = item
+        const { message, createdAt } = lastMessage
+        const time = createdAt ? formatDateToMonthShort(new Date(parseInt(createdAt))) : null
+        item = { _id, name, userIds, type, message, avatar: "/static/media/avatar-s-1.d383013d.jpg" }
+        return (
+          <li
+            className={classnames({
+              active: active.type === "room" && active.id === item._id
+            })}
+            key={item._id}
+            onClick={() => handleUserClick("room", item._id)}
+          >
+            <Avatar
+              img={item.avatar}
+              imgHeight="42"
+              imgWidth="42"
+            />
+            <div className="chat-info flex-grow-1">
+              <h5 className="mb-0">{item.name}</h5>
+              {item.message && (
+                <CardText className="text-truncate">
+                  {item.message}
+                </CardText>
+              )}
+            </div>
+            <div className="chat-meta text-nowrap">
+              {time && <small className="float-right mb-25 chat-time ml-25">
+                {time}
+              </small>}
+             {/*  {item.chat.unseenMsgs >= 1 ? (
+                <Badge className="float-right" color="danger" pill>
+                  {item.chat.unseenMsgs}
+                </Badge>
+              ) : null} */}
+            </div>
+          </li>
+        )
+      })
+    } else {
+      return (
+        <li className='no-results show'>
+          <h6 className='mb-0'>No Rooms Found</h6>
+        </li>
+      )
     }
   }
 
@@ -277,6 +342,8 @@ const SidebarLeft = props => {
             </div>
           </div>
           <PerfectScrollbar className='chat-user-list-wrapper list-group' options={{ wheelPropagation: false }}>
+            <h4 className='chat-list-title'>Rooms</h4>
+            <ul className='chat-users-list chat-list media-list'>{renderRooms()}</ul>
             <h4 className='chat-list-title'>Chats</h4>
             <ul className='chat-users-list chat-list media-list'>{renderChats()}</ul>
             <h4 className='chat-list-title'>Contacts</h4>

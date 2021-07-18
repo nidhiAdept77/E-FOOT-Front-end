@@ -6,19 +6,19 @@ import { connect } from 'react-redux'
 import { Card, CardHeader, Form, InputGroup, Input, Button } from 'reactstrap'
 import {BsChatQuoteFill} from "react-icons/bs"
 import {FiSend} from "react-icons/fi"
-import {setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubsctions} from '@src/redux/actions/chats'
+import {setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubscriptions} from '@src/redux/actions/chats'
 import RenderChats from './RenderChats'
 
 import '@styles/base/pages/app-chat-list.scss'
 import LoaderComponent from '../../components/Loader'
 let globalChatSub
-const CardChat = ({loading, setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubsctions, globalChat, rooms}) => {
+const CardChat = ({loading, setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubscriptions, globalChat, rooms}) => {
   const [msg, setMsg] = useState('')
   const [chatRef, setChatRef] = useState(null)
   
   useEffect(() => {
     setGlobalMessages()
-    globalChatSub = getGlobalMessagesSubsctions(messages => {
+    globalChatSub = getGlobalMessagesSubscriptions(messages => {
         updateGlobalMessage(messages)
     })
     return () => {
@@ -91,7 +91,7 @@ CardChat.propTypes = {
   setGlobalMessages: PropTypes.func.isRequired,
   removeGlobalMessages: PropTypes.func.isRequired,
   addMessageToChannel: PropTypes.func.isRequired,
-  getGlobalMessagesSubsctions: PropTypes.func.isRequired,
+  getGlobalMessagesSubscriptions: PropTypes.func.isRequired,
   updateGlobalMessage: PropTypes.func.isRequired
 }
 
@@ -101,4 +101,4 @@ const mapStateToProps = state => ({
     rooms: state.rooms.rooms
 })
 
-export default connect(mapStateToProps, {setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubsctions})(CardChat)
+export default connect(mapStateToProps, {setGlobalMessages, removeGlobalMessages, addMessageToChannel, updateGlobalMessage, getGlobalMessagesSubscriptions})(CardChat)

@@ -17,7 +17,7 @@ export default [
   },
   {
     id: 'chat',
-    title: 'Cahts',
+    title: 'Chats',
     icon: <RiChatSmile3Line />,
     navLink: '/chat'
   },
