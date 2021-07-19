@@ -7,10 +7,6 @@ export default function Wallet() {
         <div className="wallet">
             <WalletHeader />
             <WalletTable />
-            {/* <h1>helloWork</h1>
-            <PayPalScriptProvider options={{ "client-id": "ASFJBoswbGhAdkLmPvtYA3tRIOznV9j2qlAIJnkbCKmnIEp41VBKS8oaqXqewADmasSRi5jCjgfdvSFG" }}>
-                <PayPalButtons style={{ layout: "horizontal" }} />
-            </PayPalScriptProvider> */}
         </div>
     )
 }
