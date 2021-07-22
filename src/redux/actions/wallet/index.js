@@ -24,3 +24,28 @@ export const addUserPaymentMethods = () => async dispatch => {
         return {success:false, message:[error.message]}
     }
 }
+
+export const depositAmount = () => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const _ = require('underscore')
+
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    try {
+        const {data:{data:{redirectUrl}}} = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/payment/paypalpay?amount=${2}`,
+            'get',
+            headers
+        )
+        console.log('redirectUrl: ', redirectUrl)
+        window.location.href = redirectUrl
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+}
