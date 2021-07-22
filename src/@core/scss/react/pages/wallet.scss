@@ -1,0 +1,39 @@
+.wallet{
+    .toalBalance{
+        padding: 1rem;
+        color: #fff;
+        border-radius: 10px;
+        .balance-content{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 1.6rem;
+            line-height: 1.33333;
+            margin-bottom: 12px;
+            font-weight: bolder;
+        }
+        .balance{
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            font-weight: 600;
+        }
+        .walllet-icon{
+            width:100%;
+            height:100%;
+            max-height:130px;
+            max-width:130px;
+        }
+        .balance-heading{
+    }
+    }
+    .wallet-actions{
+        padding: 1rem;
+        box-shadow: $box-shadow;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        .tab-content{
+            height: 220px;
+        }
+    }
+}

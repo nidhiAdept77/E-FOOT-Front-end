@@ -39,7 +39,16 @@ const DashboardRoutes = [
     meta: {
       authRoute: true
     }
+  },
+  {
+    path: '/wallet',
+    component: lazy(() => import('../../views/wallet')),
+    meta: {
+      authRoute: true
+    }
+
   }
+  
 ]
 
 export default DashboardRoutes
