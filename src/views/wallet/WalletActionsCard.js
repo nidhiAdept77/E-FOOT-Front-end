@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Col, Card, CardBody, CardText, Button, Row } from 'reactstrap'
 import {useSelector, useDispatch} from 'react-redux'
-import {addUserPaymentMethods, depositAmount} from '@src/redux/actions/wallet'
+import {addUserPaymentMethods, depositAmount, getAllUserPaymentMethods, removeAllUserPaymentMethods} from '@src/redux/actions/wallet'
+import UserPaymentMetods from './components/UserPaymentMetods'
 const depositUrl = require('@src/assets/images/wallets/deposit.svg').default
 const withdrawUrl = require('@src/assets/images/wallets/withdraw.svg').default
 
@@ -9,12 +10,20 @@ const withdrawUrl = require('@src/assets/images/wallets/withdraw.svg').default
 export default function WalletActionsCard() {
     const [active, setActive] = useState('1')
     const dispatch = useDispatch()
+    const {userPaymentMethods} = useSelector(state => state.wallet)
+    console.log('userPaymentMethods: ', userPaymentMethods)
     const toggle = tab => {
         if (active !== tab) {
         setActive(tab)
         }
     }
 
+    useEffect(() => {
+        dispatch(getAllUserPaymentMethods())
+        return () => {
+            dispatch(removeAllUserPaymentMethods())
+        }
+    }, [])
     const handleAddPaymentMethod = () => {
         dispatch(addUserPaymentMethods())
     }
@@ -59,22 +68,7 @@ export default function WalletActionsCard() {
             </Nav> 
             <TabContent className='py-50' activeTab={active}>
                 <TabPane tabId='1'>
-                    <Card className='card-congratulations-medal'>
-                        <CardBody className='pl-0 pr-0 pt-0'>
-                            <Row>
-                                <Col md={6}>
-                                </Col>
-                                <Col md={6}>
-                                    <Button.Ripple 
-                                        block 
-                                        onClick={handleAddPaymentMethod}
-                                        color='gradient-primary'>
-                                            Add Payment Method
-                                    </Button.Ripple>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                    </Card>
+                    <UserPaymentMetods paymentMethods={userPaymentMethods}/>
                 </TabPane>
                 <TabPane tabId='2'>
                     <Card className='card-congratulations-medal'>

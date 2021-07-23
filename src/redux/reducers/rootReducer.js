@@ -9,6 +9,7 @@ import country from './country'
 import rooms from './rooms'
 import chats from './chats'
 import layoutSettings from './layoutSettings'
+import wallet from './wallet'
 
 const rootReducer = combineReducers({
   layout,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   country,
   rooms,
   chats,
-  layoutSettings
+  layoutSettings,
+  wallet
 })
 
 export default rootReducer

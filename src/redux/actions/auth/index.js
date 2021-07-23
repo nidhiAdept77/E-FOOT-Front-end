@@ -144,6 +144,10 @@ export const loginUser =  ({email, password}) => async dispatch => {
         })
         return data.userLogin
     } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
         console.error('error: ', error)
         return {success:false, message:[error.message]}
     }
