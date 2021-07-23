@@ -16,6 +16,7 @@ export const getUsersRoom = () => async dispatch => {
                 name
                 userIds
                 type
+                createdAt
                 lastMessage {
                   message
                   createdAt

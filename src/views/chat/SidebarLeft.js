@@ -6,7 +6,7 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { selectChat } from './store/actions'
+import { selectChat } from '@src/redux/actions/chats'
 
 import { getUsersRoom, removeRooms } from '@src/redux/actions/rooms'
 
@@ -47,9 +47,7 @@ const SidebarLeft = props => {
   
   // ** Handles User Chat Click
   const handleUserClick = (type, id) => {
-    if (type !== 'room') {
-      dispatch(selectChat(id))
-    }
+    dispatch(selectChat(id))
     setActive({ type, id })
     if (sidebar === true) {
       handleSidebar()
@@ -60,9 +58,9 @@ const SidebarLeft = props => {
   const renderRooms = () => {
     if (rooms && rooms.length) {
       return rooms.map(item => {
-        const {  _id, name, userIds, type, lastMessage } = item
-        const { message, createdAt } = lastMessage
-        const time = createdAt ? formatDateToMonthShort(new Date(parseInt(createdAt))) : null
+        const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
+        const { message, createdAt } = lastMessage || {}
+        const time = formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt)))
         item = { _id, name, userIds, type, message, avatar: "/static/media/avatar-s-1.d383013d.jpg" }
         return (
           <li
@@ -315,7 +313,9 @@ const SidebarLeft = props => {
           </div>
           <div className='chat-fixed-search'>
             <div className='d-flex align-items-center w-100'>
-              <div className='sidebar-profile-toggle' onClick={handleUserSidebarLeft}>
+              {/* use below code to open side bar */}
+              {/* <div className='sidebar-profile-toggle' onClick={handleUserSidebarLeft}> */}
+              <div className='sidebar-profile-toggle'>
                 {Object.keys(userProfile).length ? (
                   <Avatar
                     className='avatar-border'
