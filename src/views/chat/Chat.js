@@ -173,7 +173,7 @@ const ChatLog = props => {
                 />
                 <h6 className='mb-0'>{selectedUser.contact.fullName}</h6>
               </div>
-              <div className='d-flex align-items-center'>
+              {/* <div className='d-flex align-items-center'>
                 <PhoneCall size={18} className='cursor-pointer d-sm-block d-none mr-1' />
                 <Video size={18} className='cursor-pointer d-sm-block d-none mr-1' />
                 <Search size={18} className='cursor-pointer d-sm-block d-none' />
@@ -199,7 +199,7 @@ const ChatLog = props => {
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
-              </div>
+              </div> */}
             </header>
           </div>
 
@@ -209,24 +209,11 @@ const ChatLog = props => {
 
           <Form className='chat-app-form' onSubmit={e => handleSendMsg(e)}>
             <InputGroup className='input-group-merge mr-1 form-send-message'>
-              <InputGroupAddon addonType='prepend'>
-                <InputGroupText>
-                  <Mic className='cursor-pointer' size={14} />
-                </InputGroupText>
-              </InputGroupAddon>
               <Input
                 value={msg}
                 onChange={e => setMsg(e.target.value)}
                 placeholder='Type your message or use speech to text'
               />
-              <InputGroupAddon addonType='append'>
-                <InputGroupText>
-                  <Label className='attachment-icon mb-0' for='attach-doc'>
-                    <Image className='cursor-pointer text-secondary' size={14} />
-                    <input type='file' id='attach-doc' hidden />
-                  </Label>
-                </InputGroupText>
-              </InputGroupAddon>
             </InputGroup>
             <Button className='send' color='primary'>
               <Send size={14} className='d-lg-none' />

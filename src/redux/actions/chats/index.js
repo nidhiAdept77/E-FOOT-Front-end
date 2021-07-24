@@ -3,7 +3,7 @@ import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG} from '../../types'
-import axios from 'axios'
+
 import {data} from '@src/assets/data/chat-data'
 
 const MessageFragment = gql`
@@ -184,10 +184,10 @@ export const getChatContacts = () => dispatch => {
 // ** Select Chat
 export const selectChat = id => dispatch => {
 
-    let userId = config.id
+    let userId = id
 
     //  Convert Id to number
-    userId = Number(userId)
+    userId = Number(userId) || _.random(1, 3)
   
     const chat = data.chats.find(c => c.id === userId)
     if (chat) chat.unseenMsgs = 0
