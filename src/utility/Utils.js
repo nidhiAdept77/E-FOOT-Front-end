@@ -33,14 +33,18 @@ export const formatDate = (value, formatting = { month: 'short', day: 'numeric',
 
 // ** Returns short month of passed date
 export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
-  const date = new Date(value)
-  let formatting = { month: 'short', day: 'numeric' }
-
-  if (toTimeForCurrentDay && isToday(date)) {
-    formatting = { hour: 'numeric', minute: 'numeric' }
+  console.log('value: ', value)
+  if (value) {
+    const date = new Date(value)
+    let formatting = { month: 'short', day: 'numeric' }
+  
+    if (toTimeForCurrentDay && isToday(date)) {
+      formatting = { hour: 'numeric', minute: 'numeric' }
+    }
+  
+    return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
   }
-
-  return new Intl.DateTimeFormat('en-US', formatting).format(new Date(value))
+  return ""
 }
 
 /**

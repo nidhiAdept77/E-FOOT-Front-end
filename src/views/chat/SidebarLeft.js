@@ -60,7 +60,7 @@ const SidebarLeft = props => {
       return rooms.map(item => {
         const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
         const { message, createdAt } = lastMessage || {}
-        const time = formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt)))
+        const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
         item = { _id, name, userIds, type, message, avatar: "/static/media/avatar-s-1.d383013d.jpg" }
         return (
           <li
