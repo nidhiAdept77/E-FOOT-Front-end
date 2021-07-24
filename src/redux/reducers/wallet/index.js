@@ -1,8 +1,9 @@
-import {SET_USERS_PAYMENT_METHODS, SET_USERS_TRANSACTIONS} from '../../types'
+import {SET_USERS_PAYMENT_METHODS, SET_USERS_TRANSACTIONS, SET_TOTAL} from '../../types'
 
 const initialState = {
     userPaymentMethods: [],
-    userTransactions: []
+    userTransactions: [],
+    total:1
 }
 
 export default function (state = initialState, action) {
@@ -17,6 +18,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 userTransactions: payload
+            }
+        case SET_TOTAL:
+            return {
+                ...state,
+                total: payload
             }
         default:
             return state

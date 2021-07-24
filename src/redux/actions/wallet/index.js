@@ -1,7 +1,7 @@
 import {request} from '../../../utils/apiService'
 import {getFieldValue, handleAuthResponse} from '../../../utils'
 import { CONSTANTS } from '@src/utils/CONSTANTS'
-import {SET_LOADER, SET_USERS_PAYMENT_METHODS} from '../../types'
+import {SET_LOADER, SET_USERS_PAYMENT_METHODS, SET_USERS_TRANSACTIONS, SET_TOTAL} from '../../types'
 import client from '../../../graphql/client'
 import gql from 'graphql-tag'
 
@@ -112,5 +112,79 @@ export const removeAllUserPaymentMethods = () => async dispatch => {
     dispatch({
         type: SET_USERS_PAYMENT_METHODS,
         payload:[]
+    })
+}
+
+export const getUserTransactions = (limit, page, searchString) => async dispatch => {
+    console.log('limit, page, searchString: ', limit, page, searchString)
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const UsersTransactionsQuery = gql`
+            query getPaginatedTransactions($limit: Int, $skip: Int, $searchString: String){
+                getPaginatedTransactions(limit: $limit, skip: $skip, searchString: $searchString){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data {
+                        totalPages
+                        skip
+                        limit
+                        data {
+                            txnId
+                            amount
+                            type
+                            transactionType
+                            reason
+                        }
+                    }
+                }
+            }
+        `
+        const  {data} = await client.query({
+            query: UsersTransactionsQuery,
+            variables: {
+                limit, 
+                skip: (page * limit),
+                searchString
+            }
+        })
+        handleAuthResponse(data.getPaginatedTransactions)
+        const {success} = data.getPaginatedTransactions
+        if (success) {
+            const transactions = getFieldValue(data, 'getPaginatedTransactions.data')
+            dispatch({
+                type: SET_USERS_TRANSACTIONS,
+                payload: transactions.data
+            })
+            console.log('transactions: ', transactions)
+            console.log('transactions.totalPages: ', transactions.totalPages)
+            dispatch({
+                type: SET_TOTAL,
+                payload: transactions.totalPages || 1
+            })
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        
+    } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+}
+
+export const removeUserTrasaction = () => async dispatch => {
+    dispatch({
+        type: SET_USERS_TRANSACTIONS,
+        payload: []
     })
 }

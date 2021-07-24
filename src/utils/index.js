@@ -69,6 +69,17 @@ export const getChatTime = date => {
     return moment(date).format("DD-MM-YYYY hh:mm a")
 }
 
+const isANumber = str => {
+    return !/\D/.test(str)
+}
+
+export const getFormattedDate = date => {
+    if (isANumber(date)) {
+        date = parseInt(date)
+    }
+    return moment(date).format("DD-MM-YY")
+}
+
 export const handleAuthResponse = (data) => {
     const {success, statusCode, nextToken} = data
     if (success && statusCode === 200) {

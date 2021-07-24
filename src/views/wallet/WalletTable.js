@@ -1,7 +1,7 @@
-import { Fragment, useState, forwardRef } from 'react'
+import { Fragment, useState, forwardRef, useEffect } from 'react'
 
 // ** Table Data & Columns
-import { data, columns } from './data'
+import {columns } from './data'
 
 // ** Add New Modal Component
 
@@ -23,7 +23,9 @@ import {
   Row,
   Col
 } from 'reactstrap'
+import {getUserTransactions, removeUserTrasaction} from '@src/redux/actions/wallet'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { useSelector, useDispatch } from 'react-redux'
 
 
 // ** Bootstrap Checkbox Component
@@ -35,59 +37,34 @@ const BootstrapCheckbox = forwardRef(({ onClick, ...rest }, ref) => (
 ))
 const WalletTable = () => {
     // ** States
+    const [limit, setLimit] = useState(10)
     const [currentPage, setCurrentPage] = useState(0)
     const [searchValue, setSearchValue] = useState('')
-    const [filteredData, setFilteredData] = useState([])
+    const dispatch = useDispatch()
+    const {userTransactions: data, total} = useSelector(state => state.wallet)
+    console.log('data: ', data)
+    console.log('total: ', total)
+    
+    useEffect(() => {
+      console.log('limit, currentPage, searchValue: ', limit, currentPage, searchValue)
+      dispatch(getUserTransactions(limit, currentPage, searchValue))
+      return () => {
+        dispatch(removeUserTrasaction())
+      }
+    }, [])
   
     // ** Function to handle Modal toggle
-  
-    // ** Function to handle filter
-    const handleFilter = e => {
-      const value = e.target.value
-      let updatedData = []
+    const handleFilter = (value) => {
       setSearchValue(value)
-  
-      const status = {
-        1: { title: 'Current', color: 'light-primary' },
-        2: { title: 'Professional', color: 'light-success' },
-        3: { title: 'Rejected', color: 'light-danger' },
-        4: { title: 'Resigned', color: 'light-warning' },
-        5: { title: 'Applied', color: 'light-info' }
-      }
-  
-      if (value.length) {
-        updatedData = data.filter(item => {
-          const startsWith =
-            item.full_name.toLowerCase().startsWith(value.toLowerCase()) ||
-            item.post.toLowerCase().startsWith(value.toLowerCase()) ||
-            item.email.toLowerCase().startsWith(value.toLowerCase()) ||
-            item.age.toLowerCase().startsWith(value.toLowerCase()) ||
-            item.salary.toLowerCase().startsWith(value.toLowerCase()) ||
-            item.start_date.toLowerCase().startsWith(value.toLowerCase()) ||
-            status[item.status].title.toLowerCase().startsWith(value.toLowerCase())
-  
-          const includes =
-            item.full_name.toLowerCase().includes(value.toLowerCase()) ||
-            item.post.toLowerCase().includes(value.toLowerCase()) ||
-            item.email.toLowerCase().includes(value.toLowerCase()) ||
-            item.age.toLowerCase().includes(value.toLowerCase()) ||
-            item.salary.toLowerCase().includes(value.toLowerCase()) ||
-            item.start_date.toLowerCase().includes(value.toLowerCase()) ||
-            status[item.status].title.toLowerCase().includes(value.toLowerCase())
-  
-          if (startsWith) {
-            return startsWith
-          } else if (!startsWith && includes) {
-            return includes
-          } else return null
-        })
-        setFilteredData(updatedData)
-        setSearchValue(value)
-      }
+      setTimeout(() => {
+          dispatch(getUserTransactions(limit, currentPage, value))
+      }, 100)
+
     }
-  
+    
     // ** Function to handle Pagination
     const handlePagination = page => {
+      dispatch(getUserTransactions(limit, page.selected, searchValue))
       setCurrentPage(page.selected)
     }
   
@@ -98,7 +75,7 @@ const WalletTable = () => {
         nextLabel=''
         forcePage={currentPage}
         onPageChange={page => handlePagination(page)}
-        pageCount={searchValue.length ? filteredData.length / 7 : data.length / 7 || 1}
+        pageCount={total}
         breakLabel='...'
         pageRangeDisplayed={2}
         marginPagesDisplayed={2}
@@ -177,14 +154,14 @@ const WalletTable = () => {
                     <FileText size={15} />
                     <span className='align-middle ml-50'>CSV</span>
                   </DropdownItem>
-                  <DropdownItem className='w-100'>
+                  {/* <DropdownItem className='w-100'>
                     <Grid size={15} />
                     <span className='align-middle ml-50'>Excel</span>
                   </DropdownItem>
                   <DropdownItem className='w-100'>
                     <File size={15} />
                     <span className='align-middle ml-50'>Text</span>
-                  </DropdownItem>
+                  </DropdownItem> */}
                 </DropdownMenu>
               </UncontrolledButtonDropdown>
             </div>
@@ -214,7 +191,7 @@ const WalletTable = () => {
             sortIcon={<ChevronDown size={10} />}
             paginationDefaultPage={currentPage + 1}
             paginationComponent={CustomPagination}
-            data={searchValue.length ? filteredData : data}
+            data={data}
             selectableRowsComponent={BootstrapCheckbox}
           />
         </Card>

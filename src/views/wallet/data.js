@@ -1,4 +1,5 @@
 import { Badge } from 'reactstrap'
+import {getFormattedDate} from '@src/utils/'
 
 const type = {
     deposit: { title: 'Deposit', color: 'light-primary' },
@@ -47,18 +48,22 @@ export const columns = [
     name: 'Amount',
     selector: 'amount',
     sortable: true,
-    minWidth: '100px'
+    minWidth: '100px',
+    cell: row => `$${row.amount}`
   },
   {
     name: 'Closing Balance',
     selector: 'cb',
     sortable: true,
-    minWidth: '150px'
+    minWidth: '150px',
+    className:"text-center",
+    cell: row => (row.closingBalance ? `$${row.closingBalance}` : '-')
   },
   {
     name: 'Date',
-    selector: 'date',
+    selector: 'createdAt',
     sortable: true,
-    minWidth: '150px'
+    minWidth: '150px',
+    cell: row => `${getFormattedDate(row.value)}`
   }
 ]
