@@ -15,5 +15,11 @@ export const CONSTANTS = {
         STAGING: "staging",
         LIVE: "live"
     },
+    TRANSACTION_TYPE: {
+        DEPOSIT: "deposit",
+        WITHDRAW: "withdraw",
+        WALLET: "wallet", 
+        CHALLANGE: "challange"
+    },
     ENV: env.ENVIRONMENT || "testing"
 }

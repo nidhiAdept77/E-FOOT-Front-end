@@ -155,6 +155,7 @@ export const getUserTransactions = (limit, page, searchString) => async dispatch
         })
         handleAuthResponse(data.getPaginatedTransactions)
         const {success} = data.getPaginatedTransactions
+        console.log('data.getPaginatedTransactions: ', data.getPaginatedTransactions)
         if (success) {
             const transactions = getFieldValue(data, 'getPaginatedTransactions.data')
             dispatch({
