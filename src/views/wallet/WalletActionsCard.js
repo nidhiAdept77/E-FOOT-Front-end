@@ -3,6 +3,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Col, Card, CardBody, CardTe
 import {useSelector, useDispatch} from 'react-redux'
 import {addUserPaymentMethods, depositAmount, getAllUserPaymentMethods, removeAllUserPaymentMethods} from '@src/redux/actions/wallet'
 import UserPaymentMetods from './components/UserPaymentMetods'
+import DepositModal from './components/DepositModal'
 const depositUrl = require('@src/assets/images/wallets/deposit.svg').default
 const withdrawUrl = require('@src/assets/images/wallets/withdraw.svg').default
 
@@ -79,13 +80,14 @@ export default function WalletActionsCard() {
                                     <CardText className='font-small-3'>
                                         You can deposit to ef-nl wallet from you account.
                                     </CardText>
-                                    <Button.Ripple 
+                                    {/* <Button.Ripple 
                                         block 
                                         color='gradient-primary'
                                         onClick={handleDepositFund}
                                     >
                                         Deposit
-                                    </Button.Ripple>
+                                    </Button.Ripple> */}
+                                    <DepositModal />
                                 </Col>
                                 <Col md={6}>
                                     <img src={depositUrl} className="w-100" />

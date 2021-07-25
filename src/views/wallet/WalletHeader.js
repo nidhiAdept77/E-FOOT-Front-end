@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumbs from '@components/breadcrumbs'
 import LoaderComponent from '../components/Loader'
-import { Button, Card, Col, Row } from 'reactstrap'
+import { Card, Col, Row } from 'reactstrap'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import CardBody from 'reactstrap/lib/CardBody'
 import { GiWallet } from "react-icons/gi"
 import WalletActionsCard from './WalletActionsCard'
+import { useDispatch, useSelector } from 'react-redux'
+import {getUserCashPosition, removeCashPosition} from '@store/actions/wallet'
+import _ from 'underscore'
 
 export default function WalletHeader() {
+    const {userCashPosition} = useSelector(state => state.wallet)
+    const dispatch = useDispatch()
+    const [amount, setAmount] = useState(0)
+    const [playingPower, setPlayingPower] = useState(0)
+    const [holdingAmount, setHoldingAmount] = useState(0)
+    useEffect(() => {
+        if (!_.isEmpty(userCashPosition)) {
+            setAmount(userCashPosition.amount)
+            setPlayingPower(userCashPosition.playingPower)
+            setHoldingAmount(userCashPosition.cumulativeHoldAmount)
+        }
+    }, [userCashPosition])
+    useEffect(() => {
+        dispatch(getUserCashPosition())
+        return () => {
+            dispatch(removeCashPosition())
+        }
+    }, [])
     return (
         <>
             <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Wallet" />} breadCrumbActive={<FormattedHTMLMessage id="Wallet" />} />
@@ -20,8 +41,24 @@ export default function WalletHeader() {
                                     <div className="toalBalance w-100">
                                         <Row>
                                             <Col xs={8} className="balance-content">
-                                                <p className="balance-heading font-weight-bolderer">Total Balance</p>
-                                                <p className="balance font-weight-bolderer">$ 10000</p>
+                                                <p>
+                                                    <p className="balance-heading font-weight-bolderer text-center">Total Balance</p>
+                                                    <p className="balance font-weight-bolderer text-center">$ {amount}</p>
+                                                </p>
+                                                <Row>
+                                                    <Col xs={6} className="">
+                                                        <p>
+                                                            <p className="sub-balance font-weight-bolderer">Playing Power</p>
+                                                            <p className="sub-balance font-weight-bolderer">$ {playingPower}</p>
+                                                        </p>
+                                                    </Col>
+                                                    <Col xs={6} className="">
+                                                        <p>
+                                                            <p className="sub-balance font-weight-bolderer">Holding Amount</p>
+                                                            <p className="sub-balance font-weight-bolderer">$ {holdingAmount}</p>
+                                                        </p>
+                                                    </Col>
+                                                </Row>
                                             </Col>
                                             <Col xs={4} className="">
                                                 <GiWallet className="walllet-icon" />

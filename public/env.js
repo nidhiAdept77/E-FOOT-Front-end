@@ -223,7 +223,7 @@ window.env = {
   "npm_package_dependencies_postcss_rtl": "1.5.0",
   "npm_package_dependencies_sweetalert2": "10.14.0",
   "npm_package_dependencies_wnumb": "1.2.0",
-  "npm_package_gitHead": "96ac75c2ef2b9a267c211f474a45c87386764f4f",
+  "npm_package_gitHead": "31bf502c4670c3a8d66a8e02d4f1cba3cd92c2f3",
   "npm_config_fund": "true",
   "npm_config_fetch_retry_maxtimeout": "60000",
   "npm_config_loglevel": "notice",
@@ -333,10 +333,11 @@ window.env = {
   "npm_config_json": "",
   "INIT_CWD": "/home/bharti/Documents/personal/ef-nl/ef-nl-frontend",
   "SKIP_PREFLIGHT_CHECK": "true",
-  "BACKEND_BASE_URL": "https://dev.backoffice.efnl.xivdp.com",
-  "BACKEND_WS_URL": "wss://dev.backoffice.efnl.xivdp.com",
+  "BACKEND_BASE_URL": "http://localhost:9000",
+  "BACKEND_WS_URL": "ws://localhost:9000",
   "GOOLE_CLIENT_ID": "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
   "FACEBOOK_APP_ID": "2887719924809264",
   "PORT": "3004",
-  "ENVIRONMENT": "testing"
+  "ENVIRONMENT": "testing",
+  "PLATFORM_FEE": "5"
 };

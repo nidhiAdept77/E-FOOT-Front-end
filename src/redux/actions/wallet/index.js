@@ -29,12 +29,15 @@ export const addUserPaymentMethods = () => async dispatch => {
     }
 }
 
-export const depositAmount = () => async dispatch => {
+export const depositAmount = (amount) => async dispatch => {
     const authtoken = localStorage.getItem('authToken')
     const userId = localStorage.getItem('userId')
     const {getFieldValue} = require('../../../utils')
     const _ = require('underscore')
-
+    dispatch({
+        type: SET_LOADER,
+        payload: true
+    })
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "x-auth-token": authtoken,
@@ -42,13 +45,21 @@ export const depositAmount = () => async dispatch => {
     }
     try {
         const {data:{data:{redirectUrl}}} = await request(
-            `${CONSTANTS.BACKEND_BASE_URL}/payment/paypalpay?amount=${2}`,
+            `${CONSTANTS.BACKEND_BASE_URL}/payment/paypalpay?amount=${amount}`,
             'get',
             headers
         )
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
         console.log('redirectUrl: ', redirectUrl)
         window.location.href = redirectUrl
     } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
         console.error('error: ', error)
         return {success:false, message:[error.message]}
     }
@@ -255,4 +266,60 @@ export const removeTransaction = () => dispatch => {
         payload: {}
     })
     
+}
+
+export const getUserCashPosition = () => async dispatch => {
+    const {SET_CASH_POSITION} = require('../../types')
+    try {
+        const UserCashPositionQuery = gql`
+        query getCashPositionsByUserId{
+            getCashPositionsByUserId{
+                statusCode
+                success
+                message
+                nextToken
+                data{
+                    _id
+                    userId
+                    amount
+                    playingPower
+                    cumulativeHoldAmount
+                    status
+                    createdAt
+                    updatedAt
+                }
+            }
+        }
+        `
+        const  {data} = await client.query({
+            query: UserCashPositionQuery
+        })
+        handleAuthResponse(data.getCashPositionsByUserId)
+        const {success} = data.getCashPositionsByUserId
+        if (success) {
+            console.log('data: ', data)
+            const cashPosition = getFieldValue(data, 'getCashPositionsByUserId.data')
+            console.log('cashPosition: ', cashPosition)
+            dispatch({
+                type: SET_CASH_POSITION,
+                payload: cashPosition
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+}
+
+export const removeCashPosition = () => dispatch => {
+    const {SET_CASH_POSITION} = require('../../types')
+
+    dispatch({
+        type: SET_CASH_POSITION,
+        payload: {}
+    })
 }

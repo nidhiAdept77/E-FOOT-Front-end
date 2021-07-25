@@ -42,8 +42,10 @@ $auth-1-inner-max-width: 600px !default;
             max-height:130px;
             max-width:130px;
         }
-        .balance-heading{
-    }
+        .sub-balance{
+            font-size: 1rem;
+            text-align: center;
+        }
     }
     .wallet-actions{
         padding: 1rem;
@@ -59,6 +61,16 @@ $auth-1-inner-max-width: 600px !default;
     }
 }
 
+.price-box{
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 2.5rem;
+    border: 1px dashed $primaryColor;
+    &.active{
+        background-color: $primary;
+        color: $white;
+    }
+}
 .failure{
     background: linear-gradient(118deg, rgba($danger, 1), rgba($danger, 0.7));
     color: $white;
