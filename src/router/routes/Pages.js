@@ -78,6 +78,22 @@ const PagesRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: "/payment/success/:payId",
+    component: lazy(() => import('../../views/pages/misc/PaymentSuccess')),
+    layout: 'BlankLayout',
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: "/payment/error/:errorId",
+    component: lazy(() => import('../../views/pages/misc/PaymentFailure')),
+    layout: 'BlankLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 

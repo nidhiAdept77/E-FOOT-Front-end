@@ -188,3 +188,69 @@ export const removeUserTrasaction = () => async dispatch => {
         payload: []
     })
 }
+
+export const getTransaction = (txnId) => async dispatch => {
+    console.log('txnId: ', txnId)
+    const {SET_TRANSACTION, SET_LOADER} = require('../../types')
+    dispatch({
+        type: SET_LOADER,
+        payload: true
+    })
+    
+    try {
+        const TransactionQuery = gql`
+           query getTransactionsByTxnId($txnId: String){
+                getTransactionsByTxnId(txnId: $txnId){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data{
+                        _id
+                        amount
+                        type
+                        transactionType
+                        reason
+                    }
+                }
+                }
+        `
+        const  {data} = await client.query({
+            query: TransactionQuery,
+            variables: {
+                txnId
+            }
+        })
+        handleAuthResponse(data.getTransactionsByTxnId)
+        const {success} = data.getTransactionsByTxnId
+        if (success) {
+            console.log('data: ', data)
+            const transaction = getFieldValue(data, 'getTransactionsByTxnId.data')
+            console.log('transaction: ', transaction)
+            dispatch({
+                type: SET_TRANSACTION,
+                payload: transaction
+            })
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+}
+
+export const removeTransaction = () => dispatch => {
+    const {SET_TRANSACTION} = require('../../types')
+    dispatch({
+        type: SET_TRANSACTION,
+        payload: {}
+    })
+    
+}

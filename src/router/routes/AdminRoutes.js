@@ -12,14 +12,16 @@ const AdminRoutes = [
   },
   {
     path: '/layout-settings/:id',
-    component: lazy(() => import('../../views/LayoutSettings/LayoutUpdate'))
+    component: lazy(() => import('../../views/LayoutSettings/LayoutUpdate')),
+    exact: true
   },
   {
     path: '/rooms',
     component: lazy(() => import('../../views/Room')),
     meta: {
       authRoute: true
-    }
+    },
+    exact: true
   }
 ]
 

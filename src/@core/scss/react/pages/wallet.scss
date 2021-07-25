@@ -1,3 +1,21 @@
+$auth-1-inner-max-width: 600px !default;
+
+.auth-wrapper {
+    display: flex;
+    flex-basis: 100%;
+    margin-top: 0 !important;
+    padding-top: 8.45rem;
+    height: 100vh;
+    @include media-breakpoint-down(xs) {
+        padding-top: 10.45rem;
+    }
+    width: 100%;
+
+    .auth-inner {
+        width: 100%;
+        position: relative;
+    }
+}
 .wallet{
     .toalBalance{
         padding: 1rem;
@@ -38,5 +56,25 @@
         .user-payment-mehtods{
             max-height:145px;
         }
+    }
+}
+
+.failure{
+    background: linear-gradient(118deg, rgba($danger, 1), rgba($danger, 0.7));
+    color: $white;
+}
+.payment-card{
+    // &.card-congratulations{
+    // }
+    .avatar-content{
+        height: 160px !important;
+        width: 160px !important;
+    }
+    .payment-icon svg {
+        height: 120px !important;
+        width: 120px !important;
+    }
+    .amount{
+        font-size: 1.7rem;
     }
 }
