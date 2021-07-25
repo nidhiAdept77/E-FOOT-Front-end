@@ -136,6 +136,7 @@ export const getUserTransactions = (limit, page, searchString) => async dispatch
                         data {
                             txnId
                             amount
+                            closingBalance
                             type
                             transactionType
                             reason
