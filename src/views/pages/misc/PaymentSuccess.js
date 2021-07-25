@@ -16,7 +16,6 @@ export default function PaymentSuccess() {
     const [amount, setAmount] = useState(0)
     const {payId} = useParams()
     const {loading, transaction} = useSelector(state => state.wallet)
-    console.log('loading, transaction: ', loading, transaction)
     const dispatch = useDispatch()
 
     useEffect(() => {

@@ -42,11 +42,8 @@ const WalletTable = () => {
     const [searchValue, setSearchValue] = useState('')
     const dispatch = useDispatch()
     const {userTransactions: data, total} = useSelector(state => state.wallet)
-    console.log('data: ', data)
-    console.log('total: ', total)
     
     useEffect(() => {
-      console.log('limit, currentPage, searchValue: ', limit, currentPage, searchValue)
       dispatch(getUserTransactions(limit, currentPage, searchValue))
       return () => {
         dispatch(removeUserTrasaction())

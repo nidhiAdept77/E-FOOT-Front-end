@@ -12,7 +12,6 @@ export default function WalletActionsCard() {
     const [active, setActive] = useState('1')
     const dispatch = useDispatch()
     const {userPaymentMethods} = useSelector(state => state.wallet)
-    console.log('userPaymentMethods: ', userPaymentMethods)
     const toggle = tab => {
         if (active !== tab) {
         setActive(tab)

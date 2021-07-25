@@ -21,7 +21,6 @@ export const addUserPaymentMethods = () => async dispatch => {
             'get',
             headers
         )
-        console.log('redirectUrl: ', redirectUrl)
         window.location.href = redirectUrl
     } catch (error) {
         console.error('error: ', error)
@@ -53,7 +52,6 @@ export const depositAmount = (amount) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        console.log('redirectUrl: ', redirectUrl)
         window.location.href = redirectUrl
     } catch (error) {
         dispatch({
@@ -127,7 +125,6 @@ export const removeAllUserPaymentMethods = () => async dispatch => {
 }
 
 export const getUserTransactions = (limit, page, searchString) => async dispatch => {
-    console.log('limit, page, searchString: ', limit, page, searchString)
     try {
         dispatch({
             type: SET_LOADER,
@@ -166,15 +163,12 @@ export const getUserTransactions = (limit, page, searchString) => async dispatch
         })
         handleAuthResponse(data.getPaginatedTransactions)
         const {success} = data.getPaginatedTransactions
-        console.log('data.getPaginatedTransactions: ', data.getPaginatedTransactions)
         if (success) {
             const transactions = getFieldValue(data, 'getPaginatedTransactions.data')
             dispatch({
                 type: SET_USERS_TRANSACTIONS,
                 payload: transactions.data
             })
-            console.log('transactions: ', transactions)
-            console.log('transactions.totalPages: ', transactions.totalPages)
             dispatch({
                 type: SET_TOTAL,
                 payload: transactions.totalPages || 1
@@ -203,7 +197,6 @@ export const removeUserTrasaction = () => async dispatch => {
 }
 
 export const getTransaction = (txnId) => async dispatch => {
-    console.log('txnId: ', txnId)
     const {SET_TRANSACTION, SET_LOADER} = require('../../types')
     dispatch({
         type: SET_LOADER,
@@ -237,9 +230,7 @@ export const getTransaction = (txnId) => async dispatch => {
         handleAuthResponse(data.getTransactionsByTxnId)
         const {success} = data.getTransactionsByTxnId
         if (success) {
-            console.log('data: ', data)
             const transaction = getFieldValue(data, 'getTransactionsByTxnId.data')
-            console.log('transaction: ', transaction)
             dispatch({
                 type: SET_TRANSACTION,
                 payload: transaction
@@ -297,9 +288,7 @@ export const getUserCashPosition = () => async dispatch => {
         handleAuthResponse(data.getCashPositionsByUserId)
         const {success} = data.getCashPositionsByUserId
         if (success) {
-            console.log('data: ', data)
             const cashPosition = getFieldValue(data, 'getCashPositionsByUserId.data')
-            console.log('cashPosition: ', cashPosition)
             dispatch({
                 type: SET_CASH_POSITION,
                 payload: cashPosition
