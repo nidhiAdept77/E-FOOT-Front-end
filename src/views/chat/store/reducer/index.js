@@ -2,7 +2,8 @@ const initialState = {
   chats: [],
   contacts: [],
   userProfile: {},
-  selectedUser: {}
+  selectedUser: {},
+  currentRoom: {}
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -17,6 +18,8 @@ const chatReducer = (state = initialState, action) => {
       // ** Add new msg to chat
       const newMsg = action.data.response.chat
       return { ...state, selectedUser: { ...state.selectedUser, chat: newMsg } }
+    case 'SET_CURRENT_ROOM':
+      return {...state, currentRoom: action.data.currentRoom}
     default:
       return state
   }

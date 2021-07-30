@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { sendMsg } from './store/actions'
 
 // ** Third Party Components
@@ -26,11 +26,18 @@ import {
   InputGroupText,
   Button
 } from 'reactstrap'
+import { getChatTime } from '../../utils'
 
 const ChatLog = props => {
   // ** Props & Store
   const { handleUser, handleUserSidebarRight, handleSidebar, store, userSidebarLeft } = props
   const { userProfile, selectedUser } = store
+
+  const {currentChatMessages} = useSelector(state => state.chats)
+  const {user} = useSelector(state => state.auth)
+  const {rooms} = useSelector(state => state.rooms)
+  console.log('rooms: ', rooms)
+  console.log('currentChatMessages: ', currentChatMessages)
 
   // ** Refs & Dispatch
   const chatArea = useRef(null)
@@ -93,31 +100,31 @@ const ChatLog = props => {
 
   // ** Renders user chat
   const renderChats = () => {
-    return formattedChatData().map((item, index) => {
+    return (currentChatMessages && currentChatMessages.length) ? currentChatMessages.map((item, index) => {
+      console.log('item: ', item)
       return (
         <div
           key={index}
           className={classnames('chat', {
-            'chat-left': item.senderId !== 11
+            'chat-left': item.user._id !== user._id
           })}
         >
           <div className='chat-avatar'>
             <Avatar
               className='box-shadow-1 cursor-pointer'
-              img={item.senderId === 11 ? userProfile.avatar : selectedUser.contact.avatar}
+              img={item.user.profileImage}
             />
           </div>
 
           <div className='chat-body'>
-            {item.messages.map(chat => (
-              <div key={chat.msg} className='chat-content'>
-                <p>{chat.msg}</p>
+              <div key={item._id} className='chat-content'>
+                <p>{item.message}</p>
+                <p className="chat-time">{getChatTime(new Date(parseInt(item.createdAt)))}</p>
               </div>
-            ))}
           </div>
         </div>
       )
-    })
+    }) : ""
   }
 
   // ** Opens right sidebar & handles its data
@@ -169,7 +176,7 @@ const ChatLog = props => {
                   img={selectedUser.contact.avatar}
                   status={selectedUser.contact.status}
                   className='avatar-border user-profile-toggle m-0 mr-1'
-                  onClick={() => handleAvatarClick(selectedUser.contact)}
+                  /* onClick={() => handleAvatarClick(selectedUser.contact)} */
                 />
                 <h6 className='mb-0'>{selectedUser.contact.fullName}</h6>
               </div>
@@ -212,7 +219,7 @@ const ChatLog = props => {
               <Input
                 value={msg}
                 onChange={e => setMsg(e.target.value)}
-                placeholder='Type your message or use speech to text'
+                placeholder='Type your message here....'
               />
             </InputGroup>
             <Button className='send' color='primary'>

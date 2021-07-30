@@ -1,4 +1,4 @@
-const {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG} = require('../../types')
+const {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -32,7 +32,11 @@ export default (state = initialState, action) => {
             // ** Add new msg to chat
             const newMsg = action.data.response.chat
             return { ...state, selectedUser: { ...state.selectedUser, chat: newMsg } }
-        
+        case SET_CURRENT_CHAT_MESSAGES:
+            return {
+                ...state,
+                currentChatMessages: payload
+            }
         default:
             return state
     }

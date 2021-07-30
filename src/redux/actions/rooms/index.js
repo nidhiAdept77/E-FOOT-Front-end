@@ -2,13 +2,13 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM} = require('../../types')
 
-export const getUsersRoom = () => async dispatch => {
+export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => async dispatch => {
     try {
         const RoomQuery = gql`
-          query {
-            roomByUserId {
+          query roomByUserId($makeGlobalVisible: Boolean, $searchString:String){
+            roomByUserId(makeGlobalVisible: $makeGlobalVisible, searchString:$searchString){
               statusCode
               success
               data {
@@ -17,6 +17,7 @@ export const getUsersRoom = () => async dispatch => {
                 userIds
                 type
                 createdAt
+                default
                 lastMessage {
                   message
                   createdAt
@@ -27,7 +28,11 @@ export const getUsersRoom = () => async dispatch => {
           }
         `
         const {data} = await client.query({
-            query: RoomQuery
+            query: RoomQuery,
+            variables: {
+                makeGlobalVisible,
+                searchString
+            }
         })
         handleAuthResponse(data.roomByUserId)
         const {success} = data.roomByUserId
@@ -268,4 +273,11 @@ export const deleteRoom = (id) => async dispatch => {
             payload: false
         })
     }
+}
+
+export const setCurrentRoom = value => dispatch => {
+    dispatch({ 
+        type: SET_CURRENT_ROOM,
+        value
+    })
 }

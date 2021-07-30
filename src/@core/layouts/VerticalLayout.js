@@ -111,7 +111,7 @@ const VerticalLayout = props => {
   useEffect(() => {
     setIsMounted(true)
     getInitOnlineUsers()
-    getUsersRoom()
+    getUsersRoom(true)
     userSubcription = getAllOnlineUserSubs(user => {
       setTimeout(() => {
         const currentUserId = localStorage.getItem('userId')
