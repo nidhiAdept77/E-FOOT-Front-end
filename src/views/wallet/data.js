@@ -1,27 +1,10 @@
 import { Badge } from 'reactstrap'
 import {getFormattedDate} from '@src/utils/'
-
+import {CONSTANTS} from '@src/utils/CONSTANTS'
 const type = {
     deposit: { title: 'Deposit', color: 'light-primary' },
     withdraw: { title: 'withdraw', color: 'light-danger' }
 }
-
-export const data = [
-    {
-        type: "deposit",
-        date: "10-07-2021",
-        amount: 100,
-        reason: "Won in a challange",
-        cb:1000
-    },
-    {
-        type: "withdraw",
-        date: "09-07-2021",
-        amount: 100,
-        reason: "Lost in a challange",
-        cb:900
-    }
-]
 
 // ** Table Common Column
 export const columns = [
@@ -58,6 +41,15 @@ export const columns = [
     minWidth: '150px',
     className:"text-center",
     cell: row => (row.closingBalance ? `$${row.closingBalance}` : '-')
+  },
+  {
+    name: "Stauts",
+    selector: "status",
+    minWidth: '150px',
+    cell: row => {
+      const classDat = CONSTANTS.TRANSACTION_STATUS.COMEPLETED ? "text-primary" : "text-info"
+      return <span className={classDat}>{row.status}</span>
+    }
   },
   {
     name: 'Date',

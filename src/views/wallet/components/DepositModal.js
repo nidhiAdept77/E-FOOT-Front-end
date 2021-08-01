@@ -74,7 +74,7 @@ export default function DepositModal() {
                 </Button>
             </ModalFooter>
             </Modal>
-      </div>
+        </div>
 
     )
 }

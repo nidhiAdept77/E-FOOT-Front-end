@@ -27,7 +27,6 @@ import {getUserTransactions, removeUserTrasaction} from '@src/redux/actions/wall
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { useSelector, useDispatch } from 'react-redux'
 
-
 // ** Bootstrap Checkbox Component
 const BootstrapCheckbox = forwardRef(({ onClick, ...rest }, ref) => (
   <div className='custom-control custom-checkbox'>

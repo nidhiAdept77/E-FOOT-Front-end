@@ -5,6 +5,7 @@ import { Button, Card, CardBody, Col, Media, Row } from 'reactstrap'
 import Avatar from '@components/avatar'
 import _ from 'underscore'
 import { RiPaypalLine } from "react-icons/ri"
+import {addUserPaymentMethods} from '@src/redux/actions/wallet'
 
 export default function UserPaymentMetods({paymentMethods}) {
     const dispatch = useDispatch()

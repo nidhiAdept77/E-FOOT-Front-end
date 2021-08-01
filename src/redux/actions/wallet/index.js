@@ -11,7 +11,10 @@ export const addUserPaymentMethods = () => async dispatch => {
     const userId = localStorage.getItem('userId')
     const {getFieldValue} = require('../../../utils')
     const _ = require('underscore')
-
+    dispatch({
+        type: SET_LOADER,
+        payload: true
+    })
     const headers = {
         "Access-Control-Allow-Origin": "*"
     }
@@ -21,9 +24,17 @@ export const addUserPaymentMethods = () => async dispatch => {
             'get',
             headers
         )
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
         window.location.href = redirectUrl
     } catch (error) {
         console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
         return {success:false, message:[error.message]}
     }
 }
@@ -124,7 +135,7 @@ export const removeAllUserPaymentMethods = () => async dispatch => {
     })
 }
 
-export const getUserTransactions = (limit, page, searchString) => async dispatch => {
+export const getUserTransactions = (limit, page, searchString, isCompleted) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -146,6 +157,7 @@ export const getUserTransactions = (limit, page, searchString) => async dispatch
                             amount
                             closingBalance
                             type
+                            status
                             transactionType
                             reason
                         }
@@ -158,7 +170,8 @@ export const getUserTransactions = (limit, page, searchString) => async dispatch
             variables: {
                 limit, 
                 skip: (page * limit),
-                searchString
+                searchString,
+                isCompleted
             }
         })
         handleAuthResponse(data.getPaginatedTransactions)
@@ -311,4 +324,49 @@ export const removeCashPosition = () => dispatch => {
         type: SET_CASH_POSITION,
         payload: {}
     })
+}
+
+export const withdrawalAmount = (amount, paypalId) => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const {CONSTANTS} = require('../../../utils/CONSTANTS')
+    const _ = require('underscore')
+    dispatch({
+        type: SET_LOADER,
+        payload: true
+    })
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    try {
+        const {data} = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/payment/withdraw`,
+            'post',
+            headers,
+            {
+                amount,
+                currency: "usd", 
+                paypalId
+            }
+        )
+        if (data.success) {
+            dispatch(showToastMessage(data.message, "success"))
+        } else {
+            dispatch(showToastMessage(data.message[0], "error"))
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
 }

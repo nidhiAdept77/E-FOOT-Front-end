@@ -10,47 +10,8 @@ import {CONSTANTS} from '@src/utils/CONSTANTS'
 const CardTransactions = () => {
   const {userTransactions} = useSelector(state => state.wallet)
   const dispatch = useDispatch()
-  const transactionsArr = [
-    {
-      title: 'Wallet',
-      color: 'light-danger',
-      subtitle: 'Withdraw Money',
-      amount: '- $74',
-      Icon: Icon['ArrowUpRight'],
-      down: true
-    },
-    {
-      title: 'Wallet',
-      color: 'light-primary',
-      subtitle: 'Add Money',
-      amount: '+ $480',
-      Icon: Icon['ArrowDownLeft']
-    },
-    {
-      title: 'Wallet',
-      color: 'light-primary',
-      subtitle: 'Add Money',
-      amount: '+ $590',
-      Icon: Icon['ArrowDownLeft']
-    },
-    {
-      title: 'Wallet',
-      color: 'light-danger',
-      subtitle: 'Withdraw Money',
-      amount: '- $12',
-      Icon: Icon['ArrowUpRight'],
-      down: true
-    },
-    {
-      title: 'Wallet',
-      color: 'light-primary',
-      subtitle: 'Add Money',
-      amount: '+ $98',
-      Icon: Icon['ArrowDownLeft']
-    }
-  ]
   useEffect(() => {
-    dispatch(getUserTransactions(5, 0, ""))
+    dispatch(getUserTransactions(5, 0, "", true))
   }, [])
 
   const renderTransactions = () => {
@@ -66,7 +27,10 @@ const CardTransactions = () => {
               <small>{item.reason}</small>
             </Media>
           </Media>
-          <div className={`font-weight-bolder ${item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? 'text-danger' : 'text-success'}`}>${item.amount}</div>
+          <div className={`font-weight-bolder ${item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? 'text-danger' : 'text-success'}`}>
+            {item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? '-' : ''} {' '}
+            ${item.amount}
+          </div>
         </div>
       )
     }) : null

@@ -97,3 +97,8 @@ export const handleAuthResponse = (data) => {
     }
     
 }
+
+export const removeComma = string => {
+    const reg = new RegExp('\,', 'g')
+    return string ? string.replace(reg, '') : ""
+}

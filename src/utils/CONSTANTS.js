@@ -21,6 +21,15 @@ export const CONSTANTS = {
         WALLET: "wallet", 
         CHALLANGE: "challange"
     },
+    TRANSACTION_STATUS: {
+        PENDING: "Pending",
+        RECEIVED: "Received",
+        INITIATED: "Initiated",
+        COMEPLETED: "Completed",
+        DECLINED: "Declined",
+        CANCLED: "Cancelled",
+        PURGE: "Purge"
+    },
     ENV: env.ENVIRONMENT || "testing",
     PLATFORM_FEE: env.PLATFORM_FEE ? parseFloat(env.PLATFORM_FEE) : 0
 }
