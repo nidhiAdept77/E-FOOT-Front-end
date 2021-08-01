@@ -235,7 +235,6 @@ export const sendMsg = obj => {
 
 // Devansh temporary comment to recognize code....
 export const setCurrentChatMessages = (roomId) => async dispatch => {
-    console.log('roomId: ', roomId)
     dispatch({
         type: SET_LOADER,
         payload: true
@@ -260,15 +259,14 @@ export const setCurrentChatMessages = (roomId) => async dispatch => {
                 roomId
             }
         })
-        console.log('data: ', data)
         handleAuthResponse(data.getCurrentChatMessages)
         const {success} = data.getCurrentChatMessages
         if (success) {
-            const roomData = getFieldValue(data, 'getCurrentChatMessages.data')
-            if (!_.isEmpty(roomData)) {
+            const messages = getFieldValue(data, 'getCurrentChatMessages.data')
+            if (messages && messages.length) { 
                 dispatch({
                     type: SET_CURRENT_CHAT_MESSAGES,
-                    payload: roomData
+                    payload: messages
                 })
             }
         }
@@ -307,7 +305,6 @@ export const removeCurrentChatMessages = () => dispatch => {
 
 //Chat Subscriptions
 export const subsCurrentSeletedChat = (handleCurrentChat) => dispatch => {
-    console.log('handleCurrentChat: ', handleCurrentChat)
     try {
         const CurrentSeletedSubscription = gql`
            subscription{

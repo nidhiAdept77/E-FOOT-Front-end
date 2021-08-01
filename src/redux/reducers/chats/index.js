@@ -6,7 +6,8 @@ const initialState = {
     chats: [],
     contacts: [],
     userProfile: {},
-    selectedUser: {}
+    selectedUser: {},
+    currentChatMessages: []
 }
 
 export default (state = initialState, action) => {

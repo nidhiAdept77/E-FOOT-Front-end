@@ -84,7 +84,7 @@ const SidebarLeft = props => {
         const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
         const { message, createdAt } = lastMessage || {}
         const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
-        item = { _id, name, userIds, type, message, avatar: "/static/media/avatar-s-1.d383013d.jpg" }
+        item = { _id, name, userIds, type, message, avatar: "https://icon-library.com/images/user-group-512_59631.png" }
         return (
           <li
             className={classnames({
@@ -369,8 +369,8 @@ const SidebarLeft = props => {
             <ul className='chat-users-list chat-list media-list'>{renderRooms()}</ul>
             {/* <h4 className='chat-list-title'>Chats</h4>
             <ul className='chat-users-list chat-list media-list'>{renderChats()}</ul>
-            <h4 className='chat-list-title'>Contacts</h4> */}
-            <ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul>
+            <h4 className='chat-list-title'>Contacts</h4>
+            <ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul> */}
           </PerfectScrollbar>
         </div>
       </div>
