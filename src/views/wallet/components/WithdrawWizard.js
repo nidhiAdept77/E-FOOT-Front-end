@@ -43,8 +43,8 @@ export default function WithdrawWizard({modalClose}) {
             <Wizard 
                 type='modern-horizontal'
                 options={{
-                  linear: false
-                }}        
+                  linear: true
+                }}   
                 instance={el => setStepper(el)} 
                 ref={ref} 
                 steps={steps} />

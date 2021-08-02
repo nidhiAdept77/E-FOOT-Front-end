@@ -47,8 +47,12 @@ export const columns = [
     selector: "status",
     minWidth: '150px',
     cell: row => {
-      const classDat = CONSTANTS.TRANSACTION_STATUS.COMEPLETED ? "text-primary" : "text-info"
-      return <span className={classDat}>{row.status}</span>
+      const color = CONSTANTS.TRANSACTION_STATUS.COMEPLETED ? "light-success" : "light-warning"
+      return (
+        <Badge color={color} pill>
+          {row.status}
+        </Badge>
+      )
     }
   },
   {
