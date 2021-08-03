@@ -76,13 +76,26 @@ export const removeGlobalMessages = () => dispatch => {
     })
 }
 
-export const addMessageToChannel = (roomId, message) => async dispatch => {
+export const addMessageToChannel = (roomId, message, type = null) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
-        const addMessageMutation = gql`
+        const addMessageMutation = type ? gql`
+            mutation addRoomMessage($input: MessageInput){
+                addRoomMessage(input: $input){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data{
+                        ...MessageData
+                    }
+                }
+            }
+        ${MessageFragment}
+        ` : gql`
             mutation addMessage($input: MessageInput){
                 addMessage(input: $input){
                     statusCode
@@ -105,7 +118,7 @@ export const addMessageToChannel = (roomId, message) => async dispatch => {
                 }
             }
         })
-        handleAuthResponse(data.addMessage)
+        handleAuthResponse(type ? data.addRoomMessage : data.addMessage)
         dispatch({
             type: SET_LOADER,
             payload: false

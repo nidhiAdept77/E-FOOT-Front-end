@@ -20,7 +20,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, CheckSquare, Bell, User, Trash } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge, CustomInput, Button } from 'reactstrap'
 import _ from 'underscore'
-import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat } from '../../redux/actions/chats'
+import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage } from '../../redux/actions/chats'
 import { setCurrentRoom } from '../../redux/actions/rooms'
 
 let currentChatSub
@@ -57,8 +57,9 @@ const SidebarLeft = props => {
   useEffect(() => {
     dispatch(setCurrentChatMessages(roomId))
     dispatch(setCurrentRoom(roomId))
-    currentChatSub = subsCurrentSeletedChat(messages => {
-    })
+    currentChatSub = dispatch(subsCurrentSeletedChat(messages => {
+      dispatch(updateCurrentChatMessage(messages))
+    }))
     return () => {
       dispatch(removeCurrentChatMessages())
       if (currentChatSub && currentChatSub.subscription) {

@@ -142,7 +142,7 @@ const ChatLog = props => {
   const handleSendMsg = async e => {
     e.preventDefault()
     if (msg) {
-      dispatch(addMessageToChannel(currentRoom._id, msg.trim()))
+      dispatch(addMessageToChannel(currentRoom._id, msg.trim(), 'private'))
       setMsg('')
     }
   }
@@ -168,7 +168,7 @@ const ChatLog = props => {
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
-                <Avatar size="md" color="secondary" className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials />
+                <Avatar height="32" color="secondary" className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials />
                 <h6 className='mb-0'>{currentRoom.name}</h6>
               </div>
               {/* <div className='d-flex align-items-center'>
