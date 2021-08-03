@@ -84,7 +84,7 @@ const SidebarLeft = props => {
         const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
         const { message, createdAt } = lastMessage || {}
         const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
-        item = { _id, name, userIds, type, message, avatar: "https://icon-library.com/images/user-group-512_59631.png" }
+        item = { _id, name, userIds, type, message }
         return (
           <li
             className={classnames({
@@ -93,11 +93,7 @@ const SidebarLeft = props => {
             key={item._id}
             onClick={() => handleUserClick("room", item._id)}
           >
-            <Avatar
-              img={item.avatar}
-              imgHeight="42"
-              imgWidth="42"
-            />
+            <Avatar className="custom-size-avatar" color="secondary" content={item.name} initials />
             <div className="chat-info flex-grow-1">
               <h5 className="mb-0">{item.name}</h5>
               {item.message && (

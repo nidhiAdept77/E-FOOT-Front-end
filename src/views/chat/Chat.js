@@ -168,14 +168,7 @@ const ChatLog = props => {
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
-                <Avatar
-                  imgHeight='36'
-                  imgWidth='36'
-                  img="https://icon-library.com/images/user-group-512_59631.png"
-                  /* status={selectedUser.contact.status} */
-                  className='avatar-border user-profile-toggle m-0 mr-1'
-                  /* onClick={() => handleAvatarClick(selectedUser.contact)} */
-                />
+                <Avatar size="md" color="secondary" className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials />
                 <h6 className='mb-0'>{currentRoom.name}</h6>
               </div>
               {/* <div className='d-flex align-items-center'>
