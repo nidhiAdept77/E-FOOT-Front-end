@@ -7,15 +7,16 @@ import CardBody from 'reactstrap/lib/CardBody'
 import { GiWallet } from "react-icons/gi"
 import WalletActionsCard from './WalletActionsCard'
 import { useDispatch, useSelector } from 'react-redux'
-import {getUserCashPosition, removeCashPosition} from '@store/actions/wallet'
+import {getUserCashPosition, removeCashPosition, getUserCashPositionSubscription, setUserCashPosition} from '@store/actions/wallet'
 import _ from 'underscore'
-
+let cashPositionSub
 export default function WalletHeader() {
     const {userCashPosition} = useSelector(state => state.wallet)
     const dispatch = useDispatch()
     const [amount, setAmount] = useState(0)
     const [playingPower, setPlayingPower] = useState(0)
     const [holdingAmount, setHoldingAmount] = useState(0)
+    
     useEffect(() => {
         if (!_.isEmpty(userCashPosition)) {
             setAmount(userCashPosition.amount)
@@ -23,10 +24,20 @@ export default function WalletHeader() {
             setHoldingAmount(userCashPosition.cumulativeHoldAmount)
         }
     }, [userCashPosition])
+
     useEffect(() => {
-        dispatch(getUserCashPosition())
+        dispatch(getUserCashPosition(cashposition => {
+            dispatch(setUserCashPosition(cashposition))
+        }))
+
+        cashPositionSub = dispatch(getUserCashPositionSubscription(cashposition => {
+            dispatch(setUserCashPosition(cashposition))
+        }))
         return () => {
             dispatch(removeCashPosition())
+            if (cashPositionSub && cashPositionSub.subscription) {
+                cashPositionSub.subscription.unsubscribe()
+            }
         }
     }, [])
     return (

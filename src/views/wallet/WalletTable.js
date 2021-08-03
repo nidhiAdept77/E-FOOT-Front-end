@@ -163,7 +163,7 @@ const WalletTable = () => {
             </div>
           </CardHeader>
           <Row className='justify-content-end mx-0'>
-            <Col className='d-flex align-items-center justify-content-end mt-1' md='6' sm='12'>
+            {/* <Col className='d-flex align-items-center justify-content-end mt-1' md='6' sm='12'>
               <Label className='mr-1' for='search-input'>
                 Search
               </Label>
@@ -175,7 +175,7 @@ const WalletTable = () => {
                 value={searchValue}
                 onChange={handleFilter}
               />
-            </Col>
+            </Col> */}
           </Row>
           <DataTable
             noHeader

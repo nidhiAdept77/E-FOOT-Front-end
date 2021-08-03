@@ -370,3 +370,47 @@ export const withdrawalAmount = (amount, paypalId) => async dispatch => {
         return {success:false, message:[error.message]}
     }
 }
+
+export const getUserCashPositionSubscription = handleCashPosition => async dispatch => {
+    try {
+        const cashpositionSubQuery = gql`
+            subscription{
+                userCashPositionSubs{
+                    _id
+                    userId
+                    amount
+                    playingPower
+                    cumulativeHoldAmount
+                    status
+                    createdAt
+                    updatedAt
+                }
+            }
+        `
+        const observable = client.subscribe({query:  cashpositionSubQuery})
+        return observable.subscribe(({data}) =>  {
+           handleCashPosition(data.userCashPositionSubs)
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+
+}
+
+export const setUserCashPosition = data => dispatch => {
+    const {SET_CASH_POSITION} = require('../../types')
+    try {
+        console.log('SET_CASH_POSITION: ', SET_CASH_POSITION)
+        console.log('data: ', data)
+        dispatch({
+            type: SET_CASH_POSITION,
+            payload: data
+        })
+    } catch (error) {
+        console.error('error: ', error)
+    }
+}

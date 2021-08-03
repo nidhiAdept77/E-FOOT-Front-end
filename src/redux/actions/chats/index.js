@@ -119,7 +119,7 @@ export const addMessageToChannel = (roomId, message) => async dispatch => {
     }
 }
 
-export const getGlobalMessagesSubscriptions = (handleMessageAdded) => async dispatch => {
+export const getGlobalMessagesSubscriptions = () => async dispatch => {
     try {
         const gloabalMsgSubscription = gql`
            subscription{
@@ -130,7 +130,9 @@ export const getGlobalMessagesSubscriptions = (handleMessageAdded) => async disp
             ${MessageFragment}
         `
         const observable = client.subscribe({query:  gloabalMsgSubscription})
-        return observable.subscribe(({data}) =>  handleMessageAdded(data.globalMessages))
+        return observable.subscribe(({data}) =>  {
+            handleMessageAdded(data.globalMessages)
+        })
     } catch (error) {
         console.error('error: ', error)
         dispatch({
