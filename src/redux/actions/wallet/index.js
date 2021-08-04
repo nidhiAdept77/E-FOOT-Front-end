@@ -404,8 +404,6 @@ export const getUserCashPositionSubscription = handleCashPosition => async dispa
 export const setUserCashPosition = data => dispatch => {
     const {SET_CASH_POSITION} = require('../../types')
     try {
-        console.log('SET_CASH_POSITION: ', SET_CASH_POSITION)
-        console.log('data: ', data)
         dispatch({
             type: SET_CASH_POSITION,
             payload: data
@@ -413,4 +411,36 @@ export const setUserCashPosition = data => dispatch => {
     } catch (error) {
         console.error('error: ', error)
     }
+}
+
+export const getusersTransactionSubscription = handleTransaction => dispatch => {
+    const transactionSubQuery = gql`
+        subscription{
+            usersTransactionsSubs{
+                _id
+                userId
+                txnId
+                amount
+                closingBalance
+                status
+                type
+                transactionType
+                reason
+                updatedAt
+                createdAt
+            }
+        }
+    `
+    const observable = client.subscribe({query:  transactionSubQuery})
+    return observable.subscribe(({data}) =>  {
+        handleTransaction(data.usersTransactionsSubs)
+    })
+}
+
+export const setTransactions = transaction => dispatch => {
+    const {SET_SUBS_TRANSACTION} = require('../../types')
+    dispatch({
+        type: SET_SUBS_TRANSACTION,
+        payload: transaction
+    })
 }

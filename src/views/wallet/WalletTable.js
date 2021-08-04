@@ -8,22 +8,18 @@ import {columns } from './data'
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy, Plus } from 'react-feather'
+import { ChevronDown, Share, FileText } from 'react-feather'
 import {
   Card,
   CardHeader,
   CardTitle,
-  Button,
   UncontrolledButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Input,
-  Label,
-  Row,
-  Col
+  Row
 } from 'reactstrap'
-import {getUserTransactions, removeUserTrasaction} from '@src/redux/actions/wallet'
+import {getUserTransactions, removeUserTrasaction, setTransactions, getusersTransactionSubscription} from '@src/redux/actions/wallet'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -34,6 +30,7 @@ const BootstrapCheckbox = forwardRef(({ onClick, ...rest }, ref) => (
     <label className='custom-control-label' onClick={onClick} />
   </div>
 ))
+let transactionSubs
 const WalletTable = () => {
     // ** States
     const [limit, setLimit] = useState(10)
@@ -44,8 +41,14 @@ const WalletTable = () => {
     
     useEffect(() => {
       dispatch(getUserTransactions(limit, currentPage, searchValue))
+      transactionSubs = dispatch(getusersTransactionSubscription(transaction => {
+        dispatch(setTransactions(transaction))
+      }))
       return () => {
         dispatch(removeUserTrasaction())
+        if (transactionSubs && transactionSubs.subscription) {
+          transactionSubs.subscription.unsubscribe()
+      }
       }
     }, [])
   

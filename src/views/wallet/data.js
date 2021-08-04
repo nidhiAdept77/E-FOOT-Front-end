@@ -47,7 +47,7 @@ export const columns = [
     selector: "status",
     minWidth: '150px',
     cell: row => {
-      const color = CONSTANTS.TRANSACTION_STATUS.COMEPLETED ? "light-success" : "light-warning"
+      const color = CONSTANTS.TRANSACTION_STATUS.COMEPLETED === row.status ? "light-success" : "light-warning"
       return (
         <Badge color={color} pill>
           {row.status}

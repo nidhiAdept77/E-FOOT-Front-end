@@ -1,4 +1,4 @@
-import {SET_USERS_PAYMENT_METHODS, SET_USERS_TRANSACTIONS, SET_TOTAL, SET_TRANSACTION, SET_LOADER, SET_CASH_POSITION} from '../../types'
+import {SET_USERS_PAYMENT_METHODS, SET_USERS_TRANSACTIONS, SET_TOTAL, SET_TRANSACTION, SET_LOADER, SET_CASH_POSITION, SET_SUBS_TRANSACTION} from '../../types'
 
 const initialState = {
     userPaymentMethods: [],
@@ -42,6 +42,20 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 userCashPosition: payload
+            }
+        case SET_SUBS_TRANSACTION:
+            const isPresentIndex = state.userTransactions.findIndex(userTransaction => userTransaction._id === payload._id)
+            let transactions
+            if (isPresentIndex < 0) {
+                transactions = [payload, ...state.userTransactions]
+                transactions = transactions.slice(0, 10)
+            } else {
+                transactions = state.userTransactions
+                transactions[isPresentIndex] = payload
+            }
+            return {
+                ...state,
+                userTransactions: transactions
             }
         default:
             return state
