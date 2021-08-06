@@ -202,6 +202,60 @@ export const getUserTransactions = (limit, page, searchString, isCompleted) => a
     }
 }
 
+export const getAllUserTransactions = () => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const UsersTransactionsQuery = gql`
+            query getPaginatedTransactions($limit: Int, $skip: Int, $searchString: String){
+                getPaginatedTransactions(limit: $limit, skip: $skip, searchString: $searchString){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data {
+                        totalPages
+                        skip
+                        limit
+                        data {
+                            txnId
+                            amount
+                            closingBalance
+                            type
+                            status
+                            transactionType
+                            reason
+                        }
+                    }
+                }
+            }
+        `
+        const  {data} = await client.query({
+            query: UsersTransactionsQuery,
+            variables: {
+                limit:null, 
+                skip: null,
+                searchString: null,
+                isCompleted: null
+            }
+        })
+        handleAuthResponse(data.getPaginatedTransactions)
+        const {success} = data.getPaginatedTransactions
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        if (success) {
+            const transactions = getFieldValue(data, 'getPaginatedTransactions.data')
+            return transactions.data
+        }
+    } catch (error) {
+        
+    }
+}
+
 export const removeUserTrasaction = () => async dispatch => {
     dispatch({
         type: SET_USERS_TRANSACTIONS,

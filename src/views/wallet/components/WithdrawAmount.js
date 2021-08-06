@@ -7,6 +7,7 @@ const _ = require('underscore')
 import {removeComma} from '@src/utils'
 import {showToastMessage} from '@store/actions/toastNotification'
 import {withdrawalAmount} from '@store/actions/wallet'
+import { HiOutlineCash } from "react-icons/hi"
 
 export default function WithdrawAmount({stepper, type, selectedMethod, modalClose}) {
     const dispatch = useDispatch()
@@ -43,7 +44,7 @@ export default function WithdrawAmount({stepper, type, selectedMethod, modalClos
                 <small className='text-muted'>Enter amount and check the payment method.</small>
             </div>
             <Row className="mt-2 mb-2">
-                <Col md='6' sm='12'>
+                <Col lg="6" md="12" sm='12'>
                     <p className="pt-2 text-center">
                         Your available amount for withdrawal 
                         <h3 className="font-weight-bolderer">
@@ -51,7 +52,7 @@ export default function WithdrawAmount({stepper, type, selectedMethod, modalClos
                         </h3>
                     </p>
                 </Col>
-                <Col md='6' sm='12' className='flex-center'>
+                <Col lg="6" md="12" sm='12' className='flex-center'>
                     <InputGroup>
                         <FormGroup className='form-label-group mb-0'>
                             <Cleave 
@@ -90,6 +91,7 @@ export default function WithdrawAmount({stepper, type, selectedMethod, modalClos
                 </Button.Ripple>
                 <Button.Ripple color='success' className='btn-next' onClick={handleWithdraw}>
                     <span className='align-middle d-sm-inline-block d-none'>Withdraw</span>
+                    <HiOutlineCash size={19} className='align-middle mr-sm-25 mr-0'></HiOutlineCash>
                 </Button.Ripple>
             </div>
         </div>

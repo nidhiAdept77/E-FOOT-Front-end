@@ -17,9 +17,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Row
+  Row,
+  Col,
+  Label,
+  Input
 } from 'reactstrap'
-import {getUserTransactions, removeUserTrasaction, setTransactions, getusersTransactionSubscription} from '@src/redux/actions/wallet'
+import {getUserTransactions, removeUserTrasaction, setTransactions, getusersTransactionSubscription, getAllUserTransactions} from '@src/redux/actions/wallet'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -37,7 +40,7 @@ const WalletTable = () => {
     const [currentPage, setCurrentPage] = useState(0)
     const [searchValue, setSearchValue] = useState('')
     const dispatch = useDispatch()
-    const {userTransactions: data, total} = useSelector(state => state.wallet)
+    const {userTransactions, total} = useSelector(state => state.wallet)
     
     useEffect(() => {
       dispatch(getUserTransactions(limit, currentPage, searchValue))
@@ -51,16 +54,11 @@ const WalletTable = () => {
       }
       }
     }, [])
-  
-    // ** Function to handle Modal toggle
-    const handleFilter = (value) => {
-      setSearchValue(value)
-      setTimeout(() => {
-          dispatch(getUserTransactions(limit, currentPage, value))
-      }, 100)
-
-    }
     
+    useEffect(() => {
+      dispatch(getUserTransactions(limit, currentPage, searchValue))
+  }, [searchValue])
+
     // ** Function to handle Pagination
     const handlePagination = page => {
       dispatch(getUserTransactions(limit, page.selected, searchValue))
@@ -99,7 +97,7 @@ const WalletTable = () => {
   
       const columnDelimiter = ','
       const lineDelimiter = '\n'
-      const keys = Object.keys(data[0])
+      const keys = Object.keys(array[0])
   
       result = ''
       result += keys.join(columnDelimiter)
@@ -121,7 +119,8 @@ const WalletTable = () => {
     }
   
     // ** Downloads CSV
-    function downloadCSV(array) {
+    const downloadCSV = async () => {
+      const array = await dispatch(getAllUserTransactions())
       const link = document.createElement('a')
       let csv = convertArrayOfObjectsToCSV(array)
       if (csv === null) return
@@ -149,24 +148,16 @@ const WalletTable = () => {
                   <span className='align-middle ml-50'>Export</span>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem className='w-100' onClick={() => downloadCSV(data)}>
+                  <DropdownItem className='w-100' onClick={() => downloadCSV()}>
                     <FileText size={15} />
                     <span className='align-middle ml-50'>CSV</span>
                   </DropdownItem>
-                  {/* <DropdownItem className='w-100'>
-                    <Grid size={15} />
-                    <span className='align-middle ml-50'>Excel</span>
-                  </DropdownItem>
-                  <DropdownItem className='w-100'>
-                    <File size={15} />
-                    <span className='align-middle ml-50'>Text</span>
-                  </DropdownItem> */}
                 </DropdownMenu>
               </UncontrolledButtonDropdown>
             </div>
           </CardHeader>
           <Row className='justify-content-end mx-0'>
-            {/* <Col className='d-flex align-items-center justify-content-end mt-1' md='6' sm='12'>
+            <Col className='d-flex align-items-center justify-content-end mt-1' md='6' sm='12'>
               <Label className='mr-1' for='search-input'>
                 Search
               </Label>
@@ -176,22 +167,20 @@ const WalletTable = () => {
                 bsSize='sm'
                 id='search-input'
                 value={searchValue}
-                onChange={handleFilter}
+                onChange={e => setSearchValue(e.currentTarget.value)}
               />
-            </Col> */}
+            </Col>
           </Row>
           <DataTable
             noHeader
             pagination
-            selectableRows
             columns={columns}
-            paginationPerPage={7}
+            paginationPerPage={limit}
             className='react-dataTable'
             sortIcon={<ChevronDown size={10} />}
             paginationDefaultPage={currentPage + 1}
             paginationComponent={CustomPagination}
-            data={data}
-            selectableRowsComponent={BootstrapCheckbox}
+            data={userTransactions}
           />
         </Card>
       </Fragment>
