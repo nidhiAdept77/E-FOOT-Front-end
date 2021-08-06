@@ -387,6 +387,7 @@ export const withdrawalAmount = (amount, paypalId) => async dispatch => {
     const userId = localStorage.getItem('userId')
     const {getFieldValue} = require('../../../utils')
     const {CONSTANTS} = require('../../../utils/CONSTANTS')
+    const showToastMessage = require('../toastNotification')
     const _ = require('underscore')
     dispatch({
         type: SET_LOADER,
