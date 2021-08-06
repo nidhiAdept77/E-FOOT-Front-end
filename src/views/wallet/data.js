@@ -57,9 +57,9 @@ export const columns = [
   },
   {
     name: 'Date',
-    selector: 'createdAt',
+    selector: 'updatedAt',
     sortable: true,
     minWidth: '150px',
-    cell: row => `${getFormattedDate(row.value)}`
+    cell: row => `${getFormattedDate(row.updatedAt)}`
   }
 ]

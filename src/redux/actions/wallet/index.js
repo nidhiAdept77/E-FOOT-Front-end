@@ -160,6 +160,7 @@ export const getUserTransactions = (limit, page, searchString, isCompleted) => a
                             status
                             transactionType
                             reason
+                            updatedAt
                         }
                     }
                 }
@@ -227,6 +228,7 @@ export const getAllUserTransactions = () => async dispatch => {
                             status
                             transactionType
                             reason
+                            updatedAt
                         }
                     }
                 }
