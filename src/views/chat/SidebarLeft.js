@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectChat } from '@src/redux/actions/chats'
 
 import { getUsersRoom, removeRooms } from '@src/redux/actions/rooms'
+import { handleOnlineUserHidden } from '@src/redux/actions/layout'
 
 // ** Utils
 import { formatDateToMonthShort } from '@utils'
@@ -19,16 +20,20 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, CheckSquare, Bell, User, Trash } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge, CustomInput, Button } from 'reactstrap'
 import _ from 'underscore'
+import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage } from '../../redux/actions/chats'
+import { setCurrentRoom } from '../../redux/actions/rooms'
 
+let currentChatSub
 const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
   const { chats, contacts, userProfile } = store
   const {rooms} = useSelector(state => state.rooms)
-
+  const {user} = useSelector(state => state.auth)
+  
   // ** Dispatch
   const dispatch = useDispatch()
-
+  
   // ** State
   const [about, setAbout] = useState('')
   const [query, setQuery] = useState('')
@@ -37,16 +42,35 @@ const SidebarLeft = props => {
   const [filteredChat, setFilteredChat] = useState([])
   const [filteredContacts, setFilteredContacts] = useState([])
   const [searchValue, setSearchValue] = useState("")
+  const [roomId, setRoomId] = useState(null)
+  
+  dispatch(handleOnlineUserHidden(false))
   
   useEffect(() => {
-    dispatch(getUsersRoom(searchValue))
+    dispatch(getUsersRoom(false, searchValue))
     return () => {
       dispatch(removeRooms())
+      getUsersRoom(true)
     }
   }, [searchValue])
   
+  useEffect(() => {
+    dispatch(setCurrentChatMessages(roomId))
+    dispatch(setCurrentRoom(roomId))
+    currentChatSub = dispatch(subsCurrentSeletedChat(messages => {
+      dispatch(updateCurrentChatMessage(messages))
+    }))
+    return () => {
+      dispatch(removeCurrentChatMessages())
+      if (currentChatSub && currentChatSub.subscription) {
+        currentChatSub.subscription.unsubscribe()
+      }
+    }
+  }, [roomId])
+  
   // ** Handles User Chat Click
   const handleUserClick = (type, id) => {
+    setRoomId(id)
     dispatch(selectChat(id))
     setActive({ type, id })
     if (sidebar === true) {
@@ -61,7 +85,7 @@ const SidebarLeft = props => {
         const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
         const { message, createdAt } = lastMessage || {}
         const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
-        item = { _id, name, userIds, type, message, avatar: "/static/media/avatar-s-1.d383013d.jpg" }
+        item = { _id, name, userIds, type, message }
         return (
           <li
             className={classnames({
@@ -70,11 +94,7 @@ const SidebarLeft = props => {
             key={item._id}
             onClick={() => handleUserClick("room", item._id)}
           >
-            <Avatar
-              img={item.avatar}
-              imgHeight="42"
-              imgWidth="42"
-            />
+            <Avatar className="custom-size-avatar" color="secondary" content={item.name} initials />
             <div className="chat-info flex-grow-1">
               <h5 className="mb-0">{item.name}</h5>
               {item.message && (
@@ -106,7 +126,7 @@ const SidebarLeft = props => {
   }
 
   // ** Renders Chat
-  const renderChats = () => {
+  /* const renderChats = () => {
     if (chats && chats.length) {
       if (query.length && !filteredChat.length) {
         return (
@@ -150,7 +170,7 @@ const SidebarLeft = props => {
     } else {
       return null
     }
-  }
+  } */
 
   // ** Renders Contact
   const renderContacts = () => {
@@ -316,10 +336,10 @@ const SidebarLeft = props => {
               {/* use below code to open side bar */}
               {/* <div className='sidebar-profile-toggle' onClick={handleUserSidebarLeft}> */}
               <div className='sidebar-profile-toggle'>
-                {Object.keys(userProfile).length ? (
+                {Object.keys(user).length ? (
                   <Avatar
                     className='avatar-border'
-                    img={userProfile.avatar}
+                    img={user.profileImage}
                     status={status}
                     imgHeight='42'
                     imgWidth='42'
@@ -342,12 +362,12 @@ const SidebarLeft = props => {
             </div>
           </div>
           <PerfectScrollbar className='chat-user-list-wrapper list-group' options={{ wheelPropagation: false }}>
-            <h4 className='chat-list-title'>Rooms</h4>
+            {/* <h4 className='chat-list-title'>Rooms</h4> */}
             <ul className='chat-users-list chat-list media-list'>{renderRooms()}</ul>
-            <h4 className='chat-list-title'>Chats</h4>
+            {/* <h4 className='chat-list-title'>Chats</h4>
             <ul className='chat-users-list chat-list media-list'>{renderChats()}</ul>
             <h4 className='chat-list-title'>Contacts</h4>
-            <ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul>
+            <ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul> */}
           </PerfectScrollbar>
         </div>
       </div>

@@ -2,8 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG} from '../../types'
-
+import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES} from '../../types'
 import {data} from '@src/assets/data/chat-data'
 
 const MessageFragment = gql`
@@ -11,6 +10,7 @@ const MessageFragment = gql`
         _id
         roomId
         message
+        createdAt
         user{
             _id
             userName
@@ -76,13 +76,26 @@ export const removeGlobalMessages = () => dispatch => {
     })
 }
 
-export const addMessageToChannel = (roomId, message) => async dispatch => {
+export const addMessageToChannel = (roomId, message, type = null) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
-        const addMessageMutation = gql`
+        const addMessageMutation = type ? gql`
+            mutation addRoomMessage($input: MessageInput){
+                addRoomMessage(input: $input){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data{
+                        ...MessageData
+                    }
+                }
+            }
+        ${MessageFragment}
+        ` : gql`
             mutation addMessage($input: MessageInput){
                 addMessage(input: $input){
                     statusCode
@@ -105,7 +118,7 @@ export const addMessageToChannel = (roomId, message) => async dispatch => {
                 }
             }
         })
-        handleAuthResponse(data.addMessage)
+        handleAuthResponse(type ? data.addRoomMessage : data.addMessage)
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -233,4 +246,96 @@ export const sendMsg = obj => {
   dispatch({ type: SEND_MSG, data: response })
   dispatch(selectChat(obj.contact.id))
   
+}
+
+// Devansh temporary comment to recognize code....
+export const setCurrentChatMessages = (roomId) => async dispatch => {
+    dispatch({
+        type: SET_LOADER,
+        payload: true
+    })
+    try {
+        const currentChatMessageQuery = gql`
+            query getCurrentChatByRoomId($roomId: String){
+                getCurrentChatMessages(roomId: $roomId){
+                    statusCode
+                    success
+                    nextToken
+                    data{
+                        ...MessageData
+                    }
+                }
+            }
+            ${MessageFragment}
+        `
+        const {data} = await client.query({
+            query: currentChatMessageQuery,
+            variables: {
+                roomId
+            }
+        })
+        handleAuthResponse(data.getCurrentChatMessages)
+        const {success} = data.getCurrentChatMessages
+        if (success) {
+            const messages = getFieldValue(data, 'getCurrentChatMessages.data')
+            if (messages && messages.length) { 
+                dispatch({
+                    type: SET_CURRENT_CHAT_MESSAGES,
+                    payload: messages
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const updateCurrentChatMessage = (messages) => dispatch => {
+    try {
+        dispatch({
+            type: SET_CURRENT_CHAT_MESSAGES,
+            payload: messages
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        
+    }
+}
+
+export const removeCurrentChatMessages = () => dispatch => {
+    dispatch({
+        type: SET_CURRENT_CHAT_MESSAGES,
+        payload: []
+    })
+}
+
+//Chat Subscriptions
+export const subsCurrentSeletedChat = (handleCurrentChat) => dispatch => {
+    try {
+        const CurrentSeletedSubscription = gql`
+           subscription{
+            currentChat{
+                    ...MessageData
+                }
+            }
+            ${MessageFragment}
+        `
+        const observable = client.subscribe({query:  CurrentSeletedSubscription})
+        return observable.subscribe(({data}) => handleCurrentChat(data.currentChat)) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
 }

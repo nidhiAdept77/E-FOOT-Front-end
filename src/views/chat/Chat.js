@@ -6,8 +6,7 @@ import ReactDOM from 'react-dom'
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { useDispatch } from 'react-redux'
-import { sendMsg } from './store/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -26,11 +25,20 @@ import {
   InputGroupText,
   Button
 } from 'reactstrap'
+import { getChatTime } from '../../utils'
+import { addMessageToChannel } from '../../redux/actions/chats'
 
 const ChatLog = props => {
   // ** Props & Store
-  const { handleUser, handleUserSidebarRight, handleSidebar, store, userSidebarLeft } = props
-  const { userProfile, selectedUser } = store
+  const { handleUser, handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
+
+  let {currentChatMessages} = useSelector(state => state.chats)
+  currentChatMessages = currentChatMessages ? currentChatMessages : []
+
+  let {currentRoom} = useSelector(state => state.rooms)
+  currentRoom = currentRoom ? currentRoom : {}
+  
+  const {user} = useSelector(state => state.auth)
 
   // ** Refs & Dispatch
   const chatArea = useRef(null)
@@ -47,15 +55,13 @@ const ChatLog = props => {
 
   // ** If user chat is not empty scrollToBottom
   useEffect(() => {
-    const selectedUserLen = Object.keys(selectedUser).length
-
-    if (selectedUserLen) {
+    if (currentChatMessages.length) {
       scrollToBottom()
     }
-  }, [selectedUser])
+  }, [currentChatMessages])
 
   // ** Formats chat data based on sender
-  const formattedChatData = () => {
+  /* const formattedChatData = () => {
     let chatLog = []
     if (selectedUser.chat) {
       chatLog = selectedUser.chat.chat
@@ -89,35 +95,34 @@ const ChatLog = props => {
       if (index === chatLog.length - 1) formattedChatLog.push(msgGroup)
     })
     return formattedChatLog
-  }
+  } */
 
   // ** Renders user chat
   const renderChats = () => {
-    return formattedChatData().map((item, index) => {
-      return (
+    return currentChatMessages.length ? currentChatMessages.map((item, index) => {
+        return (
         <div
           key={index}
           className={classnames('chat', {
-            'chat-left': item.senderId !== 11
+            'chat-left': item.user._id !== user._id
           })}
         >
           <div className='chat-avatar'>
             <Avatar
               className='box-shadow-1 cursor-pointer'
-              img={item.senderId === 11 ? userProfile.avatar : selectedUser.contact.avatar}
+              img={item.user.profileImage}
             />
           </div>
 
           <div className='chat-body'>
-            {item.messages.map(chat => (
-              <div key={chat.msg} className='chat-content'>
-                <p>{chat.msg}</p>
+              <div key={item._id} className='chat-content'>
+                <p>{item.message}</p>
+                <p className="chat-time">{getChatTime(new Date(parseInt(item.createdAt)))}</p>
               </div>
-            ))}
           </div>
         </div>
       )
-    })
+    }) : ""
   }
 
   // ** Opens right sidebar & handles its data
@@ -128,50 +133,43 @@ const ChatLog = props => {
 
   // ** On mobile screen open left sidebar on Start Conversation Click
   const handleStartConversation = () => {
-    if (!Object.keys(selectedUser).length && !userSidebarLeft && window.innerWidth <= 1200) {
+    if (!Object.keys(currentRoom).length && !userSidebarLeft && window.innerWidth <= 1200) {
       handleSidebar()
     }
   }
 
   // ** Sends New Msg
-  const handleSendMsg = e => {
+  const handleSendMsg = async e => {
     e.preventDefault()
-    if (msg.length) {
-      dispatch(sendMsg({ ...selectedUser, message: msg }))
+    if (msg) {
+      dispatch(addMessageToChannel(currentRoom._id, msg.trim(), 'private'))
       setMsg('')
     }
   }
 
   // ** ChatWrapper tag based on chat's length
-  const ChatWrapper = Object.keys(selectedUser).length && selectedUser.chat ? PerfectScrollbar : 'div'
-
+  const ChatWrapper = currentChatMessages.length ? PerfectScrollbar : 'div'
+  
   return (
     <div className='chat-app-window'>
-      <div className={classnames('start-chat-area', { 'd-none': Object.keys(selectedUser).length })}>
+      {/* <div className={classnames('start-chat-area', { 'd-none': currentChatMessages.length })}>
         <div className='start-chat-icon mb-1'>
           <MessageSquare />
         </div>
         <h4 className='sidebar-toggle start-chat-text' onClick={handleStartConversation}>
           Start Conversation
         </h4>
-      </div>
-      {Object.keys(selectedUser).length ? (
-        <div className={classnames('active-chat', { 'd-none': selectedUser === null })}>
+      </div> */}
+      {Object.keys(currentRoom).length ? (
+        <div className={classnames('active-chat', { 'd-none': Object.keys(currentRoom).length === 0 })}>
           <div className='chat-navbar'>
             <header className='chat-header'>
               <div className='d-flex align-items-center'>
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
-                <Avatar
-                  imgHeight='36'
-                  imgWidth='36'
-                  img={selectedUser.contact.avatar}
-                  status={selectedUser.contact.status}
-                  className='avatar-border user-profile-toggle m-0 mr-1'
-                  onClick={() => handleAvatarClick(selectedUser.contact)}
-                />
-                <h6 className='mb-0'>{selectedUser.contact.fullName}</h6>
+                <Avatar height="32" color="secondary" className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials />
+                <h6 className='mb-0'>{currentRoom.name}</h6>
               </div>
               {/* <div className='d-flex align-items-center'>
                 <PhoneCall size={18} className='cursor-pointer d-sm-block d-none mr-1' />
@@ -204,7 +202,7 @@ const ChatLog = props => {
           </div>
 
           <ChatWrapper ref={chatArea} className='user-chats' options={{ wheelPropagation: false }}>
-            {selectedUser.chat ? <div className='chats'>{renderChats()}</div> : null}
+            {currentChatMessages.length ? <div className='chats'>{renderChats()}</div> : null}
           </ChatWrapper>
 
           <Form className='chat-app-form' onSubmit={e => handleSendMsg(e)}>
@@ -212,7 +210,7 @@ const ChatLog = props => {
               <Input
                 value={msg}
                 onChange={e => setMsg(e.target.value)}
-                placeholder='Type your message or use speech to text'
+                placeholder='Type your message here....'
               />
             </InputGroup>
             <Button className='send' color='primary'>

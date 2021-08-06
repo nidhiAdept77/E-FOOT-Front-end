@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
         case SET_LOADER:
             return {
                 ...state,
-                laoding: payload
+                loading: payload
             }
         case SET_COUNTRY_DETAILS:
             return {

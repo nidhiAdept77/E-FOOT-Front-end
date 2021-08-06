@@ -2,7 +2,8 @@ const initialState = {
   chats: [],
   contacts: [],
   userProfile: {},
-  selectedUser: {}
+  selectedUser: {},
+  currentRoom: {}
 }
 
 const chatReducer = (state = initialState, action) => {

@@ -1737,6 +1737,9 @@
               .chat-time {
                 color: $theme-dark-text-muted-color;
               }
+              .custom-size-avatar.avatar{
+                height: 32px;
+              }
               &.active {
                 .chat-info .card-text,
                 .chat-time {
