@@ -82,24 +82,23 @@ const SidebarLeft = props => {
   const renderRooms = () => {
     if (rooms && rooms.length) {
       return rooms.map(item => {
-        const {  _id, name, userIds, type, lastMessage, createdAt: roomCreatedAt } = item
+        const {  _id, name, lastMessage, createdAt: roomCreatedAt, profileBg } = item
         const { message, createdAt } = lastMessage || {}
         const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
-        item = { _id, name, userIds, type, message }
         return (
           <li
             className={classnames({
-              active: active.type === "room" && active.id === item._id
+              active: active.type === "room" && active.id === _id
             })}
-            key={item._id}
-            onClick={() => handleUserClick("room", item._id)}
+            key={_id}
+            onClick={() => handleUserClick("room", _id)}
           >
-            <Avatar className="custom-size-avatar" color="secondary" content={item.name} initials />
+            <Avatar className="custom-size-avatar" color={profileBg} content={name} initials />
             <div className="chat-info flex-grow-1">
-              <h5 className="mb-0">{item.name}</h5>
-              {item.message && (
+              <h5 className="mb-0">{name}</h5>
+              {message && (
                 <CardText className="text-truncate">
-                  {item.message}
+                  {message}
                 </CardText>
               )}
             </div>
@@ -208,12 +207,8 @@ const SidebarLeft = props => {
 
   // ** Handles Filter
   const handleFilter = e => {
-    setQuery(e.target.value)
-    const searchFilterFunction = contact => contact.fullName.toLowerCase().includes(e.target.value.toLowerCase())
-    const filteredChatsArr = chats.filter(searchFilterFunction)
-    const filteredContactssArr = contacts.filter(searchFilterFunction)
-    setFilteredChat([...filteredChatsArr])
-    setFilteredContacts([...filteredContactssArr])
+    e.preventDefault()
+    setSearchValue(e.target.value)
   }
 
   return store ? (
@@ -353,7 +348,7 @@ const SidebarLeft = props => {
                   </InputGroupText>
                 </InputGroupAddon>
                 <Input
-                  value={query}
+                  value={searchValue}
                   className='round'
                   placeholder='Search or start a new chat'
                   onChange={handleFilter}
