@@ -18,6 +18,7 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
                 type
                 createdAt
                 default
+                profileBg
                 lastMessage {
                   message
                   createdAt
@@ -73,6 +74,7 @@ export const getPaginatedRooms = (limit, page, searchString) => async dispatch =
                         userNames
                         type
                         default
+                        profileBg
                     }
                 }
                 nextToken
@@ -144,6 +146,7 @@ export const getRooms = () => async dispatch => {
                         userIds
                         type
                         default
+                        profileBg
                     }
                     nextToken
                 }
