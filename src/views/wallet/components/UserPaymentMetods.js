@@ -15,21 +15,23 @@ export default function UserPaymentMetods({paymentMethods}) {
         if (!_.isEmpty(paymentMethods)) {
             if (!_.isEmpty(paymentMethods.paypal)) {
                 let data = []
-                data = paymentMethods.paypal.map(paymentMethod => (
-                    <Col md={6} className="p-0">
-                        <Card className='card-congratulations-medal mb-1'>
-                            <CardBody className='p-0'>
-                                <Media>
-                                    <Avatar color='light-primary' className='rounded mr-1' icon={<RiPaypalLine size={18} />} />
-                                    <Media body>
-                                    <h6 className='mb-0'>{paymentMethod.paypalId}</h6>
-                                    <small>{paymentMethod.paypalEmailId}</small>
-                                    </Media>
-                                </Media>
-                            </CardBody>
-                        </Card>
-                    </Col>
-                  ))
+                data = paymentMethods.paypal.map((paymentMethod, index) => {
+                    const key = `${paymentMethod.paypalId}-${index}`
+                    console.log('key: ', key)
+                    return <Col md={6} className="p-0" key={key}>
+                                <Card className='card-congratulations-medal mb-1'>
+                                    <CardBody className='p-0'>
+                                        <Media>
+                                            <Avatar color='light-primary' className='rounded mr-1' icon={<RiPaypalLine size={18} />} />
+                                            <Media body>
+                                                <h6 className='mb-0'>{paymentMethod.paypalId}</h6>
+                                                <small>{paymentMethod.paypalEmailId}</small>
+                                            </Media>
+                                        </Media>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                })
                 return data
             } else return null
         } else {
