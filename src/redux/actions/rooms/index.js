@@ -23,6 +23,18 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
                   message
                   createdAt
                 }
+                notifications{
+                    _id
+                    messageIds
+                    roomId
+                    userId
+                }
+                users {
+                    _id
+                    firstName
+                    lastName
+                    profilePicture
+                }
               }
               nextToken
             }

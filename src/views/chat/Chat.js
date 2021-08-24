@@ -128,7 +128,6 @@ const ChatLog = props => {
   // ** Opens right sidebar & handles its data
   const handleAvatarClick = obj => {
     handleUserSidebarRight()
-    handleUser(obj)
   }
 
   // ** On mobile screen open left sidebar on Start Conversation Click
@@ -168,7 +167,7 @@ const ChatLog = props => {
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
-                <Avatar height="32" color={currentRoom.profileBg} className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials />
+                <Avatar height="32" color={currentRoom.profileBg} className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials onClick={() => handleAvatarClick(currentRoom)}/>
                 <h6 className='mb-0'>{currentRoom.name}</h6>
               </div>
               {/* <div className='d-flex align-items-center'>
