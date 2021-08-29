@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -60,6 +60,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentRoom: state.rooms.find(room => room._id === action.value)
+            }
+        case SET_PRIVATE_ROOM:
+            return {
+                ...state,
+                currentRoom: payload
             }
         default:
             return state

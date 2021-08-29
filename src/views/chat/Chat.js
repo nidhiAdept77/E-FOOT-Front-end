@@ -11,18 +11,11 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { MessageSquare, Menu, PhoneCall, Video, Search, MoreVertical, Mic, Image, Send } from 'react-feather'
+import { Menu, Send } from 'react-feather'
 import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Form,
-  Label,
   InputGroup,
-  InputGroupAddon,
   Input,
-  InputGroupText,
   Button
 } from 'reactstrap'
 import { getChatTime } from '../../utils'
@@ -30,7 +23,7 @@ import { addMessageToChannel } from '../../redux/actions/chats'
 
 const ChatLog = props => {
   // ** Props & Store
-  const { handleUser, handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
+  const { handleUserSidebarRight, handleSidebar } = props
 
   let {currentChatMessages} = useSelector(state => state.chats)
   currentChatMessages = currentChatMessages ? currentChatMessages : []
@@ -59,43 +52,6 @@ const ChatLog = props => {
       scrollToBottom()
     }
   }, [currentChatMessages])
-
-  // ** Formats chat data based on sender
-  /* const formattedChatData = () => {
-    let chatLog = []
-    if (selectedUser.chat) {
-      chatLog = selectedUser.chat.chat
-    }
-
-    const formattedChatLog = []
-    let chatMessageSenderId = chatLog[0] ? chatLog[0].senderId : undefined
-    let msgGroup = {
-      senderId: chatMessageSenderId,
-      messages: []
-    }
-    chatLog.forEach((msg, index) => {
-      if (chatMessageSenderId === msg.senderId) {
-        msgGroup.messages.push({
-          msg: msg.message,
-          time: msg.time
-        })
-      } else {
-        chatMessageSenderId = msg.senderId
-        formattedChatLog.push(msgGroup)
-        msgGroup = {
-          senderId: msg.senderId,
-          messages: [
-            {
-              msg: msg.message,
-              time: msg.time
-            }
-          ]
-        }
-      }
-      if (index === chatLog.length - 1) formattedChatLog.push(msgGroup)
-    })
-    return formattedChatLog
-  } */
 
   // ** Renders user chat
   const renderChats = () => {
@@ -131,11 +87,11 @@ const ChatLog = props => {
   }
 
   // ** On mobile screen open left sidebar on Start Conversation Click
-  const handleStartConversation = () => {
+  /* const handleStartConversation = () => {
     if (!Object.keys(currentRoom).length && !userSidebarLeft && window.innerWidth <= 1200) {
       handleSidebar()
     }
-  }
+  } */
 
   // ** Sends New Msg
   const handleSendMsg = async e => {
@@ -149,16 +105,16 @@ const ChatLog = props => {
   // ** ChatWrapper tag based on chat's length
   const ChatWrapper = currentChatMessages.length ? PerfectScrollbar : 'div'
   
+  const { type, users } = currentRoom
+  let { name, profilePicture: profileImage } = currentRoom
+  if (type === "direct") {
+    const {firstName, lastName, profilePicture} = users.find(u => u._id !== user._id)
+    name = `${firstName} ${lastName}`
+    profileImage = profilePicture
+  }
+
   return (
     <div className='chat-app-window'>
-      {/* <div className={classnames('start-chat-area', { 'd-none': currentChatMessages.length })}>
-        <div className='start-chat-icon mb-1'>
-          <MessageSquare />
-        </div>
-        <h4 className='sidebar-toggle start-chat-text' onClick={handleStartConversation}>
-          Start Conversation
-        </h4>
-      </div> */}
       {Object.keys(currentRoom).length ? (
         <div className={classnames('active-chat', { 'd-none': Object.keys(currentRoom).length === 0 })}>
           <div className='chat-navbar'>
@@ -167,36 +123,24 @@ const ChatLog = props => {
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
-                <Avatar height="32" color={currentRoom.profileBg} className='avatar-border user-profile-toggle m-0 mr-1' content={currentRoom.name} initials onClick={() => handleAvatarClick(currentRoom)}/>
-                <h6 className='mb-0'>{currentRoom.name}</h6>
+                {type === "direct" ? (
+                  <Avatar
+                    className="avatar-border user-profile-toggle m-0 mr-1"
+                    img={profileImage}
+                    onClick={() => handleAvatarClick({currentRoom})}
+                  />
+                ) : (
+                  <Avatar
+                    height="32"
+                    color={currentRoom.profileBg}
+                    className="avatar-border user-profile-toggle m-0 mr-1"
+                    content={currentRoom.name}
+                    initials
+                    onClick={() => handleAvatarClick(currentRoom)}
+                  />
+                )}
+                <h6 className='mb-0'>{name}</h6>
               </div>
-              {/* <div className='d-flex align-items-center'>
-                <PhoneCall size={18} className='cursor-pointer d-sm-block d-none mr-1' />
-                <Video size={18} className='cursor-pointer d-sm-block d-none mr-1' />
-                <Search size={18} className='cursor-pointer d-sm-block d-none' />
-                <UncontrolledDropdown>
-                  <DropdownToggle className='btn-icon' color='transparent' size='sm'>
-                    <MoreVertical size='18' />
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                      View Contact
-                    </DropdownItem>
-                    <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                      Mute Notifications
-                    </DropdownItem>
-                    <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                      Block Contact
-                    </DropdownItem>
-                    <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                      Clear Chat
-                    </DropdownItem>
-                    <DropdownItem href='/' onClick={e => e.preventDefault()}>
-                      Report
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </div> */}
             </header>
           </div>
 

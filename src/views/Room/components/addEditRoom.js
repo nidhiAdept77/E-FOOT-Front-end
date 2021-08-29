@@ -70,7 +70,7 @@ const AddEditRoom = () => {
 
   const onSubmit = async (data) => {
     const userIds = selectedUsers.map(user => user.value)
-    data = {...data, userIds, id: _id}
+    data = {...data, userIds, id: _id, type: 'private'}
     if (_.isEmpty(errors)) {
         try {
             const result = await dispatch(updateRoom(data))

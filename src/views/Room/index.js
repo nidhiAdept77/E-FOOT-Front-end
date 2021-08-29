@@ -28,7 +28,7 @@ const Rooms = props => {
     const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-        dispatch(getPaginatedRooms(limit, currentPage, searchValue))
+        dispatch(getPaginatedRooms(limit, currentPage, searchValue, "private"))
         return () => {
             dispatch(removeRooms())
             dispatch(setAddEditPopup(false))
@@ -38,12 +38,12 @@ const Rooms = props => {
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
-            getPaginatedRooms(limit, currentPage, value)
+            getPaginatedRooms(limit, currentPage, value, "private")
         }, 100)
     }
 
     const handlePagination = page => {
-        dispatch(getPaginatedRooms(limit, page.selected, searchValue))
+        dispatch(getPaginatedRooms(limit, page.selected, searchValue, "private"))
         setCurrentPage(page.selected + 1)
     }
 

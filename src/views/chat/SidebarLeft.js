@@ -10,6 +10,7 @@ import { selectChat } from '@src/redux/actions/chats'
 
 import { getUsersRoom, removeRooms } from '@src/redux/actions/rooms'
 import { handleOnlineUserHidden } from '@src/redux/actions/layout'
+import { getAllUsers, removeAllUsers } from "@store/actions/auth"
 
 // ** Utils
 import { formatDateToMonthShort } from '@utils'
@@ -17,30 +18,25 @@ import { formatDateToMonthShort } from '@utils'
 // ** Third Party Components
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { X, Search, CheckSquare, Bell, User, Trash, MessageSquare } from 'react-feather'
-import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge, CustomInput, Button } from 'reactstrap'
+import { X, Search, MessageSquare } from 'react-feather'
+import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge } from 'reactstrap'
 import _ from 'underscore'
 import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage } from '../../redux/actions/chats'
-import { setCurrentRoom } from '../../redux/actions/rooms'
+import { setCurrentRoom, updateRoom } from '../../redux/actions/rooms'
 
 let currentChatSub
 const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
-  const { chats, contacts, userProfile } = store
-  const {rooms} = useSelector(state => state.rooms)
-  const {user} = useSelector(state => state.auth)
+  const {rooms, currentRoom} = useSelector(state => state.rooms)
+  const {user, allUsers} = useSelector(state => state.auth)
   
   // ** Dispatch
   const dispatch = useDispatch()
   
   // ** State
-  const [about, setAbout] = useState('')
-  const [query, setQuery] = useState('')
   const [active, setActive] = useState({})
-  const [status, setStatus] = useState('online')
-  const [filteredChat, setFilteredChat] = useState([])
-  const [filteredContacts, setFilteredContacts] = useState([])
+  const [chatType, setChatType] = useState({})
   const [searchValue, setSearchValue] = useState("")
   const [roomId, setRoomId] = useState(null)
   
@@ -53,6 +49,22 @@ const SidebarLeft = props => {
       getUsersRoom(true)
     }
   }, [searchValue])
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+    return () => {
+      dispatch(removeAllUsers())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (chatType === "contact" && currentRoom) {
+      dispatch(selectChat(currentRoom._id))
+      handleUserSidebarLeft()
+    }
+    return () => {
+    }
+  }, [currentRoom])
   
   useEffect(() => {
     dispatch(setCurrentChatMessages(roomId))
@@ -69,10 +81,26 @@ const SidebarLeft = props => {
   }, [roomId])
   
   // ** Handles User Chat Click
-  const handleUserClick = (type, id) => {
-    setRoomId(id)
-    dispatch(selectChat(id))
-    setActive({ type, id })
+  const handleUserClick = (type, id, name) => {
+    setChatType(type)
+    if (type === "room") {
+      setRoomId(id)
+      dispatch(selectChat(id))
+      setActive({ type, id })
+    } else if (type === "contact") {
+      const isRoomExists = rooms.find(room => room.type === "direct" && _.contains(room.userIds, id))
+      if (!isRoomExists) {
+        dispatch(updateRoom({
+          name,
+          userIds: [id, user._id],
+          type: 'direct'
+        }))
+      } else {
+        setRoomId(isRoomExists._id)
+        dispatch(selectChat(isRoomExists._id))
+        setActive({ type: "room", id: isRoomExists._id })
+      }
+    }
     if (sidebar === true) {
       handleSidebar()
     }
@@ -82,9 +110,15 @@ const SidebarLeft = props => {
   const renderRooms = () => {
     if (rooms && rooms.length) {
       return rooms.map(item => {
-        const {  _id, name, lastMessage, createdAt: roomCreatedAt, profileBg, notifications } = item
+        const {  _id, lastMessage, createdAt: roomCreatedAt, profileBg, notifications, type, users } = item
+        let { name, profilePicture: profileImage } = item
+        if (type === "direct") {
+          const {firstName, lastName, profilePicture} = users.find(u => u._id !== user._id)
+          name = `${firstName} ${lastName}`
+          profileImage = profilePicture
+        }
         const { message, createdAt } = lastMessage || {}
-        const currentUserNotifications = notifications.find(noti => noti.userId === user._id)
+        const currentUserNotifications = notifications?.find(noti => noti.userId === user._id)
         const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
         return (
           <li
@@ -94,7 +128,16 @@ const SidebarLeft = props => {
             key={_id}
             onClick={() => handleUserClick("room", _id)}
           >
-            <Avatar className="custom-size-avatar" color={profileBg} content={name} initials />
+            {type === "direct" ? (
+              <Avatar className="custom-size-avatar" img={profileImage} />
+            ) : (
+              <Avatar
+                className="custom-size-avatar"
+                color={profileBg}
+                content={name}
+                initials
+              />
+            )}
             <div className="chat-info flex-grow-1">
               <h5 className="mb-0">{name}</h5>
               {message && (
@@ -129,85 +172,34 @@ const SidebarLeft = props => {
   
   // ** Renders Rooms
   const renderUsers = () => {
-    if (rooms && rooms.length) {
-      return rooms.map(item => {
-        const {  _id, name, lastMessage, createdAt: roomCreatedAt, profileBg, notifications } = item
-        const { message, createdAt } = lastMessage || {}
-        const currentUserNotifications = notifications.find(noti => noti.userId === user._id)
-        const time = createdAt || roomCreatedAt ? formatDateToMonthShort(new Date(parseInt(createdAt || roomCreatedAt))) : ""
+    const allUsersExceptLoggedUser = allUsers.filter(item => item._id !== user._id)
+    if (allUsersExceptLoggedUser?.length) {
+      return allUsersExceptLoggedUser.map(item => {
+        const {  _id, firstName, lastName, profileImage } = item
         return (
           <li
             className={classnames({
-              active: active.type === "room" && active.id === _id
+              active: active.type === "contact" && active.id === _id
             })}
             key={_id}
-            onClick={() => handleUserClick("room", _id)}
-            style={{borderBottom: "1px solid #ebe9f1"}}
+            onClick={() => handleUserClick("contact", _id, `${firstName} ${lastName}`)}
+            style={{ borderBottom: "1px solid #ebe9f1" }}
           >
-            <Avatar className="custom-size-avatar" color={profileBg} content={name} initials />
+            <Avatar className="custom-size-avatar" img={profileImage} />
             <div className="chat-info flex-grow-1">
-              <h5 className="mb-0">{name}</h5>
-             {/*  {message && (
-                <CardText className="text-truncate">
-                  {message}
-                </CardText>
-              )} */}
+              <h5 className="mb-0">
+                {firstName} {lastName}
+              </h5>
             </div>
-            {/* <div className="chat-meta text-nowrap">
-              {currentUserNotifications?.messageIds.length && !(active.type === "room" && active.id === _id) 
-              ? (
-                <Badge className="float-right" color="danger" pill>
-                  {currentUserNotifications.messageIds.length}
-                </Badge>
-              ) 
-              : time && 
-              <small className="float-right mb-25 chat-time ml-25">
-              {time}
-              </small>}
-            </div> */}
           </li>
         )
       })
     } else {
       return (
         <li className='no-results show'>
-          <h6 className='mb-0'>No Rooms Found</h6>
+          <h6 className='mb-0'>No Users Found</h6>
         </li>
       )
-    }
-  }
-
-  // ** Renders Contact
-  const renderContacts = () => {
-    if (contacts && contacts.length) {
-      if (query.length && !filteredContacts.length) {
-        return (
-          <li className='no-results show'>
-            <h6 className='mb-0'>No Chats Found</h6>
-          </li>
-        )
-      } else {
-        const arrToMap = query.length && filteredContacts.length ? filteredContacts : contacts
-        return arrToMap.map(item => {
-          return (
-            <li
-              className={classnames({
-                active: active.type === 'contact' && active.id === item.id
-              })}
-              key={item.fullName}
-              onClick={() => handleUserClick('contact', item.id)}
-            >
-              <Avatar img={item.avatar} imgHeight='42' imgWidth='42' />
-              <div className='chat-info flex-grow-1'>
-                <h5 className='mb-0'>{item.fullName}</h5>
-                <CardText className='text-truncate'>{item.about}</CardText>
-              </div>
-            </li>
-          )
-        })
-      }
-    } else {
-      return null
     }
   }
 
@@ -257,7 +249,7 @@ const SidebarLeft = props => {
                   <Avatar
                     className='avatar-border'
                     img={user.profileImage}
-                    status={status}
+                    status="online"
                     imgHeight='42'
                     imgWidth='42'
                   />
@@ -284,10 +276,6 @@ const SidebarLeft = props => {
           <PerfectScrollbar className='chat-user-list-wrapper list-group' options={{ wheelPropagation: false }}>
             {/* <h4 className='chat-list-title'>Rooms</h4> */}
             <ul className='chat-users-list chat-list media-list'>{renderRooms()}</ul>
-            {/* <h4 className='chat-list-title'>Chats</h4>
-            <ul className='chat-users-list chat-list media-list'>{renderChats()}</ul>
-            <h4 className='chat-list-title'>Contacts</h4>
-            <ul className='chat-users-list contact-list media-list'>{renderContacts()}</ul> */}
           </PerfectScrollbar>
         </div>
       </div>

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM} = require('../../types')
 
 export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => async dispatch => {
     try {
@@ -51,6 +51,7 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
         const {success} = data.roomByUserId
         if (success) {
             const roomData = getFieldValue(data, 'roomByUserId.data')
+            console.log('11 roomData: ', roomData)
             if (!_.isEmpty(roomData)) {
                 dispatch({
                     type: SET_USERS_ROOMS,
@@ -63,15 +64,15 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
     }
 }
 
-export const getPaginatedRooms = (limit, page, searchString) => async dispatch => {
+export const getPaginatedRooms = (limit, page, searchString, type) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
             payload: true
         })
         const RoomQuery = gql`
-             query getRooms($limit: Int, $skip: Int, $searchString:String){
-                getRooms(limit: $limit, skip: $skip, searchString:$searchString ){
+             query getRooms($limit: Int, $skip: Int, $searchString:String, $type: String){
+                getRooms(limit: $limit, skip: $skip, searchString:$searchString, type:$type){
                 statusCode
                 success
                 message
@@ -97,7 +98,8 @@ export const getPaginatedRooms = (limit, page, searchString) => async dispatch =
             variables: {
                 limit, 
                 skip: (page * limit),
-                searchString
+                searchString,
+                type
             }
         })
         handleAuthResponse(data.getRooms)
@@ -197,7 +199,7 @@ export const removeRooms = () => dispatch => {
     })
 }
 
-export const updateRoom = ({id, name, userIds}) => async dispatch => {
+export const updateRoom = ({id, name, userIds, type}) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -223,13 +225,18 @@ export const updateRoom = ({id, name, userIds}) => async dispatch => {
                 input: {
                     _id: id,
                     name,
-                    userIds
+                    userIds,
+                    type
                 }
             }
         })
         handleAuthResponse(data.addRoom)
         dispatch({
             type: UPDATE_USER_ROOMS,
+            payload: data.addRoom.data
+        })
+        dispatch({
+            type: SET_PRIVATE_ROOM,
             payload: data.addRoom.data
         })
         dispatch({
