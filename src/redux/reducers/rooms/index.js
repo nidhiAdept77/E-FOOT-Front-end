@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, SET_LAST_MESSAGE} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -65,6 +65,21 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentRoom: payload
+            
+            }
+        case SET_LAST_MESSAGE:
+            return {
+                ...state,
+                rooms: state.rooms.map(room => {
+                    const {message, createdAt, roomId} = payload
+                    if (room._id === roomId) {
+                        room.lastMessage = {
+                            message,
+                            createdAt
+                        }
+                    }
+                    return room
+                })
             }
         default:
             return state

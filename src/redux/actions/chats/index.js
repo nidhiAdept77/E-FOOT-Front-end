@@ -2,9 +2,8 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES} from '../../types'
+import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES, SET_LAST_MESSAGE} from '../../types'
 import {data} from '@src/assets/data/chat-data'
-import { getUsersRoom } from '../rooms'
 
 const MessageFragment = gql`
     fragment MessageData on Message {
@@ -120,11 +119,16 @@ export const addMessageToChannel = (roomId, message, type = null) => async dispa
             }
         })
         handleAuthResponse(type ? data.addRoomMessage : data.addMessage)
+        if (type === "private") {
+            dispatch({
+                type: SET_LAST_MESSAGE,
+                payload: data.addRoomMessage.data
+            })
+        }
         dispatch({
             type: SET_LOADER,
             payload: false
         })
-        //dispatch(getUsersRoom())
     } catch (error) {
         console.error('error: ', error)
         dispatch({
