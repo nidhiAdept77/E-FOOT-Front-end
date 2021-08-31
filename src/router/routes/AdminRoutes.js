@@ -16,6 +16,11 @@ const AdminRoutes = [
     exact: true
   },
   {
+    path: '/create-console',
+    component: lazy(() => import('../../views/ConsoleList')),
+    exact: true
+  },
+  {
     path: '/rooms',
     component: lazy(() => import('../../views/Room')),
     meta: {

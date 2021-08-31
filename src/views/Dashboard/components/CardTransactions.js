@@ -12,12 +12,15 @@ const CardTransactions = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getUserTransactions(5, 0, "", true))
+    return () => {
+      removeUserTrasaction()
+    }
   }, [])
 
   const renderTransactions = () => {
     return userTransactions.length > 0 ? userTransactions.map((item, index) => {
       const color = item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? "light-danger" : "light-primary"
-      const icon = item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? <Icon.ArrowDownRight size={18} /> : <Icon.ArrowDownLeft size={18} />
+      const icon = item.type === CONSTANTS.TRANSACTION_TYPE.WITHDRAW ? <Icon.ArrowUpLeft size={18} /> : <Icon.ArrowDownRight size={18} />
       return (
         <div key={`${item.title}-${index}`} className='transaction-item cursor-pointer'>
           <Media>
