@@ -49,9 +49,8 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
         })
         handleAuthResponse(data.roomByUserId)
         const {success} = data.roomByUserId
-        if (success) {
+       if (success) {
             const roomData = getFieldValue(data, 'roomByUserId.data')
-            console.log('11 roomData: ', roomData)
             if (!_.isEmpty(roomData)) {
                 dispatch({
                     type: SET_USERS_ROOMS,

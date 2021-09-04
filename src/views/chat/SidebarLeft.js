@@ -29,7 +29,7 @@ const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
   const {rooms, currentRoom} = useSelector(state => state.rooms)
-  const {user, allUsers} = useSelector(state => state.auth)
+  const {user, allUsers, onlineUsers} = useSelector(state => state.auth)
   
   // ** Dispatch
   const dispatch = useDispatch()
@@ -46,7 +46,6 @@ const SidebarLeft = props => {
     dispatch(getUsersRoom(false, searchValue))
     return () => {
       dispatch(removeRooms())
-      getUsersRoom(true)
     }
   }, [searchValue])
 
@@ -69,6 +68,9 @@ const SidebarLeft = props => {
   useEffect(() => {
     dispatch(setCurrentChatMessages(roomId))
     dispatch(setCurrentRoom(roomId))
+    if (currentChatSub && currentChatSub.subscription) {
+      currentChatSub.subscription.unsubscribe()
+    }
     currentChatSub = dispatch(subsCurrentSeletedChat(messages => {
       dispatch(updateCurrentChatMessage(messages))
     }))
@@ -172,6 +174,7 @@ const SidebarLeft = props => {
   
   // ** Renders Rooms
   const renderUsers = () => {
+    const onlineUsersIds = _.pluck(onlineUsers, "_id")
     const allUsersExceptLoggedUser = allUsers.filter(item => item._id !== user._id)
     if (allUsersExceptLoggedUser?.length) {
       return allUsersExceptLoggedUser.map(item => {
@@ -185,7 +188,7 @@ const SidebarLeft = props => {
             onClick={() => handleUserClick("contact", _id, `${firstName} ${lastName}`)}
             style={{ borderBottom: "1px solid #ebe9f1" }}
           >
-            <Avatar className="custom-size-avatar" img={profileImage} />
+            <Avatar className="custom-size-avatar" img={profileImage} status={_.contains(onlineUsersIds, _id) ? 'online' : 'offline'} />
             <div className="chat-info flex-grow-1">
               <h5 className="mb-0">
                 {firstName} {lastName}

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { Menu, Send } from 'react-feather'
+import { Menu, Send, MessageSquare } from 'react-feather'
 import {
   Form,
   InputGroup,
@@ -23,7 +23,7 @@ import { addMessageToChannel } from '../../redux/actions/chats'
 
 const ChatLog = props => {
   // ** Props & Store
-  const { handleUserSidebarRight, handleSidebar } = props
+  const { handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
 
   let {currentChatMessages} = useSelector(state => state.chats)
   currentChatMessages = currentChatMessages ? currentChatMessages : []
@@ -42,8 +42,13 @@ const ChatLog = props => {
 
   // ** Scroll to chat bottom
   const scrollToBottom = () => {
-    const chatContainer = ReactDOM.findDOMNode(chatArea.current)
-    chatContainer.scrollTop = Number.MAX_SAFE_INTEGER
+    const currentChatArea = chatArea?.current
+    if (currentChatArea) {
+      const chatContainer = ReactDOM.findDOMNode(chatArea.current)
+      if (chatContainer) {
+        chatContainer.scrollTop = Number.MAX_SAFE_INTEGER
+      }
+    }
   }
 
   // ** If user chat is not empty scrollToBottom
@@ -87,11 +92,11 @@ const ChatLog = props => {
   }
 
   // ** On mobile screen open left sidebar on Start Conversation Click
-  /* const handleStartConversation = () => {
+  const handleStartConversation = () => {
     if (!Object.keys(currentRoom).length && !userSidebarLeft && window.innerWidth <= 1200) {
       handleSidebar()
     }
-  } */
+  }
 
   // ** Sends New Msg
   const handleSendMsg = async e => {
@@ -115,6 +120,14 @@ const ChatLog = props => {
 
   return (
     <div className='chat-app-window'>
+      <div className={classnames('start-chat-area', { 'd-none': Object.keys(currentRoom).length })}>
+        <div className='start-chat-icon mb-1'>
+          <MessageSquare />
+        </div>
+        <h4 className='sidebar-toggle start-chat-text' onClick={handleStartConversation}>
+          Start Conversation
+        </h4>
+      </div>
       {Object.keys(currentRoom).length ? (
         <div className={classnames('active-chat', { 'd-none': Object.keys(currentRoom).length === 0 })}>
           <div className='chat-navbar'>
