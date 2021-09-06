@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, SET_LAST_MESSAGE} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, SET_LAST_MESSAGE, SET_MESSAGE_NOTIFICATION} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -80,6 +80,18 @@ export default (state = initialState, action) => {
                     }
                     return room
                 })
+            }
+        case SET_MESSAGE_NOTIFICATION: 
+            const userRooms = state.rooms
+            userRooms.forEach(room => {
+                const notifications = payload.filter(notify => room._id === notify.roomId)
+                if (notifications.length) {
+                    room.notifications = notifications
+                }
+            })
+            return {
+                ...state,
+                rooms: userRooms
             }
         default:
             return state

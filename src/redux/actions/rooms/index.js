@@ -302,3 +302,58 @@ export const setCurrentRoom = value => dispatch => {
         value
     })
 }
+
+export const updateChatRooms = (room) => dispatch => {
+    try {
+        dispatch({
+            type: UPDATE_USER_ROOMS,
+            payload: room
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        
+    }
+}
+
+// rooms subscriptions
+export const subsChatRooms = (handleChatRooms) => dispatch => {
+    try {
+        const chatRoomsSubscription = gql`
+        subscription{
+            chatRoomSubs {
+              _id
+              name
+              userIds
+              type
+              createdAt
+              default
+              profileBg
+              lastMessage {
+                message
+                createdAt
+              }
+              notifications{
+                  _id
+                  messageIds
+                  roomId
+                  userId
+              }
+              users {
+                  _id
+                  firstName
+                  lastName
+                  profilePicture
+              }
+            }
+          }
+        `
+        const observable = client.subscribe({query:  chatRoomsSubscription})
+        return observable.subscribe(({data}) => handleChatRooms(data.chatRoomSubs)) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}

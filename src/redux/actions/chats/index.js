@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES, SET_LAST_MESSAGE} from '../../types'
+import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES, SET_LAST_MESSAGE, SET_MESSAGE_NOTIFICATION} from '../../types'
 import {data} from '@src/assets/data/chat-data'
 
 const MessageFragment = gql`
@@ -322,6 +322,29 @@ export const removeCurrentChatMessages = () => dispatch => {
     })
 }
 
+export const updateLastChatMessage = (message) => dispatch => {
+    try {
+        dispatch({
+            type: SET_LAST_MESSAGE,
+            payload: message
+        })
+    } catch (error) {
+        console.error('error: ', error)
+    }
+}
+
+export const setMesageNotifications = (notifications) => dispatch => {
+    try {
+        dispatch({
+            type: SET_MESSAGE_NOTIFICATION,
+            payload: notifications
+        })
+    } catch (error) {
+        console.error('error: ', error)
+    }
+}
+
+
 //Chat Subscriptions
 export const subsCurrentSeletedChat = (handleCurrentChat) => dispatch => {
     try {
@@ -335,6 +358,56 @@ export const subsCurrentSeletedChat = (handleCurrentChat) => dispatch => {
         `
         const observable = client.subscribe({query:  CurrentSeletedSubscription})
         return observable.subscribe(({data}) => handleCurrentChat(data.currentChat)) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const subsLastMessage = (handleLastMessage) => dispatch => {
+    try {
+        const LastMessageSubscription = gql`
+        subscription{
+            lastMessageSubs {
+              _id
+              roomId
+              message
+              createdAt
+            }
+          }
+        `
+        const observable = client.subscribe({query:  LastMessageSubscription})
+        return observable.subscribe(({data}) => handleLastMessage(data.lastMessageSubs)) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const subsMessageNotifications = (handleMessageNotification) => dispatch => {
+    try {
+        const messageNotificationSubscription = gql`
+        subscription{
+            messageNotificationSubs {
+              _id
+              userId
+              roomId
+              messageIds
+              tag
+              createdAt
+              updatedAt
+              status
+            }
+          }
+        `
+        const observable = client.subscribe({query:  messageNotificationSubscription})
+        return observable.subscribe(({data}) => handleMessageNotification(data.messageNotificationSubs)) 
     } catch (error) {
         console.error('error: ', error)
         dispatch({

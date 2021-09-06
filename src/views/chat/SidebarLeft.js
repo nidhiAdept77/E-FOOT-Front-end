@@ -8,7 +8,7 @@ import Avatar from '@components/avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectChat } from '@src/redux/actions/chats'
 
-import { getUsersRoom, removeRooms } from '@src/redux/actions/rooms'
+import { getUsersRoom, removeRooms, subsChatRooms, updateChatRooms } from '@src/redux/actions/rooms'
 import { handleOnlineUserHidden } from '@src/redux/actions/layout'
 import { getAllUsers, removeAllUsers } from "@store/actions/auth"
 
@@ -21,10 +21,10 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, MessageSquare } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge } from 'reactstrap'
 import _ from 'underscore'
-import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage } from '../../redux/actions/chats'
+import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage, subsLastMessage, updateLastChatMessage, subsMessageNotifications, setMesageNotifications} from '../../redux/actions/chats'
 import { setCurrentRoom, updateRoom } from '../../redux/actions/rooms'
 
-let currentChatSub
+let currentChatSub, chatRoomsSubs, lastMessageSubs, notificationsSubs
 const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
@@ -41,6 +41,51 @@ const SidebarLeft = props => {
   const [roomId, setRoomId] = useState(null)
   
   dispatch(handleOnlineUserHidden(false))
+
+  useEffect(() => {
+    if (chatRoomsSubs && chatRoomsSubs.subscription) {
+      chatRoomsSubs.subscription.unsubscribe()
+    }
+    chatRoomsSubs = dispatch(subsChatRooms(room => {
+      dispatch(updateChatRooms(room))
+    }))
+    return () => {
+      dispatch(removeRooms())
+      if (chatRoomsSubs && chatRoomsSubs.subscription) {
+        chatRoomsSubs.subscription.unsubscribe()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (lastMessageSubs && lastMessageSubs.subscription) {
+      lastMessageSubs.subscription.unsubscribe()
+    }
+    lastMessageSubs = dispatch(subsLastMessage(message => {
+      dispatch(updateLastChatMessage(message))
+    }))
+    return () => {
+      if (lastMessageSubs && lastMessageSubs.subscription) {
+        lastMessageSubs.subscription.unsubscribe()
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (notificationsSubs && notificationsSubs.subscription) {
+      notificationsSubs.subscription.unsubscribe()
+    }
+    notificationsSubs = dispatch(subsMessageNotifications(notificationArray => {
+      console.log('notificationArray: ', notificationArray)
+      dispatch(setMesageNotifications(notificationArray))
+    }))
+    return () => {
+      if (notificationsSubs && notificationsSubs.subscription) {
+        notificationsSubs.subscription.unsubscribe()
+      }
+    }
+  }, [])
+  
   
   useEffect(() => {
     dispatch(getUsersRoom(false, searchValue))
@@ -62,6 +107,7 @@ const SidebarLeft = props => {
       handleUserSidebarLeft()
     }
     return () => {
+      dispatch(removeCurrentChatMessages())
     }
   }, [currentRoom])
   
