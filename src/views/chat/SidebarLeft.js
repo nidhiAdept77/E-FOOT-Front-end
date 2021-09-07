@@ -22,7 +22,7 @@ import { X, Search, MessageSquare } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge } from 'reactstrap'
 import _ from 'underscore'
 import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage, subsLastMessage, updateLastChatMessage, subsMessageNotifications, setMesageNotifications} from '../../redux/actions/chats'
-import { setCurrentRoom, updateRoom } from '../../redux/actions/rooms'
+import { setCurrentRoom, updateRoom, removeRoomNotifications } from '../../redux/actions/rooms'
 
 let currentChatSub, chatRoomsSubs, lastMessageSubs, notificationsSubs
 const SidebarLeft = props => {
@@ -106,14 +106,19 @@ const SidebarLeft = props => {
       dispatch(selectChat(currentRoom._id))
       handleUserSidebarLeft()
     }
+    if (currentRoom?.notifications?.length) {
+      dispatch(removeRoomNotifications(roomId))
+    }
     return () => {
       dispatch(removeCurrentChatMessages())
     }
   }, [currentRoom])
   
   useEffect(() => {
-    dispatch(setCurrentChatMessages(roomId))
-    dispatch(setCurrentRoom(roomId))
+    if (roomId) {
+      dispatch(setCurrentChatMessages(roomId))
+      dispatch(setCurrentRoom(roomId))
+    }
     if (currentChatSub && currentChatSub.subscription) {
       currentChatSub.subscription.unsubscribe()
     }

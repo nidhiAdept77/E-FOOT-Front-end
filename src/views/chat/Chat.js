@@ -20,6 +20,7 @@ import {
 } from 'reactstrap'
 import { getChatTime } from '../../utils'
 import { addMessageToChannel } from '../../redux/actions/chats'
+import { removeRoomNotifications } from '../../redux/actions/rooms'
 
 const ChatLog = props => {
   // ** Props & Store
@@ -103,6 +104,7 @@ const ChatLog = props => {
     e.preventDefault()
     if (msg) {
       dispatch(addMessageToChannel(currentRoom._id, msg.trim(), 'private'))
+      dispatch(removeRoomNotifications(currentRoom._id))
       setMsg('')
     }
   }

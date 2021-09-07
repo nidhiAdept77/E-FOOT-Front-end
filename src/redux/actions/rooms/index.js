@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM} = require('../../types')
+const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, REMOVE_MESSAGE_NOTIFICATION} = require('../../types')
 
 export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => async dispatch => {
     try {
@@ -349,6 +349,52 @@ export const subsChatRooms = (handleChatRooms) => dispatch => {
         `
         const observable = client.subscribe({query:  chatRoomsSubscription})
         return observable.subscribe(({data}) => handleChatRooms(data.chatRoomSubs)) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+// remove room notifications
+
+export const removeRoomNotifications = (id) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const removeRoomNotificationsMutation = gql`
+            mutation removeRoomNotifications($input: RemoveRoomNotificationsInput){
+                removeRoomNotifications(input: $input){
+                    statusCode
+                    success
+                    message
+                    data {
+                    _id
+                    }
+                }
+            }`
+        const {data} = await client.mutate({
+            mutation: removeRoomNotificationsMutation,
+            variables: {
+                input: {
+                    roomId: id
+                }
+            }
+        })
+        handleAuthResponse(data.removeRoomNotifications)
+        dispatch({
+            type: REMOVE_MESSAGE_NOTIFICATION,
+            payload: data.removeRoomNotifications.data
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.removeRoomNotifications.data
     } catch (error) {
         console.error('error: ', error)
         dispatch({
