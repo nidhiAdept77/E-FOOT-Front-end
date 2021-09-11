@@ -60,10 +60,10 @@ const UserProfileSidebar = props => {
             <div className='personal-info'>
               <h6 className='section-label mb-1 mt-3'>Users</h6>
               <ul className='list-unstyled'>
-                {currentRoom && currentRoom.users?.length && currentRoom.users.map(user => <li className='mb-1'>
+                {currentRoom && currentRoom.users?.length && currentRoom.users.map(user => <li key={user._id} className='mb-1'>
                     <Avatar
                       className='box-shadow-1 avatar-border mr-50'
-                      size='xs'
+                      size='sm'
                       img={user.profilePicture}
                       imgHeight='70'
                       imgWidth='70'

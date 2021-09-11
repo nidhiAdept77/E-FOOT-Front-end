@@ -469,7 +469,7 @@ export const addUserFireBaseToken = (token) => async dispatch => {
         const {success} = data.addFireBasetoken
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
-            if (!_.isEmpty(userDetails)) {
+            if (!_.isEmpty(userData)) {
                 localStorage.setItem('userData', JSON.stringify(userData))
                 dispatch({
                     type: SET_USER_DETAIL,

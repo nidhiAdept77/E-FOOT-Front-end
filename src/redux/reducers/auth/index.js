@@ -23,7 +23,7 @@ export default function (state = initialState, action) {
         case SET_ONLINE_USERS:
             return {
                 ...state,
-                onlineUsers: payload
+                onlineUsers: payload || []
             }
         case UPDATE_ONLINE_USERS:
             return {
