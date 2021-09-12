@@ -1,6 +1,6 @@
+import gql from 'graphql-tag'
 import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS, SET_ALL_USERS} from '../../types'
 import client from '../../../graphql/client'
-import gql from 'graphql-tag'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
 import {getFieldValue, handleAuthResponse, removeSigninUserDetails} from '../../../utils'
 import {request} from '../../../utils/apiService'
