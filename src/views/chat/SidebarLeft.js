@@ -41,6 +41,13 @@ const SidebarLeft = props => {
   const [roomId, setRoomId] = useState(null)
   
   dispatch(handleOnlineUserHidden(false))
+  
+  // to clear active room notifications
+  window.setInterval(() => {
+    if (active?.id === roomId && currentRoom?.notifications?.length) {
+      dispatch(removeRoomNotifications(roomId))
+    }
+  }, 2000)
 
   useEffect(() => {
     if (chatRoomsSubs && chatRoomsSubs.subscription) {
@@ -76,7 +83,6 @@ const SidebarLeft = props => {
       notificationsSubs.subscription.unsubscribe()
     }
     notificationsSubs = dispatch(subsMessageNotifications(notificationArray => {
-      console.log('notificationArray: ', notificationArray)
       dispatch(setMesageNotifications(notificationArray))
     }))
     return () => {
@@ -91,6 +97,9 @@ const SidebarLeft = props => {
     dispatch(getUsersRoom(false, searchValue))
     return () => {
       dispatch(removeRooms())
+      if (currentChatSub && currentChatSub.subscription) {
+        currentChatSub.subscription.unsubscribe()
+      }
     }
   }, [searchValue])
 
@@ -111,6 +120,9 @@ const SidebarLeft = props => {
     }
     return () => {
       dispatch(removeCurrentChatMessages())
+      if (currentChatSub && currentChatSub.subscription) {
+        currentChatSub.subscription.unsubscribe()
+      }
     }
   }, [currentRoom])
   

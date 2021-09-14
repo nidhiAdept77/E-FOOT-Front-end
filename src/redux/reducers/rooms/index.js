@@ -81,17 +81,16 @@ export default (state = initialState, action) => {
                     return room
                 })
             }
-        case SET_MESSAGE_NOTIFICATION: 
-            const userRooms = state.rooms
-            userRooms.forEach(room => {
-                const notifications = payload.filter(notify => room._id === notify.roomId)
-                if (notifications.length) {
-                    room.notifications = notifications
-                }
-            })
+        case SET_MESSAGE_NOTIFICATION:
             return {
                 ...state,
-                rooms: userRooms
+                rooms: state.rooms.map(room => {
+                    const notifications = payload.filter(notify => room._id === notify.roomId)
+                    if (notifications.length) {
+                        room.notifications = notifications
+                    }
+                    return room
+                })
             }
         case REMOVE_MESSAGE_NOTIFICATION:
             return {
