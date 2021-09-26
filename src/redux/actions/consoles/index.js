@@ -143,3 +143,62 @@ export const createUpdateConsoles = ({name, imageData, currentObj, isUpdate}) =>
         return {success:false, message:[error.message]}
     }
 }
+
+export const getConsoles = () => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const ConsolesQuery = gql`
+        query getConsoles {
+            getConsoles {
+              statusCode
+              success
+              nextToken
+              message
+              data {
+                _id
+                name
+                image_url
+                createdAt
+                status
+              }
+            }  
+          }
+        `
+        const {data} = await client.query({
+            query: ConsolesQuery
+        })
+        handleAuthResponse(data.getConsoles)
+        const {success} = data.getConsoles
+        if (success) {
+            const consoles = getFieldValue(data, 'getConsoles.data')
+            if (!_.isEmpty(consoles)) {
+                dispatch({
+                    type: SET_CONSOLES,
+                    payload: consoles
+                })
+            } else {
+                dispatch({
+                    type: SET_CONSOLES,
+                    payload: []
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_CONSOLES,
+            payload: []
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
