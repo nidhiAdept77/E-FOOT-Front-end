@@ -64,12 +64,11 @@ const AddEditConsoles = () => {
   const onSubmit = async (data) => {
     if (_.isEmpty(errors)) {
       try {
-        if (!file) {
+        if (!file && !_id) {
           dispatch(showToastMessage("Please include image too", 'error'))
         }
         const isUpdate = !!_id
         data = {...data, imageData:file, currentObj:addEditPopupData, isUpdate}
-        console.log('data: ', data)
         const {success, message} = await dispatch(createUpdateConsoles(data))
         handleModal()
         if (success) {
@@ -77,7 +76,6 @@ const AddEditConsoles = () => {
         } else {
           dispatch(showToastMessage(message, 'error'))
         }
-        console.log('data: ', data)
         } catch (error) {
             console.error('error: ', error)
             dispatch(showToastMessage(error.message, 'error'))

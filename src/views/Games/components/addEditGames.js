@@ -100,8 +100,8 @@ const AddEditGames = () => {
         const isUpdate = !!_id
         const consoleIds = selectedConsoles.map(item => item.value)
         data = {...data, imageData:file, consoles: consoleIds, currentObj:addEditPopupData, isUpdate}
-        console.log('data: ', data)
         await dispatch(createUpdateGames(data))
+        handleModal()
         } catch (error) {
             console.error('error: ', error)
             dispatch(showToastMessage(error.message, 'error'))

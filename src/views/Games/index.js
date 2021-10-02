@@ -21,7 +21,6 @@ export default function GamesList() {
     const dispatch = useDispatch()
     const {loading, total, games} = useSelector(state => state.games)
 
-
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(10)
     const [currentPage, setCurrentPage] = useState(0)
@@ -42,7 +41,7 @@ export default function GamesList() {
     }
 
     const handlePagination = page => {
-        dispatch(getPaginatedRooms(limit, page.selected, searchValue))
+        dispatch(getGamesPaginated(limit, page.selected, searchValue))
         setCurrentPage(page.selected + 1)
     }
 

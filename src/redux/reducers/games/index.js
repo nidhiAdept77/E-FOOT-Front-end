@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const { SET_GAMES, SET_LOADER, SET_TOTAL, SET_UPDATED_GAMES } = require('../../types')
+const { SET_GAMES, SET_LOADER, SET_TOTAL, SET_UPDATED_GAMES, REMOVE_DELETED_GAMES } = require('../../types')
 
 const initialState = {
     loading: false,
@@ -44,6 +44,11 @@ export default (state = initialState, action) => {
                     ...state,
                     games: [...games, payload]
                 }
+            }
+        case REMOVE_DELETED_GAMES:
+            return {
+                ...state,
+                games: state.games.filter(game => game._id !== payload)
             }
         default:
             return state

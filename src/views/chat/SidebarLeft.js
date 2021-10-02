@@ -50,48 +50,47 @@ const SidebarLeft = props => {
   }, 2000)
 
   useEffect(() => {
+    dispatch(getAllUsers())
+
     if (chatRoomsSubs && chatRoomsSubs.subscription) {
       chatRoomsSubs.subscription.unsubscribe()
     }
     chatRoomsSubs = dispatch(subsChatRooms(room => {
       dispatch(updateChatRooms(room))
     }))
-    return () => {
-      dispatch(removeRooms())
-      if (chatRoomsSubs && chatRoomsSubs.subscription) {
-        chatRoomsSubs.subscription.unsubscribe()
-      }
-    }
-  }, [])
 
-  useEffect(() => {
     if (lastMessageSubs && lastMessageSubs.subscription) {
       lastMessageSubs.subscription.unsubscribe()
     }
     lastMessageSubs = dispatch(subsLastMessage(message => {
       dispatch(updateLastChatMessage(message))
     }))
-    return () => {
-      if (lastMessageSubs && lastMessageSubs.subscription) {
-        lastMessageSubs.subscription.unsubscribe()
-      }
-    }
-  }, [])
 
-  useEffect(() => {
     if (notificationsSubs && notificationsSubs.subscription) {
       notificationsSubs.subscription.unsubscribe()
     }
     notificationsSubs = dispatch(subsMessageNotifications(notificationArray => {
       dispatch(setMesageNotifications(notificationArray))
     }))
+
     return () => {
+      dispatch(removeRooms())
+      dispatch(removeAllUsers())
+
+      if (chatRoomsSubs && chatRoomsSubs.subscription) {
+        chatRoomsSubs.subscription.unsubscribe()
+      }
+
+      if (lastMessageSubs && lastMessageSubs.subscription) {
+        lastMessageSubs.subscription.unsubscribe()
+      }
+
       if (notificationsSubs && notificationsSubs.subscription) {
         notificationsSubs.subscription.unsubscribe()
       }
+      
     }
   }, [])
-  
   
   useEffect(() => {
     dispatch(getUsersRoom(false, searchValue))
@@ -102,13 +101,6 @@ const SidebarLeft = props => {
       }
     }
   }, [searchValue])
-
-  useEffect(() => {
-    dispatch(getAllUsers())
-    return () => {
-      dispatch(removeAllUsers())
-    }
-  }, [])
 
   useEffect(() => {
     if (chatType === "contact" && currentRoom) {

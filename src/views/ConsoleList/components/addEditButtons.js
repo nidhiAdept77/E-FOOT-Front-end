@@ -3,7 +3,7 @@ import { Button, Col } from "reactstrap"
 
 import { useSelector, useDispatch } from "react-redux"
 import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
-import { deleteRoom } from "@src/redux/actions/rooms"
+import { deleteConsoles } from "@src/redux/actions/consoles"
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -21,34 +21,23 @@ const AddEditBtn = ({isAdd, data}) => {
     }
 
     const handleDelete = async () => {
-        const MySwal = withReactContent(Swal)
-        const result = await MySwal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-outline-danger ml-1'
-            },
-            buttonsStyling: false
-        })
-        if (result.value) {
-            const { _id } = data
-            const deleteObj = await dispatch(deleteRoom(_id))
-            if (deleteObj?.success) {
-              MySwal.fire({
-                icon: "success",
-                title: "Room Deleted!",
-                text: "Room has been deleted.",
-                customClass: {
-                  confirmButton: "btn btn-success"
-                }
-              })
-            }
-        }
+      const MySwal = withReactContent(Swal)
+      const result = await MySwal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-outline-danger ml-1'
+          },
+          buttonsStyling: false
+      })
+      if (result.value) {
+         dispatch(deleteConsoles(data._id))
       }
+    }
 
     return isAdd ? (
       <Col className="w-100 text-right">

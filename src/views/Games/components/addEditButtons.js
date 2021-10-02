@@ -3,6 +3,7 @@ import { Button, Col } from "reactstrap"
 
 import { useSelector, useDispatch } from "react-redux"
 import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
+import {deleteGames} from '@src/redux/actions/games'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -14,12 +15,12 @@ const AddEditBtn = ({isAdd, data}) => {
       dispatch(setAddEditPopup(!addEditPopup))
       if (setData) {
           dispatch(setAddEditPopupData(data))
-      } else {
+        } else {
           dispatch(setAddEditPopupData({}))
+        }
       }
-    }
-
-    const handleDelete = async () => {
+      
+      const handleDelete = async () => {
         const MySwal = withReactContent(Swal)
         const result = await MySwal.fire({
             title: 'Are you sure?',
@@ -34,7 +35,7 @@ const AddEditBtn = ({isAdd, data}) => {
             buttonsStyling: false
         })
         if (result.value) {
-           // delete game
+           dispatch(deleteGames(data._id))
         }
       }
 

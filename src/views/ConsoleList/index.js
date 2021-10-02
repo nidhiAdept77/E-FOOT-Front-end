@@ -41,7 +41,7 @@ export default function ConsoleList() {
     }
 
     const handlePagination = page => {
-        dispatch(getPaginatedRooms(limit, page.selected, searchValue))
+        dispatch(getConsolesPaginated(limit, page.selected, searchValue))
         setCurrentPage(page.selected + 1)
     }
 

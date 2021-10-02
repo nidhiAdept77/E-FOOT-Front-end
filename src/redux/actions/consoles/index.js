@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_CONSOLES, SET_LOADER, SET_TOTAL, SET_UPDATED_CONSOLE} = require('../../types')
+const {SET_CONSOLES, SET_LOADER, SET_TOTAL, SET_UPDATED_CONSOLE, REMOVE_DELETED_CONSOLE} = require('../../types')
 import {request} from '../../../utils/apiService'
 import { CONSTANTS } from '@src/utils/CONSTANTS'
 
@@ -200,5 +200,49 @@ export const getConsoles = () => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
+    }
+}
+
+export const deleteConsoles = (_id) => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const _ = require('underscore')
+
+    const headers = {
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    const formData = new FormData()
+    formData.append('id', _id)
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/console`,
+            'put',
+            headers,
+            formData
+        )
+        const consoleData = getFieldValue(result, 'data.id')
+        if (!_.isEmpty(consoleData)) {
+            handleAuthResponse(result.data)
+            if (!_.isEmpty(consoleData)) {
+                dispatch({
+                    type: REMOVE_DELETED_CONSOLE,
+                    payload: consoleData
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
     }
 }

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_GAMES, SET_LOADER, SET_UPDATED_GAMES, SET_TOTAL} = require('../../types')
+const {SET_GAMES, SET_LOADER, SET_UPDATED_GAMES, SET_TOTAL, REMOVE_DELETED_GAMES} = require('../../types')
 import {request} from '../../../utils/apiService'
 import { CONSTANTS } from '@src/utils/CONSTANTS'
 
@@ -110,7 +110,7 @@ export const createUpdateGames = ({name, consoles, imageData, currentObj, isUpda
     const formData = new FormData()
     formData.append('document', imageData)
     formData.append('name', name)
-    formData.append('consoles', consoles)
+    consoles.forEach(console => formData.append("consoles[]", console))
     if (isUpdate) {
         formData.append('status', currentObj.status)
         formData.append('id', currentObj._id)
@@ -134,6 +134,50 @@ export const createUpdateGames = ({name, consoles, imageData, currentObj, isUpda
             if (!_.isEmpty(gameData)) {
                 dispatch({
                     type: SET_UPDATED_GAMES,
+                    payload: gameData
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
+    }
+}
+
+export const deleteGames = (_id) => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const _ = require('underscore')
+
+    const headers = {
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    const formData = new FormData()
+    formData.append('id', _id)
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/game`,
+            'put',
+            headers,
+            formData
+        )
+        const gameData = getFieldValue(result, 'data.id')
+        if (!_.isEmpty(gameData)) {
+            handleAuthResponse(result.data)
+            if (!_.isEmpty(gameData)) {
+                dispatch({
+                    type: REMOVE_DELETED_GAMES,
                     payload: gameData
                 })
             }

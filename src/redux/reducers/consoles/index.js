@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const {SET_CONSOLES, SET_LOADER, SET_TOTAL, SET_UPDATED_CONSOLE } = require('../../types')
+const {SET_CONSOLES, SET_LOADER, SET_TOTAL, SET_UPDATED_CONSOLE, REMOVE_DELETED_CONSOLE } = require('../../types')
 
 const initialState = {
     loading: false,
@@ -27,19 +27,29 @@ export default (state = initialState, action) => {
                 total: payload
             }
         case SET_UPDATED_CONSOLE:
-            const isPresentIndex = state.consoles.findIndex(userTransaction => userTransaction._id === payload._id)
-            let consoles
-            if (isPresentIndex < 0) {
-                consoles = [payload, ...state.consoles]
-                consoles = consoles.slice(0, 10)
+            const consoles = state.consoles
+            const consoleFound = _.findWhere(consoles, {_id: payload._id})
+            if (consoleFound) {
+                return {
+                    ...state,
+                    consoles: consoles.map(console => {
+                        if (console._id === payload._id) {
+                            return payload
+                        }
+                        return console
+                    })
+                }
             } else {
-                consoles = state.consoles
-                consoles[isPresentIndex] = payload
+                return {
+                    ...state,
+                    consoles: [...consoles, payload]
+                }
             }
-            return {
-                ...state,
-                consoles
-            }
+        case REMOVE_DELETED_CONSOLE:
+                return {
+                    ...state,
+                    consoles: state.consoles.filter(console => console._id !== payload)
+                }
         default:
             return state
     }
