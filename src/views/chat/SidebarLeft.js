@@ -6,7 +6,6 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { selectChat } from '@src/redux/actions/chats'
 
 import { getUsersRoom, removeRooms, subsChatRooms, updateChatRooms } from '@src/redux/actions/rooms'
 import { handleOnlineUserHidden } from '@src/redux/actions/layout'
@@ -104,7 +103,6 @@ const SidebarLeft = props => {
 
   useEffect(() => {
     if (chatType === "contact" && currentRoom) {
-      dispatch(selectChat(currentRoom._id))
       handleUserSidebarLeft()
     }
     if (currentRoom?.notifications?.length) {
@@ -142,7 +140,6 @@ const SidebarLeft = props => {
     setChatType(type)
     if (type === "room") {
       setRoomId(id)
-      dispatch(selectChat(id))
       setActive({ type, id })
     } else if (type === "contact") {
       const isRoomExists = rooms.find(room => room.type === "direct" && _.contains(room.userIds, id))
@@ -154,7 +151,6 @@ const SidebarLeft = props => {
         }))
       } else {
         setRoomId(isRoomExists._id)
-        dispatch(selectChat(isRoomExists._id))
         setActive({ type: "room", id: isRoomExists._id })
       }
     }

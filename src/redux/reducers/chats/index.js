@@ -3,10 +3,7 @@ const {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SEL
 const initialState = {
     loading: false,
     globalChat: [],
-    chats: [],
-    contacts: [],
     userProfile: {},
-    selectedUser: {},
     currentChatMessages: []
 }
 
@@ -25,14 +22,6 @@ export default (state = initialState, action) => {
             }
         case GET_USER_PROFILE:
             return { ...state, userProfile: action.userProfile }
-        case GET_CHAT_CONTACTS:
-            return { ...state, chats: action.data.chatsContacts, contacts: action.data.contacts }
-        case SELECT_CHAT:
-            return { ...state, selectedUser: action.data }
-        case SEND_MSG:
-            // ** Add new msg to chat
-            const newMsg = action.data.response.chat
-            return { ...state, selectedUser: { ...state.selectedUser, chat: newMsg } }
         case SET_CURRENT_CHAT_MESSAGES:
             return {
                 ...state,
