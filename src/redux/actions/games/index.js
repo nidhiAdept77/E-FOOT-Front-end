@@ -90,6 +90,69 @@ export const getGamesPaginated = (limit, skip, searchString) => async dispatch =
     }
 }
 
+export const getGamesByConsoleId = (consoleId) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const GamesQuery = gql`
+            query getGamesByConsoleId($consoleId:ID) {
+                getGamesByConsoleId(consoleId: $consoleId) {
+                statusCode
+                success
+                message
+                nextToken
+                data {
+                    _id
+                    name
+                    image_url
+                    status
+                    createdAt
+                }
+                }
+            }
+        `
+        const {data} = await client.query({
+            query: GamesQuery,
+            variables: {
+                consoleId
+            }
+        })
+        handleAuthResponse(data.getGamesByConsoleId)
+        const {success} = data.getGamesByConsoleId
+        if (success) {
+            const games = getFieldValue(data, 'getGamesByConsoleId.data')
+            if (!_.isEmpty(games)) {
+                dispatch({
+                    type: SET_GAMES,
+                    payload: games
+                })
+            } else {
+                dispatch({
+                    type: SET_GAMES,
+                    payload: []
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_GAMES,
+            payload: []
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+
 export const removePaginatedGames = () => dispatch => {
     dispatch({ 
         type: SET_GAMES,
