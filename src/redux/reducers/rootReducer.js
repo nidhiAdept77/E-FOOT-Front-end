@@ -12,6 +12,7 @@ import layoutSettings from './layoutSettings'
 import wallet from './wallet'
 import consoles from './consoles'
 import games from './games'
+import challenges from './challenges'
 
 const rootReducer = combineReducers({
   layout,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   layoutSettings,
   wallet,
   consoles,
-  games
+  games,
+  challenges
 })
 
 export default rootReducer
