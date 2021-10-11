@@ -8,27 +8,27 @@ import DataTable from 'react-data-table-component'
 import { ChevronDown } from 'react-feather' 
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
-import {getConsolesPaginated, removePaginatedConsoles} from '@src/redux/actions/consoles'
+import {getGamesPaginated, removePaginatedGames} from '@src/redux/actions/games'
 import {setAddEditPopup} from '@src/redux/actions/layout'
 import ReactPaginate from 'react-paginate'
 
 // ** Add New Modal Component
-import {columns} from "./components/consolesColumns"
 import AddEditBtn from './components/addEditButtons'
-import AddEditConsoles from './components/addEditConsoles'
+import {columns} from "./components/gamesColumns"
+import AddEditGames from './components/addEditGames'
 
-export default function ConsoleList() {
+export default function GamesList() {
     const dispatch = useDispatch()
-    const {loading, total, consoles} = useSelector(state => state.consoles)
+    const {loading, total, games} = useSelector(state => state.games)
 
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(10)
     const [currentPage, setCurrentPage] = useState(0)
 
     useEffect(() => {
-        dispatch(getConsolesPaginated(limit, currentPage, searchValue))
+        dispatch(getGamesPaginated(limit, currentPage, searchValue))
         return () => {
-            dispatch(removePaginatedConsoles())
+            dispatch(removePaginatedGames())
             dispatch(setAddEditPopup(false))
         }
     }, [searchValue])
@@ -36,12 +36,12 @@ export default function ConsoleList() {
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
-            getConsolesPaginated(limit, currentPage, value)
+            getGamesPaginated(limit, currentPage, value)
         }, 100)
     }
 
     const handlePagination = page => {
-        dispatch(getConsolesPaginated(limit, page.selected, searchValue))
+        dispatch(getGamesPaginated(limit, page.selected, searchValue))
         setCurrentPage(page.selected + 1)
     }
 
@@ -68,7 +68,7 @@ export default function ConsoleList() {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Consoles" />} breadCrumbActive={<FormattedMessage id="Consoles" />} />
+            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Games" />} breadCrumbActive={<FormattedMessage id="Games" />} />
             <Card>
                 <LoaderComponent loading={loading} />
                 <Row className='mx-0 p-1'>
@@ -98,10 +98,10 @@ export default function ConsoleList() {
                     sortIcon={<ChevronDown size={10} />}
                     paginationDefaultPage={currentPage + 1}
                     paginationComponent={CustomPagination}
-                    data={consoles}
+                    data={games}
                 />
             </Card>
-            <AddEditConsoles />
+            <AddEditGames />
         </Fragment>
     )
 }

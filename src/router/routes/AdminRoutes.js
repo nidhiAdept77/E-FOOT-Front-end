@@ -21,6 +21,11 @@ const AdminRoutes = [
     exact: true
   },
   {
+    path: '/create-games',
+    component: lazy(() => import('../../views/Games')),
+    exact: true
+  },
+  {
     path: '/rooms',
     component: lazy(() => import('../../views/Room')),
     meta: {

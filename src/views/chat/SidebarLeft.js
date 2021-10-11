@@ -6,7 +6,6 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { selectChat } from '@src/redux/actions/chats'
 
 import { getUsersRoom, removeRooms, subsChatRooms, updateChatRooms } from '@src/redux/actions/rooms'
 import { handleOnlineUserHidden } from '@src/redux/actions/layout'
@@ -41,69 +40,69 @@ const SidebarLeft = props => {
   const [roomId, setRoomId] = useState(null)
   
   dispatch(handleOnlineUserHidden(false))
+  
+  // to clear active room notifications
+  window.setInterval(() => {
+    if (active?.id === roomId && currentRoom?.notifications?.length) {
+      dispatch(removeRoomNotifications(roomId))
+    }
+  }, 2000)
 
   useEffect(() => {
+    dispatch(getAllUsers())
+
     if (chatRoomsSubs && chatRoomsSubs.subscription) {
       chatRoomsSubs.subscription.unsubscribe()
     }
     chatRoomsSubs = dispatch(subsChatRooms(room => {
       dispatch(updateChatRooms(room))
     }))
-    return () => {
-      dispatch(removeRooms())
-      if (chatRoomsSubs && chatRoomsSubs.subscription) {
-        chatRoomsSubs.subscription.unsubscribe()
-      }
-    }
-  }, [])
 
-  useEffect(() => {
     if (lastMessageSubs && lastMessageSubs.subscription) {
       lastMessageSubs.subscription.unsubscribe()
     }
     lastMessageSubs = dispatch(subsLastMessage(message => {
       dispatch(updateLastChatMessage(message))
     }))
-    return () => {
-      if (lastMessageSubs && lastMessageSubs.subscription) {
-        lastMessageSubs.subscription.unsubscribe()
-      }
-    }
-  }, [])
 
-  useEffect(() => {
     if (notificationsSubs && notificationsSubs.subscription) {
       notificationsSubs.subscription.unsubscribe()
     }
     notificationsSubs = dispatch(subsMessageNotifications(notificationArray => {
-      console.log('notificationArray: ', notificationArray)
       dispatch(setMesageNotifications(notificationArray))
     }))
+
     return () => {
+      dispatch(removeRooms())
+      dispatch(removeAllUsers())
+
+      if (chatRoomsSubs && chatRoomsSubs.subscription) {
+        chatRoomsSubs.subscription.unsubscribe()
+      }
+
+      if (lastMessageSubs && lastMessageSubs.subscription) {
+        lastMessageSubs.subscription.unsubscribe()
+      }
+
       if (notificationsSubs && notificationsSubs.subscription) {
         notificationsSubs.subscription.unsubscribe()
       }
+      
     }
   }, [])
-  
   
   useEffect(() => {
     dispatch(getUsersRoom(false, searchValue))
     return () => {
       dispatch(removeRooms())
+      if (currentChatSub && currentChatSub.subscription) {
+        currentChatSub.subscription.unsubscribe()
+      }
     }
   }, [searchValue])
 
   useEffect(() => {
-    dispatch(getAllUsers())
-    return () => {
-      dispatch(removeAllUsers())
-    }
-  }, [])
-
-  useEffect(() => {
     if (chatType === "contact" && currentRoom) {
-      dispatch(selectChat(currentRoom._id))
       handleUserSidebarLeft()
     }
     if (currentRoom?.notifications?.length) {
@@ -111,6 +110,9 @@ const SidebarLeft = props => {
     }
     return () => {
       dispatch(removeCurrentChatMessages())
+      if (currentChatSub && currentChatSub.subscription) {
+        currentChatSub.subscription.unsubscribe()
+      }
     }
   }, [currentRoom])
   
@@ -138,7 +140,6 @@ const SidebarLeft = props => {
     setChatType(type)
     if (type === "room") {
       setRoomId(id)
-      dispatch(selectChat(id))
       setActive({ type, id })
     } else if (type === "contact") {
       const isRoomExists = rooms.find(room => room.type === "direct" && _.contains(room.userIds, id))
@@ -150,7 +151,6 @@ const SidebarLeft = props => {
         }))
       } else {
         setRoomId(isRoomExists._id)
-        dispatch(selectChat(isRoomExists._id))
         setActive({ type: "room", id: isRoomExists._id })
       }
     }

@@ -1,10 +1,10 @@
 import _ from 'underscore'
 
-const {SET_CONSOLES, SET_LOADER, SET_TOTAL, SET_UPDATED_CONSOLE, REMOVE_DELETED_CONSOLE } = require('../../types')
+const { SET_GAMES, SET_LOADER, SET_TOTAL, SET_UPDATED_GAMES, REMOVE_DELETED_GAMES } = require('../../types')
 
 const initialState = {
     loading: false,
-    consoles: [],
+    games: [],
     total: 0
 }
 
@@ -16,40 +16,40 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: payload
             }
-        case SET_CONSOLES:
+        case SET_GAMES:
             return {
                 ...state,
-                consoles: payload
+                games: payload
             }
         case SET_TOTAL:
             return {
                 ...state,
                 total: payload
             }
-        case SET_UPDATED_CONSOLE:
-            const consoles = state.consoles
-            const consoleFound = _.findWhere(consoles, {_id: payload._id})
-            if (consoleFound) {
+        case SET_UPDATED_GAMES:
+            const games = state.games
+            const gameFound = _.findWhere(games, {_id: payload._id})
+            if (gameFound) {
                 return {
                     ...state,
-                    consoles: consoles.map(console => {
-                        if (console._id === payload._id) {
+                    games: games.map(game => {
+                        if (game._id === payload._id) {
                             return payload
                         }
-                        return console
+                        return game
                     })
                 }
             } else {
                 return {
                     ...state,
-                    consoles: [...consoles, payload]
+                    games: [...games, payload]
                 }
             }
-        case REMOVE_DELETED_CONSOLE:
-                return {
-                    ...state,
-                    consoles: state.consoles.filter(console => console._id !== payload)
-                }
+        case REMOVE_DELETED_GAMES:
+            return {
+                ...state,
+                games: state.games.filter(game => game._id !== payload)
+            }
         default:
             return state
     }

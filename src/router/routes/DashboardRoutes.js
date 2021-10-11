@@ -51,9 +51,16 @@ const DashboardRoutes = [
       authRoute: true
     },
     exact: true
+  },
+  {
+    path: '/create-challenge',
+    component: lazy(() => import('../../views/Challenge')),
+    meta: {
+      authRoute: true
+    },
+    exact: true
 
   }
-  
 ]
 
 export default DashboardRoutes

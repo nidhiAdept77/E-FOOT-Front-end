@@ -33,7 +33,7 @@ export default [
     title: "Start Game",
     icon: <Radio />,
     // navLink: '/find-my-match'
-    navLink: '/#'
+    navLink: '/create-challenge'
 
   },
   {

@@ -3,7 +3,7 @@ import { Button, Col } from "reactstrap"
 
 import { useSelector, useDispatch } from "react-redux"
 import {setAddEditPopup, setAddEditPopupData} from '@src/redux/actions/layout'
-import { deleteConsoles } from "@src/redux/actions/consoles"
+import {deleteGames} from '@src/redux/actions/games'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -15,35 +15,35 @@ const AddEditBtn = ({isAdd, data}) => {
       dispatch(setAddEditPopup(!addEditPopup))
       if (setData) {
           dispatch(setAddEditPopupData(data))
-      } else {
+        } else {
           dispatch(setAddEditPopupData({}))
+        }
       }
-    }
-
-    const handleDelete = async () => {
-      const MySwal = withReactContent(Swal)
-      const result = await MySwal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-outline-danger ml-1'
-          },
-          buttonsStyling: false
-      })
-      if (result.value) {
-         dispatch(deleteConsoles(data._id))
+      
+      const handleDelete = async () => {
+        const MySwal = withReactContent(Swal)
+        const result = await MySwal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-outline-danger ml-1'
+            },
+            buttonsStyling: false
+        })
+        if (result.value) {
+           dispatch(deleteGames(data._id))
+        }
       }
-    }
 
     return isAdd ? (
       <Col className="w-100 text-right">
         <Button className="ml-2" color="primary" onClick={(e) => handleOpen(false)}>
           <FiPlusSquare size={15} />
-          <span className="align-middle ml-50">Add Console</span>
+          <span className="align-middle ml-50">Add Game</span>
         </Button>
       </Col>
     ) : (

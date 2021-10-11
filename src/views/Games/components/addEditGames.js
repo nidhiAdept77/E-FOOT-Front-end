@@ -6,7 +6,6 @@ import _ from 'underscore'
 
 import { useSelector, useDispatch } from "react-redux"
 import { setAddEditPopup, setAddEditPopupData } from "@src/redux/actions/layout"
-import {createUpdateConsoles} from "@src/redux/actions/consoles"
 
 // ** Styles
 import "@styles/react/libs/flatpickr/flatpickr.scss"
@@ -14,26 +13,57 @@ import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import classnames from 'classnames'
 
+import { selectThemeColors } from "@utils"
+import Select from "react-select"
+import makeAnimated from "react-select/animated"
+
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { showToastMessage } from "../../../redux/actions/toastNotification"
+import { getConsoles, removePaginatedConsoles } from "../../../redux/actions/consoles"
+import { createUpdateGames } from "../../../redux/actions/games"
 
-const AddEditConsoles = () => {
+const AddEditGames = () => {
   const dispatch = useDispatch()
   const { addEditPopup, addEditPopupData } = useSelector((state) => state.layout)
+  const { consoles } = useSelector((state) => state.consoles)
   const [avatar, setAvatar] = useState("")
+  const [selectedConsoles, setSelectedConsoles] = useState([])
   const [file, setFile] = useState(null)
-  const {_id} = addEditPopupData
+  const {_id, name, image_url} = addEditPopupData
 
   useEffect(() => {
+    dispatch(getConsoles())
     return () => {
       dispatch(setAddEditPopupData({}))
+      dispatch(removePaginatedConsoles([]))
     }
   }, [])
 
+
+  useEffect(() => {
+    const list = []
+    if (addEditPopupData?.consoles?.length) {
+      _.each(addEditPopupData?.consoles, (id) => {
+        const item = _.findWhere(consoles, { _id: id })
+        if (item) {
+          list.push({
+            value: item._id,
+            label: item.name
+          })
+        }
+      })
+    }
+    setSelectedConsoles(list)
+    return () => {
+      setSelectedConsoles([])
+    }
+  }, [addEditPopupData?.consoles])
+
+
   useEffect(() => {
     if (!_.isEmpty(addEditPopupData)) {
-      setAvatar(addEditPopupData.image_url)
+      setAvatar(image_url)
     }
   }, [addEditPopupData])
 
@@ -49,11 +79,11 @@ const AddEditConsoles = () => {
       }} />
   )
   
-  const consolesSchema = yup.object().shape({
+  const gamesSchema = yup.object().shape({
     name: yup.string().required()
   })
 
-  const { register, errors, handleSubmit, setValue, control } = useForm({ mode: 'onBlur', resolver: yupResolver(consolesSchema) })
+  const { register, errors, handleSubmit, setValue, control } = useForm({ mode: 'onBlur', resolver: yupResolver(gamesSchema) })
 
   const handleModal = () => {
     dispatch(setAddEditPopup(!addEditPopup))
@@ -68,14 +98,10 @@ const AddEditConsoles = () => {
           dispatch(showToastMessage("Please include image too", 'error'))
         }
         const isUpdate = !!_id
-        data = {...data, imageData:file, currentObj:addEditPopupData, isUpdate}
-        const {success, message} = await dispatch(createUpdateConsoles(data))
+        const consoleIds = selectedConsoles.map(item => item.value)
+        data = {...data, imageData:file, consoles: consoleIds, currentObj:addEditPopupData, isUpdate}
+        await dispatch(createUpdateGames(data))
         handleModal()
-        if (success) {
-          dispatch(showToastMessage(message, 'success'))
-        } else {
-          dispatch(showToastMessage(message, 'error'))
-        }
         } catch (error) {
             console.error('error: ', error)
             dispatch(showToastMessage(error.message, 'error'))
@@ -93,6 +119,8 @@ const AddEditConsoles = () => {
     setFile(files[0])
   }
 
+  const animatedComponents = makeAnimated()
+
   return (
     <Modal
       isOpen={addEditPopup}
@@ -107,7 +135,7 @@ const AddEditConsoles = () => {
         close={CloseBtn}
         tag="div"
       >
-        <h5 className="modal-title">{_id ? "Update " : "Add "}Consoles</h5>
+        <h5 className="modal-title">{_id ? "Update " : "Add "}Games</h5>
       </ModalHeader>
       <ModalBody className="flex-grow-1">
         <Form
@@ -115,9 +143,9 @@ const AddEditConsoles = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <FormGroup>
-            <Label for="name">Console Name</Label>
+            <Label for="name">Game Name</Label>
             <Controller
-              defaultValue={addEditPopupData ? addEditPopupData.name : ""}
+              defaultValue={addEditPopupData ? name : ""}
               control={control}
               as={Input}
               id='name'
@@ -130,12 +158,33 @@ const AddEditConsoles = () => {
               })} />
             {errors && errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
           </FormGroup>
+          <FormGroup>
+            <Label>Select Consoles</Label>
+            <Select
+              isClearable={false}
+              theme={selectThemeColors}
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              isMulti
+              options={consoles.map(console => ({
+                value: console._id,
+                label: console.name
+              }))}
+              defaultValue={selectedConsoles}
+              classNamePrefix='select'
+              onChange={(value) => setSelectedConsoles(value)} 
+              innerRef={register({ required: true })}
+              className={classnames('react-select', { 'is-invalid': errors.selectedConsoles })}  
+              name="select-consoles"     
+            />
+            {errors && errors.selectedConsoles && <FormFeedback>{errors.selectedConsoles.message}</FormFeedback>}
+          </FormGroup>
           <Media>
             <Row>
               <Col md={12} className="text-center">
                 {avatar &&
                   <Media className='mr-25' left>
-                    <Media object className='rounded mr-50' src={avatar} alt='Console Image' height='80' width='80' />
+                    <Media object className='rounded mr-50' src={avatar} alt='Game Image' height='80' width='80' />
                   </Media>
                 }
 
@@ -174,4 +223,4 @@ const AddEditConsoles = () => {
   )
 }
 
-export default AddEditConsoles
+export default AddEditGames
