@@ -113,14 +113,11 @@ export const loginUser =  ({email, password}) => async dispatch => {
             payload: true
         })
         const loginMutation = gql`
-            mutation userLogin($input: LoginInput){
-                userLogin(input:$input){
+            mutation userUpdateData($_id: ID,$input: ProfileInput){
+                userUpdateData(_id:$_id, input:$input){
                     success
                     statusCode
-                    token
-                    user{
-                        ...UserDetail
-                    }
+                    message                            
                 }
             }
             ${UserFragemnt}`
