@@ -31,5 +31,69 @@ export const CONSTANTS = {
         PURGE: "Purge"
     },
     ENV: env.ENVIRONMENT || "testing",
-    PLATFORM_FEE: env.PLATFORM_FEE ? parseFloat(env.PLATFORM_FEE) : 0
+    PLATFORM_FEE: env.PLATFORM_FEE ? parseFloat(env.PLATFORM_FEE) : 0,
+    STATUS: {
+        ACTIVE: "active",
+        PENDING: "pending",
+        ONLINE: "online",
+        OFFLINE: "offline",
+        DELETED: "deleted",
+        EXPIRED: "expired",
+        ACCEPTED: "accepted",
+        DENIED: "denied",
+        WIN: "win",
+        LOSE: "lose",
+        DRAW: "draw",
+        FINISHED: "finished"
+    },
+    GAME_RANK: [
+        {
+            label: "Elite 1",
+            value: "elite1"
+        },
+        {
+            label: "Elite 2",
+            value: "elite2"
+        },
+        {
+            label: "Elite 3",
+            value: "elite3"
+        },
+        {
+            label: "Gold 1",
+            value: "gold1"
+        },
+        {
+            label: "Gold 2",
+            value: "gold2"
+        },
+        {
+            label: "Gold 3",
+            value: "gold3"
+        },
+        {
+            label: "Silver 1",
+            value: "silver1"
+        },
+        {
+            label: "Silver 2",
+            value: "silver2"
+        },
+        {
+            label: "Silver 3",
+            value: "silver3"
+        },
+        {
+            label: "Bronze 1",
+            value: "bronze1"
+        },
+        {
+            label: "Bronze 2",
+            value: "bronze2"
+        },
+        {
+            label: "Bronze 3",
+            value: "bronze3"
+        }
+    ]
 }

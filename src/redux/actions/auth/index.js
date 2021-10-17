@@ -43,6 +43,7 @@ const UserFragemnt = gql`
         paypalEmail
         createdAt
         updatedAt
+        rank
     }
 `
 
@@ -587,13 +588,13 @@ const onlineUserFragment = gql`
         _id
         firstName
         lastName
-        lastName 
-        
+        lastName   
         profileImage
         isImageOns3 
         profileBg 
         updatedAt
         isOnline
+        rank
     }
 `
 export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {

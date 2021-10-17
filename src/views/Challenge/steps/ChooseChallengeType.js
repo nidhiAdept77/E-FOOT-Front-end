@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react'
 import Select from 'react-select'
 import { useForm } from 'react-hook-form'
-import { ArrowLeft, ArrowRight } from 'react-feather'
-import { selectThemeColors, isObjEmpty } from '@utils'
+import { ArrowLeft } from 'react-feather'
+import { selectThemeColors } from '@utils'
 import { Label, FormGroup, Row, Col, Button, Form } from 'reactstrap'
 
 import '@styles/react/libs/react-select/_react-select.scss'

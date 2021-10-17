@@ -25,8 +25,7 @@ export default [
     id: 'myMatch',
     title: 'My Matches',
     icon: <Trello />,
-    // navLink: '/my-match'
-    navLink: '/#'
+    navLink: '/my-matches'
   },
   {
     id: 'findMyMatch',

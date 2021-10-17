@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import { Form, Label, Input, Button, Row, Col, FormGroup, FormFeedback } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -7,16 +7,30 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {updateUserProfile} from '../../../redux/actions/auth'
 import {showToastMessage} from '../../../redux/actions/toastNotification'
+import { selectThemeColors } from '@utils'
+import {CONSTANTS} from '../../../utils/CONSTANTS'
+import Select from 'react-select'
 
 
 const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
-  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur' })
+  const { register, errors, handleSubmit, setValue } = useForm({ mode: 'onBlur' })
+
+  const [selectedRank, setSelectedRank] = useState(CONSTANTS.GAME_RANK[0])
+
+  useEffect(() => {
+    const rank = user?.rank
+    if (rank) {
+      setSelectedRank(CONSTANTS.GAME_RANK.filter(rk => rk.value === rank))
+    }
+    return () => {
+    }
+  }, [user])
 
   const onSubmit = async data => {
     if (_.isEmpty(errors)) {
       try {
         // const {birthDate, country, phone, bio} = data
-        const result = await updateUserProfile(data)
+        const result = await updateUserProfile({...data, rank: selectedRank.value})
         const resultType = result.success ? "success" : "error"
         showToastMessage(result.message, resultType)
       } catch (error) {
@@ -78,6 +92,24 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
               innerRef={register({ required: true })}
             />
             {errors && errors.epicGamesId && <FormFeedback>{errors.epicGamesId.message}</FormFeedback>}
+          </FormGroup>
+        </Col>
+        <Col sm='6'>
+          <FormGroup>
+            <Label for='rank'>WL Rank</Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`rank–type`}
+              className='react-select'
+              classNamePrefix='select'
+              options={CONSTANTS.GAME_RANK}
+              onChange={(value) => { setSelectedRank(value) } }
+              defaultValue={CONSTANTS.GAME_RANK[0]}
+              value={selectedRank}
+              innerRef={register({ required: true })}
+            />
+              {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col className='mt-1' sm='12'>
