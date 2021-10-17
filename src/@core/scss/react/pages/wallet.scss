@@ -5,7 +5,7 @@ $auth-1-inner-max-width: 600px !default;
     flex-basis: 100%;
     margin-top: 0 !important;
     padding-top: 8.45rem;
-    height: 100vh;
+    // height: 100vh;
     @include media-breakpoint-down(xs) {
         padding-top: 10.45rem;
     }

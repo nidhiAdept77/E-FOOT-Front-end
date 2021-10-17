@@ -12,17 +12,18 @@ const UserAvatarGroup = ({users}) => {
   useEffect(() => {
     
     const userList = []
-
-    users.forEach(id => {
-      const user = _.findWhere(allUsers, { _id: id })
-      if (user) {
-        const {firstName, lastName, profileImage} = user
-        userList.push({
-          title: `${firstName} ${lastName}`,
-          img: profileImage
-        })
-      }
-    })
+    if (users) {
+      users.forEach(id => {
+        const user = _.findWhere(allUsers, { _id: id })
+        if (user) {
+          const {firstName, lastName, profileImage} = user
+          userList.push({
+            title: `${firstName} ${lastName}`,
+            img: profileImage
+          })
+        }
+      })
+    }
 
     setRoomUser(userList)
 
