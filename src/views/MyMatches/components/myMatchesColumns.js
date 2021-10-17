@@ -6,6 +6,7 @@ import {
 import { Button } from "reactstrap"
 import { showToastMessage } from "../../../redux/actions/toastNotification"
 import { CONSTANTS } from "../../../utils/CONSTANTS"
+import { useEffect, useState } from "react"
 
 const SubmitScoreButton = ({data}) => {
   const dispatch = useDispatch()
@@ -34,6 +35,32 @@ const SubmitScoreButton = ({data}) => {
   )
 }
 
+const WLStatus = ({data}) => {
+
+  const {user} = useSelector(state => state.auth)
+  const [status, setStatus] = useState(data.status)
+
+  useEffect(() => {
+    if (data.status === CONSTANTS.STATUS.FINISHED) {
+      if (data.challenger === user._id && data.challengerScore) {
+        setStatus(data.challengerScore?.status)
+      } else if (data.acceptor === user._id && data.opponentScore) {
+        setStatus(data.opponentScore?.status)
+      } else {
+        setStatus(data.status)
+      }
+    } else {
+      setStatus(data.status)
+    }
+    return () => {
+    }
+  }, [data])
+  
+  return (<div>
+    {status}
+    </div>)
+}
+
 export const columns = [
   {
     name: "Game",
@@ -60,7 +87,7 @@ export const columns = [
     name: "Status",
     selector: "status",
     sortable: true,
-    cell: (row) => row.status
+    cell: (row) => (<WLStatus data={row} />)
   },
   {
     name: "Type",

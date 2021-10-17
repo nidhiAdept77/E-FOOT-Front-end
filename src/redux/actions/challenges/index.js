@@ -33,10 +33,12 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId}) => asyn
                         challengerScore {
                             my
                             opponent
+                            status
                         }
                         opponentScore {
                             my
                             opponent
+                            status
                         }
                     }
                 }
@@ -108,10 +110,12 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                         challengerScore {
                             my
                             opponent
+                            status
                         }
                         opponentScore {
                             my
                             opponent
+                            status
                         }
                     }
                 }
@@ -186,10 +190,12 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
                   challengerScore {
                     my
                     opponent
+                    status
                   }
                   opponentScore {
                     my
                     opponent
+                    status
                   }
                 }
               }
@@ -288,10 +294,12 @@ export const updateScore = (_id, scorces) => async dispatch => {
                         challengerScore {
                           my
                           opponent
+                          status
                         }
                         opponentScore {
                           my
                           opponent
+                          status
                         }
                       }
                 }
