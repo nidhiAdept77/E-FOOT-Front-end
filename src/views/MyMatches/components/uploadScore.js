@@ -40,9 +40,6 @@ const UploadScore = () => {
       setScores({})
       setDisabled(false)
     }
-    return () => {
-      dispatch(setAddEditPopupData({}))
-    }
   }, [addEditPopup])
 
   // ** Custom close btn

@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import {
   setAddEditPopup,
+  setDisputePopup,
   setAddEditPopupData
 } from "@src/redux/actions/layout"
 import { Button } from "reactstrap"
@@ -10,7 +11,7 @@ import { useEffect, useState } from "react"
 
 const SubmitScoreButton = ({data}) => {
   const dispatch = useDispatch()
-  const { addEditPopup } = useSelector((state) => state.layout)
+  const { addEditPopup, disputePopup } = useSelector((state) => state.layout)
   const handleOpen = (setData) => {
     if (data.status === CONSTANTS.STATUS.ACCEPTED) {
       dispatch(setAddEditPopup(!addEditPopup))
@@ -19,18 +20,37 @@ const SubmitScoreButton = ({data}) => {
       } else {
         dispatch(setAddEditPopupData({}))
       }
+    } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
+      dispatch(setDisputePopup(!disputePopup))
+      if (setData) {
+        dispatch(setAddEditPopupData(data))
+      } else {
+        dispatch(setAddEditPopupData({}))
+      }
     } else {
-      dispatch(showToastMessage("You can only upload score withing 2 hours after match is accepted!", "error"))
+      dispatch(showToastMessage("You can only upload score within 2 hours after match is accepted!", "error"))
     }
   }
 
   return (
     <div className="demo-inline-spacing">
-      <Button
-        className="btn-icon m-0"
-        color="flat-primary"
-        onClick={(e) => handleOpen(true)}
-      >Submit Score</Button>
+      {data.status === CONSTANTS.STATUS.DISPUTE ? (
+        <Button
+          className="btn-icon m-0"
+          color="flat-primary"
+          onClick={(e) => handleOpen(true)}
+        >
+          Resolve Dispute
+        </Button>
+      ) : (
+        <Button
+          className="btn-icon m-0"
+          color="flat-primary"
+          onClick={(e) => handleOpen(true)}
+        >
+          Submit Score
+        </Button>
+      )}
     </div>
   )
 }

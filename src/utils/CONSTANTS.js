@@ -44,7 +44,8 @@ export const CONSTANTS = {
         WIN: "win",
         LOSE: "lose",
         DRAW: "draw",
-        FINISHED: "finished"
+        FINISHED: "finished",
+        DISPUTE: "dispute"
     },
     GAME_RANK: [
         {

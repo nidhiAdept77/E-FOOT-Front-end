@@ -4,6 +4,7 @@ import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 import { SET_LOADER, SET_CHALLENGES, SET_TOTAL, UPDATE_CHALLENGES, REMOVE_CHALLENGES } from '../../types'
 import { showToastMessage } from '../toastNotification'
+import {request} from '../../../utils/apiService'
 
 export const createUpdateChallenge = ({type, status, gameId, consoleId}) => async dispatch => {
     try {
@@ -34,11 +35,13 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId}) => asyn
                             my
                             opponent
                             status
+                            proof
                         }
                         opponentScore {
                             my
                             opponent
                             status
+                            proof
                         }
                     }
                 }
@@ -111,11 +114,13 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                             my
                             opponent
                             status
+                            proof
                         }
                         opponentScore {
                             my
                             opponent
                             status
+                            proof
                         }
                     }
                 }
@@ -191,11 +196,13 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
                     my
                     opponent
                     status
+                    proof
                   }
                   opponentScore {
                     my
                     opponent
                     status
+                    proof
                   }
                 }
               }
@@ -295,11 +302,13 @@ export const updateScore = (_id, scorces) => async dispatch => {
                           my
                           opponent
                           status
+                          proof
                         }
                         opponentScore {
                           my
                           opponent
                           status
+                          proof
                         }
                       }
                 }
@@ -335,5 +344,53 @@ export const updateScore = (_id, scorces) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
+    }
+}
+
+export const uploadProof = ({imageData, _id}) => async dispatch => {
+    const authtoken = localStorage.getItem('authToken')
+    const userId = localStorage.getItem('userId')
+    const {getFieldValue} = require('../../../utils')
+    const _ = require('underscore')
+    const {CONSTANTS} = require('../../../utils/CONSTANTS')
+
+
+    const headers = {
+        "x-auth-token": authtoken,
+        "x-user-id": userId
+    }
+    const formData = new FormData()
+    formData.append('document', imageData)
+    formData.append('id', _id)
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const result = await request(
+            `${CONSTANTS.BACKEND_BASE_URL}/dispute`,
+            'post',
+            headers,
+            formData
+        )
+        const challengeData = getFieldValue(result, 'data.challenge')
+        if (!_.isEmpty(challengeData)) {
+            handleAuthResponse(result.data)
+            if (!_.isEmpty(challengeData)) {
+                dispatch({
+                    type: UPDATE_CHALLENGES,
+                    payload: challengeData
+                })
+                showToastMessage("Proof Submitted")
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return result.data
+    } catch (error) {
+        console.error('error: ', error)
+        return {success:false, message:[error.message]}
     }
 }

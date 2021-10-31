@@ -73,7 +73,7 @@ const ChooseChallengeType = ({ stepper, type }) => {
               options={challengeType}
               onChange={(value) => setSelectedChallengeType(value)}
               defaultValue={challengeType[0]}
-              value={challengeType[0]}
+              value={selectedChallengeType}
               innerRef={register({ required: true })}
             />
           </FormGroup>

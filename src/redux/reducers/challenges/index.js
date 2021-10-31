@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
                     ...state,
                     challenges: state.challenges.map(challenge => {
                         if (id === challenge._id) {
-                            return payload
+                            return Object.assign(challenge, payload)
                         }
                         return challenge
                     })
