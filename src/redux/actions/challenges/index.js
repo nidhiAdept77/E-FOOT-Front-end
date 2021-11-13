@@ -6,7 +6,7 @@ import { SET_LOADER, SET_CHALLENGES, SET_TOTAL, UPDATE_CHALLENGES, REMOVE_CHALLE
 import { showToastMessage } from '../toastNotification'
 import {request} from '../../../utils/apiService'
 
-export const createUpdateChallenge = ({type, status, gameId, consoleId}) => async dispatch => {
+export const createUpdateChallenge = ({type, status, gameId, consoleId, mode}) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -43,6 +43,10 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId}) => asyn
                             status
                             proof
                         }
+                        mode {
+                            name
+                            id
+                        }
                     }
                 }
             }
@@ -54,7 +58,8 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId}) => asyn
                     status,
                     gameId,
                     consoleId,
-                    type
+                    type,
+                    mode
                 }
             }
         })
@@ -121,6 +126,10 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                             opponent
                             status
                             proof
+                        }
+                        mode {
+                            name
+                            id
                         }
                     }
                 }
@@ -203,6 +212,10 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
                     opponent
                     status
                     proof
+                  }
+                  mode {
+                      name
+                      id
                   }
                 }
               }
@@ -309,6 +322,10 @@ export const updateScore = (_id, scorces) => async dispatch => {
                           opponent
                           status
                           proof
+                        }
+                        mode {
+                            name
+                            id
                         }
                       }
                 }

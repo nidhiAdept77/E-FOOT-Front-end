@@ -107,6 +107,7 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
               onChange={(value) => { setSelectedRank(value) } }
               defaultValue={CONSTANTS.GAME_RANK[0]}
               value={selectedRank}
+              placeholder="Select WL Rank"
               innerRef={register({ required: true })}
             />
               {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}

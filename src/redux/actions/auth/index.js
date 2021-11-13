@@ -595,6 +595,7 @@ const onlineUserFragment = gql`
         updatedAt
         isOnline
         rank
+        userName
     }
 `
 export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {

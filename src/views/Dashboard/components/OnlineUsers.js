@@ -10,6 +10,7 @@ import InfiniteScroll from "react-infinite-scroll-component"
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
+import PrivateChallengeModal from './ChallengeOnlineUserModal'
 
 const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   const [items, setItems] = useState([])
@@ -67,7 +68,9 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
     index = {index}
     key = {
       `${user.userName}-${index}`
-    } />
+    }
+    canChallenge={true}
+    />
   )
   }) : null
   }
@@ -90,6 +93,7 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
               className='react-select'
               classNamePrefix='select'
               isClearable={true}
+              placeholder="Select WL Rank"
               options={CONSTANTS.GAME_RANK}
               onChange={(value) => { setSelectedRank(value) } }
             />
@@ -111,8 +115,8 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
                     {renderTasks(items)}
                   </InfiniteScroll>
                 </PerfectScrollbar>
+                <PrivateChallengeModal />
             </>
-
       }
       </CardBody>
     </Card>

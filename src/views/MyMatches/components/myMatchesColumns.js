@@ -76,7 +76,7 @@ const WLStatus = ({data}) => {
     }
   }, [data])
   
-  return (<div>
+  return (<div className="text-capitalize">
     {status}
     </div>)
 }
@@ -110,10 +110,16 @@ export const columns = [
     cell: (row) => (<WLStatus data={row} />)
   },
   {
+    name: "Mode",
+    selector: "type",
+    sortable: true,
+    cell: (row) => (<span className="text-capitalize">{row.type}</span>)
+  },
+  {
     name: "Type",
     selector: "type",
     sortable: true,
-    cell: (row) => row.type
+    cell: (row) => row?.mode?.name
   },
   {
     name: "Actions",

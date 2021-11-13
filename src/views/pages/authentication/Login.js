@@ -141,38 +141,8 @@ const Login = (props) => {
         <Card className='mb-0'>
           <CardBody>
             <div dangerouslySetInnerHTML={{__html: headerHtml}} />
-            <Row className='auth-footer-btn'>
-              <Col md="6">
-                {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
-                  appId={CONSTANTS.FACEBOOK_APP_ID}
-                  callback={responseFacebook}
-                  render={renderProps => (
-                    <Button.Ripple color='facebook' className="w-100 mb-2" block onClick={renderProps.onClick}>
-                      {getFbSvg()}
-                      <span className='align-middle ml-25'>Login with facebook</span>
-                    </Button.Ripple>
-                  )}
-                />}
-              </Col>
-              <Col md="6">
-                {CONSTANTS.GOOLE_CLIENT_ID && <GoogleLogin
-                  clientId={CONSTANTS.GOOLE_CLIENT_ID}
-                  render={renderProps => (
-                    <Button.Ripple color='white' onClick={renderProps.onClick} className="w-100 box-shadow-google" disabled={renderProps.disabled}>
-                        {getGoogleSvg()}
-                      <span className='align-middle ml-25'>Login with Google</span>
-                    </Button.Ripple>
-                  )}
-                  buttonText="Login With Google"
-                  className="w-100"
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={'single_host_origin'}
-                />}
-              </Col>
-            </Row>
             <div className='divider my-2'>
-              <div className='divider-text'>or</div>
+              {/* <div className='divider-text'>or</div> */}
             </div>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <Row>
@@ -232,6 +202,36 @@ const Login = (props) => {
                 <span>Create an account</span>
               </Link>
             </p>
+            <Row className='auth-footer-btn mt-3'>
+              <Col md="6">
+                {CONSTANTS.FACEBOOK_APP_ID && <FacebookLogin
+                  appId={CONSTANTS.FACEBOOK_APP_ID}
+                  callback={responseFacebook}
+                  render={renderProps => (
+                    <Button.Ripple color='facebook' style={{"box-shadow":"0 4px 8px 0 rgb(34 41 47 / 50%)", border: "1px"}} className="w-100" block onClick={renderProps.onClick}>
+                      {getFbSvg()}
+                      <span className='align-middle ml-25'>Login with facebook</span>
+                    </Button.Ripple>
+                  )}
+                />}
+              </Col>
+              <Col md="6">
+                {CONSTANTS.GOOLE_CLIENT_ID && <GoogleLogin
+                  clientId={CONSTANTS.GOOLE_CLIENT_ID}
+                  render={renderProps => (
+                    <Button.Ripple color='white' onClick={renderProps.onClick} className="w-100 box-shadow-google" disabled={renderProps.disabled}>
+                        {getGoogleSvg()}
+                      <span className='align-middle ml-25'>Login with Google</span>
+                    </Button.Ripple>
+                  )}
+                  buttonText="Login With Google"
+                  className="w-100"
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={'single_host_origin'}
+                />}
+              </Col>
+            </Row>
           </CardBody>
         </Card>
       </div>

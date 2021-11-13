@@ -38,9 +38,11 @@ const ChooseChallengeType = ({ stepper, type }) => {
 
   const onSubmit = () => {
     if (addEditPopupData) {
+      const { label: name, value: id } = selectedChallengeType
       const dataToSend = {
         type: "public",
         status: "active",
+        mode: {id, name},
         gameId: addEditPopupData?.gameId,
         consoleId: addEditPopupData.consoleId
       }
