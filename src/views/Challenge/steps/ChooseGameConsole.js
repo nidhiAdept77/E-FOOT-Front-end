@@ -19,18 +19,27 @@ const ChooseGameConsole = ({ stepper, type }) => {
   const { games } = useSelector((state) => state.games)
   const [selectedConsole, setSelectedConsole] = useState("")
   const [selectedGame, setSelectedGame] = useState("")
-
+  const { addEditPopupData } = useSelector(
+    (state) => state.layout
+  )
   const { register, errors, handleSubmit, trigger } = useForm()
 
   const onSubmit = () => {
 
     if (selectedGame && selectedConsole) {
-      dispatch(setAddEditPopupData({
+      const {_id: opponentId, userName: opponentUserName, profileImage} = addEditPopupData
+      const data = {
         gameId: selectedGame.value,
         game: selectedGame.label,
         consoleId: selectedConsole.value,
         console: selectedConsole.label
-      }))
+      }
+      if (opponentId) {
+        data['acceptor'] = opponentId
+        data['acceptorUserName'] = opponentUserName
+        data['acceptorPic'] = profileImage
+      }
+      dispatch(setAddEditPopupData(data))
       trigger()
       if (isObjEmpty(errors)) {
         stepper.next()

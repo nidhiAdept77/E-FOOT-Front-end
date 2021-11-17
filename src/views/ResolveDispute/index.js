@@ -11,13 +11,11 @@ import { CONSTANTS } from '../../utils/CONSTANTS'
 import ReactPaginate from 'react-paginate'
 
 // ** Add New Modal Component
-import {columns} from "./components/myMatchesColumns"
-import UploadScore from './components/uploadScore'
-import DisputeModal from './components/dispute'
+import {columns} from "./components/resolveDisputeColumns"
 
 import { getPaginatedChallenges, removeChallenges } from '../../redux/actions/challenges'
 
-const MyMatches = props => {
+const ResolveDispute = props => {
 
     const dispatch = useDispatch()
     const {loading, total, challenges} = useSelector(state => state.challenges)
@@ -26,19 +24,9 @@ const MyMatches = props => {
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
-    const [active, setActive] = useState(CONSTANTS.STATUS.ACTIVE)
 
-    const STATUS = [
-        CONSTANTS.STATUS.ACTIVE,
-        CONSTANTS.STATUS.ACCEPTED,
-        CONSTANTS.STATUS.WIN,
-        CONSTANTS.STATUS.LOSE,
-        CONSTANTS.STATUS.DRAW,
-        CONSTANTS.STATUS.DISPUTE
-    ]
-    
     useEffect(() => {
-        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
+        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, CONSTANTS.STATUS.DISPUTE))
         return () => {
             dispatch(removeChallenges())
         }
@@ -47,20 +35,13 @@ const MyMatches = props => {
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
-            dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
+            dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, CONSTANTS.STATUS.DISPUTE))
         }, 100)
     }
 
     const handlePagination = page => {
-        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
+        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, CONSTANTS.STATUS.DISPUTE))
         setCurrentPage(page.selected + 1)
-    }
-
-    const toggle = tab => {
-        if (active !== tab) {
-            setActive(tab)
-            dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, tab, user._id))
-        }
     }
 
     // ** Custom Pagination
@@ -84,25 +65,9 @@ const MyMatches = props => {
         )
     }
 
-    const NavItems = (navs) => {
-        return navs.map(nav => (
-            <NavItem>
-                <NavLink
-                    active={active === nav}
-                    onClick={() => {
-                    toggle(nav)
-                    }}
-                    className="text-capitalize"
-                >
-                    {nav}
-                </NavLink>
-            </NavItem>
-        ))
-    }
-
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Matches" />} breadCrumbActive={<FormattedMessage id="My Matches" />} />
+            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Resolve Dispute" />} breadCrumbActive={<FormattedMessage id="Challenges" />} />
             <Card>
                 <LoaderComponent loading={loading} />
                 <Row className='mx-0 p-1'>
@@ -119,31 +84,25 @@ const MyMatches = props => {
                         onChange={e => handleFilter(e.currentTarget.value)}
                         />
                     </Col>
+                    <Col className='d-flex mt-1' md='6' sm='12'>
+                        <h1>WORK IN PROGRESS</h1>
+                    </Col>
                 </Row>
-                <Row className='mx-0 p-1'>
-                <Nav tabs>
-                    {NavItems(STATUS)}
-                </Nav>
-                </Row>
-                <TabContent className='py-50' activeTab={active}>
-                    <DataTable
-                        noHeader
-                        pagination
-                        paginationServer
-                        columns={columns || []}
-                        paginationPerPage={limit}
-                        className='react-dataTable'
-                        sortIcon={<ChevronDown size={10} />}
-                        paginationDefaultPage={currentPage + 1}
-                        paginationComponent={CustomPagination}
-                        data={challenges}
-                    />
-                </TabContent>
+                <DataTable
+                    noHeader
+                    pagination
+                    paginationServer
+                    columns={columns || []}
+                    paginationPerPage={limit}
+                    className='react-dataTable'
+                    sortIcon={<ChevronDown size={10} />}
+                    paginationDefaultPage={currentPage + 1}
+                    paginationComponent={CustomPagination}
+                    data={challenges}
+                />
             </Card>
-            <UploadScore />
-            <DisputeModal />
         </Fragment>
     )
 }
 
-export default MyMatches
+export default ResolveDispute

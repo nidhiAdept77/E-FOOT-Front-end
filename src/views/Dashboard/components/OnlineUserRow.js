@@ -4,7 +4,7 @@ import { Media } from 'reactstrap'
 
 import Avatar from '@components/avatar'
 import {getFullNameFromUser} from '@src/utils'
-import { setAddEditPopup, setAddEditPopupData } from "@src/redux/actions/layout"
+import { toggleChallengeModal, setAddEditPopupData } from "@src/redux/actions/layout"
 import {CONSTANTS} from '@src/utils/CONSTANTS'
 import { useDispatch } from "react-redux"
 
@@ -14,7 +14,7 @@ function OnlineUserRow({ user, index, canChallenge }) {
   const handleClick = () => {
     if (canChallenge) {
       dispatch(setAddEditPopupData(user))
-      dispatch(setAddEditPopup(true))
+      dispatch(toggleChallengeModal(true))
     }
   }
   

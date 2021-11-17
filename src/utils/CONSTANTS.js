@@ -45,7 +45,10 @@ export const CONSTANTS = {
         LOSE: "lose",
         DRAW: "draw",
         FINISHED: "finished",
-        DISPUTE: "dispute"
+        DISPUTE: "dispute", 
+        PRIVATE: "private",
+        PUBLIC: "public",
+        BOTH: "both"
     },
     GAME_RANK: [
         {

@@ -1,7 +1,7 @@
 import React from "react"
 import { Button, Modal, ModalHeader, ModalBody } from "reactstrap"
 import {
-  setAddEditPopup,
+  toggleChallengeModal,
   setAddEditPopupData
 } from "@src/redux/actions/layout"
 import { useSelector, useDispatch } from "react-redux"
@@ -9,20 +9,34 @@ import Row from "reactstrap/lib/Row"
 import Col from "reactstrap/lib/Col"
 import {CONSTANTS} from '@src/utils/CONSTANTS'
 import Avatar from '@components/avatar'
+import { useHistory } from 'react-router-dom'
+
 
 function privateChallengeModal() {
-  const { addEditPopup, addEditPopupData } = useSelector(
+  const history = useHistory()
+  const { toggleChallngePopup, addEditPopupData } = useSelector(
     (state) => state.layout
   )
   const dispatch = useDispatch()
+
+  const handleChallengeButton = () => {
+    dispatch(toggleChallengeModal(false))
+    history.push("/create-challenge")
+  }
+
+  const navigateToUserDashboard = () => {
+    dispatch(toggleChallengeModal(false))
+    history.push("/dashboard")
+  }
+
   return (
     <div className="vertically-centered-modal">
       <Modal
-        isOpen={addEditPopup}
-        toggle={() => dispatch(setAddEditPopup(false))}
-        className="modal-dialog-centered modal-xs"
+        isOpen={toggleChallngePopup}
+        toggle={() => dispatch(toggleChallengeModal(false))}
+        className="modal-dialog-centered modal-md"
       >
-        <ModalHeader toggle={() => dispatch(setAddEditPopup(false))}>
+        <ModalHeader toggle={() => dispatch(toggleChallengeModal(false))}>
           <Row>
             <Col>
               <Avatar size='sm' imgClassName='rounded' className='mr-75' img={`${window.location.origin}/rank.png`}  imgHeight='42' imgWidth='42' />
@@ -39,15 +53,15 @@ function privateChallengeModal() {
             <Col>
               <Button
                 color="primary"
-                onClick={() => dispatch(setAddEditPopup(false))}
+                onClick={handleChallengeButton}
               >
                 Challenge
               </Button>
             </Col>
-            <Col>
+            <Col className="text-right">
               <Button
                 color="primary"
-                onClick={() => dispatch(setAddEditPopup(false))}
+                onClick={navigateToUserDashboard}
               >
                 View
               </Button>

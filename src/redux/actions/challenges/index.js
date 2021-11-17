@@ -6,7 +6,7 @@ import { SET_LOADER, SET_CHALLENGES, SET_TOTAL, UPDATE_CHALLENGES, REMOVE_CHALLE
 import { showToastMessage } from '../toastNotification'
 import {request} from '../../../utils/apiService'
 
-export const createUpdateChallenge = ({type, status, gameId, consoleId, mode}) => async dispatch => {
+export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, acceptor}) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -59,7 +59,8 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode}) =
                     gameId,
                     consoleId,
                     type,
-                    mode
+                    mode,
+                    acceptor
                 }
             }
         })
