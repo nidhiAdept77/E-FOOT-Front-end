@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 const {SET_CHALLENGES, SET_LOADER, SET_TOTAL, UPDATE_CHALLENGES, REMOVE_CHALLENGES} = require('../../types')
 
 const initialState = {
@@ -25,13 +27,17 @@ export default (state = initialState, action) => {
                 total: payload
             }
         case UPDATE_CHALLENGES:
-            const id = payload._id
-            if (id) {
+            const list = state.challenges
+            const challengeFound = _.findWhere(list, {_id: payload._id})
+            if (challengeFound) {
                 return {
                     ...state,
                     challenges: state.challenges.map(challenge => {
                         if (id === challenge._id) {
-                            return Object.assign(challenge, payload)
+                            const data = Object.assign(challenge, payload)
+                            data['status'] = payload.status
+                            data['type'] = payload.type
+                            return data
                         }
                         return challenge
                     })
@@ -39,13 +45,13 @@ export default (state = initialState, action) => {
             } else {
                 return {
                     ...state,
-                    challenges: state.challenges.push(payload)
+                    challenges: [...list, payload]
                 }
             }
         case REMOVE_CHALLENGES:
             return {
                 ...state,
-                challenges: state.challenges.map(challenge => challenge !== payload._id)
+                challenges: state.challenges.filter(challenge => challenge._id !== payload._id)
             }
         default:
             return state

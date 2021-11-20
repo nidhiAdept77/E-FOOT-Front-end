@@ -5,13 +5,14 @@ import LoaderComponent from '../../components/Loader'
 import { FormattedMessage } from 'react-intl'
 import Avatar from '@components/avatar'
 import { useDispatch, useSelector } from 'react-redux'
-import { acceptChallenge, getPaginatedChallenges, removeChallenges } from '../../../redux/actions/challenges'
+import { acceptChallenge, getPaginatedChallenges, removeChallenges, subsChallenges, updateChallenges } from '../../../redux/actions/challenges'
 import {getFormattedDateTime} from '@src/utils/'
 import { showToastMessage } from '../../../redux/actions/toastNotification'
 import withReactContent from 'sweetalert2-react-content'
 import Swal from 'sweetalert2'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
 
+let challengesSubs
 export default function GamesComponent() {
     const dispatch = useDispatch()
 
@@ -44,13 +45,24 @@ export default function GamesComponent() {
     }
 
     useEffect(() => {
-        dispatch(getPaginatedChallenges(-1, -1, "", "public", CONSTANTS.STATUS.ACTIVE))
-        return () => {
-          dispatch(removeChallenges())
+      dispatch(getPaginatedChallenges(-1, -1, "", "public", CONSTANTS.STATUS.ACTIVE))
+      if (challengesSubs?.subscription) {
+        challengesSubs.subscription.unsubscribe()
+      }
+      challengesSubs = dispatch(
+        subsChallenges((challenge) => {
+          dispatch(updateChallenges(challenge))
+        })
+      )
+      return () => {
+        if (challengesSubs?.subscription) {
+          challengesSubs.subscription.unsubscribe()
         }
-      }, [])
+        dispatch(removeChallenges())
+      }
+    }, [])
     
-      const renderTasks = () => {
+      const renderGames = () => {
         return challenges?.map(challenge => {
           return (
             <div key={challenge._id} className='employee-task d-flex justify-content-between align-items-center' id={challenge._id}>
@@ -86,7 +98,7 @@ export default function GamesComponent() {
             </CardHeader>
             <div className='chat-app-window'>
                 <Card className='card-employee-task'>
-                    <CardBody>{renderTasks()}</CardBody>
+                    <CardBody>{renderGames()}</CardBody>
                 </Card>
             </div>
         </Card>

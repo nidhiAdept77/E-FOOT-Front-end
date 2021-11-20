@@ -15,8 +15,9 @@ import {columns} from "./components/myMatchesColumns"
 import UploadScore from './components/uploadScore'
 import DisputeModal from './components/dispute'
 
-import { getPaginatedChallenges, removeChallenges } from '../../redux/actions/challenges'
+import { getPaginatedChallenges, removeChallenges, subsChallenges, updateChallenges } from '../../redux/actions/challenges'
 
+let challengesSubs
 const MyMatches = props => {
 
     const dispatch = useDispatch()
@@ -30,6 +31,7 @@ const MyMatches = props => {
 
     const STATUS = [
         CONSTANTS.STATUS.ACTIVE,
+        CONSTANTS.STATUS.PENDING,
         CONSTANTS.STATUS.ACCEPTED,
         CONSTANTS.STATUS.WIN,
         CONSTANTS.STATUS.LOSE,
@@ -43,6 +45,22 @@ const MyMatches = props => {
             dispatch(removeChallenges())
         }
     }, [searchValue])
+
+    useEffect(() => {
+      if (challengesSubs?.subscription) {
+        challengesSubs.subscription.unsubscribe()
+      }
+      challengesSubs = dispatch(
+        subsChallenges((challenge) => {
+          dispatch(updateChallenges(challenge))
+        })
+      )
+      return () => {
+        if (challengesSubs?.subscription) {
+          challengesSubs.subscription.unsubscribe()
+        }
+      }
+    }, [])
 
     const handleFilter = (value) => {
         setSearchValue(value)

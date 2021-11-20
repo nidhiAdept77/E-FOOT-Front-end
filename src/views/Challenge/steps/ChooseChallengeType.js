@@ -50,6 +50,7 @@ const ChooseChallengeType = ({ stepper, type }) => {
       }
       if (addEditPopupData.acceptor) {
         dataToSend['type'] = CONSTANTS.STATUS.PRIVATE
+        dataToSend['status'] = CONSTANTS.STATUS.PENDING
         dataToSend['acceptor'] = addEditPopupData.acceptor
       }
       dispatch(setAddEditPopupData({}))

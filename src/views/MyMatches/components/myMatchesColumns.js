@@ -8,17 +8,38 @@ import { Button } from "reactstrap"
 import { showToastMessage } from "../../../redux/actions/toastNotification"
 import { CONSTANTS } from "../../../utils/CONSTANTS"
 import { useEffect, useState } from "react"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { acceptChallenge } from '../../../redux/actions/challenges'
 
 const SubmitScoreButton = ({data}) => {
   const dispatch = useDispatch()
   const { addEditPopup, disputePopup } = useSelector((state) => state.layout)
-  const handleOpen = (setData) => {
+
+  const handleOpen = async (setData) => {
     if (data.status === CONSTANTS.STATUS.ACCEPTED) {
       dispatch(setAddEditPopup(!addEditPopup))
       if (setData) {
         dispatch(setAddEditPopupData(data))
       } else {
         dispatch(setAddEditPopupData({}))
+      }
+    } else if (data.status === CONSTANTS.STATUS.PENDING && data.type === CONSTANTS.STATUS.PRIVATE) {
+      const MySwal = withReactContent(Swal)
+      const result = await MySwal.fire({
+          title: 'Are you sure?',
+          text: "You want to accept this?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          customClass: {
+              confirmButton: 'btn btn-primary',
+              cancelButton: 'btn btn-outline-danger ml-1'
+          },
+          buttonsStyling: false
+      })
+      if (result.value) {
+         dispatch(acceptChallenge({_id: data._id, status: CONSTANTS.STATUS.ACCEPTED, opponent: data.acceptor}))
       }
     } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
       dispatch(setDisputePopup(!disputePopup))
@@ -32,9 +53,20 @@ const SubmitScoreButton = ({data}) => {
     }
   }
 
-  return (
-    <div className="demo-inline-spacing">
-      {data.status === CONSTANTS.STATUS.DISPUTE ? (
+  const btnBasedOnStatusAndType = () => {
+
+    if (data?.status === CONSTANTS.STATUS.PENDING && data?.type === CONSTANTS.STATUS.PRIVATE) {
+      return (
+        <Button
+          className="btn-icon m-0"
+          color="flat-primary"
+          onClick={(e) => handleOpen(true)}
+        >
+          Accept
+        </Button>
+      )
+    } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
+      return (
         <Button
           className="btn-icon m-0"
           color="flat-primary"
@@ -42,7 +74,9 @@ const SubmitScoreButton = ({data}) => {
         >
           Resolve Dispute
         </Button>
-      ) : (
+      )
+    } else if (data.status === CONSTANTS.STATUS.ACCEPTED) {
+      return (
         <Button
           className="btn-icon m-0"
           color="flat-primary"
@@ -50,7 +84,13 @@ const SubmitScoreButton = ({data}) => {
         >
           Submit Score
         </Button>
-      )}
+      )
+    }
+  }
+
+  return (
+    <div className="demo-inline-spacing">
+      {btnBasedOnStatusAndType()}
     </div>
   )
 }

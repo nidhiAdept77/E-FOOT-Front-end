@@ -31,6 +31,7 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, ac
                         gameImage
                         gameName
                         consoleName
+                        challengerName
                         challengerScore {
                             my
                             opponent
@@ -116,6 +117,7 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                         gameImage
                         gameName
                         consoleName
+                        challengerName
                         challengerScore {
                             my
                             opponent
@@ -155,10 +157,10 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
             })
             if (data.challengeAccept.data._id) {
                 dispatch(showToastMessage("Challenge accepted!", 'success'))
-                // dispatch({
-                //     type: REMOVE_CHALLENGES,
-                //     payload: data.challengeAccept.data
-                // })
+                dispatch({
+                    type: UPDATE_CHALLENGES,
+                    payload: data.challengeAccept.data
+                })
             }
             return data.challengeAccept
         } else {
@@ -202,6 +204,7 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
                   gameImage
                   gameName
                   consoleName
+                  challengerName
                   challengerScore {
                     my
                     opponent
@@ -312,6 +315,7 @@ export const updateScore = (_id, scorces) => async dispatch => {
                         gameImage
                         gameName
                         consoleName
+                        challengerName
                         challengerScore {
                           my
                           opponent
@@ -410,5 +414,68 @@ export const uploadProof = ({imageData, _id}) => async dispatch => {
     } catch (error) {
         console.error('error: ', error)
         return {success:false, message:[error.message]}
+    }
+}
+
+//Subcriptions
+
+export const subsChallenges = (handleChallenges) => dispatch => {
+    try {
+        const ChallengesSubscription = gql`
+        subscription{
+            challengesSubs {
+                _id
+                status
+                type
+                consoleId
+                gameId
+                challenger
+                acceptor
+                createdAt
+                gameImage
+                gameName
+                consoleName
+                challengerName
+                challengerScore {
+                  my
+                  opponent
+                  status
+                  proof
+                }
+                opponentScore {
+                  my
+                  opponent
+                  status
+                  proof
+                }
+                mode {
+                    name
+                    id
+                }
+              }
+          }
+        `
+        const observable = client.subscribe({query:  ChallengesSubscription})
+        return observable.subscribe(({data}) => { 
+            handleChallenges(data.challengesSubs)
+        }) 
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+
+export const updateChallenges = (challenge) => dispatch => {
+    try {
+        dispatch({
+            type: UPDATE_CHALLENGES,
+            payload: challenge
+        })
+    } catch (error) {
+        console.error('error: ', error)
     }
 }
