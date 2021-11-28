@@ -1,13 +1,28 @@
 import { useSelector, useDispatch } from "react-redux"
 import {
-  setAddEditPopup,
-  setDisputePopup,
+  toggleAdminDisputeModal,
   setAddEditPopupData
 } from "@src/redux/actions/layout"
 import { Button } from "reactstrap"
-import { showToastMessage } from "../../../redux/actions/toastNotification"
-import { CONSTANTS } from "../../../utils/CONSTANTS"
-import { useEffect, useState } from "react"
+
+const ResolveDisputeButton = ({data}) => {
+
+  const dispatch = useDispatch()
+
+  const handleOpen = (toggle, data) => {
+    console.log('data: ', data)
+    dispatch(setAddEditPopupData(data))
+    dispatch(toggleAdminDisputeModal(toggle))
+  }
+  
+  return (<Button
+    className="btn-icon m-0"
+    color="flat-primary"
+    onClick={(e) => handleOpen(true, data)}
+  >
+    Resolve
+  </Button>)
+}
 
 export const columns = [
   {
@@ -44,10 +59,22 @@ export const columns = [
     cell: (row) => row?.mode?.name
   },
   {
+    name: "Challenger",
+    selector: "challenger",
+    sortable: true,
+    cell: (row) => row?.challengerName
+  },
+  {
+    name: "Acceptor",
+    selector: "acceptor",
+    sortable: true,
+    cell: (row) => row?.acceptorName
+  },
+  {
     name: "Actions",
     sortable: false,
     cell: (row) => (
-      <div></div>
+      <ResolveDisputeButton data={row} />
     )
   }
 ]

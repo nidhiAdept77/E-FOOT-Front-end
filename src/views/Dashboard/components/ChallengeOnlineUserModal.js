@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom'
 
 function privateChallengeModal() {
   const history = useHistory()
-  const { toggleChallngePopup, addEditPopupData } = useSelector(
+  const { toggleChallengePopup, addEditPopupData } = useSelector(
     (state) => state.layout
   )
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ function privateChallengeModal() {
   return (
     <div className="vertically-centered-modal">
       <Modal
-        isOpen={toggleChallngePopup}
+        isOpen={toggleChallengePopup}
         toggle={() => dispatch(toggleChallengeModal(false))}
         className="modal-dialog-centered modal-md"
       >

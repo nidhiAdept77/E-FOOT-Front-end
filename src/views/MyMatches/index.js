@@ -16,6 +16,7 @@ import UploadScore from './components/uploadScore'
 import DisputeModal from './components/dispute'
 
 import { getPaginatedChallenges, removeChallenges, subsChallenges, updateChallenges } from '../../redux/actions/challenges'
+import Alert from 'reactstrap/lib/Alert'
 
 let challengesSubs
 const MyMatches = props => {
@@ -36,7 +37,9 @@ const MyMatches = props => {
         CONSTANTS.STATUS.WIN,
         CONSTANTS.STATUS.LOSE,
         CONSTANTS.STATUS.DRAW,
-        CONSTANTS.STATUS.DISPUTE
+        CONSTANTS.STATUS.DISPUTE,
+        CONSTANTS.STATUS.FINISHED,
+        CONSTANTS.STATUS.EXPIRED
     ]
     
     useEffect(() => {
@@ -137,6 +140,15 @@ const MyMatches = props => {
                         onChange={e => handleFilter(e.currentTarget.value)}
                         />
                     </Col>
+                </Row>
+                <Row className='mx-0 p-1'>
+                    <Alert color="warning">
+                        <p className="alert-heading">
+                            Note:
+                            <br />
+                            If you failed to upload the scores within 24 hours then WIN, LOSE and DRAW will be decided based on the person who has uploaded the score.
+                        </p>
+                    </Alert>
                 </Row>
                 <Row className='mx-0 p-1'>
                 <Nav tabs>

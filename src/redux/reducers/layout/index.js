@@ -1,6 +1,6 @@
 // ** ThemeConfig Import
 import themeConfig from '@configs/themeConfig'
-import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP, ADD_EDIT_POPUP_DATA, DISPUTE_POPUP, TOGGLE_CHALLENGE_MODAL} from '@src/redux/types'
+import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP, ADD_EDIT_POPUP_DATA, DISPUTE_POPUP, TOGGLE_CHALLENGE_MODAL, TOGGLE_ADMIN_DISPUTE_MODAL} from '@src/redux/types'
 // ** Returns Initial Menu Collapsed State
 const initialMenuCollapsed = () => {
   const item = window.localStorage.getItem('menuCollapsed')
@@ -18,7 +18,8 @@ const initialState = {
   addEditPopup: false,
   addEditPopupData: {},
   disputePopup: false,
-  toggleChallngePopup: false
+  toggleChallengePopup: false,
+  toggleAdminDisputePopup: false
 }
 
 const layoutReducer = (state = initialState, action) => {
@@ -41,7 +42,9 @@ const layoutReducer = (state = initialState, action) => {
     case DISPUTE_POPUP:
       return {...state, disputePopup: action.value}
     case TOGGLE_CHALLENGE_MODAL:
-      return {...state, toggleChallngePopup: action.value}
+      return {...state, toggleChallengePopup: action.value}
+    case TOGGLE_ADMIN_DISPUTE_MODAL:
+      return {...state, toggleAdminDisputePopup: action.value}
     default:
       return state
   }

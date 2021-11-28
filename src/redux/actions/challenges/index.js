@@ -32,6 +32,7 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, ac
                         gameName
                         consoleName
                         challengerName
+                        acceptorName
                         challengerScore {
                             my
                             opponent
@@ -118,6 +119,7 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                         gameName
                         consoleName
                         challengerName
+                        acceptorName
                         challengerScore {
                             my
                             opponent
@@ -205,6 +207,7 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
                   gameName
                   consoleName
                   challengerName
+                  acceptorName
                   challengerScore {
                     my
                     opponent
@@ -316,6 +319,7 @@ export const updateScore = (_id, scorces) => async dispatch => {
                         gameName
                         consoleName
                         challengerName
+                        acceptorName
                         challengerScore {
                           my
                           opponent
@@ -436,6 +440,7 @@ export const subsChallenges = (handleChallenges) => dispatch => {
                 gameName
                 consoleName
                 challengerName
+                acceptorName
                 challengerScore {
                   my
                   opponent

@@ -12,6 +12,7 @@ import ReactPaginate from 'react-paginate'
 
 // ** Add New Modal Component
 import {columns} from "./components/resolveDisputeColumns"
+import AdminResolveDisputeModal from "./components/AdminResolveDisputeModal"
 
 import { getPaginatedChallenges, removeChallenges } from '../../redux/actions/challenges'
 
@@ -100,6 +101,7 @@ const ResolveDispute = props => {
                     paginationComponent={CustomPagination}
                     data={challenges}
                 />
+                <AdminResolveDisputeModal />
             </Card>
         </Fragment>
     )
