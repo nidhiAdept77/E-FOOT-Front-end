@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
                 return {
                     ...state,
                     challenges: state.challenges.map(challenge => {
-                        if (id === challenge._id) {
+                        if (payload._id === challenge._id) {
                             const data = Object.assign(challenge, payload)
                             data['status'] = payload.status
                             data['type'] = payload.type

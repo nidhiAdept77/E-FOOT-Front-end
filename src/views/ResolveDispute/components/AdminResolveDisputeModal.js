@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button, Modal, ModalHeader, ModalBody } from "reactstrap"
+import { Button, Modal, ModalHeader, ModalBody, Card, CardHeader, CardTitle, CardBody, CardText, CustomInput } from "reactstrap"
 import {
   toggleAdminDisputeModal,
   setAddEditPopupData
@@ -9,15 +9,16 @@ import Row from "reactstrap/lib/Row"
 import Col from "reactstrap/lib/Col"
 import Avatar from '@components/avatar'
 import { useHistory } from 'react-router-dom'
-
+import { CONSTANTS } from "../../../utils/CONSTANTS"
+import { resolveChallengeDispute } from "../../../redux/actions/challenges"
 
 function AdminResolveDisputeModal() {
-  const history = useHistory()
   const { toggleAdminDisputePopup, addEditPopupData } = useSelector(
     (state) => state.layout
   )
 
   const [challengeInfo, setChallengeInfo] = useState({})
+  const [whoIsWinner, setWhoIsWinner] = useState("")
 
   const dispatch = useDispatch()
 
@@ -32,21 +33,33 @@ function AdminResolveDisputeModal() {
     dispatch(toggleAdminDisputeModal(false))
   }
 
-  const navigateToUserDashboard = () => {
+  const resolveDispute = () => {
+    const data = {
+      _id: challengeInfo?._id,
+      challengerStatus: "",
+      opponentStatus: "",
+      status: challengeInfo?.status,
+      challenger: challengeInfo?.challenger,
+      acceptor: challengeInfo?.acceptor
+    }
+    if (whoIsWinner === CONSTANTS.CHALLENGER) {
+      data.challengerStatus = CONSTANTS.STATUS.WIN
+      data.opponentStatus = CONSTANTS.STATUS.LOSE
+    } else if (whoIsWinner === CONSTANTS.ACCEPTOR) {
+      data.opponentStatus = CONSTANTS.STATUS.WIN
+      data.challengerStatus = CONSTANTS.STATUS.LOSE
+    } else if (whoIsWinner === CONSTANTS.STATUS.DRAW) {
+      data.challengerStatus = CONSTANTS.STATUS.DRAW
+      data.opponentStatus = CONSTANTS.STATUS.DRAW
+    }
+    data.status = CONSTANTS.STATUS.FINISHED
+    dispatch(resolveChallengeDispute(data))
     dispatch(toggleAdminDisputeModal(false))
   }
 
   const ChallengeInfo = () => {
 
     const {
-      _id,
-      status,
-      type,
-      consoleId,
-      gameId,
-      challenger,
-      acceptor,
-      createdAt,
       gameImage,
       gameName,
       consoleName,
@@ -63,6 +76,10 @@ function AdminResolveDisputeModal() {
       element.href = URL.createObjectURL(file)
       element.download = `${text}.jpg`
       element.click()
+    }
+
+    const handleDecideRadio = (event) => {
+      setWhoIsWinner(event.target.value)
     }
     
     return (<div className="mt-2 mb-4">
@@ -170,7 +187,27 @@ function AdminResolveDisputeModal() {
       </Col>
     </Row>
     <hr />
-    
+    <Row>
+      <Col><b>Concluded who's the Winner?</b></Col>
+    </Row>
+    <Row>
+        <Col>
+          <div className='demo-inline-spacing'>
+            <CustomInput type='radio' id='challenger' checked={whoIsWinner === CONSTANTS.CHALLENGER} value={CONSTANTS.CHALLENGER} name='radioDecide' inline label={`Challenger (${challengerName})`} onChange={handleDecideRadio} />
+          </div>
+        </Col>
+        <Col>
+          <div className='demo-inline-spacing'>
+            <CustomInput type='radio' id='acceptor' checked={whoIsWinner === CONSTANTS.ACCEPTOR} value={CONSTANTS.ACCEPTOR} name='radioDecide' inline label={`Acceptor (${acceptorName})`} onChange={handleDecideRadio} />
+          </div>
+        </Col>
+        <Col>
+          <div className='demo-inline-spacing'>
+            <CustomInput type='radio' id='draw' checked={whoIsWinner === "draw"} value="draw" name='radioDecide' inline label={`None (Draw)`} onChange={handleDecideRadio} />
+          </div>
+        </Col>
+      </Row>
+      <hr />
     </div>)
   }
 
@@ -198,7 +235,7 @@ function AdminResolveDisputeModal() {
             <Col className="text-right">
               <Button
                 color="primary"
-                onClick={navigateToUserDashboard}
+                onClick={resolveDispute}
               >
                 Save Changes
               </Button>

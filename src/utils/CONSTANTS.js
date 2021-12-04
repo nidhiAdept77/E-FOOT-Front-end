@@ -99,5 +99,7 @@ export const CONSTANTS = {
             label: "Bronze 3",
             value: "bronze3"
         }
-    ]
+    ],
+    CHALLENGER: "challenger",
+    ACCEPTOR: "acceptor"
 }

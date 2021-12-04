@@ -10,7 +10,6 @@ const ResolveDisputeButton = ({data}) => {
   const dispatch = useDispatch()
 
   const handleOpen = (toggle, data) => {
-    console.log('data: ', data)
     dispatch(setAddEditPopupData(data))
     dispatch(toggleAdminDisputeModal(toggle))
   }

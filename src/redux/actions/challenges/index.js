@@ -421,6 +421,100 @@ export const uploadProof = ({imageData, _id}) => async dispatch => {
     }
 }
 
+export const resolveChallengeDispute = ({
+    _id,
+    challengerStatus,
+    opponentStatus,
+    status,
+    challenger,
+    acceptor
+}) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const resolveChallengeDisputeMutation = gql`
+            mutation resolveChallengeDispute($input: ResolveInput){
+                resolveChallengeDispute(input: $input){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data {
+                        _id
+                        status
+                        type
+                        consoleId
+                        gameId
+                        challenger
+                        acceptor
+                        createdAt
+                        gameImage
+                        gameName
+                        consoleName
+                        challengerName
+                        acceptorName
+                        challengerScore {
+                            my
+                            opponent
+                            status
+                            proof
+                        }
+                        opponentScore {
+                            my
+                            opponent
+                            status
+                            proof
+                        }
+                        mode {
+                            name
+                            id
+                        }
+                    }
+                }
+            }
+        `
+        const {data} = await client.mutate({
+            mutation: resolveChallengeDisputeMutation,
+            variables: {
+                input: {
+                    _id,
+                    challengerStatus,
+                    opponentStatus,
+                    status,
+                    challenger,
+                    acceptor
+                }
+            }
+        })
+        handleAuthResponse(data.resolveChallengeDispute)
+        const {success} = data.resolveChallengeDispute
+        if (success) {
+            dispatch({
+                type: SET_LOADER,
+                payload: false
+            })
+            if (data.resolveChallengeDispute.data._id) {
+                dispatch(showToastMessage("Challenge resolved!", 'success'))
+                dispatch({
+                    type: UPDATE_CHALLENGES,
+                    payload: data.resolveChallengeDispute.data
+                })
+            }
+            return data.resolveChallengeDispute
+        } else {
+            dispatch(showToastMessage(data.resolveChallengeDispute.message, 'error'))
+        }
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
 //Subcriptions
 
 export const subsChallenges = (handleChallenges) => dispatch => {

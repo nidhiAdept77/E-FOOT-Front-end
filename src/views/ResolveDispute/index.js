@@ -20,11 +20,11 @@ const ResolveDispute = props => {
 
     const dispatch = useDispatch()
     const {loading, total, challenges} = useSelector(state => state.challenges)
-    const {user} = useSelector(state => state.auth)
-    
+
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
+    const [challengeList, setChallengeList] = useState([])
 
     useEffect(() => {
         dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, CONSTANTS.STATUS.DISPUTE))
@@ -32,6 +32,10 @@ const ResolveDispute = props => {
             dispatch(removeChallenges())
         }
     }, [searchValue])
+
+    useEffect(() => {
+        setChallengeList(challenges.filter(challenge => challenge.status === CONSTANTS.STATUS.DISPUTE))
+    }, [challenges])
 
     const handleFilter = (value) => {
         setSearchValue(value)
@@ -85,9 +89,6 @@ const ResolveDispute = props => {
                         onChange={e => handleFilter(e.currentTarget.value)}
                         />
                     </Col>
-                    <Col className='d-flex mt-1' md='6' sm='12'>
-                        <h1>WORK IN PROGRESS</h1>
-                    </Col>
                 </Row>
                 <DataTable
                     noHeader
@@ -99,7 +100,7 @@ const ResolveDispute = props => {
                     sortIcon={<ChevronDown size={10} />}
                     paginationDefaultPage={currentPage + 1}
                     paginationComponent={CustomPagination}
-                    data={challenges}
+                    data={challengeList}
                 />
                 <AdminResolveDisputeModal />
             </Card>
