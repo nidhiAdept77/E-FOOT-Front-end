@@ -8,12 +8,13 @@ import {
   NavLink
 } from 'reactstrap'
 import * as Icon from 'react-feather'
+import { CONSTANTS } from '../../../../utils/CONSTANTS'
 
 
 const ThemeNavbar = props => {
   // ** Props
   const { skin, setSkin, setMenuVisibility, showOnlineUserPopup, handleOnlineUserHidden, location } = props
-
+  const {rank = ""} = JSON.parse(localStorage.getItem('userData'))
   return (
     <Fragment>
       {/* <div className='bookmark-wrapper d-flex align-items-center'>
@@ -27,6 +28,11 @@ const ThemeNavbar = props => {
         </NavItem>
       </ul>
       {/* <Menus showUserComp={false} /> */}
+      {rank && (
+        <div className="nav navbar-nav align-items-center ml-auto">
+          <span className='user-name font-weight-bold capitalize w-100'>{CONSTANTS.GAME_RANK.find(item => item.value === rank)?.label}</span>
+        </div>
+      )}
       <NavbarUser skin={skin} setSkin={setSkin} showOnlineUserPopup={showOnlineUserPopup} handleOnlineUserHidden={handleOnlineUserHidden} location={location} />
     </Fragment>
   )
