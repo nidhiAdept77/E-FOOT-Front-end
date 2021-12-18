@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import { Row, Col } from 'reactstrap'
 import { FormattedMessage } from 'react-intl'
@@ -11,12 +11,34 @@ import ChallangeOverview from './components/ChallangeOverview'
 import WinsCards from './components/WinsCards'
 import ChallangesCard from './components/ChallangesCard'
 import Breadcrumbs from '@components/breadcrumbs'
-import { connect } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import CardTransactions from './components/CardTransactions'
+import { getDashboardDetails, setDashboardUserId } from '../../redux/actions/dashboard'
 
 
 const Dashboard = ({loading}) => {
+  const dispatch = useDispatch()
+  const {dashboardUserId, userDashboardDetails} = useSelector(state => state.dashboard)
+  const [details, setDetails] = useState({})
+  
+  useEffect(() => {
+    if (dashboardUserId) {
+      dispatch(getDashboardDetails(dashboardUserId))
+    }
+    return () => {
+      dispatch(setDashboardUserId(localStorage.getItem("userId")))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (Object.keys(userDashboardDetails).length) {
+      setDetails(userDashboardDetails)
+    }
+    return () => {
+    }
+  }, [userDashboardDetails])
+
   const { colors } = useContext(ThemeColors),
     trackBgColor = '#e9ecef'
   return (
@@ -31,18 +53,18 @@ const Dashboard = ({loading}) => {
                 <Col lg={4} md="4" sm="12">
                   <Row>
                     <Col lg='12' md='12' sm='12' xs='12'>
-                      <ChallangesCard warning={colors.warning.main} />
+                      <ChallangesCard data={details} warning={colors.warning.main} />
                     </Col>
                   </Row>
                   <Row>
                     <Col lg='12' md='12' sm='12' xs='12'>
-                      <WinsCards info={colors.primary.main} />
+                      <WinsCards data={details} info={colors.primary.main} />
                     </Col>
                   </Row>
                 </Col>
                 
                 <Col lg='8' md='8' sm='12'>
-                  <ChallangeOverview success={colors.primary.main} />
+                  <ChallangeOverview data={details} success={colors.primary.main} />
                 </Col>
 
               </Row>

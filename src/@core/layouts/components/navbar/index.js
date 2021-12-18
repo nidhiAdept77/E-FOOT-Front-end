@@ -14,7 +14,10 @@ import { CONSTANTS } from '../../../../utils/CONSTANTS'
 const ThemeNavbar = props => {
   // ** Props
   const { skin, setSkin, setMenuVisibility, showOnlineUserPopup, handleOnlineUserHidden, location } = props
-  const {rank = ""} = JSON.parse(localStorage.getItem('userData'))
+  let rank = ""
+  if (Object.keys(JSON.parse(localStorage.getItem('userData')) || {}).length) {
+    rank = JSON.parse(localStorage.getItem('userData')).rank
+  }
   return (
     <Fragment>
       {/* <div className='bookmark-wrapper d-flex align-items-center'>

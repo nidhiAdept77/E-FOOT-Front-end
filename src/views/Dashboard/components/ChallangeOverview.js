@@ -7,17 +7,19 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
 import { FormattedMessage } from 'react-intl'
 
 const ChallangeOverview = props => {
+  const {success, data: details} = props
+  const {wins = 0, loss = 0, lastMatches = [], totalChallenges = 0, totalPlayers = 0, points = 0, position = 0} = details
   const [data, setData] = useState({
-    completed: "786",
-    inProgress: "214"
+    completed: 0,
+    inProgress: 0
 })
 
   useEffect(() => {
     setData({
-      completed: "786",
-      inProgress: "214"
+      completed: totalChallenges,
+      inProgress: wins
   })
-  }, [])
+  }, [details])
 
   const options = {
       chart: {
@@ -64,7 +66,7 @@ const ChallangeOverview = props => {
           shade: 'dark',
           type: 'horizontal',
           shadeIntensity: 0.5,
-          gradientToColors: [props.success],
+          gradientToColors: [success],
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
@@ -80,28 +82,34 @@ const ChallangeOverview = props => {
         }
       }
     },
-    series = [78.6]
+    series = [((wins * 100) / parseInt(totalChallenges))]
 
   return (
     <Card className="overview">
       <CardHeader>
-        <CardTitle tag='h4'><FormattedMessage id="Challenge Overview" /></CardTitle>
+        <CardTitle tag='h4'><FormattedMessage id="Challenge Win Overview" /></CardTitle>
         <HelpCircle size={18} id="challangeHelp" className='text-muted cursor-pointer' />
         <UncontrolledTooltip placement='auto' target='challangeHelp'>
-          Challange information and win percentage of user
+          Challange information and win percentage of user with loss being calculated based on loss and draw.
         </UncontrolledTooltip>
       </CardHeader>
       <CardBody className='p-0'>
         <Chart options={options} series={series} type='radialBar' height={245} />
       </CardBody>
       <Row className='border-top text-center mx-0'>
+        <Col xs='12' className='border-right py-1'>
+          <CardText className='text-muted mb-0'>Rank</CardText>
+          <h3 className='font-weight-bolder mb-0'>{position} of {totalPlayers} players</h3>
+        </Col>
+      </Row>
+      <Row className='border-top text-center mx-0'>
         <Col xs='6' className='border-right py-1'>
           <CardText className='text-muted mb-0'>Win</CardText>
-          <h3 className='font-weight-bolder mb-0'>{data.completed}</h3>
+          <h3 className='font-weight-bolder mb-0'>{wins}</h3>
         </Col>
         <Col xs='6' className='py-1'>
           <CardText className='text-muted mb-0'>Loss</CardText>
-          <h3 className='font-weight-bolder mb-0'>{data.inProgress}</h3>
+          <h3 className='font-weight-bolder mb-0'>{(totalChallenges - wins)}</h3>
         </Col>
       </Row>
     </Card>

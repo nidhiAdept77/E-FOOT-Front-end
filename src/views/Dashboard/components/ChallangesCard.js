@@ -2,42 +2,44 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import TinyChartStats from '@components/widgets/stats/TinyChartStats'
 
-const ChallangesCard = ({ warning }) => {
+const ChallangesCard = ({ warning, data: details }) => {
   const [data, setData] = useState({
-    title: "Challenges",
-    statistics: "1000",
+    title: "E-FOOT Points",
+    statistics: 0,
     series: [
-        {
-            name: "2020",
-            data: [
-                45,
-                85,
-                65,
-                45,
-                65
-            ]
-        }
+      {
+        name: "E-FOOT Points",
+        data: [0, 0, 0]
+      }
     ]
-})
-
+  })
+  
   useEffect(() => {
+    const {wins = 0, loss = 0, lastMatches = [], totalChallenges = 0, totalPlayers = 0, points = 0, position = 0} = details
     setData({
-      title: "Challenges",
-      statistics: "1000",
+      title: "E-FOOT Points",
+      statistics: points || 0,
       series: [
           {
-              name: "2020",
+              name: "E-FOOT Points",
               data: [
-                  45,
-                  85,
-                  65,
-                  45,
-                  65
+                {
+                  x: 'Points',
+                  y: [0, points]
+                },
+                {
+                  x: 'wins',
+                  y: [wins]
+                },
+                {
+                  x: 'loss',
+                  y: [loss]
+                }
               ]
           }
       ]
   })
-  }, [])
+  }, [details])
 
   const options = {
     chart: {
@@ -51,18 +53,18 @@ const ChallangesCard = ({ warning }) => {
       padding: {
         left: 0,
         right: 0,
-        top: -15,
-        bottom: -15
+        top: -30,
+        bottom: -14
       }
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '20%',
+        columnWidth: '15%',
         startingShape: 'rounded',
         colors: {
-          backgroundBarColors: ['#c1c1c1', '#c1c1c1', '#c1c1c1', '#c1c1c1', '#c1c1c1'],
-          backgroundBarRadius: 5
+          backgroundBarColors: ['#c1c1c1', '#c1c1c1', '#c1c1c1'],
+          backgroundBarRadius: 1
         }
       }
     },
@@ -75,7 +77,7 @@ const ChallangesCard = ({ warning }) => {
     colors: [warning],
     xaxis: {
       labels: {
-        show: false
+        show: true
       },
       axisBorder: {
         show: false
@@ -102,7 +104,7 @@ const ChallangesCard = ({ warning }) => {
       title={data.title}
       stats={data.statistics}
       series={data.series}
-      tooltip="Number of Challenges played by user"
+      tooltip="E-Foot Points based on win/loss Challengesr"
     />
   ) : null
 }
