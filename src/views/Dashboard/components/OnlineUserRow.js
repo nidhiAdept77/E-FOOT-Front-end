@@ -20,14 +20,14 @@ function OnlineUserRow({ user, index, canChallenge }) {
   
     return (
         <div key={`${user.userName}-${index}`} className='employee-task d-flex justify-content-between align-items-center'>
-          <Media className= "w-100">
+          <Media className= "w-100 cursor-pointer">
             {user.profileImage ? 
               <Avatar size='sm' imgClassName='rounded' className='mr-75' img={user.profileImage}  imgHeight='42' imgWidth='42' status='online' onClick={handleClick} />
             :
               <Avatar size='sm' color={user.profileBg} imgClassName='rounded' className='mr-75'  imgHeight='42' imgWidth='42' status='online' content={`${user.firstName} ${user.lastName}`} onClick={handleClick} initials />
             }
             <Media className='my-auto d-flex justify-content-between' body status='online'>
-              <h6 className='mb-0'>{getFullNameFromUser(user)}{user.rank ? ` - ${CONSTANTS.GAME_RANK.find(rank => rank.value === user.rank)?.label}` : ""}</h6>
+              <h6 className='mb-0 cur' onClick={handleClick}>{getFullNameFromUser(user)}{user.rank ? ` - ${CONSTANTS.GAME_RANK.find(rank => rank.value === user.rank)?.label}` : ""}</h6>
             </Media>
           </Media>
         </div>
