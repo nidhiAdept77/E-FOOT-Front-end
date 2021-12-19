@@ -1,6 +1,6 @@
 
 import { HelpCircle } from 'react-feather'
-import { Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip } from 'reactstrap'
+import { Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, FormGroup  } from 'reactstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import OnlineUserRow from './OnlineUserRow'
@@ -8,11 +8,15 @@ import { useEffect, useState, useRef } from 'react'
 import {CONSTANTS} from '@src/utils/CONSTANTS'
 import InfiniteScroll from "react-infinite-scroll-component"
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import Select from 'react-select'
+import { selectThemeColors } from '@utils'
+import PrivateChallengeModal from './ChallengeOnlineUserModal'
 
 const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   const [items, setItems] = useState([])
   const [hasMore, setHasMore] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [selectedRank, setSelectedRank] = useState()
   
   useEffect(() => {
     const LIMIT = 10
@@ -56,12 +60,17 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   }
 
   const renderTasks = onlineUsers => {
+    if (selectedRank) {
+      onlineUsers = onlineUsers.filter(user => user.rank === selectedRank.value)
+    }
   return onlineUsers.length > 0 ? onlineUsers.map((user, index) => {
   return (user && <OnlineUserRow user = {user}
     index = {index}
     key = {
       `${user.userName}-${index}`
-    } />
+    }
+    canChallenge={true}
+    />
   )
   }) : null
   }
@@ -76,6 +85,19 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
         </UncontrolledTooltip>
       </CardHeader> }
       <CardBody className="pr-0">
+        <FormGroup className="pr-2">
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`rank–type`}
+              className='react-select'
+              classNamePrefix='select'
+              isClearable={true}
+              placeholder="Select WL Rank"
+              options={CONSTANTS.GAME_RANK}
+              onChange={(value) => { setSelectedRank(value) } }
+            />
+          </FormGroup>
       { onlineUsers && 
             <>
                 <PerfectScrollbar
@@ -93,8 +115,8 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
                     {renderTasks(items)}
                   </InfiniteScroll>
                 </PerfectScrollbar>
+                <PrivateChallengeModal />
             </>
-
       }
       </CardBody>
     </Card>

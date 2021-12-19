@@ -8,14 +8,10 @@ const createChallenge = () => {
   
   return (
     <Fragment>
-      <Breadcrumbs
-        breadCrumbTitle={<FormattedMessage id="Challenge" />}
-      />
-      {/* <Card> */}
-        <Row>
-          <Col sm="12"><ChallengeForm /></Col>
-        </Row>
-      {/* </Card> */}
+      <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Challenge" />} breadCrumbActive={<FormattedMessage id="Create Challenge" />} />
+      <Row>
+        <Col sm="12"><ChallengeForm /></Col>
+      </Row>
     </Fragment>
   )
 }

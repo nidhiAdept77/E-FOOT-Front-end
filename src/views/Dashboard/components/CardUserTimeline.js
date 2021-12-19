@@ -1,43 +1,27 @@
+import { useEffect, useState } from 'react'
 import Timeline from '@components/timeline'
 import { Aperture, BookOpen, HelpCircle, PenTool, Shield, User } from 'react-feather'
 import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip'
-
-const data = [
-  {
-    title: 'Profile Updated',
-    content: 'You profile is updated.',
-    icon: <PenTool size={14} />,
-    meta: '12 min ago',
-    metaClassName: 'mr-1'
-  },
-  {
-    title: 'Challange Result',
-    content: 'You Won challenge.',
-    icon: <Shield size={14} />,
-    meta: '45 min ago',
-    metaClassName: 'mr-1',
-    color: 'success'
-  },
-  {
-    title: 'Challange Reuest',
-    content: 'You Challange Xiv Dp.',
-    icon: <User size={14} />,
-    color: 'info',
-    meta: '2 days ago',
-    metaClassName: 'mr-1'
-  },
-  {
-    title: 'Login Actiivity',
-    content: 'You Loggedin',
-    color: 'danger',
-    icon: <Aperture size={14} />,
-    meta: '5 days ago',
-    metaClassName: 'mr-1'
-  }
-]
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserActivities } from '../../../redux/actions/dashboard'
+import moment from 'moment'
 
 const UserTimeline = () => {
+  const dispatch = useDispatch()
+  const {userActivities} = useSelector(state => state.dashboard)
+  const [activities, setActivities] = useState([])
+
+  useEffect(() => {
+    dispatch(getUserActivities())
+    return () => {
+    }
+  }, [])
+
+  useEffect(() => {
+    setActivities(userActivities)
+  }, [userActivities])
+
   return (
     <Card className='card-user-timeline'>
       <CardHeader>
@@ -51,7 +35,16 @@ const UserTimeline = () => {
         </UncontrolledTooltip>
       </CardHeader>
       <CardBody>
-        <Timeline className='ml-50 mb-0' data={data} />
+        <Timeline className='ml-50 mb-0' data={activities?.map(activity => {
+          return {
+            title: activity?.title,
+            content: activity?.message,
+            icon: activity?.title.includes("Profile") ? <PenTool size={14} /> : activity?.title.includes("Challenge") ? <User size={14} /> : <Shield size={14} />,
+            meta: moment(new Date(parseInt(activity?.createdAt))).fromNow(),
+            metaClassName: 'mr-1',
+            color: activity?.color
+          }
+        }) || []} />
       </CardBody>
     </Card>
   )

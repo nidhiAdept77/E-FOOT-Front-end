@@ -190,8 +190,6 @@ export const createUpdateGames = ({name, consoles, imageData, currentObj, isUpda
             formData
         )
         const gameData = getFieldValue(result, 'data.games')
-        console.log('result: ', result)
-        console.log('gameData: ', gameData)
         if (!_.isEmpty(gameData)) {
             handleAuthResponse(result.data)
             if (!_.isEmpty(gameData)) {

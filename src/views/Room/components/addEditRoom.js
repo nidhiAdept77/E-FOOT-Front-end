@@ -70,16 +70,18 @@ const AddEditRoom = () => {
 
   const onSubmit = async (data) => {
     const userIds = selectedUsers.map(user => user.value)
-    data = {...data, userIds, id: _id, type: 'private'}
+    data = {...data, userIds, id: _id || "", type: 'private'}
     if (_.isEmpty(errors)) {
         try {
-            const result = await dispatch(updateRoom(data))
-            if (result.success) {
-              showToastMessage(result.message, 'success')
-              dispatch(setAddEditPopup(false))
-            } else {
-                showToastMessage(result.message, 'error')
-            }
+            dispatch(updateRoom(data))
+            dispatch(setAddEditPopup(false))
+            // const result = await dispatch(updateRoom(data))
+            // if (result.success) {
+            //   showToastMessage(result.message, 'success')
+            //   dispatch(setAddEditPopup(false))
+            // } else {
+            //     showToastMessage(result.message, 'error')
+            // }
         } catch (error) {
             console.error('error: ', error)
             showToastMessage(error.message, 'error')

@@ -80,6 +80,13 @@ export const getFormattedDate = date => {
     return moment(date).format("DD-MM-YY")
 }
 
+export const getFormattedDateTime = date => {
+    if (isANumber(date)) {
+        date = parseInt(date)
+    }
+    return moment(date).format("DD-MM-YY hh:mm")
+}
+
 export const handleAuthResponse = (data) => {
     const {success, statusCode, nextToken} = data
     if (success && statusCode === 200) {

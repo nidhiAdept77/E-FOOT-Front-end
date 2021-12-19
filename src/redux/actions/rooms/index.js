@@ -218,15 +218,19 @@ export const updateRoom = ({id, name, userIds, type}) => async dispatch => {
                     }
                 }
             }`
+
+        const input = {
+            name,
+            userIds,
+            type
+        }
+        if (id) {
+            input["_id"] = id
+        }
         const {data} = await client.mutate({
             mutation: addRoomMutation,
             variables: {
-                input: {
-                    _id: id,
-                    name,
-                    userIds,
-                    type
-                }
+                input
             }
         })
         handleAuthResponse(data.addRoom)

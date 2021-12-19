@@ -59,7 +59,14 @@ const DashboardRoutes = [
       authRoute: true
     },
     exact: true
-
+  },
+  {
+    path: '/my-matches',
+    component: lazy(() => import('../../views/MyMatches')),
+    meta: {
+      authRoute: true
+    },
+    exact: true
   }
 ]
 

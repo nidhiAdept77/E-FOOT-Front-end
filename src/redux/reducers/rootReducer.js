@@ -13,6 +13,7 @@ import wallet from './wallet'
 import consoles from './consoles'
 import games from './games'
 import challenges from './challenges'
+import dashboard from './dashboard'
 
 const rootReducer = combineReducers({
   layout,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   wallet,
   consoles,
   games,
-  challenges
+  challenges,
+  dashboard
 })
 
 export default rootReducer

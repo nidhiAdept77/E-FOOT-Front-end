@@ -20,7 +20,7 @@ const Tabs = ({ activeTab, toggleTab }) => {
       <NavItem>
         <NavLink active={activeTab === '3'} onClick={() => toggleTab('3')}>
           <Link size={18} className='mr-1' />
-          <span className='font-weight-bold'>Game Id</span>
+          <span className='font-weight-bold'>Game Id & Rank</span>
         </NavLink>
       </NavItem>
       <NavItem>

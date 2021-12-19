@@ -26,6 +26,14 @@ const AdminRoutes = [
     exact: true
   },
   {
+    path: '/resolve-dispute',
+    component: lazy(() => import('../../views/ResolveDispute')),
+    meta: {
+      authRoute: true
+    },
+    exact: true
+  },
+  {
     path: '/rooms',
     component: lazy(() => import('../../views/Room')),
     meta: {
