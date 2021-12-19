@@ -55,15 +55,23 @@ const SidebarLeft = props => {
       chatRoomsSubs.subscription.unsubscribe()
     }
     chatRoomsSubs = dispatch(subsChatRooms(room => {
+      console.log('%c 🌮 room: ', 'font-size:20px;background-color: #42b983;color:#fff;', room)
       dispatch(updateChatRooms(room))
     }))
 
-    if (lastMessageSubs && lastMessageSubs.subscription) {
-      lastMessageSubs.subscription.unsubscribe()
-    }
-    lastMessageSubs = dispatch(subsLastMessage(message => {
-      dispatch(updateLastChatMessage(message))
-    }))
+  // useEffect(() => {
+  //   if (lastMessageSubs && lastMessageSubs.subscription) {
+  //     lastMessageSubs.subscription.unsubscribe()
+  //   }
+  //   lastMessageSubs = dispatch(subsLastMessage(message => {
+  //     dispatch(updateLastChatMessage(message))
+  //   }))
+  //   return () => {
+  //     if (lastMessageSubs && lastMessageSubs.subscription) {
+  //       lastMessageSubs.subscription.unsubscribe()
+  //     }
+  //   }
+  // }, [])
 
     if (notificationsSubs && notificationsSubs.subscription) {
       notificationsSubs.subscription.unsubscribe()
