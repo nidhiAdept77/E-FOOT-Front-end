@@ -114,13 +114,16 @@ export const loginUser =  ({email, password}) => async dispatch => {
             payload: true
         })
         const loginMutation = gql`
-            mutation userUpdateData($_id: ID,$input: ProfileInput){
-                userUpdateData(_id:$_id, input:$input){
-                    success
-                    statusCode
-                    message                            
+        mutation userLogin($input: LoginInput){
+            userLogin(input:$input){
+                success
+                statusCode
+                token
+                user{
+                    ...UserDetail
                 }
             }
+        }
             ${UserFragemnt}`
         const {data} = await client.mutate({
             mutation: loginMutation,
@@ -239,7 +242,7 @@ export const loginWithFacebook = (accessToken, userId) => async dispatch => {
 
 export const registerUser = (registerData) => async dispatch => {
     try {
-        const {email, password, userName, firstName, lastName} = registerData
+        const {email, password, userName, firstName, lastName, referralId} = registerData
         dispatch({
             type: SET_LOADER,
             payload: true
@@ -259,16 +262,20 @@ export const registerUser = (registerData) => async dispatch => {
                 }
             }
         `
+        const input = {
+            email,
+            password,
+            userName,
+            firstName,
+            lastName
+        }
+        if (referralId) {
+            input['referralId'] = referralId
+        }
         const {data} = await client.mutate({
             mutation: registerUserMutation,
             variables: {
-                input: {
-                    email,
-                    password,
-                    userName,
-                    firstName,
-                    lastName
-                }
+                input
             }
         })
         dispatch({

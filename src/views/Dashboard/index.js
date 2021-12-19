@@ -15,6 +15,7 @@ import { connect, useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import CardTransactions from './components/CardTransactions'
 import { getDashboardDetails, setDashboardUserId } from '../../redux/actions/dashboard'
+import Button from 'reactstrap/lib/Button'
 
 
 const Dashboard = ({loading}) => {
@@ -22,13 +23,16 @@ const Dashboard = ({loading}) => {
   const {dashboardUserId, userDashboardDetails} = useSelector(state => state.dashboard)
   const [details, setDetails] = useState({})
   const [userId, setUserId] = useState({})
+  const [loggedInUser, setLoggedInUser] = useState(true)
 
   useEffect(() => {
     dispatch(getDashboardDetails(dashboardUserId))
+    setLoggedInUser(userId === localStorage.getItem("userId"))
   }, [userId])
 
   useEffect(() => {
     setUserId(dashboardUserId)
+    setLoggedInUser(dashboardUserId === localStorage.getItem("userId"))
   }, [dashboardUserId])
   
   useEffect(() => {
@@ -37,6 +41,7 @@ const Dashboard = ({loading}) => {
     }
     return () => {
       dispatch(setDashboardUserId(localStorage.getItem("userId")))
+      setLoggedInUser(true)
     }
   }, [])
 
@@ -48,14 +53,20 @@ const Dashboard = ({loading}) => {
     }
   }, [userDashboardDetails])
 
+  const handleClick = () => {
+    dispatch(setDashboardUserId(localStorage.getItem("userId")))
+    setLoggedInUser(true)
+  }
+
   const { colors } = useContext(ThemeColors),
     trackBgColor = '#e9ecef'
   return (
     <div id='dashboard-analytics'>
       <LoaderComponent loading={loading} />
       <Breadcrumbs breadCrumbTitle='Dashboard' />
+      {!loggedInUser ? (<Button className="btn btn-sm btn-warning mb-1" onClick={handleClick}>My Board</Button>) : <></>}
       <Row className='match-height'>
-        <Col lg={9} md={8} >
+        <Col lg={loggedInUser ? 9 : 12} md={loggedInUser ? 8 : 12} >
           <Row>
             <Col md={12}>
               <Row className='card-margin'>
@@ -80,18 +91,18 @@ const Dashboard = ({loading}) => {
             </Col>
           </Row>
         </Col>
-        <Col lg='3' md='4' sm='12'>
+        {loggedInUser ? <Col lg='3' md='4' sm='12'>
           <OnlineUsers showheader={true} colors={colors} trackBgColor={trackBgColor} />
-        </Col>
+        </Col> : <></>}
       </Row>
-      <Row className='match-height'>
+      {loggedInUser ? <Row className='match-height'>
             <Col lg='8' md='8' sm='12' xs='12'>
               <CardUserTimeline />
             </Col>
             <Col lg='4' md='4' sm='12' xs='12'>
               <CardTransactions />
             </Col>
-      </Row>
+      </Row> : <></>}
     </div>
   )
 }
