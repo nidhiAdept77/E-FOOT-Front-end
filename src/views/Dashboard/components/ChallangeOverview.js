@@ -82,8 +82,7 @@ const ChallangeOverview = props => {
         }
       }
     },
-    series = [((wins * 100) / parseInt(totalChallenges))]
-
+  series = [parseInt(totalChallenges) ? ((wins * 100) / parseInt(totalChallenges)) : 0]
   return (
     <Card className="overview">
       <CardHeader>
