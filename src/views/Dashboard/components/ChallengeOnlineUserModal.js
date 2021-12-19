@@ -10,6 +10,7 @@ import Col from "reactstrap/lib/Col"
 import {CONSTANTS} from '@src/utils/CONSTANTS'
 import Avatar from '@components/avatar'
 import { useHistory } from 'react-router-dom'
+import { setDashboardUserId } from '@src/redux/actions/dashboard'
 
 
 function privateChallengeModal() {
@@ -25,8 +26,11 @@ function privateChallengeModal() {
   }
 
   const navigateToUserDashboard = () => {
-    dispatch(toggleChallengeModal(false))
-    history.push("/dashboard")
+    if (addEditPopupData?._id) {
+      dispatch(setDashboardUserId(addEditPopupData._id))
+      dispatch(toggleChallengeModal(false))
+      history.push("/dashboard")
+    }
   }
 
   return (

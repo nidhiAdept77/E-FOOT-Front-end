@@ -21,6 +21,15 @@ const Dashboard = ({loading}) => {
   const dispatch = useDispatch()
   const {dashboardUserId, userDashboardDetails} = useSelector(state => state.dashboard)
   const [details, setDetails] = useState({})
+  const [userId, setUserId] = useState({})
+
+  useEffect(() => {
+    dispatch(getDashboardDetails(dashboardUserId))
+  }, [userId])
+
+  useEffect(() => {
+    setUserId(dashboardUserId)
+  }, [dashboardUserId])
   
   useEffect(() => {
     if (dashboardUserId) {
