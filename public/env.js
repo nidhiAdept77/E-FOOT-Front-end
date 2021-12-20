@@ -222,7 +222,7 @@ window.env = {
   "npm_package_dependencies_postcss_rtl": "1.5.0",
   "npm_package_dependencies_sweetalert2": "10.14.0",
   "npm_package_dependencies_wnumb": "1.2.0",
-  "npm_package_gitHead": "c803b2d6a91b624884bc249cbc8c2c1797135ce1",
+  "npm_package_gitHead": "0ff7b9600f4fcfc915af2f65aa86c4d2b188adb2",
   "npm_config_fund": "true",
   "npm_config_fetch_retry_maxtimeout": "60000",
   "npm_config_loglevel": "notice",

@@ -57,7 +57,6 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
     }
   }
 
-  const referralUrl = `${window.location.origin}/register?referral-id=${localStorage.getItem("userId")}`
 
   return !_.isEmpty(user) ? (
     <Fragment>
@@ -151,27 +150,6 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
               />
               {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
             </FormGroup>
-          </Col>
-          <Col sm='10'>
-            <FormGroup>
-              <Label for='email'>Use below link to invite other users to get referral points. Yay!</Label>
-              <Controller
-                control={control}
-                as={Input}
-                type='url'
-                id='referralUrl'
-                name='referralUrl'
-                placeholder={referralUrl}
-                defaultValue={referralUrl}
-                disabled
-              />
-            </FormGroup>
-          </Col>
-          <Col sm='2'>
-            <Button className="btn btn-primary mt-2" onClick={() => { 
-              navigator.clipboard.writeText(referralUrl) 
-              showToastMessage("copied!", "info")
-            }}>Copy</Button>
           </Col>
           <Col className='mt-2' sm='12'>
             <Button.Ripple type='submit' className='mr-1' color='primary'>
