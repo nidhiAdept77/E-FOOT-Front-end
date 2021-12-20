@@ -21,26 +21,34 @@ import Button from 'reactstrap/lib/Button'
 const Dashboard = ({loading}) => {
   const dispatch = useDispatch()
   const {dashboardUserId, userDashboardDetails} = useSelector(state => state.dashboard)
+  const {user: {_id: currentLoggedInUser = ""} = ""} = useSelector(state => state.auth)
   const [details, setDetails] = useState({})
   const [userId, setUserId] = useState({})
   const [loggedInUser, setLoggedInUser] = useState(true)
 
   useEffect(() => {
     dispatch(getDashboardDetails(dashboardUserId))
-    setLoggedInUser(userId === localStorage.getItem("userId"))
+    setLoggedInUser(userId === currentLoggedInUser)
   }, [userId])
 
   useEffect(() => {
     setUserId(dashboardUserId)
-    setLoggedInUser(dashboardUserId === localStorage.getItem("userId"))
   }, [dashboardUserId])
+
+  useEffect(() => {
+    setLoggedInUser(dashboardUserId === currentLoggedInUser)
+  }, [dashboardUserId, currentLoggedInUser])
   
   useEffect(() => {
     if (dashboardUserId) {
       dispatch(getDashboardDetails(dashboardUserId))
+    } else {
+      if (dashboardUserId === null) {
+        dispatch(setDashboardUserId(currentLoggedInUser))
+      }
     }
     return () => {
-      dispatch(setDashboardUserId(localStorage.getItem("userId")))
+      dispatch(setDashboardUserId(currentLoggedInUser))
       setLoggedInUser(true)
     }
   }, [])
@@ -54,7 +62,7 @@ const Dashboard = ({loading}) => {
   }, [userDashboardDetails])
 
   const handleClick = () => {
-    dispatch(setDashboardUserId(localStorage.getItem("userId")))
+    dispatch(setDashboardUserId(currentLoggedInUser))
     setLoggedInUser(true)
   }
 

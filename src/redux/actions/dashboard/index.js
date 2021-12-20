@@ -73,7 +73,6 @@ export const getDashboardDetails = (userId) => async dispatch => {
 }
 
 export const getUserActivities = () => async dispatch => {
-    console.log("Called...........")
     try {
         dispatch({
             type: SET_LOADER,
