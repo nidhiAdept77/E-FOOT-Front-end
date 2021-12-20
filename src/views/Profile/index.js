@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Tabs from './components/Tabs'
 import Breadcrumbs from '@components/breadcrumbs'
-import { Row, Col, TabContent, TabPane, Card, CardBody } from 'reactstrap'
+import { Row, Col, TabContent, TabPane, Card, CardBody, InputGroup, Input, Button } from 'reactstrap'
 import { showToastMessage } from '../../redux/actions/toastNotification'
 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
@@ -15,7 +15,7 @@ import PsnTabContent from './components/PsnTabContent'
 import BankDetailsTabContent from './components/BankDetailsTabContent'
 import LoaderComponent from '../components/Loader'
 import { FormattedMessage } from 'react-intl'
-
+import { Copy } from 'react-feather'
 function Profile({loading, user, showToastMessage}) {
     const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
@@ -23,6 +23,7 @@ function Profile({loading, user, showToastMessage}) {
     const toggleTab = tab => {
         setActiveTab(tab)
     }
+    const referralUrl = `${window.location.origin}/register?referral-id=${localStorage.getItem("userId")}`
 
     return (
         <Fragment>
@@ -35,6 +36,32 @@ function Profile({loading, user, showToastMessage}) {
                             <Tabs activeTab={activeTab} toggleTab={toggleTab} />
                         </Col>
                         <Col md='9'>
+                            <Card className="mb-2">
+                                <CardBody>
+                                    <Row>
+                                        <Col className='mb-1' md='12'>
+                                            <InputGroup>
+                                                <Input 
+                                                    type='url'
+                                                    id='referralUrl'
+                                                    name='referralUrl'
+                                                    placeholder={referralUrl}
+                                                    defaultValue={referralUrl}
+                                                    disabled
+                                                />
+                                                <Button.Ripple outline color='primary' onClick={() => { 
+                                                navigator.clipboard.writeText(referralUrl) 
+                                                showToastMessage("copied!", "info")
+                                                }}>
+                                                    <Copy size={14} />
+                                                    <span className='align-middle ms-25 ml-1'>Copy</span>
+                                                </Button.Ripple>
+                                            </InputGroup>
+                                        </Col>
+                                    </Row>
+
+                                </CardBody>
+                            </Card>
                             <Card>
                                 <CardBody>
                                     <TabContent activeTab={activeTab}>

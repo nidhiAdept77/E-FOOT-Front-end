@@ -31,12 +31,7 @@ const ThemeNavbar = props => {
         </NavItem>
       </ul>
       {/* <Menus showUserComp={false} /> */}
-      {rank && (
-        <div className="nav navbar-nav align-items-center ml-auto">
-          <span className='user-name font-weight-bold capitalize w-100'>{CONSTANTS.GAME_RANK.find(item => item.value === rank)?.label}</span>
-        </div>
-      )}
-      <NavbarUser skin={skin} setSkin={setSkin} showOnlineUserPopup={showOnlineUserPopup} handleOnlineUserHidden={handleOnlineUserHidden} location={location} />
+      <NavbarUser skin={skin} setSkin={setSkin} rank={rank} showOnlineUserPopup={showOnlineUserPopup} handleOnlineUserHidden={handleOnlineUserHidden} location={location} />
     </Fragment>
   )
 }
