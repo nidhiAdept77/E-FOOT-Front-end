@@ -1,6 +1,7 @@
 // ** Dropdowns Imports
 import IntlDropdown from './IntlDropdown'
 import UserDropdown from './UserDropdown'
+import NotificationDropdown from './NotificationDropdown'
 
 // ** Third Party Components
 import { Sun, Moon, Star } from 'react-feather'
@@ -56,6 +57,7 @@ const NavbarUser = props => {
           )}
         </NavLink>
       </NavItem>
+      <NotificationDropdown />
       <IntlDropdown />
       <NavItem className='d-none d-sm-block d-lg-block'>
         <NavLink className='nav-link-style'>
