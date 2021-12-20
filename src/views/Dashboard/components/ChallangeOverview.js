@@ -21,6 +21,8 @@ const ChallangeOverview = props => {
   })
   }, [details])
 
+  const challengePercentage = parseFloat((parseInt(wins) * 100) / parseInt(totalChallenges)).toFixed(2)
+
   const options = {
       chart: {
         sparkline: {
@@ -82,7 +84,8 @@ const ChallangeOverview = props => {
         }
       }
     },
-  series = [parseInt(totalChallenges) ? ((wins * 100) / parseInt(totalChallenges)) : 0]
+    series = [isNaN(challengePercentage) ? 0 : challengePercentage]
+
   return (
     <Card className="overview">
       <CardHeader>
@@ -95,12 +98,12 @@ const ChallangeOverview = props => {
       <CardBody className='p-0'>
         <Chart options={options} series={series} type='radialBar' height={245} />
       </CardBody>
-      <Row className='border-top text-center mx-0'>
+      {parseInt(position) ? <Row className='border-top text-center mx-0'>
         <Col xs='12' className='border-right py-1'>
           <CardText className='text-muted mb-0'>Rank</CardText>
           <h3 className='font-weight-bolder mb-0'>{position} of {totalPlayers} players</h3>
         </Col>
-      </Row>
+      </Row> : <></>}
       <Row className='border-top text-center mx-0'>
         <Col xs='6' className='border-right py-1'>
           <CardText className='text-muted mb-0'>Win</CardText>

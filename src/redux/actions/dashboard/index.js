@@ -141,6 +141,6 @@ export const getUserActivities = () => async dispatch => {
 export const setDashboardUserId = value => dispatch => {
     dispatch({ 
         type: SET_DASHBOARD_USER_ID,
-        value
+        payload: value
     })
 }

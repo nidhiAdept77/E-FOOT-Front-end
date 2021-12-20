@@ -56,6 +56,13 @@ const Register = (props) => {
   
   const onSubmit = async data => {
     try {
+      const currentUrl = window.location.href
+      const url = new URL(currentUrl)
+      const referralId = url.searchParams.get("referral-id")
+
+      if (referralId) {
+        data = {...data, referralId}
+      }
       const result = await registerUser(data)
       if (result) {
         showToastMessage("User Registered", "success")
