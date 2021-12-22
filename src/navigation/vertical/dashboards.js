@@ -22,6 +22,12 @@ export default [
     navLink: '/chat'
   },
   {
+    id: 'chatRequests',
+    title: 'Chat Requests',
+    icon: <Trello />,
+    navLink: '/chat-requests'
+  },
+  {
     id: 'myMatch',
     title: 'My Matches',
     icon: <Trello />,
