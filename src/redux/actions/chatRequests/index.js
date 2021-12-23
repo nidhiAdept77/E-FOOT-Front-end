@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const { SET_CHAT_REQUESTS, DELETE_USER_ROOM, SET_LOADER, SET_TOTAL} = require('../../types')
+const { SET_CHAT_REQUESTS, UPDATE_CHAT_REQUESTS, SET_LOADER, SET_TOTAL} = require('../../types')
 
 export const getUserChatRequests = (limit, page, searchString) => async dispatch => {
     console.log('limit: ', limit)
@@ -44,7 +44,6 @@ export const getUserChatRequests = (limit, page, searchString) => async dispatch
                 searchString
             }
         })
-        console.log('data: ', data)
         handleAuthResponse(data.getChatRequests)
         const {success} = data.getChatRequests
         if (success) {
@@ -97,6 +96,51 @@ export const removeChatRequests = () => dispatch => {
     })
 }
 
+export const updateChatRequests = ({_id, status}) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const addRoomMutation = gql`
+        mutation acceptRejectChatRequest( $input: ChatRequestsAcceptRejectInput ) {
+            acceptRejectChatRequest( input: $input  ) {
+                statusCode
+                success
+                message
+                data {
+                _id
+                }
+            }
+        }`
+        const { data } = await client.mutate({
+            mutation: addRoomMutation,
+            variables: {
+                input: {
+                    _id,
+                    status
+                }
+            }
+        })
+        handleAuthResponse(data.acceptRejectChatRequest)
+        console.log('data.acceptRejectChatRequest: ', data.acceptRejectChatRequest)
+        dispatch({
+            type: UPDATE_CHAT_REQUESTS,
+            payload: data.acceptRejectChatRequest.data
+        })
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.acceptRejectChatRequest
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
 // export const deleteChatRequests = (id) => async dispatch => {
 //     try {
 //         dispatch({

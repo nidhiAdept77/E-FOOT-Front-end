@@ -5,17 +5,17 @@ import { useSelector, useDispatch } from "react-redux"
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { updateChatRequests } from "../../../redux/actions/chatRequests"
 
-const AddEditBtn = ({isAdd, data}) => {
+const AddEditBtn = ({data: {_id}}) => {
     const dispatch = useDispatch()
-    const handleOpen = (setData) => {
-      if (setData) {
-        console.log('setData: ', setData)
-      } else {
+    const handleApproval = () => {
+      if (_id) {
+        dispatch(updateChatRequests({_id, status: "accepted"}))
       }
     }
 
-    const handleDelete = async () => {
+    const handleRejection = async () => {
         const MySwal = withReactContent(Swal)
         const result = await MySwal.fire({
             title: 'Are you sure?',
@@ -29,9 +29,9 @@ const AddEditBtn = ({isAdd, data}) => {
             },
             buttonsStyling: false
         })
-        if (result.value) {
-            const { _id } = data
+        if (result.value && _id) {
             // update request to reject
+            dispatch(updateChatRequests({_id, status: "rejected"}))
         }
       }
 
@@ -40,12 +40,12 @@ const AddEditBtn = ({isAdd, data}) => {
         <Button.Ripple
           className="btn-icon m-0"
           color="flat-success"
-          onClick={(e) => handleOpen(true)}
+          onClick={handleApproval}
         >
-          <FiEdit size={16} />
+          Accept
         </Button.Ripple>
-        <Button.Ripple className="btn-icon m-0" onClick={(e) => handleDelete()} color="flat-danger">
-          <FiTrash2 size={16} />
+        <Button.Ripple className="btn-icon m-0" onClick={handleRejection} color="flat-danger">
+          Reject
         </Button.Ripple>
       </div>
     )
