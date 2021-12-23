@@ -4,7 +4,7 @@ const { SET_LOADER, SET_DASHBOARD_USER_ID, SET_USER_DASHBOARD, USER_ACTIVITIES }
 
 const initialState = {
     loading: false,
-    dashboardUserId: localStorage.getItem("userId") || null,
+    dashboardUserId: null,
     userDashboardDetails: {},
     userActivities: []
 }
