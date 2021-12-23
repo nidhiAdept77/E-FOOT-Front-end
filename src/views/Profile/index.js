@@ -16,6 +16,7 @@ import BankDetailsTabContent from './components/BankDetailsTabContent'
 import LoaderComponent from '../components/Loader'
 import { FormattedMessage } from 'react-intl'
 import { Copy } from 'react-feather'
+import UserPrefrences from './components/UserPrefrences'
 function Profile({loading, user, showToastMessage}) {
     const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
@@ -79,6 +80,9 @@ function Profile({loading, user, showToastMessage}) {
                                         </TabPane>
                                         <TabPane tabId='5'>
                                             <PasswordTabContent />
+                                        </TabPane>
+                                        <TabPane tabId="6">
+                                            <UserPrefrences />
                                         </TabPane>
                                     </TabContent>
                                 </CardBody>

@@ -1,6 +1,7 @@
 import { Nav, NavItem, NavLink } from 'reactstrap'
-import { User, Lock, Info, Link, Bell, Home } from 'react-feather'
+import { User, Lock, Info, Link, Bell, Home, Settings } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
+import { GrUserSettings } from "react-icons/gr"
 
 const Tabs = ({ activeTab, toggleTab }) => {
   return (
@@ -33,6 +34,12 @@ const Tabs = ({ activeTab, toggleTab }) => {
         <NavLink active={activeTab === '5'} onClick={() => toggleTab('5')}>
           <Lock size={18} className='mr-1' />
           <span className='font-weight-bold'><FormattedMessage id="Change Password" /></span>
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink active={activeTab === '6'} onClick={() => toggleTab('6')}>
+          <Bell size={18} className='mr-1' />
+          <span className='font-weight-bold'>User Prefrences</span>
         </NavLink>
       </NavItem>
     </Nav>

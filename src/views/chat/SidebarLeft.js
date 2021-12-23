@@ -55,7 +55,6 @@ const SidebarLeft = props => {
       chatRoomsSubs.subscription.unsubscribe()
     }
     chatRoomsSubs = dispatch(subsChatRooms(room => {
-      console.log('%c 🌮 room: ', 'font-size:20px;background-color: #42b983;color:#fff;', room)
       dispatch(updateChatRooms(room))
     }))
 

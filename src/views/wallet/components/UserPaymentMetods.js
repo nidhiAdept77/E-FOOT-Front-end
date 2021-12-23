@@ -17,7 +17,6 @@ export default function UserPaymentMetods({paymentMethods}) {
                 let data = []
                 data = paymentMethods.paypal.map((paymentMethod, index) => {
                     const key = `${paymentMethod.paypalId}-${index}`
-                    console.log('key: ', key)
                     return <Col md={6} className="p-0" key={key}>
                                 <Card className='card-congratulations-medal mb-1'>
                                     <CardBody className='p-0'>

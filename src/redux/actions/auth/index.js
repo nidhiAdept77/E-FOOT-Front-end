@@ -20,7 +20,6 @@ const UserFragemnt = gql`
         }
         roles
         userName
-        
         profileImage
         isImageOns3
         profileBg
@@ -37,6 +36,13 @@ const UserFragemnt = gql`
         phone
         playStationId
         xboxId
+        preferences{
+            payment
+            deposit
+            withdraw
+            chat
+            challange
+        }
         epicGamesId
         accountNumber
         ibanNumber
@@ -421,6 +427,59 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
         const {success} = data.updateProfile
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
+            if (!_.isEmpty(userData)) {
+                localStorage.setItem('userData', JSON.stringify(userData))
+                dispatch({
+                    type: SET_USER_DETAIL,
+                    payload: userData
+                })
+            }
+        }
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return data.updateProfile
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        return {success:false, message: error.message}
+    }
+}
+
+export const updateUserPrefrences = (preferences) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const updateProfileMutation = gql`
+           mutation setUserPrefrences($preferences: userPrefrencesInput){
+            setUserPrefrences(input: $preferences){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    user{
+                        ...UserDetail
+                    }
+                }
+            }
+            ${UserFragemnt}
+        `
+        const {data} = await client.mutate({
+            mutation: updateProfileMutation,
+            variables: {
+                preferences
+            } 
+        })
+        handleAuthResponse(data.setUserPrefrences)
+        const {success} = data.setUserPrefrences
+        if (success) {
+            const userData = getFieldValue(data, 'setUserPrefrences.user')
             if (!_.isEmpty(userData)) {
                 localStorage.setItem('userData', JSON.stringify(userData))
                 dispatch({

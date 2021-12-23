@@ -292,8 +292,6 @@ export const removeChallenges = () => dispatch => {
 }
 
 export const updateScore = (_id, scorces) => async dispatch => {
-    console.log('_id: ', _id)
-    console.log('scorces: ', scorces)
     try {
         dispatch({
             type: SET_LOADER,
