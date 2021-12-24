@@ -2,6 +2,8 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
+import { showToastMessage } from '../toastNotification'
+
 const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, REMOVE_MESSAGE_NOTIFICATION} = require('../../types')
 
 export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => async dispatch => {
@@ -234,14 +236,19 @@ export const updateRoom = ({id, name, userIds, type}) => async dispatch => {
             }
         })
         handleAuthResponse(data.addRoom)
-        dispatch({
-            type: UPDATE_USER_ROOMS,
-            payload: data.addRoom.data
-        })
-        dispatch({
-            type: SET_PRIVATE_ROOM,
-            payload: data.addRoom.data
-        })
+        if (data.addRoom.data) {
+            dispatch({
+                type: UPDATE_USER_ROOMS,
+                payload: data.addRoom.data
+            })
+            dispatch({
+                type: SET_PRIVATE_ROOM,
+                payload: data.addRoom.data
+            })
+        }
+        if (type === "direct" && !data.addRoom.data) {
+            dispatch(showToastMessage("Wait till user approve your chat request", 'error'))
+        }
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -348,6 +355,8 @@ export const subsChatRooms = (handleChatRooms) => dispatch => {
                   lastName
                   profilePicture
               }
+              type
+              status
             }
           }
         `

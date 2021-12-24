@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const {SET_CHAT_REQUESTS, SET_LOADER, SET_TOTAL} = require('../../types')
+const {SET_CHAT_REQUESTS, SET_LOADER, SET_TOTAL, UPDATE_CHAT_REQUESTS} = require('../../types')
 
 const initialState = {
     loading: false,
@@ -25,6 +25,18 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 chatRequests: payload
+            }
+        case UPDATE_CHAT_REQUESTS:
+            const chatRequests = state.chatRequests || []
+            const {status, _id} = payload
+            return {
+                ...state,
+                chatRequests: chatRequests.map(request => {
+                    if (request._id === _id) {
+                        request.status = status
+                    }
+                    return request
+                })
             }
         default:
             return state

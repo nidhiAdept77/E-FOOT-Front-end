@@ -22,6 +22,7 @@ const ChatRequests = props => {
     const [searchValue, setSearchValue] = useState('')
     const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
+    const [requests, setRequests] = useState([])
 
     useEffect(() => {
         dispatch(getUserChatRequests(limit, currentPage, searchValue))
@@ -29,6 +30,14 @@ const ChatRequests = props => {
             dispatch(removeChatRequests())
         }
     }, [searchValue])
+
+    useEffect(() => {
+        if (chatRequests) {
+            setRequests(chatRequests)
+        }
+        return () => {
+        }
+    }, [chatRequests])
 
     const handleFilter = (value) => {
         setSearchValue(value)
@@ -94,7 +103,7 @@ const ChatRequests = props => {
                     sortIcon={<ChevronDown size={10} />}
                     paginationDefaultPage={currentPage + 1}
                     paginationComponent={CustomPagination}
-                    data={chatRequests}
+                    data={requests}
                 />
             </Card>
         </Fragment>

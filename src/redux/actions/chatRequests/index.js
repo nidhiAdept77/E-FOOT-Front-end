@@ -3,10 +3,10 @@ import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 const { SET_CHAT_REQUESTS, UPDATE_CHAT_REQUESTS, SET_LOADER, SET_TOTAL} = require('../../types')
+import { showToastMessage } from '../../../redux/actions/toastNotification'
+
 
 export const getUserChatRequests = (limit, page, searchString) => async dispatch => {
-    console.log('limit: ', limit)
-    
     try {
         dispatch({
             type: SET_LOADER,
@@ -32,6 +32,7 @@ export const getUserChatRequests = (limit, page, searchString) => async dispatch
                     lastName
                     profilePicture
                   }
+                  createdAt
                 }
               }
             }
@@ -110,6 +111,7 @@ export const updateChatRequests = ({_id, status}) => async dispatch => {
                 message
                 data {
                 _id
+                status
                 }
             }
         }`
@@ -123,15 +125,18 @@ export const updateChatRequests = ({_id, status}) => async dispatch => {
             }
         })
         handleAuthResponse(data.acceptRejectChatRequest)
-        console.log('data.acceptRejectChatRequest: ', data.acceptRejectChatRequest)
-        dispatch({
-            type: UPDATE_CHAT_REQUESTS,
-            payload: data.acceptRejectChatRequest.data
-        })
         dispatch({
             type: SET_LOADER,
             payload: false
         })
+        if (data.acceptRejectChatRequest.success) {     
+            dispatch({
+                type: UPDATE_CHAT_REQUESTS,
+                payload: data.acceptRejectChatRequest.data
+            })
+        } else {
+            dispatch(showToastMessage(data.acceptRejectChatRequest.message, 'error'))
+        }
         return data.acceptRejectChatRequest
     } catch (error) {
         console.error('error: ', error)

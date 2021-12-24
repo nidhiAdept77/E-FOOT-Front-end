@@ -1,3 +1,4 @@
+import moment from 'moment'
 import AddEditBtn from './addEditButtons'
 import UserAvatarGroup from './avatarColumn'
 export const columns = [
@@ -18,6 +19,12 @@ export const columns = [
     selector: "status",
     sortable: true,
     cell: ({status}) => (<span className='text-capitalize'>{status}</span>)
+  },
+  {
+    name: "When",
+    selector: "when",
+    sortable: true,
+    cell: ({createdAt}) => (<span>{moment(new Date(parseInt(createdAt))).fromNow()}</span>)
   },
   {
     name: "Actions",

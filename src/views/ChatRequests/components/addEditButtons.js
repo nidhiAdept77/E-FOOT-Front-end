@@ -1,14 +1,17 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi"
 import { Button, Col } from "reactstrap"
 
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from 'react-redux'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { updateChatRequests } from "../../../redux/actions/chatRequests"
+import { useEffect, useState } from "react"
 
-const AddEditBtn = ({data: {_id}}) => {
+const AddEditBtn = ({data: {_id, createdBy}}) => {
     const dispatch = useDispatch()
+    const {user: {_id: currentLoggedInUser = ""} = ""} = useSelector(state => state.auth)
+
     const handleApproval = () => {
       if (_id) {
         dispatch(updateChatRequests({_id, status: "accepted"}))
@@ -35,7 +38,15 @@ const AddEditBtn = ({data: {_id}}) => {
         }
       }
 
-    return (
+      const [hideButtons, setHideButtons] = useState("")
+
+      useEffect(() => {
+        setHideButtons(createdBy !== currentLoggedInUser)
+        return () => {
+        }
+      }, [currentLoggedInUser])
+
+    return (hideButtons ?
       <div className="demo-inline-spacing">
         <Button.Ripple
           className="btn-icon m-0"
@@ -47,7 +58,7 @@ const AddEditBtn = ({data: {_id}}) => {
         <Button.Ripple className="btn-icon m-0" onClick={handleRejection} color="flat-danger">
           Reject
         </Button.Ripple>
-      </div>
+      </div> : ""
     )
   }
   
