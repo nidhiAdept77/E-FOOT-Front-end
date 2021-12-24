@@ -67,6 +67,14 @@ const DashboardRoutes = [
       authRoute: true
     },
     exact: true
+  },
+  {
+    path: '/chat-requests',
+    component: lazy(() => import('../../views/ChatRequests')),
+    meta: {
+      authRoute: true
+    },
+    exact: true
   }
 ]
 

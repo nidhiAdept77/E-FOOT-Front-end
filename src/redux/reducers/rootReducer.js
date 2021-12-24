@@ -14,6 +14,7 @@ import consoles from './consoles'
 import games from './games'
 import challenges from './challenges'
 import dashboard from './dashboard'
+import chatRequests from './chatRequests'
 
 const rootReducer = combineReducers({
   layout,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   consoles,
   games,
   challenges,
-  dashboard
+  dashboard,
+  chatRequests
 })
 
 export default rootReducer

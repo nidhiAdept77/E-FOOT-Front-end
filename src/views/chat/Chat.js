@@ -21,6 +21,7 @@ import {
 import { getChatTime } from '../../utils'
 import { addMessageToChannel } from '../../redux/actions/chats'
 import { removeRoomNotifications } from '../../redux/actions/rooms'
+import { showToastMessage } from '../../redux/actions/toastNotification'
 
 const ChatLog = props => {
   // ** Props & Store
@@ -102,10 +103,12 @@ const ChatLog = props => {
   // ** Sends New Msg
   const handleSendMsg = async e => {
     e.preventDefault()
-    if (msg) {
+    if (msg && currentRoom.type && currentRoom.status !== "pending" && currentRoom.status !== "rejected") {
       dispatch(addMessageToChannel(currentRoom._id, msg.trim(), 'private'))
       dispatch(removeRoomNotifications(currentRoom._id))
       setMsg('')
+    } else {
+      dispatch(showToastMessage("Wait for user to approve your chat request", 'error'))
     }
   }
 
