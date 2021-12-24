@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -18,21 +18,30 @@ import {
   DropdownToggle,
   UncontrolledDropdown
 } from 'reactstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBellNotifications } from '../../../../redux/actions/reminders'
 
 const NotificationDropdown = () => {
   // ** Notification Array
-  const notificationsArray = [
-    {
-      avatarIcon: <AlertTriangle size={14} />,
-      color: 'light-warning',
-      subtitle: 'visit profile to update it',
-      title: (
-        <Media tag='p' heading>
-          <span className='font-weight-bolder'>Dont forget to revise your WL Score</span>
-        </Media>
-      )
+
+  const dispatch = useDispatch()
+  const {bellNotifications} = useSelector(state => state.dashboard)
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    dispatch(getBellNotifications())
+    return () => {
     }
-  ]
+  }, [])
+
+
+  useEffect(() => {
+    if (bellNotifications?.length) {
+      setNotifications(bellNotifications)
+    }
+    return () => {
+    }
+  }, [bellNotifications])
 
   // ** Function to render Notifications
   /*eslint-disable */
@@ -45,7 +54,15 @@ const NotificationDropdown = () => {
           wheelPropagation: false
         }}
       >
-        {notificationsArray.map((item, index) => {
+        {notifications?.length ? notifications.map((item, index) => {
+          item['avatarIcon'] = (
+            <AlertTriangle size={14} />
+          )
+          item['title'] = (
+            <Media tag='p' heading>
+              <span className='font-weight-bolder'>{item.title}</span>
+            </Media>
+          )
           return (
             <a key={index} className='d-flex' href='/' onClick={e => e.preventDefault()}>
               <Media
@@ -75,19 +92,25 @@ const NotificationDropdown = () => {
                     </Media>
                     <Media body>
                       {item.title}
-                      <small className='notification-text'>{item.subtitle}</small>
+                      <small className='notification-text'>{item.message}</small>
                     </Media>
                   </Fragment>
                 ) : (
                   <Fragment>
                     {item.title}
-                    {item.switch}
                   </Fragment>
                 )}
               </Media>
             </a>
           )
-        })}
+        })
+        : (<div className='d-flex'>
+          <div className='d-flex align-items-center text-center ml-2'>
+            <span>
+              No new notifications
+            </span>
+          </div>
+        </div>)}
       </PerfectScrollbar>
     )
   }
@@ -98,7 +121,7 @@ const NotificationDropdown = () => {
       <DropdownToggle tag='a' className='nav-link' href='/' onClick={e => e.preventDefault()}>
         <Bell size={21} />
         <Badge pill color='danger' className='badge-up'>
-          1
+          {notifications?.length || 0}
         </Badge>
       </DropdownToggle>
       <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>

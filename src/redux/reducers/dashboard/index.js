@@ -1,12 +1,13 @@
 import _ from 'underscore'
 
-const { SET_LOADER, SET_DASHBOARD_USER_ID, SET_USER_DASHBOARD, USER_ACTIVITIES } = require('../../types')
+const { SET_LOADER, SET_DASHBOARD_USER_ID, SET_USER_DASHBOARD, USER_ACTIVITIES, BELL_NOTIFICATIONS } = require('../../types')
 
 const initialState = {
     loading: false,
     dashboardUserId: null,
     userDashboardDetails: {},
-    userActivities: []
+    userActivities: [],
+    bellNotifications: []
 }
 
 export default (state = initialState, action) => {
@@ -31,6 +32,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 userActivities: payload
+            }
+        case BELL_NOTIFICATIONS:
+            return {
+                ...state,
+                bellNotifications: payload
             }
         default:
             return state
