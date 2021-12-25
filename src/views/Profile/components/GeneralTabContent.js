@@ -9,6 +9,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {updateUserProfile, uploadProfilePhoto} from '../../../redux/actions/auth'
 import {showToastMessage} from '../../../redux/actions/toastNotification'
+import CountryDropdown from '../../components/CountryDropdown'
+import Flatpickr from 'react-flatpickr'
+import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfilePhoto }) => {
   const [avatar, setAvatar] = useState(user.profileImage ? user.profileImage : '')
@@ -24,7 +27,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
       setAvatar(user.profileImage)
     }
   }, [user])
-  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema) })
+  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema), defaultValues: {birthDate: user.birthDate ? new Date(parseInt(user.birthDate)) : new Date()} })
   
   const onChange = e => {
     const reader = new FileReader(),
@@ -47,7 +50,14 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
     if (_.isEmpty(errors)) {
       try {
         delete data['email']
-        const result = await updateUserProfile(data)
+        const {birthDate, country} = data
+        delete data['birthDate']
+        delete data['country']
+        const result = await updateUserProfile({
+          ...data,
+          birthDate: birthDate[0],
+          country: country.label
+        })
         const resultType = result.success ? "success" : "error"
         showToastMessage(result.message, resultType)
       } catch (error) {
@@ -149,6 +159,63 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
                 })}
               />
               {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
+            </FormGroup>
+          </Col>
+          <Col sm='6'>
+          <FormGroup>
+            <Label for='birth-date'>Birth Date</Label>
+            <Controller
+              name='birthDate'
+              as={Flatpickr}
+              id='birth-date'
+              control={control}
+              placeholder='Birth Date'
+              defaultValue={user.birthDate}
+              onChange={e => setValue('birthDate', e.target.value)}
+              className={classnames('form-control', {
+                'is-invalid': errors.birthDate
+              })}
+            />
+              {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
+          </FormGroup>
+        </Col>
+        <Col sm='6'>
+          <CountryDropdown errors={errors} register={register} control={control} value={user.country} setValue={setValue} />
+        </Col>
+        <Col sm='6'>
+            <FormGroup>
+              <Label for='instagram'>Instagram Profile</Label>
+              <Controller
+                defaultValue={user.instagram}
+                control={control}
+                as={Input}
+                id='instagram'
+                name='instagram'
+                placeholder='Instagram Profile'
+                onChange={e => setValue('instagram', e.target.value)}
+                className={classnames({
+                  'is-invalid': errors.instagram
+                })}
+              />
+              {errors && errors.instagram && <FormFeedback>{errors.instagram.message}</FormFeedback>}
+            </FormGroup>
+          </Col>
+          <Col sm='6'>
+            <FormGroup>
+              <Label for='twitch'>Twitch Account</Label>
+              <Controller
+                defaultValue={user.twitch}
+                control={control}
+                as={Input}
+                id='twitch'
+                name='twitch'
+                placeholder='Twitch Account'
+                onChange={e => setValue('twitch', e.target.value)}
+                className={classnames({
+                  'is-invalid': errors.twitch
+                })}
+              />
+              {errors && errors.twitch && <FormFeedback>{errors.twitch.message}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col className='mt-2' sm='12'>

@@ -10,7 +10,7 @@ import '@styles/react/pages/page-account-settings.scss'
 import { connect } from 'react-redux'
 import GeneralTabContent from './components/GeneralTabContent'
 import PasswordTabContent from './components/PasswordTabContent'
-import InfoTabContent from './components/InfoTabContent'
+// import InfoTabContent from './components/InfoTabContent'
 import PsnTabContent from './components/PsnTabContent'
 import BankDetailsTabContent from './components/BankDetailsTabContent'
 import LoaderComponent from '../components/Loader'
@@ -69,19 +69,19 @@ function Profile({loading, user, showToastMessage}) {
                                         <TabPane tabId='1'>
                                             <GeneralTabContent />
                                         </TabPane>
-                                        <TabPane tabId='2'>
+                                        {/* <TabPane tabId='2'>
                                             <InfoTabContent />
-                                        </TabPane>
-                                        <TabPane tabId='3'>
+                                        </TabPane> */}
+                                        <TabPane tabId='2'>
                                             <PsnTabContent />
                                         </TabPane>
-                                        <TabPane tabId='4'>
+                                        <TabPane tabId='3'>
                                             <BankDetailsTabContent />
                                         </TabPane>
-                                        <TabPane tabId='5'>
+                                        <TabPane tabId='4'>
                                             <PasswordTabContent />
                                         </TabPane>
-                                        <TabPane tabId="6">
+                                        <TabPane tabId="5">
                                             <UserPrefrences />
                                         </TabPane>
                                     </TabContent>

@@ -36,7 +36,6 @@ export default function UserPrefrences() {
 
     const onSubmit = async () => {
         try {
-            debugger
             dispatch(updateUserPrefrences({userId: localStorage.getItem("userId"), chat, deposit, withdraw, challange, payment}))
         } catch (error) {
             console.error('%c 🍫 error: ', 'font-size:20px;background-color: #465975;color:#fff;', error)

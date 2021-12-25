@@ -29,10 +29,14 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
   const onSubmit = async data => {
     if (_.isEmpty(errors)) {
       try {
-        // const {birthDate, country, phone, bio} = data
-        const result = await updateUserProfile({...data, rank: selectedRank.value})
-        const resultType = result.success ? "success" : "error"
-        showToastMessage(result.message, resultType)
+        const {playStationId = "", xboxId = ""} = data
+        if (playStationId || xboxId) {
+          const result = await updateUserProfile({...data, rank: selectedRank.value})
+          const resultType = result.success ? "success" : "error"
+          showToastMessage(result.message, resultType)
+        } else {
+          showToastMessage("You need to provide either both Playstation/XBox id or any one of them", "error")
+        }
       } catch (error) {
         console.error('error: ', error)
         showToastMessage(error.message, 'error')
@@ -55,7 +59,7 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
                 'is-invalid': errors.playStationId
               })}
               onChange={e => setValue('playStationId', e.target.value)}
-              innerRef={register({ required: true })}
+              innerRef={register({ required: false })}
             />
               {errors && errors.playStationId && <FormFeedback>{errors.playStationId.message}</FormFeedback>}
           </FormGroup>
@@ -72,12 +76,12 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
                 'is-invalid': errors.xboxId
               })}
               onChange={e => setValue('xboxId', e.target.value)}
-              innerRef={register({ required: true })}
+              innerRef={register({ required: false })}
             />
               {errors && errors.xboxId && <FormFeedback>{errors.xboxId.message}</FormFeedback>}
           </FormGroup>
         </Col>
-        <Col sm='6'>
+        {/* <Col sm='6'>
           <FormGroup>
             <Label for='epicGamesId'>Epic Games Id</Label>
             <Input
@@ -93,7 +97,7 @@ const PsnTabContent = ({ user, showToastMessage, updateUserProfile }) => {
             />
             {errors && errors.epicGamesId && <FormFeedback>{errors.epicGamesId.message}</FormFeedback>}
           </FormGroup>
-        </Col>
+        </Col> */}
         <Col sm='6'>
           <FormGroup>
             <Label for='rank'>WL Rank</Label>

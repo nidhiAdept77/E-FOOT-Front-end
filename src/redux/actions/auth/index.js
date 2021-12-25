@@ -50,6 +50,8 @@ const UserFragemnt = gql`
         createdAt
         updatedAt
         rank
+        instagram
+        twitch
     }
 `
 
