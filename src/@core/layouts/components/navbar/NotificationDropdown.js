@@ -19,7 +19,7 @@ import {
   UncontrolledDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBellNotifications } from '../../../../redux/actions/reminders'
+import { clearBellNotifications, getBellNotifications } from '../../../../redux/actions/reminders'
 
 const NotificationDropdown = () => {
   // ** Notification Array
@@ -34,11 +34,14 @@ const NotificationDropdown = () => {
     }
   }, [])
 
+  const handleClearNotification = (event) => {
+    event.preventDefault()
+    const userId = localStorage.getItem("userId")
+    dispatch(clearBellNotifications(userId))
+  }
 
   useEffect(() => {
-    if (bellNotifications?.length) {
-      setNotifications(bellNotifications)
-    }
+    setNotifications(bellNotifications)
     return () => {
     }
   }, [bellNotifications])
@@ -135,7 +138,7 @@ const NotificationDropdown = () => {
         </li>
         {renderNotificationItems()}
         <li className='dropdown-menu-footer'>
-          <Button.Ripple color='primary' block>
+          <Button.Ripple color='primary' block onClick={handleClearNotification}>
             Clear all notification
           </Button.Ripple>
         </li>

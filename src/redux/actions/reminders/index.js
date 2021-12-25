@@ -62,3 +62,50 @@ export const getBellNotifications = () => async dispatch => {
         })
     }
 }
+
+export const clearBellNotifications = (userId) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const clearBellNotification = gql`
+        mutation clearUserBellNotification($input: clearUserBellNotificationInput) {
+            clearUserBellNotification(input: $input) {
+              statusCode
+              success
+              message
+              data
+            }
+          }
+          `
+        const { data } = await client.mutate({
+            mutation: clearBellNotification,
+            variables: {
+                input: {
+                    userId
+                }
+            }
+        })
+        handleAuthResponse(data.clearUserBellNotification)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+        if (data.clearUserBellNotification.success) {     
+            dispatch({
+                type: BELL_NOTIFICATIONS,
+                payload: []
+            })
+        } else {
+            dispatch(showToastMessage(data.clearUserBellNotification.message, 'error'))
+        }
+        return []
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
