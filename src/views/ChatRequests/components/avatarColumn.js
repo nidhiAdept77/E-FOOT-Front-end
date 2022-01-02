@@ -1,10 +1,13 @@
 import AvatarGroup from '@components/avatar-group'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-const UserAvatarGroup = ({users: {firstName, lastName, profilePicture}}) => {
+const UserAvatarGroup = ({data: {userList}}) => {
   const [user, setUser] = useState([])
+  const {_id} = useSelector(state => state.auth.user)
   useEffect(() => {
-    if (firstName || lastName || profilePicture) {
+    if (userList.length) {
+      const {firstName, lastName, profilePicture} = userList.find(user => user._id !== _id)
       const avatarDetails = {
         title: `${firstName} ${lastName}`,
         img: profilePicture
@@ -13,7 +16,7 @@ const UserAvatarGroup = ({users: {firstName, lastName, profilePicture}}) => {
     }
     return () => {
     }
-  }, [firstName, lastName, profilePicture])
+  }, [userList, _id])
   return <AvatarGroup data={user.length ? user : []} />
 }
 

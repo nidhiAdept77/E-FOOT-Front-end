@@ -108,7 +108,9 @@ const ChatLog = props => {
       dispatch(removeRoomNotifications(currentRoom._id))
       setMsg('')
     } else {
-      dispatch(showToastMessage("Wait for user to approve your chat request", 'error'))
+      if (msg.trim() !== "") {
+        dispatch(showToastMessage("Wait for user to approve your chat request", 'error'))
+      }
     }
   }
 

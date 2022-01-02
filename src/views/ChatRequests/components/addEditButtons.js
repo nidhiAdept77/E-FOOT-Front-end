@@ -8,7 +8,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { updateChatRequests } from "../../../redux/actions/chatRequests"
 import { useEffect, useState } from "react"
 
-const AddEditBtn = ({data: {_id, createdBy}}) => {
+const AddEditBtn = ({data: {_id, createdBy, status}}) => {
     const dispatch = useDispatch()
     const {user: {_id: currentLoggedInUser = ""} = ""} = useSelector(state => state.auth)
 
@@ -41,10 +41,10 @@ const AddEditBtn = ({data: {_id, createdBy}}) => {
       const [hideButtons, setHideButtons] = useState("")
 
       useEffect(() => {
-        setHideButtons(createdBy !== currentLoggedInUser)
+        setHideButtons(createdBy !== currentLoggedInUser && status === "pending")
         return () => {
         }
-      }, [currentLoggedInUser])
+      }, [currentLoggedInUser, status])
 
     return (hideButtons ?
       <div className="demo-inline-spacing">

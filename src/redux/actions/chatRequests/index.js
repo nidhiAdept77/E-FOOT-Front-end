@@ -27,7 +27,8 @@ export const getUserChatRequests = (limit, page, searchString) => async dispatch
                   type
                   status
                   createdBy
-                  requestedBy {
+                  userList {
+                    _id
                     firstName
                     lastName
                     profilePicture
