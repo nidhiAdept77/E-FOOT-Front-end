@@ -32,7 +32,8 @@ const ChatRequests = props => {
     }, [searchValue])
 
     useEffect(() => {
-        if (chatRequests) {
+        dispatch(getUserChatRequests(limit, currentPage, searchValue))
+        if (chatRequests?.length) {
             setRequests(chatRequests)
         }
         return () => {
