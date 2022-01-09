@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
                 <CardBody>
                     <Row>
                         <Col md="12">
-                            <h4>Game Champions</h4>
+                            <h4>E-FOOT.NL</h4>
                         </Col>
                         <Col className="mt-2 mb-2 decimal-order-list" md="12">
                             <h5>Data Privacy Policy</h5>
@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
                                             Some of the links on our Site may lead You to other websites which are governed by their own privacy notices. These may be different to this Privacy Policy. You are required to make sure that you are satisfied with their privacy notices when using those other websites.
                                         </li>
                                         <li>
-                                            Unless indicated otherwise, all definitions contained in this Privacy Policy, including any capitalized terms that are not specifically defined in this Privacy Policy, shall have the same meaning contained in Section 2 of the Game Champions General Terms and Conditions (hereinafter referred to as the “Terms”) and which are available on the website  www.gamechampions.com
+                                            Unless indicated otherwise, all definitions contained in this Privacy Policy, including any capitalized terms that are not specifically defined in this Privacy Policy, shall have the same meaning contained in Section 2 of the E-FOOT.NL General Terms and Conditions (hereinafter referred to as the “Terms”) and which are available on the website  www.e-foot.nl
                                         </li>
                                         <li>
                                             If you do not agree with this Privacy Policy, please do not keep accessing the Site, any of its sections and Services, and/or participate in any of Our Services offered through the Site.
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
                                             You are responsible for making sure that any information you give us is accurate and up to date, and You must tell Us if anything changes as soon as possible. If we have any reason to believe there’s a fraud or money laundering risk, we may refuse to provide the Services. We may also stop providing existing products and services to you. We cannot and will not be responsible for any problems or liability that may arise if You do not provide us with accurate, truthful or complete information or personal data or if You fail to update such information or personal data.                                        
                                         </li>
                                         <li>
-                                            By visiting our Site and/or accessing Our Services, You accept that your visit and any dispute over privacy is subject to this Privacy Policy and our Terms, including limitations on damages, arbitration of disputes, and application of the law the European Union. If You have any concern about Our data privacy policies and practices, You can contact Our Data Protection Officer on the following e-mail address -   legal@gamechampions.com.
+                                            By visiting our Site and/or accessing Our Services, You accept that your visit and any dispute over privacy is subject to this Privacy Policy and our Terms, including limitations on damages, arbitration of disputes, and application of the law the European Union. If You have any concern about Our data privacy policies and practices, You can contact Our Data Protection Officer on the following e-mail address -   legal@e-foot.nl
                                         </li>
                                     </ol>
                                 </li>
@@ -276,7 +276,7 @@ export default function PrivacyPolicy() {
                                                     In the eventuality where You use Our "Refer A Friend" feature, We will use the name and e-mail address that You provide to invite your friend to create a User Account.
                                                 </li>
                                                 <li>
-                                                    When you create Your User Account and when we collect Your Personal Information, You can customize these preferences. If you wish to change Your account preferences to modify the ways that We contact You, please contact business@gamechampions.com 
+                                                    When you create Your User Account and when we collect Your Personal Information, You can customize these preferences. If you wish to change Your account preferences to modify the ways that We contact You, please contact business@e-foot.nl 
                                                 </li>
                                             </ol>
                                         </li>
@@ -301,7 +301,7 @@ export default function PrivacyPolicy() {
                                         </li>
 
                                         <li>
-                                            By giving Us Your consent to share Your Personal Information in accordance with this Section, You hereby agree and accept such marketing partners shall process Your Personal Information and that We shall do Our utmost to ensure that such marketing partners will process Your Personal Information according with Our instructions based upon Your consent We shall not be held responsible for their handling or dissemination practices with respect to Personal Information, that go against Our instructions. If you subsequently wish to change your account preferences to not receive information from such third party marketing partners, please contact business@gamechampions.com  or use the "unsubscribe" link included in email messages sent by such parties.
+                                            By giving Us Your consent to share Your Personal Information in accordance with this Section, You hereby agree and accept such marketing partners shall process Your Personal Information and that We shall do Our utmost to ensure that such marketing partners will process Your Personal Information according with Our instructions based upon Your consent We shall not be held responsible for their handling or dissemination practices with respect to Personal Information, that go against Our instructions. If you subsequently wish to change your account preferences to not receive information from such third party marketing partners, please contact business@e-foot.nl  or use the "unsubscribe" link included in email messages sent by such parties.
                                         </li>
                                     </ol>
                                 </li>

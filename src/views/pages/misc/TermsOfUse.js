@@ -11,7 +11,7 @@ export default function TermsOfUse() {
                 <CardBody>
                     <Row>
                         <Col md="12">
-                            <h4>Game Champions</h4>
+                            <h4>E-FOOT.NL</h4>
                         </Col>
                         <Col className="mt-2 mb-2" md="12">
                             <h5>Our Mission and Values</h5>
@@ -116,7 +116,7 @@ export default function TermsOfUse() {
                                             Service/s shall mean the provision of services rendered by us to You, through your use of the Site and shall include the provision of Competitions as made available on the Site;
                                         </li>    
                                         <li>
-                                            Site shall mean [WEBSITE]; www.gamechampions.com
+                                            Site shall mean [WEBSITE]; www.e-foot.nl
                                         </li>
                                         <li>
                                             Submission shall mean the submission or the transmission of audio, video, or text materials to the Site, including, but not limited to, comments, question, suggestions, drawings, or computer programs;
@@ -134,7 +134,7 @@ export default function TermsOfUse() {
                                             User shall mean You as an individual who has paid the service fee in accordance with Section 5.1 and having a User Account, thus eligible to make use of the Services provided by Us, or any other participant making similar use of the Services;
                                         </li>
                                         <li>
-                                            We/Us/Our/Ourselves shall mean Game Champions, of Thinkway Ltd., a company registered under the laws of Malta, having company registration number C 92677, as the provider of the Services rendered to You, in accordance with these Terms, and unless otherwise indicated in the Terms, this shall include any affiliates, partners, licensees and distributors that are participating in providing You with the Services; and
+                                            We/Us/Our/Ourselves shall mean E-FOOT.NL, of Thinkway Ltd., a company registered under the laws of Malta, having company registration number C 92677, as the provider of the Services rendered to You, in accordance with these Terms, and unless otherwise indicated in the Terms, this shall include any affiliates, partners, licensees and distributors that are participating in providing You with the Services; and
                                         </li>
                                         <li>
                                             You/Your/Yourself shall mean you, as the User of the Services.
@@ -358,7 +358,7 @@ export default function TermsOfUse() {
                                             Closing Your User Account
                                             <ol>
                                                 <li>
-                                                    You can close Your User Account at any time, by contacting Our support services directly on help@gamechampions.com In such case, We may decide to transfer all funds from the User Account (subject to the deduction of relevant withdrawal charges). If You want to recover funds from closed, blocked or excluded User Accounts, You need to contact support on the above mentioned e-mail address.
+                                                    You can close Your User Account at any time, by contacting Our support services directly on help@e-foot.nl In such case, We may decide to transfer all funds from the User Account (subject to the deduction of relevant withdrawal charges). If You want to recover funds from closed, blocked or excluded User Accounts, You need to contact support on the above mentioned e-mail address.
                                                 </li>
                                             </ol>
                                         </li>
@@ -562,7 +562,7 @@ export default function TermsOfUse() {
                                                 </li>
                                             </ol>
                                         </li>
-                                        <li>If You wish to report a violation of Our anti-spam policy contained in this Section 16, please forward all evidence of abuse to business@gamechampions.com</li>
+                                        <li>If You wish to report a violation of Our anti-spam policy contained in this Section 16, please forward all evidence of abuse to business@e-foot.nl</li>
                                     </ol>
                                 </li>
                                 <li className="mt-1 mb-1">
@@ -621,7 +621,7 @@ export default function TermsOfUse() {
                                             Any attempt to defraud the Site through the use of credit cards or other methods of payment, regardless of the outcome, or any failure by You to honor legitimate charges or requests for payment, or confirmation of deposits, will result in immediate termination of Your User Account, forfeiture of any prizes, and active pursuit of civil litigation and/or referral for criminal prosecution.
                                         </li>
                                         <li>
-                                            We monitor all monetary transactions in the  Site to keep Game Champions free from fraudulent individuals/organisations. Any attempt to defraud the Site through fraudulent charge backs requested by an individual user or an organised group of users collaborating with the purpose of committing the fraud, will result in a penalty of 2,500 Euros fee to be paid by the offender users for every fraudulent charge back they processed through our Payment  Providers. We shall take all the necessary steps to cooperate with legal and/or governmental authorities and third parties in the investigation of these frauds. Additionally we reserve the right to initiate civil and/or referral for criminal prosecution to obtain monetary compensation for financial and business damages created by the fraudulent charge backs
+                                            We monitor all monetary transactions in the  Site to keep E-FOOT.NL free from fraudulent individuals/organisations. Any attempt to defraud the Site through fraudulent charge backs requested by an individual user or an organised group of users collaborating with the purpose of committing the fraud, will result in a penalty of 2,500 Euros fee to be paid by the offender users for every fraudulent charge back they processed through our Payment  Providers. We shall take all the necessary steps to cooperate with legal and/or governmental authorities and third parties in the investigation of these frauds. Additionally we reserve the right to initiate civil and/or referral for criminal prosecution to obtain monetary compensation for financial and business damages created by the fraudulent charge backs
                                         </li>
                                     </ol>
                                 </li>
@@ -695,7 +695,7 @@ export default function TermsOfUse() {
                                                     Without limiting the foregoing, under no circumstances shall We be held liable for any delay, mistake, inexactness and/or failure in performance resulting directly or indirectly from acts of nature, forces, or causes beyond its reasonable control, including, without limitation, Internet failures, computer equipment failures, telecommunication equipment failures, other equipment failures, electrical power failures, strikes, labor disputes, civil disturbances, shortages of labor or materials, fires, floods, storms, explosions, governmental actions, orders of domestic or foreign courts or tribunals, non-performance of third-parties, loss of or fluctuations in heat, light, air conditioning or any other act which can be considered by Us as an Act of God, which are specifically mentioned in this Section.
                                                 </li>
                                                 <li>
-                                                    You are solely responsible for following all applicable laws in their country, and/or state. If You are unsure about the applicable law in the place of your legal residence in regards to the services provided by Game Champions, then you are requested to seek for qualified advice before registering in our platform. Game Champions cannot be held accountable for legal matters arising from laws in your area
+                                                    You are solely responsible for following all applicable laws in their country, and/or state. If You are unsure about the applicable law in the place of your legal residence in regards to the services provided by E-FOOT.NL, then you are requested to seek for qualified advice before registering in our platform. E-FOOT.NL cannot be held accountable for legal matters arising from laws in your area
                                                 </li>
                                             </ol>
                                         </li>
@@ -818,7 +818,7 @@ export default function TermsOfUse() {
                                                     On-site chat support; or
                                                 </li>
                                                 <li>
-                                                    E-mail: business@gamechampions.com
+                                                    E-mail: business@e-foot.nl
                                                 </li>
                                             </ol>
                                         </li>
