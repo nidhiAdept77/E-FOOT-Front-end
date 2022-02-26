@@ -250,7 +250,7 @@ export const loginWithFacebook = (accessToken, userId) => async dispatch => {
 
 export const registerUser = (registerData) => async dispatch => {
     try {
-        const {email, password, userName, firstName, lastName, referralId} = registerData
+        const {email, password, userName, firstName, lastName, referralId, rank} = registerData
         dispatch({
             type: SET_LOADER,
             payload: true
@@ -275,7 +275,8 @@ export const registerUser = (registerData) => async dispatch => {
             password,
             userName,
             firstName,
-            lastName
+            lastName, 
+            rank
         }
         if (referralId) {
             input['referralId'] = referralId
