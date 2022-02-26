@@ -23,7 +23,7 @@ export default function ReportingCard() {
                                     Once the match between you and your opponent is complete click "Submit Score" to let verify your score. If your score meets the score of your opponent, the money is transferred directly to the winner's account.
                                 </p>
                                 <p>
-                                    On the other hand, if both players input different results a dispute will be created and you will need to send video or photo evidence of your win by email to help@e-foot.nl
+                                    On the other hand, if both players input different results a dispute will be created and you will need to send video or photo evidence of your win by email to info@e-foot.nl
                                 </p>
                                 <p>
                                     Remember, it is vital that you be honest when reporting results as lying and cheating the system can put your account in danger of being banned or permanently terminated depending on the degree and consistency of the offenses.
