@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, useLocation, matchPath, useParams } from 'react-router-dom'
 
 // ** Third Party Components
@@ -14,6 +14,9 @@ import navigation from '@src/navigation/vertical'
 import { isNavLinkActive, search, getAllParents } from '@layouts/utils'
 import { isUserAdminFromUser } from '../../../../../utils'
 import _ from 'underscore'
+import { useDispatch, useSelector } from 'react-redux'
+import { CONSTANTS } from '../../../../../utils/CONSTANTS'
+import { clearBellNotifications } from '../../../../../redux/actions/reminders'
 
 const VerticalNavMenuLink = ({
   item,
@@ -31,10 +34,21 @@ const VerticalNavMenuLink = ({
 }) => {
   // ** Conditional Link Tag, if item has newTab or externalLink props use <a> tag else use NavLink
   const LinkTag = item.externalLink ? 'a' : NavLink
+  const dispatch = useDispatch()
 
   // ** URL Vars
   const location = useLocation()
   const currentURL = location.pathname
+
+  const {bellNotifications} = useSelector(state => state.dashboard)
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    setNotifications(bellNotifications?.map(noti => noti.type === CONSTANTS.REMINDER_TYPES.CHALLENGE))
+    return () => {
+    }
+  }, [bellNotifications])
+
 
   let sideBarMenus = [...navigation.normalRoutes]
   if (!_.isEmpty(user) && isUserAdminFromUser(user)) {
@@ -106,6 +120,10 @@ const VerticalNavMenuLink = ({
             })}
         /*eslint-enable */
         onClick={e => {
+          if (notifications?.length && item.title === "My Matches") {
+            const userId = localStorage.getItem("userId")
+            dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.CHALLENGE]))
+          }
           if (!item.navLink.length) {
             e.preventDefault()
           }
@@ -116,6 +134,12 @@ const VerticalNavMenuLink = ({
         <span className='menu-item text-truncate'>
           <FormattedMessage id={item.title} />
         </span>
+
+        {(notifications?.length && item.title === "My Matches") ? (
+        <Badge className='ml-auto mr-1' color="danger" pill>
+          {notifications?.length}
+        </Badge>) : null}
+        
 
         {item.badge && item.badgeText ? (
           <Badge className='ml-auto mr-1' color={item.badge} pill>

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_LOADER, BELL_NOTIFICATIONS} = require('../../types')
+const {SET_LOADER, BELL_NOTIFICATIONS, UPDATE_BELL_NOTIFICATIONS} = require('../../types')
 
 export const getBellNotifications = () => async dispatch => {
     try {
@@ -63,7 +63,7 @@ export const getBellNotifications = () => async dispatch => {
     }
 }
 
-export const clearBellNotifications = (userId) => async dispatch => {
+export const clearBellNotifications = (userId, types) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -83,7 +83,8 @@ export const clearBellNotifications = (userId) => async dispatch => {
             mutation: clearBellNotification,
             variables: {
                 input: {
-                    userId
+                    userId,
+                    types
                 }
             }
         })
@@ -107,5 +108,44 @@ export const clearBellNotifications = (userId) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
+    }
+}
+
+
+export const subsReminders = (handleChallenges) => dispatch => {
+    try {
+        const ReminderSubscription = gql`
+        subscription{
+            reminderSubs {
+                _id
+                userId
+                title
+                message
+                color
+                createdAt
+              }
+          }
+        `
+        const observable = client.subscribe({query:  ReminderSubscription})
+        return observable.subscribe(({data}) => { 
+            handleChallenges(data.reminderSubs)
+        })
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const updateReminders = (reminder) => dispatch => {
+    try {
+        dispatch({
+            type: UPDATE_BELL_NOTIFICATIONS,
+            payload: reminder
+        })
+    } catch (error) {
+        console.error('error: ', error)
     }
 }

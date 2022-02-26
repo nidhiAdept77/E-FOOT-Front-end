@@ -1,6 +1,6 @@
 import _ from 'underscore'
 
-const { SET_LOADER, SET_DASHBOARD_USER_ID, SET_USER_DASHBOARD, USER_ACTIVITIES, BELL_NOTIFICATIONS } = require('../../types')
+const { SET_LOADER, SET_DASHBOARD_USER_ID, SET_USER_DASHBOARD, USER_ACTIVITIES, BELL_NOTIFICATIONS, UPDATE_BELL_NOTIFICATIONS } = require('../../types')
 
 const initialState = {
     loading: false,
@@ -37,6 +37,14 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 bellNotifications: payload
+            }
+        case UPDATE_BELL_NOTIFICATIONS:
+            if (localStorage.getItem("userId") === payload?.userId) {
+                return {...state, bellNotifications: [...state.bellNotifications, payload]}
+            } else {
+                return {
+                    ...state
+                }
             }
         default:
             return state

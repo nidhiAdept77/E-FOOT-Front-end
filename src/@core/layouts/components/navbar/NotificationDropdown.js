@@ -19,8 +19,10 @@ import {
   UncontrolledDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearBellNotifications, getBellNotifications } from '../../../../redux/actions/reminders'
+import { clearBellNotifications, getBellNotifications, subsReminders, updateReminders } from '../../../../redux/actions/reminders'
+import { CONSTANTS } from '../../../../utils/CONSTANTS'
 
+let reminderSubs
 const NotificationDropdown = () => {
   // ** Notification Array
 
@@ -30,14 +32,25 @@ const NotificationDropdown = () => {
 
   useEffect(() => {
     dispatch(getBellNotifications())
+    if (reminderSubs?.subscription) {
+      reminderSubs.subscription.unsubscribe()
+    }
+    reminderSubs = dispatch(
+      subsReminders((reminder) => {
+        dispatch(updateReminders(reminder))
+      })
+    )
     return () => {
+      if (reminderSubs?.subscription) {
+        reminderSubs.subscription.unsubscribe()
+      }
     }
   }, [])
 
   const handleClearNotification = (event) => {
     event.preventDefault()
     const userId = localStorage.getItem("userId")
-    dispatch(clearBellNotifications(userId))
+    dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE, CONSTANTS.REMINDER_TYPES.CHALLENGE]))
   }
 
   useEffect(() => {
