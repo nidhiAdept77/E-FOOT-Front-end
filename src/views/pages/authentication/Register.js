@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react'
-import { isObjEmpty } from '@utils'
+import { selectThemeColors } from '@utils'
 import classnames from 'classnames'
 import { useSkin } from '@hooks/useSkin'
 import { useForm } from 'react-hook-form'
@@ -15,12 +15,16 @@ import { showToastMessage } from '../../../redux/actions/toastNotification'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import LoaderComponent from '../../components/Loader'
+import { CONSTANTS } from '../../../utils/CONSTANTS'
+import Select from 'react-select'
+
 import {registerUser} from '../../../redux/actions/auth'
 const Register = (props) => {
   const {showToastMessage, loading, registerUser} = props
   const [skin, setSkin] = useSkin()
   const history = useHistory()
   // const { register, errors, handleSubmit, trigger } = useForm()
+  const [selectedRank, setSelectedRank] = useState(CONSTANTS.GAME_RANK[0])
 
   const [email, setEmail] = useState('')
   const [valErrors, setValErrors] = useState({})
@@ -59,7 +63,7 @@ const Register = (props) => {
       const currentUrl = window.location.href
       const url = new URL(currentUrl)
       const referralId = url.searchParams.get("referral-id")
-
+      data = { ...data, rank: selectedRank.value}
       if (referralId) {
         data = {...data, referralId}
       }
@@ -87,7 +91,7 @@ const Register = (props) => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Adventure starts here 🚀
+              Play FIFA win Prizes 🚀
             </CardTitle>
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
@@ -169,6 +173,23 @@ const Register = (props) => {
                   innerRef={register({ required: true, validate: value => value !== '' })}
                 />
                 {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
+              </FormGroup>
+              <FormGroup>
+                <Label for='rank'>WL Rank</Label>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  id="rank–type"
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={CONSTANTS.GAME_RANK}
+                  onChange={(value) => { setSelectedRank(value) } }
+                  defaultValue={CONSTANTS.GAME_RANK[0]}
+                  value={selectedRank}
+                  placeholder="Select WL Rank"
+                  innerRef={register({ required: true })}
+                />
+                  {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
               </FormGroup>
               <Button.Ripple type='submit' block color='primary'>
                 Sign up
