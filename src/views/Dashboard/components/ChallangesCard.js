@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import TinyChartStats from '@components/widgets/stats/TinyChartStats'
 
 const ChallangesCard = ({ warning, data: details }) => {
   const [data, setData] = useState({
-    title: "E-FOOT Points",
+    title: "E-FOOT Coins",
     statistics: 0,
     series: [
       {
-        name: "E-FOOT Points",
+        name: "E-FOOT Coins",
         data: [0, 0, 0]
       }
     ]
@@ -17,14 +16,14 @@ const ChallangesCard = ({ warning, data: details }) => {
   useEffect(() => {
     const {wins = 0, loss = 0, lastMatches = [], totalChallenges = 0, totalPlayers = 0, points = 0, position = 0} = details
     setData({
-      title: "E-FOOT Points",
+      title: "E-FOOT Coins",
       statistics: points || 0,
       series: [
           {
-              name: "E-FOOT Points",
+              name: "E-FOOT Coins",
               data: [
                 {
-                  x: 'Points',
+                  x: 'Coins',
                   y: [0, points]
                 },
                 {
@@ -104,7 +103,7 @@ const ChallangesCard = ({ warning, data: details }) => {
       title={data.title}
       stats={data.statistics}
       series={data.series}
-      tooltip="E-Foot Points based on win/loss Challengesr"
+      tooltip="E-Foot coins based on win/loss Challenges"
     />
   ) : null
 }
