@@ -44,7 +44,9 @@ const VerticalNavMenuLink = ({
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
-    setNotifications(bellNotifications?.map(noti => noti.type === CONSTANTS.REMINDER_TYPES.CHALLENGE))
+    if (bellNotifications?.length) {
+      setNotifications(bellNotifications.filter(noti => [CONSTANTS.REMINDER_TYPES.CHALLENGE, CONSTANTS.REMINDER_TYPES.DISPUTE].includes(noti.type)))
+    }
     return () => {
     }
   }, [bellNotifications])

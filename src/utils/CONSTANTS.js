@@ -104,6 +104,7 @@ export const CONSTANTS = {
     ACCEPTOR: "acceptor",
     REMINDER_TYPES: {
         WL_SCORE_UPDATE: "WL_SCORE_UPDATE",
-        CHALLENGE: "CHALLENGE"
+        CHALLENGE: "CHALLENGE",
+        DISPUTE: "DISPUTE"
     }
 }

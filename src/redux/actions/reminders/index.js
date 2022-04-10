@@ -23,6 +23,7 @@ export const getBellNotifications = () => async dispatch => {
                     message
                     color
                     createdAt
+                    type
                     }
                 }
             }
@@ -122,6 +123,7 @@ export const subsReminders = (handleChallenges) => dispatch => {
                 title
                 message
                 color
+                type
                 createdAt
               }
           }
