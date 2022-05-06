@@ -172,9 +172,11 @@ const NotificationDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-notification nav-item mr-25'>
       <DropdownToggle tag='a' className='nav-link' href='/' onClick={e => e.preventDefault()}>
         <Bell size={21} />
-        <Badge pill color='danger' className='badge-up'>
-          {notifications?.length || 0}
-        </Badge>
+        {notifications?.length ? (
+          <Badge pill color='danger' className='badge-up'>
+            {notifications?.length || 0}
+          </Badge>
+        ) : null}
       </DropdownToggle>
       {notifications?.length ? (
         <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
