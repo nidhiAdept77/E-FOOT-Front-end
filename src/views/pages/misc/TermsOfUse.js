@@ -358,7 +358,7 @@ export default function TermsOfUse() {
                                             Closing Your User Account
                                             <ol>
                                                 <li>
-                                                    You can close Your User Account at any time, by contacting Our support services directly on help@e-foot.nl In such case, We may decide to transfer all funds from the User Account (subject to the deduction of relevant withdrawal charges). If You want to recover funds from closed, blocked or excluded User Accounts, You need to contact support on the above mentioned e-mail address.
+                                                    You can close Your User Account at any time, by contacting Our support services directly on info@e-foot.nl In such case, We may decide to transfer all funds from the User Account (subject to the deduction of relevant withdrawal charges). If You want to recover funds from closed, blocked or excluded User Accounts, You need to contact support on the above mentioned e-mail address.
                                                 </li>
                                             </ol>
                                         </li>
@@ -562,7 +562,7 @@ export default function TermsOfUse() {
                                                 </li>
                                             </ol>
                                         </li>
-                                        <li>If You wish to report a violation of Our anti-spam policy contained in this Section 16, please forward all evidence of abuse to business@e-foot.nl</li>
+                                        <li>If You wish to report a violation of Our anti-spam policy contained in this Section 16, please forward all evidence of abuse to info@e-foot.nl</li>
                                     </ol>
                                 </li>
                                 <li className="mt-1 mb-1">
@@ -818,7 +818,7 @@ export default function TermsOfUse() {
                                                     On-site chat support; or
                                                 </li>
                                                 <li>
-                                                    E-mail: business@e-foot.nl
+                                                    E-mail: info@e-foot.nl
                                                 </li>
                                             </ol>
                                         </li>

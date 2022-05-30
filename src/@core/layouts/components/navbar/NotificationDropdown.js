@@ -19,32 +19,81 @@ import {
   UncontrolledDropdown
 } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearBellNotifications, getBellNotifications } from '../../../../redux/actions/reminders'
+import { clearBellNotifications, getBellNotifications, subsReminders, updateReminders } from '../../../../redux/actions/reminders'
+import { CONSTANTS } from '../../../../utils/CONSTANTS'
+import { useHistory } from 'react-router-dom'
 
+let reminderSubs
 const NotificationDropdown = () => {
   // ** Notification Array
 
   const dispatch = useDispatch()
+  const history = useHistory()
   const {bellNotifications} = useSelector(state => state.dashboard)
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
     dispatch(getBellNotifications())
+    if (reminderSubs?.subscription) {
+      reminderSubs.subscription.unsubscribe()
+    }
+    reminderSubs = dispatch(
+      subsReminders((reminder) => {
+        dispatch(updateReminders(reminder))
+      })
+    )
     return () => {
+      if (reminderSubs?.subscription) {
+        reminderSubs.subscription.unsubscribe()
+      }
     }
   }, [])
 
   const handleClearNotification = (event) => {
     event.preventDefault()
     const userId = localStorage.getItem("userId")
-    dispatch(clearBellNotifications(userId))
+    dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE, CONSTANTS.REMINDER_TYPES.CHALLENGE, CONSTANTS.REMINDER_TYPES.DISPUTE]))
   }
 
   useEffect(() => {
-    setNotifications(bellNotifications)
-    return () => {
+    if (bellNotifications?.length) {
+      const challengeNotifications = [], disputeNotifications = [], scoreUpdateNotifications = [], others = []
+      bellNotifications.forEach(noti => {
+        if (noti.type === CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE) {
+          scoreUpdateNotifications.push(noti)
+        } else if (noti.type === CONSTANTS.REMINDER_TYPES.CHALLENGE) {
+          challengeNotifications.push(noti)
+        } else if (noti.type === CONSTANTS.REMINDER_TYPES.DISPUTE) {
+          disputeNotifications.push(noti)
+        } else {
+          others.push(noti)
+        }
+      })
+      setNotifications([...challengeNotifications, ...disputeNotifications, ...scoreUpdateNotifications, ...others])
     }
   }, [bellNotifications])
+
+  const handleNotificationClick = (event, data) => {
+    event.preventDefault()
+    const userId = localStorage.getItem("userId")
+    if (userId) {
+      if (data?.type === CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE) {
+        dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE]))
+        history.push({
+          pathname: '/profile',
+          state: { section: '2' }
+        })
+      } else if (data?.type === CONSTANTS.REMINDER_TYPES.DISPUTE) {
+        dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.DISPUTE]))
+        history.push('/my-matches')
+      } else if (data?.type === CONSTANTS.REMINDER_TYPES.CHALLENGE) {
+        dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.CHALLENGE]))
+        history.push('/my-matches')
+      } else {
+        console.log("Other notification")
+      }
+    }
+  }
 
   // ** Function to render Notifications
   /*eslint-disable */
@@ -67,7 +116,7 @@ const NotificationDropdown = () => {
             </Media>
           )
           return (
-            <a key={index} className='d-flex' href='/' onClick={e => e.preventDefault()}>
+            <p key={index} className='d-flex' onClick={e => handleNotificationClick(e, item)}>
               <Media
                 className={classnames('d-flex', {
                   'align-items-start': !item.switch,
@@ -104,7 +153,7 @@ const NotificationDropdown = () => {
                   </Fragment>
                 )}
               </Media>
-            </a>
+            </p>
           )
         })
         : (<div className='d-flex'>
@@ -123,11 +172,14 @@ const NotificationDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-notification nav-item mr-25'>
       <DropdownToggle tag='a' className='nav-link' href='/' onClick={e => e.preventDefault()}>
         <Bell size={21} />
-        <Badge pill color='danger' className='badge-up'>
-          {notifications?.length || 0}
-        </Badge>
+        {notifications?.length ? (
+          <Badge pill color='danger' className='badge-up'>
+            {notifications?.length || 0}
+          </Badge>
+        ) : null}
       </DropdownToggle>
-      <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
+      {notifications?.length ? (
+        <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
         <li className='dropdown-menu-header'>
           <DropdownItem className='d-flex' tag='div' header>
             <h4 className='notification-title mb-0 mr-auto'>Notifications</h4>
@@ -143,6 +195,7 @@ const NotificationDropdown = () => {
           </Button.Ripple>
         </li>
       </DropdownMenu>
+      ) : null}
     </UncontrolledDropdown>
   )
 }

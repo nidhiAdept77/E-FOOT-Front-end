@@ -29,6 +29,7 @@ const MyMatches = props => {
     const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
     const [active, setActive] = useState(CONSTANTS.STATUS.ACTIVE)
+    const [challengeList, setChallengeList] = useState([])
 
     const STATUS = [
         CONSTANTS.STATUS.ACTIVE,
@@ -46,6 +47,12 @@ const MyMatches = props => {
         }
     }, [searchValue])
 
+    useEffect(() => {
+        if (challenges?.length) {
+            setChallengeList(challenges.filter(challenge => challenge.status === active))
+        }
+    }, [challenges, active])
+    
     useEffect(() => {
       if (challengesSubs?.subscription) {
         challengesSubs.subscription.unsubscribe()
@@ -163,7 +170,7 @@ const MyMatches = props => {
                         sortIcon={<ChevronDown size={10} />}
                         paginationDefaultPage={currentPage + 1}
                         paginationComponent={CustomPagination}
-                        data={challenges}
+                        data={challengeList}
                     />
                 </TabContent>
             </Card>

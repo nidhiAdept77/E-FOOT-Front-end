@@ -188,7 +188,7 @@ function AdminResolveDisputeModal() {
     </Row>
     <hr />
     <Row>
-      <Col><b>Concluded who's the Winner?</b></Col>
+      <Col><b>Conclude who's the Winner?</b></Col>
     </Row>
     <Row>
         <Col>

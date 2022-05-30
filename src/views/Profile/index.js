@@ -17,7 +17,9 @@ import LoaderComponent from '../components/Loader'
 import { FormattedMessage } from 'react-intl'
 import { Copy } from 'react-feather'
 import UserPrefrences from './components/UserPrefrences'
+import { useLocation } from 'react-router-dom'
 function Profile({loading, user, showToastMessage}) {
+    const location = useLocation()
     const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
 
@@ -25,6 +27,12 @@ function Profile({loading, user, showToastMessage}) {
         setActiveTab(tab)
     }
     const referralUrl = `${window.location.origin}/register?referral-id=${localStorage.getItem("userId")}`
+
+    useEffect(() => {
+        if (location?.state?.section) {
+            setActiveTab(location?.state?.section)
+        }
+    }, [location])
 
     return (
         <Fragment>

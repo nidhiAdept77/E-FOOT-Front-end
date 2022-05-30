@@ -29,11 +29,11 @@ const UploadScore = () => {
   const [scores, setScores] = useState({})
   
   useEffect(() => {
-    const {challenger, challengerScore, opponentScore, opponent} = addEditPopupData
+    const {challenger, challengerScore, opponentScore, acceptor} = addEditPopupData
     if (challenger === user._id && challengerScore) {
       setDisabled(true)
       setScores(challengerScore)
-    } else if (opponent === user._id && opponentScore) {
+    } else if (acceptor === user._id && opponentScore) {
       setDisabled(true)
       setScores(opponentScore)
     } else {

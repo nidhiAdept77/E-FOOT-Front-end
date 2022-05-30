@@ -29,18 +29,19 @@ export default (state = initialState, action) => {
         case UPDATE_CHALLENGES:
             const list = state.challenges
             const challengeFound = _.findWhere(list, {_id: payload._id})
+            const challengeList = state.challenges.map(challenge => {
+                if (payload._id === challenge._id) {
+                    const data = Object.assign(challenge, payload)
+                    data['status'] = payload.status
+                    data['type'] = payload.type
+                    return data
+                }
+                return challenge
+            })
             if (challengeFound) {
                 return {
                     ...state,
-                    challenges: state.challenges.map(challenge => {
-                        if (payload._id === challenge._id) {
-                            const data = Object.assign(challenge, payload)
-                            data['status'] = payload.status
-                            data['type'] = payload.type
-                            return data
-                        }
-                        return challenge
-                    })
+                    challenges: challengeList
                 }
             } else {
                 return {
