@@ -1,0 +1,1 @@
+scp -i ~/Desktop/server-keys/efoot-key.pem build.tar.gz ubuntu@52.47.40.120:/home/ubuntu/efnl-frontend
