@@ -44,14 +44,14 @@ const DashboardRoutes = [
     },
     exact: true
   },
-  {
-    path: '/wallet',
-    component: lazy(() => import('../../views/wallet')),
-    meta: {
-      authRoute: true
-    },
-    exact: true
-  },
+  // {
+  //   path: '/wallet',
+  //   component: lazy(() => import('../../views/wallet')),
+  //   meta: {
+  //     authRoute: true
+  //   },
+  //   exact: true
+  // },
   {
     path: '/create-challenge',
     component: lazy(() => import('../../views/Challenge')),

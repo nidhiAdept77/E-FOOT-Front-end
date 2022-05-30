@@ -41,13 +41,13 @@ export default [
     navLink: '/create-challenge'
 
   },
-  {
-    id: 'wallet',
-    title: 'Wallet',
-    icon: <CreditCard />,
-    navLink: '/wallet'
-    // navLink: '/#'
-  },
+  // {
+  //   id: 'wallet',
+  //   title: 'Wallet',
+  //   icon: <CreditCard />,
+  //   navLink: '/wallet'
+  //   // navLink: '/#'
+  // },
   {
     id: 'profile',
     title: 'My Profile',
