@@ -14,7 +14,7 @@ import Flatpickr from 'react-flatpickr'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfilePhoto }) => {
-  const [avatar, setAvatar] = useState(user.profileImage ? user.profileImage : '')
+  const [avatar, setAvatar] = useState(user.profileImage ? user.profileImage : 'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png')
   
   const genralTabSchema = yup.object().shape({
     userName: yup.string().min(6).required(),
@@ -38,6 +38,9 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
         const result = await uploadProfilePhoto(files[0])
         const resultType = result.success ? "success" : "error"
         showToastMessage(result.message, resultType)
+        setTimeout(() => {
+          location.reload()
+        }, 0)
       } catch (error) {
         console.error('error: ', error)
         showToastMessage(error.message, 'error')
@@ -45,18 +48,19 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
     }
     reader.readAsDataURL(files[0])
   }
-
+  
   const onSubmit = async data => {
     if (_.isEmpty(errors)) {
       try {
         delete data['email']
         const {birthDate, country} = data
+        console.log(data)
         delete data['birthDate']
         delete data['country']
         const result = await updateUserProfile({
           ...data,
-          birthDate: birthDate[0],
-          country: country.label
+          birthDate: birthDate[0]
+          // country: country.label
         })
         const resultType = result.success ? "success" : "error"
         showToastMessage(result.message, resultType)

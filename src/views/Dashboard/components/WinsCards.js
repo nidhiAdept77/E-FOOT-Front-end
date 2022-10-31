@@ -1,31 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Card, CardBody, CardHeader, CardTitle, UncontrolledTooltip } from 'reactstrap'
 import { HelpCircle } from 'react-feather'
-
+import "./wincards.scss"
 const WinsCards = ({ info, data: details }) => {
   const [data, setData] = useState({})
-//   const [data, setData] = useState({
-//     title: "Wins",
-//     statistics: "786",
-//     series: [
-//         {
-//           data: [
-//                 0,
-//                 20,
-//                 5,
-//                 30,
-//                 15,
-//                 45
-//             ]
-//         }
-//     ]
-// })
-
-  useEffect(() => {
-    if (details) {
-      setData(details)
-    }
-  //   setData({
+  //   const [data, setData] = useState({
   //     title: "Wins",
   //     statistics: "786",
   //     series: [
@@ -41,6 +20,27 @@ const WinsCards = ({ info, data: details }) => {
   //         }
   //     ]
   // })
+
+  useEffect(() => {
+    if (details) {
+      setData(details)
+    }
+    //   setData({
+    //     title: "Wins",
+    //     statistics: "786",
+    //     series: [
+    //         {
+    //           data: [
+    //                 0,
+    //                 20,
+    //                 5,
+    //                 30,
+    //                 15,
+    //                 45
+    //             ]
+    //         }
+    //     ]
+    // })
   }, [details])
 
   // const options = {
@@ -125,7 +125,7 @@ const WinsCards = ({ info, data: details }) => {
   //     }
   //   }
   // }
-  
+
   const tooltip = "Number of challanges wins by user"
   return Object.keys(data).length ? (
     // <TinyChartStats
@@ -155,24 +155,36 @@ const WinsCards = ({ info, data: details }) => {
         )}
       </CardHeader>
       <CardBody className="pb-50">
-        <table>
+      <div id='table_matches'>
+                  <table>
           {data?.lastMatches?.map((match) => {
-            const {challengerName = "", winLoseScore = "", opponentName = ""} = match
+            const { challengerName = "", winLoseScore = "", opponentName = "" } = match
             return (
-              <tr style={{borderBottom: "1px solid black", borderTop: "1px solid black"}}>
-                <td>
-                  <small>{challengerName}</small>
-                </td>
-                <td className='text-center' style={{padding: "0 10px 0 10px"}}>
-                  <small>{winLoseScore}</small>
-                </td>
-                <td>
-                  <small>{opponentName}</small>
-                </td>
-              </tr>
+              <>  
+                    <tr>
+                      <td><small>{challengerName}</small></td>
+                      <td><small>{winLoseScore}</small></td>
+                      <td><small>{opponentName}</small></td> 
+                    </tr>
+                
+
+                {/* <tr style={{ borderBottom: "1px solid black", borderTop: "1px solid black" }}>
+                  <td>
+                    <small>{challengerName}</small>
+                  </td>
+                  <td className='text-center' style={{ padding: "0 10px 0 10px" }}>
+                    <small>{winLoseScore}</small>
+                  </td>
+                  <td>
+                    <small>{opponentName}</small>
+                  </td>
+                </tr> */}
+              </>
             )
           }) || null}
-        </table>
+         
+         </table>
+                </div>
         {/* <Chart options={options} series={series} type={type} height={height} /> */}
       </CardBody>
     </Card>

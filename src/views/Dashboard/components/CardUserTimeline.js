@@ -23,7 +23,7 @@ const UserTimeline = () => {
   }, [userActivities])
 
   return (
-    <Card className='card-user-timeline'>
+    <Card className='card-user-timeline' id="myTimeline">
       <CardHeader>
         <div className='d-flex align-items-center'>
           <BookOpen className='user-timeline-title-icon' />

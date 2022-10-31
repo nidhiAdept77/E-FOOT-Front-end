@@ -348,6 +348,10 @@
     }
   }
 }
+#myTimeline{
+  max-height: 400px;
+  overflow-y: auto;
+}
 
 // Business Card
 .business-card {

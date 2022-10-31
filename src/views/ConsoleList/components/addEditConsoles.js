@@ -60,7 +60,7 @@ const AddEditConsoles = () => {
     setAvatar("")
     setFile(null)
   }
-
+  
   const onSubmit = async (data) => {
     if (_.isEmpty(errors)) {
       try {
@@ -82,7 +82,7 @@ const AddEditConsoles = () => {
         }
     }
   }
-
+  
   const onChange = e => {
     const reader = new FileReader(),
       files = e.target.files
@@ -92,7 +92,7 @@ const AddEditConsoles = () => {
     reader.readAsDataURL(files[0])
     setFile(files[0])
   }
-
+  
   return (
     <Modal
       isOpen={addEditPopup}
@@ -140,16 +140,16 @@ const AddEditConsoles = () => {
                 }
 
               </Col>
-              <Col md={12} className="text-center">
-                <Media className='mt-75 ml-1' body>
-                  <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
-                    Upload
-                    <Input type='file' onChange={onChange} hidden accept='image/png' />
-                  </Button.Ripple>
-                  <p className="m-0">Allowed image type is PNG</p>
-                  <p className='text-muted'>Transparent background preffered</p>
-                </Media>
-              </Col>
+                <Col md={12} className="text-center">
+                  <Media className='mt-75 ml-1' body>
+                    <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                      Upload
+                      <Input type='file' onChange={onChange} hidden accept='image/png' />
+                    </Button.Ripple>
+                    <p className="m-0">Allowed image type is PNG</p>
+                    <p className='text-muted'>Transparent background preffered</p>
+                  </Media>
+                </Col>              
             </Row>
           </Media>
           <Row>

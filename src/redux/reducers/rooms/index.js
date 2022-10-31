@@ -102,7 +102,7 @@ export default (state = initialState, action) => {
                     return room
                 })
             }
-        default:
-            return state
+            default:
+                return state
     }
 }

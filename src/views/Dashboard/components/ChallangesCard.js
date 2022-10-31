@@ -101,7 +101,7 @@ const ChallangesCard = ({ warning, data: details }) => {
       type='bar'
       options={options}
       title={data.title}
-      stats={data.statistics}
+      stats={data.statistics.toString()}
       series={data.series}
       tooltip="E-Foot coins based on win/loss Challenges"
     />

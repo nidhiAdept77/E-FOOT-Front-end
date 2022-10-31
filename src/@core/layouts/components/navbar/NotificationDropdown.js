@@ -50,9 +50,10 @@ const NotificationDropdown = () => {
   }, [])
 
   const handleClearNotification = (event) => {
-    event.preventDefault()
     const userId = localStorage.getItem("userId")
     dispatch(clearBellNotifications(userId, [CONSTANTS.REMINDER_TYPES.WL_SCORE_UPDATE, CONSTANTS.REMINDER_TYPES.CHALLENGE, CONSTANTS.REMINDER_TYPES.DISPUTE]))
+    location.reload()
+
   }
 
   useEffect(() => {

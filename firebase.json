@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "e-foot-front",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

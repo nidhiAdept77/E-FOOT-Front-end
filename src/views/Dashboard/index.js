@@ -78,7 +78,7 @@ const Dashboard = ({loading}) => {
           <Row>
             <Col md={12}>
               <Row className='card-margin'>
-                <Col lg={4} md="4" sm="12">
+                <Col lg={5} md="4" sm="12">
                   <Row>
                     <Col lg='12' md='12' sm='12' xs='12'>
                       <ChallangesCard data={details} warning={colors.warning.main} />
@@ -91,7 +91,7 @@ const Dashboard = ({loading}) => {
                   </Row>
                 </Col>
                 
-                <Col lg='8' md='8' sm='12'>
+                <Col lg='7' md='8' sm='12'>
                   <ChallangeOverview data={details} success={colors.primary.main} />
                 </Col>
 

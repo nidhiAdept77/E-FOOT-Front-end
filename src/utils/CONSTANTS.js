@@ -1,7 +1,7 @@
 import env from "react-dotenv"
 export const CONSTANTS = {
-    BACKEND_BASE_URL: env.BACKEND_BASE_URL || "https://dev.backoffice.efnl.xivdp.com",
-    BACKEND_WS_URL: env.BACKEND_WS_URL ||  "wss://dev.backoffice.efnl.xivdp.com",
+    BACKEND_BASE_URL: "http://127.0.0.1:9000",
+    BACKEND_WS_URL: "ws://127.0.0.1:9000",
     USERS_ROLES: {
         USER: "user",
         ADMIN: "admin"

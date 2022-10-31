@@ -208,7 +208,7 @@ const Login = (props) => {
                   appId={CONSTANTS.FACEBOOK_APP_ID}
                   callback={responseFacebook}
                   render={renderProps => (
-                    <Button.Ripple color='facebook' style={{"box-shadow":"0 4px 8px 0 rgb(34 41 47 / 50%)", border: "1px"}} className="w-100" block onClick={renderProps.onClick}>
+                    <Button.Ripple color='facebook' style={{boxShadow:"0 4px 8px 0 rgb(34 41 47 / 50%)", border: "1px"}} className="w-100" block onClick={renderProps.onClick}>
                       {getFbSvg()}
                       <span className='align-middle ml-25'>Login with facebook</span>
                     </Button.Ripple>

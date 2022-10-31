@@ -31,10 +31,37 @@
       href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
       crossorigin=""
     />
+
     <title>E-FOOT.NL | FIFA events | Toernooien | Tips&amp;Tricks</title>
     <script id="react-dotenv" src="/env.js"></script>
-    <script src="%PUBLIC_URL%/firbase-messages-sw.js"></script>
+    <style>
+      ::-webkit-scrollbar {
+        background-color: #283046;
+        border: 1px solid #aaa;
+        border-radius: 20px;
+        width: 8px;
+      }
+
+      html::-webkit-scrollbar-track {
+        background: rgb(179, 177, 177);
+        border-radius: 10px;
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #147bdd;
+        border-radius: 20px;
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(20, 123, 221, 0.7);
+        width: 8px;
+      }
+    </style>
+    <!-- <script src="%PUBLIC_URL%/firbase-messages-sw.js"></script> -->
   </head>
+
   <body>
     <div id="root"></div>
     <!--
