@@ -1,5 +1,5 @@
 // import { history } from '../App'
-import { history } from '../history' 
+import { history } from '../history'
 const axios = require('axios')
 
 /**
@@ -19,6 +19,7 @@ export function request(url, method, headers, payload) {
         `Invalid method type please provide one of these methods... \n ${allowedMethodTypes}`
       )
     } else {
+
       axios({
         method,
         url,
@@ -46,7 +47,3 @@ export function request(url, method, headers, payload) {
     }
   })
 }
-
-// module.exports = {
-//   request
-// }

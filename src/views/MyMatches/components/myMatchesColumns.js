@@ -12,7 +12,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { acceptChallenge } from '../../../redux/actions/challenges'
 
-const SubmitScoreButton = ({data}) => {
+const SubmitScoreButton = ({ data }) => {
   const dispatch = useDispatch()
   const { addEditPopup, disputePopup } = useSelector((state) => state.layout)
 
@@ -27,19 +27,19 @@ const SubmitScoreButton = ({data}) => {
     } else if (data.status === CONSTANTS.STATUS.PENDING && data.type === CONSTANTS.STATUS.PRIVATE) {
       const MySwal = withReactContent(Swal)
       const result = await MySwal.fire({
-          title: 'Are you sure?',
-          text: "You want to accept this?",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes',
-          customClass: {
-              confirmButton: 'btn btn-primary',
-              cancelButton: 'btn btn-outline-danger ml-1'
-          },
-          buttonsStyling: false
+        title: 'Are you sure?',
+        text: "You want to accept this?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1'
+        },
+        buttonsStyling: false
       })
       if (result.value) {
-         dispatch(acceptChallenge({_id: data._id, status: CONSTANTS.STATUS.ACCEPTED, opponent: data.acceptor}))
+        dispatch(acceptChallenge({ _id: data._id, status: CONSTANTS.STATUS.ACCEPTED, opponent: data.acceptor }))
       }
     } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
       dispatch(setDisputePopup(!disputePopup))
@@ -95,9 +95,9 @@ const SubmitScoreButton = ({data}) => {
   )
 }
 
-const WLStatus = ({data}) => {
+const WLStatus = ({ data }) => {
 
-  const {user} = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.auth)
   const [status, setStatus] = useState(data.status)
 
   useEffect(() => {
@@ -115,10 +115,10 @@ const WLStatus = ({data}) => {
     return () => {
     }
   }, [data])
-  
+
   return (<div className="text-capitalize">
     {status}
-    </div>)
+  </div>)
 }
 
 export const columns = [

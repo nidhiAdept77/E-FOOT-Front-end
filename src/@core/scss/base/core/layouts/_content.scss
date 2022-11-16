@@ -60,7 +60,7 @@ html {
       .content-area-wrapper {
         display: flex;
         position: relative;
-        overflow: hidden; // Required in apps
+        overflow-x: hidden; // Required in apps
         .content-wrapper,
         .content-body {
           height: 100%;

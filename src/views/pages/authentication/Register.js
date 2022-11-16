@@ -99,7 +99,7 @@ const Register = (props) => {
                   Username
                 </Label>
                 <Input
-                  autoFocus
+
                   type='text'
                   value={userName}
                   placeholder='johndoe'

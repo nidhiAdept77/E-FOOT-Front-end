@@ -198,6 +198,12 @@ body.dark-layout{
         background: #ffffff2b;
     }
 }
+.newclass{
+    border-bottom: 3px solid #fff;
+    border-top: 3px solid #fff;
+    border-radius: 10px 10px 10px 10px;
+}
+
 .stepDiv{
     display: flex;
     align-items: center;
@@ -231,4 +237,14 @@ body.dark-layout{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.content-wrapper{
+    overflow-y: hidden;
+}
+.whole-chat-app{
+    overflow: hidden !important;
+}
+.content-wrapper::-webkit-scrollbar{
+    display: none;
+
 }

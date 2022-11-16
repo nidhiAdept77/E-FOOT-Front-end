@@ -4,9 +4,9 @@ import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 import { SET_LOADER, SET_CHALLENGES, SET_TOTAL, UPDATE_CHALLENGES, REMOVE_CHALLENGES } from '../../types'
 import { showToastMessage } from '../toastNotification'
-import {request} from '../../../utils/apiService'
+import { request } from '../../../utils/apiService'
 
-export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, acceptor}) => async dispatch => {
+export const createUpdateChallenge = ({ type, status, gameId, consoleId, mode, acceptor }) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -53,7 +53,7 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, ac
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: createUpdateChallengeMutation,
             variables: {
                 input: {
@@ -67,7 +67,7 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, ac
             }
         })
         handleAuthResponse(data.createUpdateChallenge)
-        const {success} = data.createUpdateChallenge
+        const { success } = data.createUpdateChallenge
         if (success) {
             dispatch({
                 type: SET_LOADER,
@@ -93,7 +93,7 @@ export const createUpdateChallenge = ({type, status, gameId, consoleId, mode, ac
     }
 }
 
-export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
+export const acceptChallenge = ({ status, opponent, _id }) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -140,7 +140,7 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: acceptChallengeMutation,
             variables: {
                 input: {
@@ -151,7 +151,7 @@ export const acceptChallenge = ({status, opponent, _id}) => async dispatch => {
             }
         })
         handleAuthResponse(data.challengeAccept)
-        const {success} = data.challengeAccept
+        const { success } = data.challengeAccept
         if (success) {
             dispatch({
                 type: SET_LOADER,
@@ -229,18 +229,18 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
             }
           }`
         const { data } = await client.query({
-          query: ChallengeQuery,
-          variables: {
-            limit,
-            skip: page * limit,
-            searchString,
-            type,
-            status,
-            userId
-          }
+            query: ChallengeQuery,
+            variables: {
+                limit,
+                skip: page * limit,
+                searchString,
+                type,
+                status,
+                userId
+            }
         })
         handleAuthResponse(data.getChallenges)
-        const {success} = data.getChallenges
+        const { success } = data.getChallenges
         if (success) {
             const challenges = getFieldValue(data, 'getChallenges.data.data')
             if (!_.isEmpty(challenges)) {
@@ -338,14 +338,14 @@ export const updateScore = (_id, scorces) => async dispatch => {
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: updateScoresMutation,
             variables: {
-                input: {...scorces, _id}
+                input: { ...scorces, _id }
             }
         })
         handleAuthResponse(data.updateScores)
-        const {success} = data.updateScores
+        const { success } = data.updateScores
         if (success) {
             dispatch({
                 type: SET_LOADER,
@@ -371,12 +371,12 @@ export const updateScore = (_id, scorces) => async dispatch => {
     }
 }
 
-export const uploadProof = ({imageData, _id}) => async dispatch => {
+export const uploadProof = ({ imageData, _id }) => async dispatch => {
     const authtoken = localStorage.getItem('authToken')
     const userId = localStorage.getItem('userId')
-    const {getFieldValue} = require('../../../utils')
+    const { getFieldValue } = require('../../../utils')
     const _ = require('underscore')
-    const {CONSTANTS} = require('../../../utils/CONSTANTS')
+    const { CONSTANTS } = require('../../../utils/CONSTANTS')
 
 
     const headers = {
@@ -415,7 +415,7 @@ export const uploadProof = ({imageData, _id}) => async dispatch => {
         return result.data
     } catch (error) {
         console.error('error: ', error)
-        return {success:false, message:[error.message]}
+        return { success: false, message: [error.message] }
     }
 }
 
@@ -473,7 +473,7 @@ export const resolveChallengeDispute = ({
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: resolveChallengeDisputeMutation,
             variables: {
                 input: {
@@ -487,7 +487,7 @@ export const resolveChallengeDispute = ({
             }
         })
         handleAuthResponse(data.resolveChallengeDispute)
-        const {success} = data.resolveChallengeDispute
+        const { success } = data.resolveChallengeDispute
         if (success) {
             dispatch({
                 type: SET_LOADER,
@@ -552,10 +552,10 @@ export const subsChallenges = (handleChallenges) => dispatch => {
               }
           }
         `
-        const observable = client.subscribe({query:  ChallengesSubscription})
-        return observable.subscribe(({data}) => { 
+        const observable = client.subscribe({ query: ChallengesSubscription })
+        return observable.subscribe(({ data }) => {
             handleChallenges(data.challengesSubs)
-        }) 
+        })
     } catch (error) {
         console.error('error: ', error)
         dispatch({

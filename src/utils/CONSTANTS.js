@@ -1,18 +1,16 @@
 import env from "react-dotenv"
 export const CONSTANTS = {
-<<<<<<< HEAD
     BACKEND_BASE_URL: "http://127.0.0.1:9000",
     BACKEND_WS_URL: "ws://127.0.0.1:9000",
-=======
-    BACKEND_BASE_URL: http://13.39.23.60,
-    BACKEND_WS_URL: ws://13.39.23.60,
->>>>>>> 401ea773d9624bf0fb61e25103be6717f8295118
+    BACKEND_BASE_URL: "http://127.0.0.1:9000",
+    BACKEND_WS_URL: "ws://127.0.0.1:9000",
     USERS_ROLES: {
         USER: "user",
         ADMIN: "admin"
     },
+
     GOOLE_CLIENT_ID: env.GOOLE_CLIENT_ID || "398599617169-5l4iqfm2gjt37qc6ghpvi68mgdjb4eel.apps.googleusercontent.com",
-    FACEBOOK_APP_ID: env.FACEBOOK_APP_ID || "2887719924809264",
+    FACEBOOK_APP_ID: "588976502997266",
     ARRAY_SIZE: 10,
     ROUTES_HIDE_ONLINE_POPUP: ['/dashboard'],
     ENV_TYPE: {
@@ -23,7 +21,7 @@ export const CONSTANTS = {
     TRANSACTION_TYPE: {
         DEPOSIT: "deposit",
         WITHDRAW: "withdraw",
-        WALLET: "wallet", 
+        WALLET: "wallet",
         CHALLANGE: "challange"
     },
     TRANSACTION_STATUS: {
@@ -50,7 +48,7 @@ export const CONSTANTS = {
         LOSE: "lose",
         DRAW: "draw",
         FINISHED: "finished",
-        DISPUTE: "dispute", 
+        DISPUTE: "dispute",
         PRIVATE: "private",
         PUBLIC: "public",
         BOTH: "both"

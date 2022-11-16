@@ -1,10 +1,11 @@
 import gql from 'graphql-tag'
-import {SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS, SET_ALL_USERS} from '../../types'
+import { SET_USER_DETAIL, REMOVE_USER_DETAIL, SET_ONLINE_USERS, REMOVE_ONLINE_USERS, UPDATE_ONLINE_USERS, SET_LOADER, UPDATE_OFFLINE_USERS, SET_ALL_USERS } from '../../types'
 import client from '../../../graphql/client'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
-import {getFieldValue, handleAuthResponse, removeSigninUserDetails} from '../../../utils'
-import {request} from '../../../utils/apiService'
+import { getFieldValue, handleAuthResponse, removeSigninUserDetails } from '../../../utils'
+import { request } from '../../../utils/apiService'
 import _ from 'underscore'
+import { showToastMessage } from '../toastNotification'
 
 const UserFragemnt = gql`
     fragment UserDetail on Users{
@@ -74,7 +75,7 @@ const getUserData = async () => {
                 }
             ${UserFragemnt}
             `
-            const {data} = await client.query({
+            const { data } = await client.query({
                 query: userQuery,
                 variables: {
                     id: userId
@@ -114,7 +115,7 @@ export const removeUserDetails = () => dispatch => {
     })
 }
 
-export const loginUser =  ({email, password}) => async dispatch => {
+export const loginUser = ({ email, password }) => async dispatch => {
 
     try {
         dispatch({
@@ -133,7 +134,7 @@ export const loginUser =  ({email, password}) => async dispatch => {
             }
         }
             ${UserFragemnt}`
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: loginMutation,
             variables: {
                 input: {
@@ -158,7 +159,7 @@ export const loginUser =  ({email, password}) => async dispatch => {
             payload: false
         })
         console.error('error: ', error)
-        return {success:false, message:[error.message]}
+        return { success: false, message: [error.message] }
     }
 }
 
@@ -180,11 +181,11 @@ export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
                 }
             }
             ${UserFragemnt}`
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: loginGoogleMutation,
             variables: {
                 input: {
-                    tokenId, 
+                    tokenId,
                     googleId
                 }
             }
@@ -201,9 +202,9 @@ export const loginWithgoogle = (tokenId, googleId) => async dispatch => {
         return data.userGoogleLogin
     } catch (error) {
         console.error('error: ', error)
-        return {success:false, message:[error.message]}
+        return { success: false, message: [error.message] }
     }
-} 
+}
 
 export const loginWithFacebook = (accessToken, userId) => async dispatch => {
     try {
@@ -223,11 +224,11 @@ export const loginWithFacebook = (accessToken, userId) => async dispatch => {
                 }
             }
             ${UserFragemnt}`
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: loginFacebookMutation,
             variables: {
                 input: {
-                    accessToken, 
+                    accessToken,
                     userId
                 }
             }
@@ -244,13 +245,13 @@ export const loginWithFacebook = (accessToken, userId) => async dispatch => {
         return data.userFacebookLogin
     } catch (error) {
         console.error('error: ', error)
-        return {success:false, message:[error.message]}
+        return { success: false, message: [error.message] }
     }
-} 
+}
 
 export const registerUser = (registerData) => async dispatch => {
     try {
-        const {email, password, userName, firstName, lastName, referralId, rank} = registerData
+        const { email, password, userName, firstName, lastName, referralId, rank } = registerData
         dispatch({
             type: SET_LOADER,
             payload: true
@@ -275,13 +276,13 @@ export const registerUser = (registerData) => async dispatch => {
             password,
             userName,
             firstName,
-            lastName, 
+            lastName,
             rank
         }
         if (referralId) {
             input['referralId'] = referralId
         }
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: registerUserMutation,
             variables: {
                 input
@@ -293,7 +294,8 @@ export const registerUser = (registerData) => async dispatch => {
         })
         return true
     } catch (error) {
-        console.error('error: ', error)
+        const messageErr = error.message.slice(14, 100)
+        dispatch(showToastMessage(messageErr, "error"))
         dispatch({
             type: SET_LOADER,
             payload: false
@@ -312,7 +314,7 @@ export const logoutUser = () => async dispatch => {
             }
         }
     `
-    const {data} = await client.mutate({
+    const { data } = await client.mutate({
         mutation: logoutMutate
     })
     if (data.logOutUser.success) {
@@ -340,7 +342,7 @@ export const forgotPassUser = email => async dispatch => {
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: forgotPassMutation,
             variables: {
                 email
@@ -357,7 +359,7 @@ export const forgotPassUser = email => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
@@ -376,7 +378,7 @@ export const resetPassUser = (resetToken, password) => async dispatch => {
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: resetPassMutation,
             variables: {
                 input: {
@@ -396,7 +398,7 @@ export const resetPassUser = (resetToken, password) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
@@ -420,14 +422,14 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
             }
             ${UserFragemnt}
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: updateProfileMutation,
             variables: {
                 input: userProfileData
             }
         })
         handleAuthResponse(data.updateProfile)
-        const {success} = data.updateProfile
+        const { success } = data.updateProfile
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
             if (!_.isEmpty(userData)) {
@@ -449,7 +451,7 @@ export const updateUserProfile = (userProfileData) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
@@ -473,14 +475,14 @@ export const updateUserPrefrences = (preferences) => async dispatch => {
             }
             ${UserFragemnt}
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: updateProfileMutation,
             variables: {
                 preferences
-            } 
+            }
         })
         handleAuthResponse(data.setUserPrefrences)
-        const {success} = data.setUserPrefrences
+        const { success } = data.setUserPrefrences
         if (success) {
             const userData = getFieldValue(data, 'setUserPrefrences.user')
             if (!_.isEmpty(userData)) {
@@ -502,7 +504,7 @@ export const updateUserPrefrences = (preferences) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
@@ -526,14 +528,14 @@ export const addUserFireBaseToken = (token) => async dispatch => {
             }
             ${UserFragemnt}
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: addFireBaseTokenMutation,
             variables: {
                 token
             }
         })
         handleAuthResponse(data.addFireBasetoken)
-        const {success} = data.addFireBasetoken
+        const { success } = data.addFireBasetoken
         if (success) {
             const userData = getFieldValue(data, 'updateProfile.user')
             if (!_.isEmpty(userData)) {
@@ -555,7 +557,7 @@ export const addUserFireBaseToken = (token) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
@@ -574,7 +576,7 @@ export const changeUserPass = (password, oldPassword) => async dispatch => {
                 }
             }
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: changePassMutation,
             variables: {
                 input: {
@@ -594,14 +596,14 @@ export const changeUserPass = (password, oldPassword) => async dispatch => {
             type: SET_LOADER,
             payload: false
         })
-        return {success:false, message: error.message}
+        return { success: false, message: error.message }
     }
 }
 
 export const uploadProfilePhoto = (imageData) => async dispatch => {
     const authtoken = localStorage.getItem('authToken')
     const userId = localStorage.getItem('userId')
-    const {getFieldValue} = require('../../../utils')
+    const { getFieldValue } = require('../../../utils')
     const _ = require('underscore')
 
     const headers = {
@@ -639,9 +641,9 @@ export const uploadProfilePhoto = (imageData) => async dispatch => {
         return result.data
     } catch (error) {
         console.error('error: ', error)
-        return {success:false, message:[error.message]}
+        return { success: false, message: [error.message] }
     }
-} 
+}
 
 export const setLoader = value => dispatch => {
     dispatch({
@@ -674,8 +676,8 @@ export const getAllOnlineUserSubs = (handleUserAdded) => dispatch => {
             }
             ${onlineUserFragment}
         `
-        const observable = client.subscribe({query:  onlineSubscription})
-        return observable.subscribe(({data}) =>  handleUserAdded(data.onlineUsers))
+        const observable = client.subscribe({ query: onlineSubscription })
+        return observable.subscribe(({ data }) => handleUserAdded(data.onlineUsers))
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -690,12 +692,12 @@ export const updateOnlineUsers = (user) => dispatch => {
     if (user.isOnline) {
         dispatch({
             type: UPDATE_ONLINE_USERS,
-            payload: {user}
+            payload: { user }
         })
     } else {
         dispatch({
             type: UPDATE_OFFLINE_USERS,
-            payload: {user}
+            payload: { user }
         })
     }
 }
@@ -720,7 +722,7 @@ export const getInitOnlineUsers = () => async dispatch => {
             ${onlineUserFragment}
         `
         const result = await client.mutate({
-            mutation:InitOnlineUser
+            mutation: InitOnlineUser
         })
         const data = result.data
         handleAuthResponse(data.getOnlineUsers)
@@ -772,7 +774,7 @@ export const getAllUsers = () => async dispatch => {
           }
         `
         const result = await client.query({
-            query:allUser
+            query: allUser
         })
         const data = result.data
         //handleAuthResponse(data.users)

@@ -40,7 +40,7 @@ const AppChat = () => {
   const handleUser = obj => setUser(obj)
 
   return (
-    <Fragment>
+    <Fragment className="whole-chat-app">
       <Sidebar
         store={store}
         sidebar={sidebar}

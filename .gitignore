@@ -8,9 +8,9 @@
 # testing
 /coverage
 
-# # production
-# /build
-# /build.tar.gz
+# production
+/build
+/build.tar.gz
 
 # misc
 .DS_Store

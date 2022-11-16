@@ -32,7 +32,7 @@ const Footer = () => {
       <span className='float-md-right left-content'>
         Made with 
         <Heart size={14} /> {' '}
-        Adept Infotech
+        Adept Digitals
       </span>
     </p>
   )

@@ -38,9 +38,9 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
         const result = await uploadProfilePhoto(files[0])
         const resultType = result.success ? "success" : "error"
         showToastMessage(result.message, resultType)
-        setTimeout(() => {
-          location.reload()
-        }, 0)
+        // setTimeout(() => {
+        //   location.reload()
+        // }, 0)
       } catch (error) {
         console.error('error: ', error)
         showToastMessage(error.message, 'error')

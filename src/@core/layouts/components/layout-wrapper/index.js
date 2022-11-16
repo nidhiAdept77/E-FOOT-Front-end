@@ -71,13 +71,15 @@ const LayoutWrapper = props => {
           'container p-0': contentWidth === 'boxed',
           [`animate__animated animate__${transition}`]: transition !== 'none' && transition.length
         })}
+
+        style={{ overflowY: "auto", height: "100vh" }}
       >
         <Tag
           /*eslint-disable */
           {...(layout === 'HorizontalLayout' && !appLayout
             ? { className: classnames({ 'content-body': !appLayout }) }
             : {})}
-          /*eslint-enable */
+        /*eslint-enable */
         >
           {children}
         </Tag>

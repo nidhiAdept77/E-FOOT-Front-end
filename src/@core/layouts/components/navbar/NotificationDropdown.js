@@ -29,8 +29,14 @@ const NotificationDropdown = () => {
 
   const dispatch = useDispatch()
   const history = useHistory()
-  const {bellNotifications} = useSelector(state => state.dashboard)
+  const { bellNotifications } = useSelector(state => state.dashboard)
   const [notifications, setNotifications] = useState([])
+
+  const [myNoti, setmyNoti] = useState(notifications.length)
+  const newFuncTionForNotiZero = (e) => {
+    notifications.length = 0
+    const userId = localStorage.getItem("userId")
+  }
 
   useEffect(() => {
     dispatch(getBellNotifications())
@@ -131,16 +137,16 @@ const NotificationDropdown = () => {
                         {...(item.img
                           ? { img: item.img, imgHeight: 32, imgWidth: 32 }
                           : item.avatarContent
-                          ? {
+                            ? {
                               content: item.avatarContent,
                               color: item.color
                             }
-                          : item.avatarIcon
-                          ? {
-                              icon: item.avatarIcon,
-                              color: item.color
-                            }
-                          : null)}
+                            : item.avatarIcon
+                              ? {
+                                icon: item.avatarIcon,
+                                color: item.color
+                              }
+                              : null)}
                       />
                     </Media>
                     <Media body>
@@ -157,13 +163,13 @@ const NotificationDropdown = () => {
             </p>
           )
         })
-        : (<div className='d-flex'>
-          <div className='d-flex align-items-center text-center ml-2'>
-            <span>
-              No new notifications
-            </span>
-          </div>
-        </div>)}
+          : (<div className='d-flex'>
+            <div className='d-flex align-items-center text-center ml-2 p-2'>
+              <span>
+                No new notifications
+              </span>
+            </div>
+          </div>)}
       </PerfectScrollbar>
     )
   }
@@ -171,8 +177,8 @@ const NotificationDropdown = () => {
 
   return (
     <UncontrolledDropdown tag='li' className='dropdown-notification nav-item mr-25'>
-      <DropdownToggle tag='a' className='nav-link' href='/' onClick={e => e.preventDefault()}>
-        <Bell size={21} />
+      <DropdownToggle tag='a' className='nav-link' href='/' onClick={e => newFuncTionForNotiZero()}>
+        <Bell size={21} onClick={e => e.preventDefault()} />
         {notifications?.length ? (
           <Badge pill color='danger' className='badge-up'>
             {notifications?.length || 0}
@@ -181,22 +187,39 @@ const NotificationDropdown = () => {
       </DropdownToggle>
       {notifications?.length ? (
         <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
-        <li className='dropdown-menu-header'>
-          <DropdownItem className='d-flex' tag='div' header>
-            <h4 className='notification-title mb-0 mr-auto'>Notifications</h4>
-            {/* <Badge tag='div' color='light-primary' pill>
+          <li className='dropdown-menu-header'>
+            <DropdownItem className='d-flex' tag='div' header>
+              <h4 className='notification-title mb-0 mr-auto'>Notifications</h4>
+              {/* <Badge tag='div' color='light-primary' pill>
               6 New
             </Badge> */}
-          </DropdownItem>
-        </li>
-        {renderNotificationItems()}
-        <li className='dropdown-menu-footer'>
-          <Button.Ripple color='primary' block onClick={handleClearNotification}>
-            Clear all notification
-          </Button.Ripple>
-        </li>
-      </DropdownMenu>
-      ) : null}
+            </DropdownItem>
+          </li>
+          {renderNotificationItems()}
+          <li className='dropdown-menu-footer'>
+            <Button.Ripple color='primary' block onClick={handleClearNotification}>
+              Clear all notification
+            </Button.Ripple>
+          </li>
+        </DropdownMenu>
+      ) : (
+        <DropdownMenu tag='ul' right className='dropdown-menu-media mt-0'>
+          <li className='dropdown-menu-header'>
+            <DropdownItem className='d-flex' tag='div' header>
+              <h4 className='notification-title mb-0 mr-auto'>Notifications</h4>
+              {/* <Badge tag='div' color='light-primary' pill>
+              6 New
+            </Badge> */}
+            </DropdownItem>
+          </li>
+          {renderNotificationItems()}
+          <li className='dropdown-menu-footer'>
+            <Button.Ripple color='primary' block disabled>
+              Clear all notification
+            </Button.Ripple>
+          </li>
+        </DropdownMenu>
+      )}
     </UncontrolledDropdown>
   )
 }

@@ -30,6 +30,18 @@ const MyMatches = props => {
     const [currentPage, setCurrentPage] = useState(0)
     const [active, setActive] = useState(CONSTANTS.STATUS.ACTIVE)
     const [challengeList, setChallengeList] = useState([])
+    let x = 0
+    // const showBadgeOnPending = () => {
+
+    //     challenges && challenges.map((data) => {
+    //         if (data.status === "pending") (
+    //             x += 1
+    //         )
+
+    //     })
+    // }
+    // showBadgeOnPending()
+
 
     const STATUS = [
         CONSTANTS.STATUS.ACTIVE,
@@ -52,7 +64,7 @@ const MyMatches = props => {
             setChallengeList(challenges.filter(challenge => challenge.status === active))
         }
     }, [challenges, active])
-    
+
     useEffect(() => {
         if (challengesSubs?.subscription) {
             challengesSubs.subscription.unsubscribe()
@@ -68,26 +80,26 @@ const MyMatches = props => {
             }
         }
     }, [])
-    
+
     const handleFilter = (value) => {
         setSearchValue(value)
         setTimeout(() => {
             dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
         }, 100)
     }
-    
+
     const handlePagination = page => {
         dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
         setCurrentPage(page.selected + 1)
     }
 
-    
     const toggle = tab => {
         if (active !== tab) {
             setActive(tab)
             dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, tab, user._id))
         }
     }
+
 
     // ** Custom Pagination
     const CustomPagination = () => {
@@ -113,6 +125,7 @@ const MyMatches = props => {
     const NavItems = (navs) => {
         return navs.map(nav => (
             <NavItem>
+
                 <NavLink
                     active={active === nav}
                     onClick={() => {
@@ -120,7 +133,7 @@ const MyMatches = props => {
                     }}
                     className="text-capitalize"
                 >
-                    {nav}
+                    {nav}{x}
                 </NavLink>
             </NavItem>
         ))
@@ -147,7 +160,7 @@ const MyMatches = props => {
                     </Col>
                 </Row>
 
-                <Ticker className='mx-0 p-1'>
+                {/* <Ticker className='mx-0 p-1'>
                     {({ index }) => (
                         <>
                             <Alert color="warning">
@@ -159,9 +172,9 @@ const MyMatches = props => {
                             
                         </>
                     )}
-                </Ticker>
+                </Ticker> */}
 
-                
+
                 <Row className='mx-0 p-1'>
                     <Alert color="warning">
                         <p className="alert-heading">
@@ -188,6 +201,7 @@ const MyMatches = props => {
                         paginationDefaultPage={currentPage + 1}
                         paginationComponent={CustomPagination}
                         data={challengeList}
+
                     />
                 </TabContent>
             </Card>

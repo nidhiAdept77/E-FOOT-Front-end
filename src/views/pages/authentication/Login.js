@@ -152,7 +152,7 @@ const Login = (props) => {
                       Email
                     </Label>
                     <Input
-                      autoFocus
+                      
                       type='email'
                       value={email}
                       id='email'
