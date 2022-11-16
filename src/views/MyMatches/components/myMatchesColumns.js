@@ -17,6 +17,7 @@ const SubmitScoreButton = ({ data }) => {
   const { addEditPopup, disputePopup } = useSelector((state) => state.layout)
 
   const handleOpen = async (setData) => {
+
     if (data.status === CONSTANTS.STATUS.ACCEPTED) {
       dispatch(setAddEditPopup(!addEditPopup))
       if (setData) {
@@ -39,6 +40,7 @@ const SubmitScoreButton = ({ data }) => {
         buttonsStyling: false
       })
       if (result.value) {
+        location.reload()
         dispatch(acceptChallenge({ _id: data._id, status: CONSTANTS.STATUS.ACCEPTED, opponent: data.acceptor }))
       }
     } else if (data.status === CONSTANTS.STATUS.DISPUTE) {

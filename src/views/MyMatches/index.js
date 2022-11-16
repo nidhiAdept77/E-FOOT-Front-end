@@ -3,7 +3,7 @@ import Breadcrumbs from '@components/breadcrumbs'
 import { FormattedMessage } from 'react-intl'
 import LoaderComponent from '../components/Loader'
 import { useSelector, useDispatch } from 'react-redux'
-import { Card, Row, Col, Label, Input, TabContent, Nav, NavItem, NavLink } from 'reactstrap'
+import { Card, Row, Col, Label, Input, TabContent, Nav, NavItem, NavLink, Badge } from 'reactstrap'
 import DataTable from 'react-data-table-component'
 import { ChevronDown } from 'react-feather'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
@@ -14,6 +14,7 @@ import Ticker from 'react-ticker'
 import { columns } from "./components/myMatchesColumns"
 import UploadScore from './components/uploadScore'
 import DisputeModal from './components/dispute'
+
 
 import { getPaginatedChallenges, removeChallenges, subsChallenges, updateChallenges } from '../../redux/actions/challenges'
 import Alert from 'reactstrap/lib/Alert'
@@ -29,23 +30,26 @@ const MyMatches = props => {
     const [limit, setLimit] = useState(6)
     const [currentPage, setCurrentPage] = useState(0)
     const [active, setActive] = useState(CONSTANTS.STATUS.ACTIVE)
+    const [pending, setPending] = useState(CONSTANTS.STATUS.PENDING)
     const [challengeList, setChallengeList] = useState([])
-    let x = 0
-    // const showBadgeOnPending = () => {
+    let pendingChallangeCount = 0
 
-    //     challenges && challenges.map((data) => {
-    //         if (data.status === "pending") (
-    //             x += 1
-    //         )
+    const showBadgeOnPending = () => {
 
-    //     })
-    // }
-    // showBadgeOnPending()
+        challenges && challenges.map((data) => {
+            if (data.status === "pending") (
+                pendingChallangeCount += 1
+            )
+
+        })
+    }
+    showBadgeOnPending()
 
 
     const STATUS = [
-        CONSTANTS.STATUS.ACTIVE,
+
         CONSTANTS.STATUS.PENDING,
+        CONSTANTS.STATUS.ACTIVE,
         CONSTANTS.STATUS.ACCEPTED,
         CONSTANTS.STATUS.DISPUTE,
         CONSTANTS.STATUS.FINISHED,
@@ -53,7 +57,7 @@ const MyMatches = props => {
     ]
 
     useEffect(() => {
-        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, active, user._id))
+        dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, pending, user._id))
         return () => {
             dispatch(removeChallenges())
         }
@@ -61,9 +65,9 @@ const MyMatches = props => {
 
     useEffect(() => {
         if (challenges?.length) {
-            setChallengeList(challenges.filter(challenge => challenge.status === active))
+            setChallengeList(challenges.filter(challenge => challenge.status === pending))
         }
-    }, [challenges, active])
+    }, [challenges, pending])
 
     useEffect(() => {
         if (challengesSubs?.subscription) {
@@ -94,8 +98,8 @@ const MyMatches = props => {
     }
 
     const toggle = tab => {
-        if (active !== tab) {
-            setActive(tab)
+        if (pending !== tab) {
+            setPending(tab)
             dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, tab, user._id))
         }
     }
@@ -127,13 +131,18 @@ const MyMatches = props => {
             <NavItem>
 
                 <NavLink
-                    active={active === nav}
+                    active={pending === nav}
                     onClick={() => {
                         toggle(nav)
                     }}
-                    className="text-capitalize"
+                    className="text-capitalize "
                 >
-                    {nav}{x}
+                    {/* <Badge color={badgeColor ? badgeColor : 'primary'} className='badge-sm badge-up' pill>
+                        {badgeText ? badgeText : '0'}
+                    </Badge> */}
+                    {nav}{
+                        nav === "pending" ? <Badge color="primary" className='badge-sm  ml-1' pill>{pendingChallangeCount}</Badge> : ""
+                    }
                 </NavLink>
             </NavItem>
         ))
@@ -189,7 +198,7 @@ const MyMatches = props => {
                         {NavItems(STATUS)}
                     </Nav>
                 </Row>
-                <TabContent className='py-50' activeTab={active}>
+                <TabContent className='py-50' activeTab={pending}>
                     <DataTable
                         noHeader
                         pagination

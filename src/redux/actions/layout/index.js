@@ -1,4 +1,4 @@
-import {HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP, ADD_EDIT_POPUP_DATA, DISPUTE_POPUP, TOGGLE_CHALLENGE_MODAL, TOGGLE_ADMIN_DISPUTE_MODAL} from '@src/redux/types'
+import { HANDLE_CONTENT_WIDTH, HANDLE_MENU_COLLAPSED, HANDLE_MENU_HIDDEN, HANDLE_RTL, HANDLE_ONLINE_USER_HIDDEN, ADD_EDIT_POPUP, ADD_EDIT_POPUP_DATA, DISPUTE_POPUP, TOGGLE_CHALLENGE_MODAL, TOGGLE_ADMIN_DISPUTE_MODAL } from '@src/redux/types'
 
 
 // ** Handles Layout Content Width (full / boxed)
@@ -15,36 +15,36 @@ export const handleRTL = value => dispatch => dispatch({ type: HANDLE_RTL, value
 
 export const handleStaticPage = value => dispatch => dispatch({ type: HANDLE_STATIC_PAGE, value })
 
-export const handleOnlineUserHidden = value => dispatch => dispatch({ type: HANDLE_ONLINE_USER_HIDDEN, value})
+export const handleOnlineUserHidden = value => dispatch => dispatch({ type: HANDLE_ONLINE_USER_HIDDEN, value })
 
 export const setAddEditPopup = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: ADD_EDIT_POPUP,
         value
     })
 }
 
 export const setAddEditPopupData = value => dispatch => dispatch({
-    type:ADD_EDIT_POPUP_DATA,
+    type: ADD_EDIT_POPUP_DATA,
     value
 })
 
 export const setDisputePopup = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: DISPUTE_POPUP,
         value
     })
 }
 
 export const toggleChallengeModal = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: TOGGLE_CHALLENGE_MODAL,
         value
     })
 }
 
 export const toggleAdminDisputeModal = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: TOGGLE_ADMIN_DISPUTE_MODAL,
         value
     })

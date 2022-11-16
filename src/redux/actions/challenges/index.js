@@ -184,8 +184,8 @@ export const getPaginatedChallenges = (limit = -1, page = 0, searchString = "", 
             payload: true
         })
         const ChallengeQuery = gql`
-        query getChallenges($limit:Int, $skip: Int, $searchString: String, $type: String, $status: String, $userId: String) {
-            getChallenges(limit: $limit, skip: $skip, searchString: $searchString, type: $type, status: $status, userId: $userId) {
+        query getChallenges($limit:Int, $skip: Int, $searchString: String, $type: String,  $userId: String) {
+            getChallenges(limit: $limit, skip: $skip, searchString: $searchString, type: $type, userId: $userId) {
               statusCode
               success
               message
