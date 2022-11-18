@@ -4,7 +4,7 @@ import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
 import { showToastMessage } from '../toastNotification'
 
-const {SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, REMOVE_MESSAGE_NOTIFICATION} = require('../../types')
+const { SET_USERS_ROOMS, SET_ALL_ROOMS, DELETE_USER_ROOM, UPDATE_USER_ROOMS, SET_LOADER, SET_TOTAL, SET_CURRENT_ROOM, SET_PRIVATE_ROOM, REMOVE_MESSAGE_NOTIFICATION } = require('../../types')
 
 export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => async dispatch => {
     try {
@@ -42,7 +42,7 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
             }
           }
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: RoomQuery,
             variables: {
                 makeGlobalVisible,
@@ -50,8 +50,8 @@ export const getUsersRoom = (makeGlobalVisible = false, searchString = "") => as
             }
         })
         handleAuthResponse(data.roomByUserId)
-        const {success} = data.roomByUserId
-       if (success) {
+        const { success } = data.roomByUserId
+        if (success) {
             const roomData = getFieldValue(data, 'roomByUserId.data')
             if (!_.isEmpty(roomData)) {
                 dispatch({
@@ -94,17 +94,17 @@ export const getPaginatedRooms = (limit, page, searchString, type) => async disp
                 nextToken
             }
           }`
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: RoomQuery,
             variables: {
-                limit, 
+                limit,
                 skip: (page * limit),
                 searchString,
                 type
             }
         })
         handleAuthResponse(data.getRooms)
-        const {success} = data.getRooms
+        const { success } = data.getRooms
         if (success) {
             const rooms = getFieldValue(data, 'getRooms.data.data')
             if (!_.isEmpty(rooms)) {
@@ -167,11 +167,11 @@ export const getRooms = () => async dispatch => {
                 }
             }
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: RoomQuery
         })
         handleAuthResponse(data.rooms)
-        const {success} = data.rooms
+        const { success } = data.rooms
         if (success) {
             const roomData = getFieldValue(data, 'rooms.data')
             if (!_.isEmpty(roomData)) {
@@ -200,7 +200,7 @@ export const removeRooms = () => dispatch => {
     })
 }
 
-export const updateRoom = ({id, name, userIds, type}) => async dispatch => {
+export const updateRoom = ({ id, name, userIds, type }) => async dispatch => {
     try {
         dispatch({
             type: SET_LOADER,
@@ -229,7 +229,7 @@ export const updateRoom = ({id, name, userIds, type}) => async dispatch => {
         if (id) {
             input["_id"] = id
         }
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: addRoomMutation,
             variables: {
                 input
@@ -280,7 +280,7 @@ export const deleteRoom = (id) => async dispatch => {
                     }
                 }
             }`
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: removeRoomMutation,
             variables: {
                 input: {
@@ -308,7 +308,7 @@ export const deleteRoom = (id) => async dispatch => {
 }
 
 export const setCurrentRoom = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: SET_CURRENT_ROOM,
         value
     })
@@ -322,7 +322,7 @@ export const updateChatRooms = (room) => dispatch => {
         })
     } catch (error) {
         console.error('error: ', error)
-        
+
     }
 }
 
@@ -360,8 +360,8 @@ export const subsChatRooms = (handleChatRooms) => dispatch => {
             }
           }
         `
-        const observable = client.subscribe({query:  chatRoomsSubscription})
-        return observable.subscribe(({data}) => handleChatRooms(data.chatRoomSubs)) 
+        const observable = client.subscribe({ query: chatRoomsSubscription })
+        return observable.subscribe(({ data }) => handleChatRooms(data.chatRoomSubs))
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -390,7 +390,7 @@ export const removeRoomNotifications = (id) => async dispatch => {
                     }
                 }
             }`
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: removeRoomNotificationsMutation,
             variables: {
                 input: {

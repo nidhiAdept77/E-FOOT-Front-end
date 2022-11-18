@@ -18,10 +18,10 @@ import { FormattedMessage } from 'react-intl'
 import { Copy } from 'react-feather'
 import UserPrefrences from './components/UserPrefrences'
 import { useLocation } from 'react-router-dom'
-function Profile({loading, user, showToastMessage}) {
+function Profile({ loading, user, showToastMessage }) {
     const location = useLocation()
     const [activeTab, setActiveTab] = useState('1'),
-    [data, setData] = useState(null)
+        [data, setData] = useState(null)
 
     const toggleTab = tab => {
         setActiveTab(tab)
@@ -50,7 +50,7 @@ function Profile({loading, user, showToastMessage}) {
                                     <Row>
                                         <Col className='mb-1' md='12'>
                                             <InputGroup>
-                                                <Input 
+                                                <Input
                                                     type='url'
                                                     id='referralUrl'
                                                     name='referralUrl'
@@ -58,9 +58,9 @@ function Profile({loading, user, showToastMessage}) {
                                                     defaultValue={referralUrl}
                                                     disabled
                                                 />
-                                                <Button.Ripple outline color='primary' onClick={() => { 
-                                                navigator.clipboard.writeText(referralUrl) 
-                                                showToastMessage("copied!", "info")
+                                                <Button.Ripple outline color='primary' onClick={() => {
+                                                    navigator.clipboard.writeText(referralUrl)
+                                                    showToastMessage("copied!", "info")
                                                 }}>
                                                     <Copy size={14} />
                                                     <span className='align-middle ms-25 ml-1'>Copy</span>
@@ -97,9 +97,9 @@ function Profile({loading, user, showToastMessage}) {
                             </Card>
                         </Col>
                     </>
-                : null}
+                    : null}
             </Row>
-      </Fragment>
+        </Fragment>
     )
 }
 
@@ -112,5 +112,5 @@ const mapStateToProps = state => ({
     loading: state.auth.loading,
     user: state.auth.user
 })
-export default connect(mapStateToProps, {showToastMessage})(Profile)
+export default connect(mapStateToProps, { showToastMessage })(Profile)
 

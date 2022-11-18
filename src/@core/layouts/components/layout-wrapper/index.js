@@ -72,7 +72,7 @@ const LayoutWrapper = props => {
           [`animate__animated animate__${transition}`]: transition !== 'none' && transition.length
         })}
 
-        style={{ overflowY: "auto", height: "100vh" }}
+
       >
         <Tag
           /*eslint-disable */

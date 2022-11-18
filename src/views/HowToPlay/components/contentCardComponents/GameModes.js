@@ -9,16 +9,17 @@ export default function GameModes() {
             <Col md="6">
                 <Card>
                     <CardHeader>
-                        <CardTitle tag='h4' className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="Game Modes" />
+
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <h4 className='text-primary font-weight-bold'>
                                     What is a FREE Play 1vs1?
                                 </h4>
@@ -26,7 +27,7 @@ export default function GameModes() {
                                     Once your challenge is accepted you play the match on your Playstation 4, 5 or Xbox series.
                                 </p>
                             </Col>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <h4 className='text-primary font-weight-bold'>
                                     What is a FUT 1vs1?
                                 </h4>
@@ -34,7 +35,7 @@ export default function GameModes() {
                                     Play FIFA ultimate team mode with money at stake, win get better and earn some real money.
                                 </p>
                             </Col>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <h4 className='text-primary font-weight-bold'>
                                     What is a Real Team 1vs1?
                                 </h4>
@@ -52,7 +53,7 @@ export default function GameModes() {
                 </Card>
             </Col>
             <Col md="6" className="d-flex justify-content-center align-items-center hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
         </>
     )

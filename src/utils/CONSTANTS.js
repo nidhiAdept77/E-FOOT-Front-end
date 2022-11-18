@@ -1,9 +1,11 @@
 import env from "react-dotenv"
 export const CONSTANTS = {
-    BACKEND_BASE_URL: "http://127.0.0.1:9000",
-    BACKEND_WS_URL: "ws://127.0.0.1:9000",
-    BACKEND_BASE_URL: "http://127.0.0.1:9000",
-    BACKEND_WS_URL: "ws://127.0.0.1:9000",
+    // BACKEND_BASE_URL: "http://127.0.0.1:9000",
+    // BACKEND_WS_URL: "ws://127.0.0.1:9000",
+
+    // for build
+    BACKEND_BASE_URL: "http://13.36.254.232",
+    BACKEND_WS_URL: "ws://13.36.254.232",
     USERS_ROLES: {
         USER: "user",
         ADMIN: "admin"

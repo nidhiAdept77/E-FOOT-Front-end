@@ -1,20 +1,23 @@
 .dark-layout {
-    .blank-page-header{
+    .blank-page-header {
         background-color: $theme-dark-body-bg !important;
     }
-    .menu{
+
+    .menu {
         background-color: $theme-dark-card-bg !important;
-        .navbar{
+
+        .navbar {
             background-color: $theme-dark-card-bg !important;
         }
-        .header-navbar{
+
+        .header-navbar {
             background-color: $theme-dark-card-bg !important;
         }
     }
-    
+
 }
 
-.blank-page-header{
+.blank-page-header {
     background: #fff;
     box-shadow: $box-shadow;
     display: flex;
@@ -23,63 +26,73 @@
     position: fixed;
     z-index: 100;
     width: 100%;
+
     .brand-logo {
         display: flex;
         justify-content: center;
         margin: 1rem 0;
+
         .brand-text {
             font-weight: 600;
         }
+
         align-content: flex-start;
         justify-content: flex-start;
     }
-    .flex30{
-        flex-basis:30%;
+
+    .flex30 {
+        flex-basis: 30%;
     }
 
-    .flex70{
-        flex-basis:70%;
+    .flex70 {
+        flex-basis: 70%;
     }
+
     .header-navbar {
-        &.floating-nav{
+        &.floating-nav {
             width: calc(100vw - (100vw - 100%) - calc(#{$content-padding} * 2));
         }
     }
+
     @include media-breakpoint-down(sm) {
-        .flex30{
-            flex-basis:unset;
+        .flex30 {
+            flex-basis: unset;
             width: 60%;
         }
-    
-        .flex70{
-            flex-basis:unset;
+
+        .flex70 {
+            flex-basis: unset;
             width: 40%;
         }
-            
+
     }
 }
-.menu{
+
+.menu {
+
     // width: 100%;
-    .nav-link-style{
+    .nav-link-style {
         color: $secondary !important;
+
         &:active,
         &.active,
         &:focus,
-        &:hover{
+        &:hover {
             color: $secondary !important;
         }
     }
 
 }
 
-.blank-header-nav{
+.blank-header-nav {
     padding: 0px 2rem;
 }
-.align-center{
+
+.align-center {
     align-items: center;
 }
 
-.sweet-loading{
+.sweet-loading {
     display: flex;
     position: absolute;
     width: 100%;
@@ -89,14 +102,17 @@
     background: #807d7d75;
     z-index: 100;
 }
-.capitalize{
+
+.capitalize {
     text-transform: capitalize;
 }
-.overview{
+
+.overview {
     margin-bottom: 0;
     height: 100%
 }
-.card-margin{
+
+.card-margin {
     margin-bottom: 2rem;
 }
 
@@ -105,48 +121,54 @@
     bottom: 47px;
     width: 230px;
     right: 2rem;
-    .card-body{
+
+    .card-body {
         height: 400px;
     }
+
     svg#user-icon {
         transform: none;
     }
+
     @include media-breakpoint-down(sm) {
         bottom: 82px;
     }
 }
 
-.online-card-body{
+.online-card-body {
     overflow-y: scroll;
     max-height: 380px;
+
     // position: relative;
     .ps__rail-y {
-      z-index: 3;
+        z-index: 3;
     }
+
     .infinite-scroll-component {
         overflow: inherit !important;
     }
 }
 
-.box-shadow-google{
+.box-shadow-google {
     box-shadow: $box-shadow-google;
 }
 
-.jumbotron-container{
+.jumbotron-container {
     height: 400px;
     padding: 0 !important;
-    .jumbotron-div{
+
+    .jumbotron-div {
         color: #000 !important;
         background-repeat: no-repeat;
         background-size: 100% 400px;
         // background-position:0px -50px;
         margin-bottom: 0;
-        padding:0;
-        height:100%;
-        .jumbotron-overlay{
-            
-        }
-        .jumbotron-text{
+        padding: 0;
+        height: 100%;
+
+        .jumbotron-overlay {}
+
+        .jumbotron-text {
             width: 100%;
             height: 100%;
             display: flex;
@@ -155,42 +177,65 @@
             justify-content: center;
             color: #000;
         }
-        h1{
-            color:#000 !important;
+
+        h1 {
+            color: #000 !important;
         }
-        .jumbotron-button{
+
+        .jumbotron-button {
             display: flex;
             align-items: center;
             height: 100%;
         }
-    }    
+    }
 }
 
-body.dark-layout{
-    .jumbotron-container{
-        .jumbotron-div{
+body.dark-layout {
+    .jumbotron-container {
+        .jumbotron-div {
             color: #d0d2d6 !important;
         }
-        h1{
-            color:#d0d2d6 !important;
+
+        h1 {
+            color: #d0d2d6 !important;
         }
-        .jumbotron-text{
-            color:#d0d2d6 !important;
+
+        .jumbotron-text {
+            color: #d0d2d6 !important;
         }
     }
 }
 
-.home-page-container{
-    .jumbotron-div{
-        background-position:0px 0px;
-    }    
+.chatOwner {
+    font-size: .8rem;
 }
-.how-to-play-Jumbotron{
+
+.content-area-wrapper {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.classforoverflow {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.home-page-container {
+    .jumbotron-div {
+        background-position: 0px 0px;
+    }
+}
+
+.how-to-play-Jumbotron {
     background: url('/src/assets/images/howToPlay/goal-kepper.png');
 }
-.homepage-jumbotron{
+
+.homepage-jumbotron {
     background: url('/src/assets/images/home/home-banner.jpeg');
-    .jumbotron-overlay{
+
+    .jumbotron-overlay {
         top: 0;
         left: 0;
         width: 100%;
@@ -198,13 +243,14 @@ body.dark-layout{
         background: #ffffff2b;
     }
 }
-.newclass{
+
+.newclass {
     border-bottom: 3px solid #fff;
     border-top: 3px solid #fff;
     border-radius: 10px 10px 10px 10px;
 }
 
-.stepDiv{
+.stepDiv {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,39 +258,57 @@ body.dark-layout{
 }
 
 @media (max-width: 767px) {
-    .nav-bar-toggle-div{
+    .nav-bar-toggle-div {
         width: 100%;
         text-align: right;
     }
-    .menu{
-        .navbar-nav{
+
+    .menu {
+        .navbar-nav {
             flex-flow: column;
         }
     }
-    .hide-image{
+
+    .hide-image {
         display: none !important;
     }
 }
-.decimal-order-list{
-    ol { counter-reset: item }
-    ol > li{ display: block }
-    ol > li:before { content: counters(item, ".") " "; counter-increment: item; font-weight:bold }
-    ol > li > ol > li{
+
+.decimal-order-list {
+    ol {
+        counter-reset: item
+    }
+
+    ol>li {
+        display: block
+    }
+
+    ol>li:before {
+        content: counters(item, ".") " ";
+        counter-increment: item;
+        font-weight: bold
+    }
+
+    ol>li>ol>li {
         margin: 0.7rem 0;
     }
 }
+
 .flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.content-wrapper{
+
+.content-wrapper {
     overflow-y: hidden;
 }
-.whole-chat-app{
+
+.whole-chat-app {
     overflow: hidden !important;
 }
-.content-wrapper::-webkit-scrollbar{
+
+.content-wrapper::-webkit-scrollbar {
     display: none;
 
 }
