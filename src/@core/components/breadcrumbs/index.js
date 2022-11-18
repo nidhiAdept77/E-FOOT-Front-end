@@ -17,6 +17,7 @@ const BreadCrumbs = props => {
   // ** Props
   const { breadCrumbTitle, breadCrumbParent, breadCrumbParent2, breadCrumbParent3, breadCrumbActive } = props
 
+  // console.log(breadCrumbTitle.props.id)
   return (
     <div className='content-header row'>
       <div className='content-header-left col-12 mb-2'>
@@ -46,9 +47,9 @@ const BreadCrumbs = props => {
                   ''
                 )}
                 {breadCrumbActive && (
-                <BreadcrumbItem tag='li' active>
-                  {breadCrumbActive}
-                </BreadcrumbItem>) }
+                  <BreadcrumbItem tag='li' active>
+                    {breadCrumbActive}
+                  </BreadcrumbItem>)}
               </Breadcrumb>
             </div>
           </div>

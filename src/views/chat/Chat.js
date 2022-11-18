@@ -27,13 +27,13 @@ const ChatLog = props => {
   // ** Props & Store
   const { handleUserSidebarRight, handleSidebar, userSidebarLeft } = props
 
-  let {currentChatMessages} = useSelector(state => state.chats)
+  let { currentChatMessages } = useSelector(state => state.chats)
   currentChatMessages = currentChatMessages ? currentChatMessages : []
 
-  let {currentRoom} = useSelector(state => state.rooms)
+  let { currentRoom } = useSelector(state => state.rooms)
   currentRoom = currentRoom ? currentRoom : {}
-  
-  const {user} = useSelector(state => state.auth)
+
+  const { user } = useSelector(state => state.auth)
 
   // ** Refs & Dispatch
   const chatArea = useRef(null)
@@ -62,8 +62,9 @@ const ChatLog = props => {
 
   // ** Renders user chat
   const renderChats = () => {
+    const space = " "
     return currentChatMessages.length ? currentChatMessages.map((item, index) => {
-        return (
+      return (
         <div
           key={index}
           className={classnames('chat', {
@@ -75,13 +76,18 @@ const ChatLog = props => {
               className='box-shadow-1 cursor-pointer'
               img={item.user.profileImage}
             />
+
           </div>
 
           <div className='chat-body'>
-              <div key={item._id} className='chat-content'>
-                <p>{item.message}</p>
-                <p className="chat-time">{getChatTime(new Date(parseInt(item.createdAt)))}</p>
-              </div>
+
+            <div key={item._id} className='chat-content '>
+
+              <b className='chatOwner'>{item.user.firstName + space + item.user.lastName}</b>
+
+              <p>{item.message}</p>
+              <p className="chat-time">{getChatTime(new Date(parseInt(item.createdAt)))}</p>
+            </div>
           </div>
         </div>
       )
@@ -116,17 +122,17 @@ const ChatLog = props => {
 
   // ** ChatWrapper tag based on chat's length
   const ChatWrapper = currentChatMessages.length ? PerfectScrollbar : 'div'
-  
+
   const { type, users } = currentRoom
   let { name, profilePicture: profileImage } = currentRoom
   if (type === "direct") {
-    const {firstName, lastName, profilePicture} = users.find(u => u._id !== user._id)
+    const { firstName, lastName, profilePicture } = users.find(u => u._id !== user._id)
     name = `${firstName} ${lastName}`
     profileImage = profilePicture
   }
 
   return (
-    <div className='chat-app-window'>
+    <div className='chat-app-window' >
       <div className={classnames('start-chat-area', { 'd-none': Object.keys(currentRoom).length })}>
         <div className='start-chat-icon mb-1'>
           <MessageSquare />
@@ -138,8 +144,8 @@ const ChatLog = props => {
       {Object.keys(currentRoom).length ? (
         <div className={classnames('active-chat', { 'd-none': Object.keys(currentRoom).length === 0 })}>
           <div className='chat-navbar'>
-            <header className='chat-header'>
-              <div className='d-flex align-items-center'>
+            <header className='chat-header '>
+              <div className='d-flex align-items-center w-100'>
                 <div className='sidebar-toggle d-block d-lg-none mr-1' onClick={handleSidebar}>
                   <Menu size={21} />
                 </div>
@@ -147,7 +153,7 @@ const ChatLog = props => {
                   <Avatar
                     className="avatar-border user-profile-toggle m-0 mr-1"
                     img={profileImage}
-                    onClick={() => handleAvatarClick({currentRoom})}
+                    onClick={() => handleAvatarClick({ currentRoom })}
                   />
                 ) : (
                   <Avatar
@@ -160,6 +166,11 @@ const ChatLog = props => {
                   />
                 )}
                 <h6 className='mb-0'>{name}</h6>
+                {type === "direct" ? (
+                  <></>
+                ) : (
+                  <img className='ms-auto round ml-auto' title='This is room' src="https://www.shareicon.net/data/512x512/2016/06/30/788858_group_512x512.png" height="25" width="25" />
+                )}
               </div>
             </header>
           </div>

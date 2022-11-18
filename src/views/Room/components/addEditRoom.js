@@ -25,9 +25,11 @@ import { showToastMessage } from "../../../redux/actions/toastNotification"
 const AddEditRoom = () => {
   const { allUsers } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const userId = useSelector((state) => state.auth.user)
   const { addEditPopup, addEditPopupData } = useSelector((state) => state.layout)
+
   const [selectedUsers, setSelectedUsers] = useState([])
-  const {_id} = addEditPopupData
+  const { _id } = addEditPopupData
 
   useEffect(() => {
     const userList = []
@@ -60,7 +62,7 @@ const AddEditRoom = () => {
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={e => { dispatch(setAddEditPopup(false)) }} />
   )
-  
+
   const roomSchema = yup.object().shape({
     name: yup.string().required()
     //selectedUsers: yup.array().required('Please select users')
@@ -69,25 +71,35 @@ const AddEditRoom = () => {
   const { register, errors, handleSubmit, setValue, control } = useForm({ mode: 'onBlur', resolver: yupResolver(roomSchema) })
 
   const onSubmit = async (data) => {
-    const userIds = selectedUsers.map(user => user.value)
-    data = {...data, userIds, id: _id || "", type: 'private'}
+
+    const myId = selectedUsers.map(user => user.value)
+
+    const mx = myId
+    const my = userId._id
+
+    const last = mx.concat(my)
+    // const final = last.pop()
+
+    const userIds = last.slice(1, 10)
+
+    data = { ...data, userIds, id: _id || "", type: 'private' }
     if (_.isEmpty(errors)) {
-        try {
-            dispatch(updateRoom(data))
-            dispatch(setAddEditPopup(false))
-            // const result = await dispatch(updateRoom(data))
-            // if (result.success) {
-            //   showToastMessage(result.message, 'success')
-            //   dispatch(setAddEditPopup(false))
-            // } else {
-            //     showToastMessage(result.message, 'error')
-            // }
-        } catch (error) {
-            console.error('error: ', error)
-            showToastMessage(error.message, 'error')
-        }
+      try {
+        dispatch(updateRoom(data))
+        dispatch(setAddEditPopup(false))
+        // const result = await dispatch(updateRoom(data))
+        // if (result.success) {
+        //   showToastMessage(result.message, 'success')
+        //   dispatch(setAddEditPopup(false))
+        // } else {
+        //     showToastMessage(result.message, 'error')
+        // }
+      } catch (error) {
+        console.error('error: ', error)
+        showToastMessage(error.message, 'error')
+      }
     }
-}
+  }
 
   const handleModal = () => {
     dispatch(setAddEditPopup(!addEditPopup))
@@ -147,10 +159,10 @@ const AddEditRoom = () => {
               })}
               defaultValue={selectedUsers}
               classNamePrefix='select'
-              onChange={(value) => setSelectedUsers(value)} 
+              onChange={(value) => setSelectedUsers(value)}
               innerRef={register({ required: true })}
-              className={classnames('react-select', { 'is-invalid': errors.selectedUsers })}  
-              name="select-users"     
+              className={classnames('react-select', { 'is-invalid': errors.selectedUsers })}
+              name="select-users"
             />
             {errors && errors.selectedUsers && <FormFeedback>{errors.selectedUsers.message}</FormFeedback>}
           </FormGroup>

@@ -18,9 +18,9 @@ import LoaderComponent from '../../components/Loader'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
 import Select from 'react-select'
 
-import {registerUser} from '../../../redux/actions/auth'
+import { registerUser } from '../../../redux/actions/auth'
 const Register = (props) => {
-  const {showToastMessage, loading, registerUser} = props
+  const { showToastMessage, loading, registerUser } = props
   const [skin, setSkin] = useSkin()
   const history = useHistory()
   // const { register, errors, handleSubmit, trigger } = useForm()
@@ -55,17 +55,17 @@ const Register = (props) => {
     firstName: yup.string().required(),
     lastName: yup.string().required()
   })
-  
+
   const { register, errors, handleSubmit, trigger } = useForm({ mode: 'onBlur', resolver: yupResolver(LoginSchema) })
-  
+
   const onSubmit = async data => {
     try {
       const currentUrl = window.location.href
       const url = new URL(currentUrl)
       const referralId = url.searchParams.get("referral-id")
-      data = { ...data, rank: selectedRank.value}
+      data = { ...data, rank: selectedRank.value }
       if (referralId) {
-        data = {...data, referralId}
+        data = { ...data, referralId }
       }
       const result = await registerUser(data)
       if (result) {
@@ -78,9 +78,9 @@ const Register = (props) => {
       showToastMessage("User Registration Failed", "error")
     }
   }
-  
+
   return (
-    <div className='auth-wrapper auth-v2'>
+    <div className='auth-wrapper classforoverflow auth-v2' >
       <LoaderComponent loading={loading} />
       <Row className='auth-inner m-0'>
         <Col className='d-none d-lg-flex align-items-center' lg='8' sm='12'>
@@ -183,13 +183,13 @@ const Register = (props) => {
                   className='react-select'
                   classNamePrefix='select'
                   options={CONSTANTS.GAME_RANK}
-                  onChange={(value) => { setSelectedRank(value) } }
+                  onChange={(value) => { setSelectedRank(value) }}
                   defaultValue={CONSTANTS.GAME_RANK[0]}
                   value={selectedRank}
                   placeholder="Select WL Rank"
                   innerRef={register({ required: true })}
                 />
-                  {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
+                {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
               </FormGroup>
               <Button.Ripple type='submit' block color='primary'>
                 Sign up
@@ -214,6 +214,6 @@ Register.propTypes = {
   loading: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
-    loading: state.auth.loading
+  loading: state.auth.loading
 })
-export default connect(mapStateToProps, {showToastMessage, registerUser})(Register)
+export default connect(mapStateToProps, { showToastMessage, registerUser })(Register)

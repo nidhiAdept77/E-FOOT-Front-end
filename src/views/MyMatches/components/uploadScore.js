@@ -20,16 +20,16 @@ import Alert from "reactstrap/lib/Alert"
 
 const UploadScore = () => {
   const dispatch = useDispatch()
-  
-  const { addEditPopup, addEditPopupData } = useSelector((state) => state.layout)
-  const {user} = useSelector(state => state.auth)
 
-  const {_id} = addEditPopupData
+  const { addEditPopup, addEditPopupData } = useSelector((state) => state.layout)
+  const { user } = useSelector(state => state.auth)
+
+  const { _id } = addEditPopupData
   const [disabled, setDisabled] = useState(false)
   const [scores, setScores] = useState({})
-  
+
   useEffect(() => {
-    const {challenger, challengerScore, opponentScore, acceptor} = addEditPopupData
+    const { challenger, challengerScore, opponentScore, acceptor } = addEditPopupData
     if (challenger === user._id && challengerScore) {
       setDisabled(true)
       setScores(challengerScore)
@@ -46,27 +46,28 @@ const UploadScore = () => {
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={e => { dispatch(setAddEditPopup(false)) }} />
   )
-  
+
   const scoreSchema = yup.object().shape({
     yourScore: yup.number().required(),
     opponentScore: yup.number().required()
   })
 
   const { register, errors, handleSubmit, setValue, control } = useForm({ mode: 'onBlur', resolver: yupResolver(scoreSchema) })
-  
+
   const handleModal = () => {
     dispatch(setAddEditPopup(!addEditPopup))
   }
 
   const onSubmit = async (data) => {
-    const {challenger} = addEditPopupData
+    const { challenger } = addEditPopupData
     const scores = {
       my: data.yourScore,
       opponent: data.opponentScore
     }
     if (_.isEmpty(errors) && _id) {
+      location.reload()
       dispatch(updateScore(_id, {
-        [(challenger === user._id) ? "challengerScore" : "opponentScore"] : scores
+        [(challenger === user._id) ? "challengerScore" : "opponentScore"]: scores
       }))
       handleModal()
       dispatch(setAddEditPopupData({}))

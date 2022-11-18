@@ -12,14 +12,14 @@ import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Butto
 import { Inbox, Power, User } from 'react-feather'
 import { isUserLoggedIn } from '@src/utils'
 import { showToastMessage } from '../../../../redux/actions/toastNotification'
-import {getUserDetails, logoutUser} from '../../../../redux/actions/auth'
+import { getUserDetails, logoutUser } from '../../../../redux/actions/auth'
 
 const UserDropdown = (props) => {
 
   // ** State
   // const [userData, setUserData] = useState(null)
   const [isLoggedInUser, setUserLoggedIn] = useState(false)
-  const {showToastMessage, getUserDetails, user, logoutUser} = props
+  const { showToastMessage, getUserDetails, user, logoutUser } = props
   const history = useHistory()
   useEffect(async () => {
     // const userData = localStorage.getItem('userData')
@@ -41,33 +41,33 @@ const UserDropdown = (props) => {
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       {isLoggedInUser && !_.isEmpty(user) ? <>
-          <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
-            <div className='user-nav d-sm-flex d-none'>
-              <span className='user-name font-weight-bold capitalize w-100'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
-              <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles.join(", ")) || 'User'}</span>
-            </div>
-            {user.profileImage ? 
-              <Avatar size='sm' img={user.profileImage}  imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
+        <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
+          <div className='user-nav d-sm-flex d-none'>
+            <span className='user-name font-weight-bold capitalize w-100'>{!_.isEmpty(user) ? `${user.firstName} ${user.lastName}` : "John Doe"}</span>
+            <span className='user-status capitalize'>{(!_.isEmpty(user) && user.roles.join(", ")) || 'User'}</span>
+          </div>
+          {user.profileImage ?
+            <Avatar size='sm' img={user.profileImage} imgHeight='40' imgWidth='40' status='online'> `${user.firstName.charAt(0)} ${user.lastName.charAt(0)}` </Avatar>
             :
-              <Avatar size='sm' color={user.profileBg}  imgHeight='40' imgWidth='40' status='online' content={`${user.firstName} ${user.lastName}`} initials />
-            }
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem tag={Link} to='/dashboard'>
-              <Inbox size={14} className='mr-75' />
-              <span className='align-middle'>Dashbard</span>
-            </DropdownItem>
-            <DropdownItem tag={Link} to='/profile'>
-              <User size={14} className='mr-75' />
-              <span className='align-middle'>Profile</span>
-            </DropdownItem>
-            <DropdownItem tag={Link} to="#" onClick={e => handleLogout(e)}>
-              <Power size={14} className='mr-75' />
-              <span className='align-middle'>Logout</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </>
-      : <div>
+            <Avatar size='sm' color={user.profileBg} imgHeight='40' imgWidth='40' status='online' content={`${user.firstName} ${user.lastName}`} initials />
+          }
+        </DropdownToggle>
+        <DropdownMenu right>
+          <DropdownItem tag={Link} to='/dashboard'>
+            <Inbox size={14} className='mr-75' />
+            <span className='align-middle'>Dashbard</span>
+          </DropdownItem>
+          <DropdownItem tag={Link} to='/profile'>
+            <User size={14} className='mr-75' />
+            <span className='align-middle'>Profile</span>
+          </DropdownItem>
+          <DropdownItem tag={Link} to="#" onClick={e => handleLogout(e)}>
+            <Power size={14} className='mr-75' />
+            <span className='align-middle'>Logout</span>
+          </DropdownItem>
+        </DropdownMenu>
+      </>
+        : <div>
           <Button color='gradient-primary' tag={Link} to='/login' block>
             Login
           </Button>
@@ -86,4 +86,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, {showToastMessage, getUserDetails, logoutUser})(UserDropdown)
+export default connect(mapStateToProps, { showToastMessage, getUserDetails, logoutUser })(UserDropdown)

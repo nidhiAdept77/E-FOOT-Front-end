@@ -20,27 +20,27 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, MessageSquare } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge } from 'reactstrap'
 import _ from 'underscore'
-import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage, subsLastMessage, updateLastChatMessage, subsMessageNotifications, setMesageNotifications} from '../../redux/actions/chats'
+import { removeCurrentChatMessages, setCurrentChatMessages, subsCurrentSeletedChat, updateCurrentChatMessage, subsLastMessage, updateLastChatMessage, subsMessageNotifications, setMesageNotifications } from '../../redux/actions/chats'
 import { setCurrentRoom, updateRoom, removeRoomNotifications } from '../../redux/actions/rooms'
 
 let currentChatSub, chatRoomsSubs, lastMessageSubs, notificationsSubs
 const SidebarLeft = props => {
   // ** Props & Store
   const { store, sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft } = props
-  const {rooms, currentRoom} = useSelector(state => state.rooms)
-  const {user, allUsers, onlineUsers} = useSelector(state => state.auth)
-  
+  const { rooms, currentRoom } = useSelector(state => state.rooms)
+  const { user, allUsers, onlineUsers } = useSelector(state => state.auth)
+
   // ** Dispatch
   const dispatch = useDispatch()
-  
+
   // ** State
   const [active, setActive] = useState({})
   const [chatType, setChatType] = useState({})
   const [searchValue, setSearchValue] = useState("")
   const [roomId, setRoomId] = useState(null)
-  
+
   dispatch(handleOnlineUserHidden(false))
-  
+
   // to clear active room notifications
   window.setInterval(() => {
     if (active?.id === roomId && currentRoom?.notifications?.length) {
@@ -58,19 +58,19 @@ const SidebarLeft = props => {
       dispatch(updateChatRooms(room))
     }))
 
-  // useEffect(() => {
-  //   if (lastMessageSubs && lastMessageSubs.subscription) {
-  //     lastMessageSubs.subscription.unsubscribe()
-  //   }
-  //   lastMessageSubs = dispatch(subsLastMessage(message => {
-  //     dispatch(updateLastChatMessage(message))
-  //   }))
-  //   return () => {
-  //     if (lastMessageSubs && lastMessageSubs.subscription) {
-  //       lastMessageSubs.subscription.unsubscribe()
-  //     }
-  //   }
-  // }, [])
+    // useEffect(() => {
+    //   if (lastMessageSubs && lastMessageSubs.subscription) {
+    //     lastMessageSubs.subscription.unsubscribe()
+    //   }
+    //   lastMessageSubs = dispatch(subsLastMessage(message => {
+    //     dispatch(updateLastChatMessage(message))
+    //   }))
+    //   return () => {
+    //     if (lastMessageSubs && lastMessageSubs.subscription) {
+    //       lastMessageSubs.subscription.unsubscribe()
+    //     }
+    //   }
+    // }, [])
 
     if (notificationsSubs && notificationsSubs.subscription) {
       notificationsSubs.subscription.unsubscribe()
@@ -94,10 +94,10 @@ const SidebarLeft = props => {
       if (notificationsSubs && notificationsSubs.subscription) {
         notificationsSubs.subscription.unsubscribe()
       }
-      
+
     }
   }, [])
-  
+
   useEffect(() => {
     dispatch(getUsersRoom(false, searchValue))
     return () => {
@@ -122,7 +122,7 @@ const SidebarLeft = props => {
       }
     }
   }, [currentRoom])
-  
+
   useEffect(() => {
     if (roomId) {
       dispatch(setCurrentChatMessages(roomId))
@@ -141,7 +141,7 @@ const SidebarLeft = props => {
       }
     }
   }, [roomId])
-  
+
   // ** Handles User Chat Click
   const handleUserClick = (type, id, name) => {
     setChatType(type)
@@ -170,10 +170,11 @@ const SidebarLeft = props => {
   const renderRooms = () => {
     if (rooms && rooms.length) {
       return rooms.map(item => {
-        const {  _id, lastMessage, createdAt: roomCreatedAt, profileBg, notifications, type, users } = item
+        const { _id, lastMessage, createdAt: roomCreatedAt, profileBg, notifications, type, users } = item
         let { name, profilePicture: profileImage } = item
+        // alert(type)
         if (type === "direct") {
-          const {firstName, lastName, profilePicture} = users.find(u => u._id !== user._id)
+          const { firstName, lastName, profilePicture } = users.find(u => u._id !== user._id)
           name = `${firstName} ${lastName}`
           profileImage = profilePicture
         }
@@ -189,35 +190,58 @@ const SidebarLeft = props => {
             onClick={() => handleUserClick("room", _id)}
           >
             {type === "direct" ? (
-              <Avatar className="custom-size-avatar" img={profileImage} />
+              <>
+                <Avatar className="custom-size-avatar" img={profileImage} />
+
+
+              </>
+
             ) : (
-              <Avatar
-                className="custom-size-avatar"
-                color={profileBg}
-                content={name}
-                initials
-              />
+              <>
+                <Avatar
+                  className="custom-size-avatar"
+                  color={profileBg}
+                  content={name}
+                  initials
+                />
+
+              </>
+
+
             )}
-            <div className="chat-info flex-grow-1">
-              <h5 className="mb-0">{name}</h5>
+            <div className="chat-info mt-auto mb-auto flex-grow-1">
+              <h5 className="mb-0 " >{name}</h5>
               {message && (
                 <CardText className="text-truncate">
                   {message}
                 </CardText>
               )}
             </div>
+            {type === "direct" ? (
+              <>
+
+              </>
+
+            ) : (
+              <>
+
+                <img className='ms-auto round mr-1 border-0 mt-auto' title='This is room' src="https://www.shareicon.net/data/512x512/2016/06/30/788858_group_512x512.png" height="25" width="25" />
+              </>
+
+            )}
             <div className="chat-meta text-nowrap">
-              {currentUserNotifications?.messageIds.length && !(active.type === "room" && active.id === _id) 
-              ? (
-                <Badge className="float-right" color="danger" pill>
-                  {currentUserNotifications.messageIds.length}
-                </Badge>
-              ) 
-              : time && 
-              <small className="float-right mb-25 chat-time ml-25">
-              {time}
-              </small>}
+              {currentUserNotifications?.messageIds.length && !(active.type === "room" && active.id === _id)
+                ? (
+                  <Badge className="float-right" color="danger" pill>
+                    {currentUserNotifications.messageIds.length}
+                  </Badge>
+                )
+                : time &&
+                <small className="float-right mb-25 chat-time ml-25">
+                  {time}
+                </small>}
             </div>
+
           </li>
         )
       })
@@ -229,14 +253,14 @@ const SidebarLeft = props => {
       )
     }
   }
-  
+
   // ** Renders Rooms
   const renderUsers = () => {
     const onlineUsersIds = _.pluck(onlineUsers, "_id")
     const allUsersExceptLoggedUser = allUsers.filter(item => item._id !== user._id)
     if (allUsersExceptLoggedUser?.length) {
       return allUsersExceptLoggedUser.map(item => {
-        const {  _id, firstName, lastName, profileImage } = item
+        const { _id, firstName, lastName, profileImage } = item
         return (
           <li
             className={classnames({
@@ -278,7 +302,7 @@ const SidebarLeft = props => {
             show: userSidebarLeft
           })}
         >
-          <header className='chat-profile-header' style={{height: "52px"}}>
+          <header className='chat-profile-header' style={{ height: "52px" }}>
             <h5 className='mt-2'>  <MessageSquare className='mr-75' size='18' />Start New Chat</h5>
             <div className='close-icon' onClick={handleUserSidebarLeft}>
               <X size={14} />
