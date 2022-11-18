@@ -65,12 +65,15 @@ const UploadScore = () => {
       opponent: data.opponentScore
     }
     if (_.isEmpty(errors) && _id) {
-      location.reload()
+
       dispatch(updateScore(_id, {
         [(challenger === user._id) ? "challengerScore" : "opponentScore"]: scores
       }))
       handleModal()
       dispatch(setAddEditPopupData({}))
+      setTimeout(() => {
+        location.reload()
+      }, 1000)
     } else {
       dispatch(showToastMessage("Please contact admin if this error persist!", "error"))
     }
