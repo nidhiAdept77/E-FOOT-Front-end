@@ -48,16 +48,16 @@ ReactDOM.render(
         <ThemeContext>
           <IntlProviderWrapper>
             <LazyApp />
-            <ToastContainer 
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover />
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover />
           </IntlProviderWrapper>
         </ThemeContext>
       </AbilityContext.Provider>
