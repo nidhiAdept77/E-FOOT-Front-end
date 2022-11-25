@@ -127,9 +127,8 @@ const MyMatches = props => {
     }
 
     const NavItems = (navs) => {
-
-        return navs.map((nav, index) => (
-            <NavItem key={index} >
+        return navs.map(nav => (
+            <NavItem>
 
                 <NavLink
                     active={pending === nav}
@@ -144,7 +143,6 @@ const MyMatches = props => {
                     {nav}{
                         nav === "pending" ? <Badge color="primary" className='badge-sm  ml-1' pill>{pendingChallangeCount}</Badge> : ""
                     }
-
                 </NavLink>
             </NavItem>
         ))

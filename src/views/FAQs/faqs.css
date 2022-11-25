@@ -1,0 +1,23 @@
+/* .acc_faq {
+    border: .5px solid #b4b7bd;
+    border-radius: 10px;
+} */
+
+.card_faq {
+    border-radius: 0px;
+    border: 1px solid #b4b7bd
+}
+
+.faq_header {
+    border: 1px solid #b4b7bd;
+    border-radius: 10px;
+}
+
+[dir] .accordion>.card:not(:last-of-type) {
+    border: 1px solid #b4b7bd;
+}
+
+[dir] .accordion>.card>.card-header {
+
+    padding-bottom: 2px;
+}

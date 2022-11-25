@@ -1,4 +1,4 @@
-import { CreditCard, Crosshair, Inbox, LifeBuoy, List, Mail, Radio, Server, Shield, Trello, User, UserPlus, Users } from 'react-feather'
+import { CreditCard, Crosshair, Inbox, LifeBuoy, List, Mail, Radio, Server, Shield, Trello, User, UserPlus, Users, HelpCircle } from 'react-feather'
 import { AiOutlineHome } from "react-icons/ai"
 import { RiChatSmile3Line } from "react-icons/ri"
 
@@ -74,5 +74,12 @@ export default [
     icon: <Server />,
     navLink: '/how-to-play'
     // navLink: '/#'
+  },
+  {
+    id: 'FAQs',
+    title: 'FAQs',
+    icon: <HelpCircle />,
+    navLink: '/faqs'
+    // navLink: '/#'  
   }
 ]

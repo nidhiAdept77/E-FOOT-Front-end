@@ -65,23 +65,36 @@ export default function GamesComponent() {
 
   const renderGames = () => {
     return challenges?.map(challenge => {
+      let showchallengeclass
+      challenge.status === "active" ? showchallengeclass = "showChal" : showchallengeclass = "hideChal"
+
+      // if (challenge.status === "pending") {
+      //   let showchallengeclass = "nothing"
+      //   showchallengeclass === "showchallenge"
+      // } else {
+      //   showchallengeclass === "hidechallenge"
+      // }
+
+      // challenge.type
       return (
-        <div key={challenge._id} className='employee-task d-flex justify-content-between align-items-center' id={challenge._id}>
-          <Media>
-            <Avatar imgClassName='rounded' className='mr-75' img={challenge.gameImage} imgHeight='120' imgWidth='120' />
-            <Media className='my-auto' body>
-              <h5 className='mb-0'>{challenge.gameName}</h5>
-              <h6 className='mb-0'>By: {challenge.challengerName}</h6>
-              <small>{challenge.consoleName}</small>
+        <div className={showchallengeclass}>
+          <div key={challenge._id} className='employee-task d-flex justify-content-between align-items-center' id={challenge._id}>
+            <Media className="challeng_section">
+              <Avatar imgClassName='rounded' className='mr-75 challenge_img' img={challenge.gameImage} imgHeight='120' imgWidth='120' />
+              <Media className='my-auto' body>
+                <h5 className='mb-0'>{challenge.gameName}</h5>
+                <h6 className='mb-0'>By: {challenge.challengerName}</h6>
+                <small>{challenge.consoleName}</small>
+              </Media>
             </Media>
-          </Media>
-          <div className='d-flex align-items-center'>
-            <small className='text-muted mr-75'>{getFormattedDateTime(challenge.createdAt)}</small>
-            <small className='text-muted mr-75'>
-              <Button.Ripple className="mr-1" color="primary" block onClick={() => handleClick(challenge)}>
-                Accept
-              </Button.Ripple>
-            </small>
+            <div className='d-flex align-items-center btns_for_public'>
+              <small className='text-muted challenge_time mr-75'>{getFormattedDateTime(challenge.createdAt)}</small>
+              <small className='text-muted mr-75'>
+                <Button.Ripple className="mr-1" color="primary" block onClick={() => handleClick(challenge)}>
+                  Accept
+                </Button.Ripple>
+              </small>
+            </div>
           </div>
         </div>
       )
@@ -97,8 +110,8 @@ export default function GamesComponent() {
           <h5 className='mb-0'><FormattedMessage id="Game Available" /></h5>
         </div>
       </CardHeader>
-      <div className='chat-app-window'>
-        <Card className='card-employee-task'>
+      <div className='chat-app-window '>
+        <Card className='card-employee-task challenge_card'>
           <CardBody>{renderGames()}</CardBody>
         </Card>
       </div>
