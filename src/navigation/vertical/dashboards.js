@@ -74,12 +74,13 @@ export default [
     icon: <Server />,
     navLink: '/how-to-play'
     // navLink: '/#'
-  },
-  {
-    id: 'FAQs',
-    title: 'FAQs',
-    icon: <HelpCircle />,
-    navLink: '/faqs'
-    // navLink: '/#'  
   }
+  // ,
+  // {
+  //   id: 'FAQs',
+  //   title: 'FAQs',
+  //   icon: <HelpCircle />,
+  //   navLink: '/faqs'
+  //   // navLink: '/#'  
+  // }
 ]

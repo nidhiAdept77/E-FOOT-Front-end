@@ -116,14 +116,14 @@ const DashboardRoutes = [
     exact: true
   },
 
-  {
-    path: '/faqs',
-    component: lazy(() => import('../../views/FAQs/Faqs')),
-    meta: {
-      authRoute: true
-    },
-    exact: true
-  },
+  // {
+  //   path: '/faqs',
+  //   component: lazy(() => import('../../views/FAQs/Faqs')),
+  //   meta: {
+  //     authRoute: true
+  //   },
+  //   exact: true
+  // },
   {
     path: '*',
     component: lazy(() => import('../../views/ErrorPage/ErrorPage')),

@@ -40,10 +40,10 @@ const NavbarUser = props => {
     }
   }
 
-  const fullScreen1 = () => {
+  // const fullScreen1 = () => {
 
-    document.documentElement.requestFullscreen()
-  }
+  //   document.documentElement.requestFullscreen()
+  // }
 
 
   const OnlineUsersToggler = () => {
@@ -67,9 +67,9 @@ const NavbarUser = props => {
         </NavLink>
       </NavItem>
       <NotificationDropdown />
-      <button className='btn btn-transparent btn-lg' style={{ color: "white" }} id='fullscreen_btn1' onClick={fullScreen1}>
+      {/* <button className='btn btn-transparent btn-lg' style={{ color: "white" }} id='fullscreen_btn1' onClick={fullScreen1}>
         <BsArrowsFullscreen />
-      </button>
+      </button> */}
 
       <IntlDropdown />
       <NavItem className='d-none d-sm-block d-lg-block'>
