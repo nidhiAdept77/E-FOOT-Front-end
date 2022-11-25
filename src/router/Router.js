@@ -20,6 +20,8 @@ import { DefaultRoute, Routes } from './routes'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
+import Tabs from '../views/Profile/components/Tabs'
+import ErrorPage from '../views/ErrorPage/ErrorPage'
 
 const Router = () => {
   // ** Hooks
@@ -79,7 +81,7 @@ const Router = () => {
        ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
        ** Then redirect user to login
        */
-       removeSigninUserDetails()
+      removeSigninUserDetails()
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.authRoute && !isUserLoggedIn()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
@@ -152,20 +154,20 @@ const Router = () => {
                             /*eslint-disable */
                             {...(route.appLayout
                               ? {
-                                  appLayout: route.appLayout
-                                }
+                                appLayout: route.appLayout
+                              }
                               : {})}
                             {...(route.meta
                               ? {
-                                  routeMeta: route.meta
-                                }
+                                routeMeta: route.meta
+                              }
                               : {})}
                             {...(route.className
                               ? {
-                                  wrapperClass: route.className
-                                }
+                                wrapperClass: route.className
+                              }
                               : {})}
-                            /*eslint-enable */
+                          /*eslint-enable */
                           >
                             <FinalRoute route={route} {...props} />
                           </LayoutWrapper>
@@ -175,6 +177,7 @@ const Router = () => {
                   />
                 )
               })}
+
             </Switch>
           </LayoutTag>
         </Route>

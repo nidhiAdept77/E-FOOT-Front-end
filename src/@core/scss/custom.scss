@@ -312,3 +312,69 @@ body.dark-layout {
     display: none;
 
 }
+
+.showChal {
+    display: block;
+    border: 1px solid #aaa;
+    margin-top: 13px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #999,
+        2px 2px 0px #999,
+        3px 3px 0px #999,
+        4px 4px 0px #999,
+        5px 5px 0px #999,
+        6px 6px 0px #999;
+}
+
+.showChal:hover {
+    transform: scale(1.02);
+    transition-duration: .6s;
+}
+
+.employee-task {
+    padding: 5px;
+}
+
+.challenge_card {
+    height: 425px;
+    overflow: auto;
+
+}
+
+@media only screen and (max-width: 600px) {
+    .employee-task {
+        flex-direction: column;
+    }
+
+    .btns_for_public {
+        flex-direction: column;
+    }
+
+    .challenge_time {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .challenge_img {
+        padding-left: 10px;
+    }
+}
+
+.hideChal {
+    display: none;
+}
+
+.card_error {
+    height: 75vh;
+
+}
+
+.error_img {
+    max-height: 300px;
+    max-width: 300px;
+
+}
+
+.form-send-message-global {
+    width: 80%;
+}

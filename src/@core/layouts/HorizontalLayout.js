@@ -107,8 +107,7 @@ const HorizontalLayout = props => {
   return (
     <div
       className={classnames(
-        `wrapper horizontal-layout horizontal-menu ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${
-          footerClasses[footerType] || 'footer-static'
+        `wrapper horizontal-layout horizontal-menu ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${footerClasses[footerType] || 'footer-static'
         } menu-expanded`
       )}
       {...(isHidden ? { 'data-col': '1-column' } : {})}
@@ -189,7 +188,7 @@ const HorizontalLayout = props => {
 
       {themeConfig.layout.scrollTop === true ? (
         <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300}  style={{ bottom: '10%', right:"10px", zIndex: 10000 }}>
+          <ScrollToTop showUnder={300} style={{ bottom: '10%', right: "10px", zIndex: 10000 }}>
             <Button className='btn-icon' color='primary'>
               <ArrowUp size={14} />
             </Button>

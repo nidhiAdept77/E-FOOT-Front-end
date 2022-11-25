@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-import {SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES, SET_LAST_MESSAGE, SET_MESSAGE_NOTIFICATION} from '../../types'
+import { SET_GLOBAL_MESSAGES, SET_LOADER, GET_USER_PROFILE, GET_CHAT_CONTACTS, SELECT_CHAT, SEND_MSG, SET_CURRENT_CHAT_MESSAGES, SET_LAST_MESSAGE, SET_MESSAGE_NOTIFICATION } from '../../types'
 
 const MessageFragment = gql`
     fragment MessageData on Message {
@@ -40,11 +40,11 @@ export const setGlobalMessages = () => async dispatch => {
             }
             ${MessageFragment}
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: globalMessageQuery
         })
         handleAuthResponse(data.getGlobalMessages)
-        const {success} = data.getGlobalMessages
+        const { success } = data.getGlobalMessages
         if (success) {
             const roomData = getFieldValue(data, 'getGlobalMessages.data')
             if (!_.isEmpty(roomData)) {
@@ -108,7 +108,7 @@ export const addMessageToChannel = (roomId, message, type = null) => async dispa
             }
         ${MessageFragment}
         `
-        const {data} = await client.mutate({
+        const { data } = await client.mutate({
             mutation: addMessageMutation,
             variables: {
                 input: {
@@ -147,8 +147,8 @@ export const getGlobalMessagesSubscriptions = (handleMessageAdded) => async disp
             }
             ${MessageFragment}
         `
-        const observable = client.subscribe({query:  gloabalMsgSubscription})
-        return observable.subscribe(({data}) =>  handleMessageAdded(data.globalMessages))
+        const observable = client.subscribe({ query: gloabalMsgSubscription })
+        return observable.subscribe(({ data }) => handleMessageAdded(data.globalMessages))
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -167,7 +167,7 @@ export const updateGlobalMessage = (messages) => dispatch => {
         })
     } catch (error) {
         console.error('error: ', error)
-        
+
     }
 }
 
@@ -190,17 +190,17 @@ export const setCurrentChatMessages = (roomId) => async dispatch => {
             }
             ${MessageFragment}
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: currentChatMessageQuery,
             variables: {
                 roomId
             }
         })
         handleAuthResponse(data.getCurrentChatMessages)
-        const {success} = data.getCurrentChatMessages
+        const { success } = data.getCurrentChatMessages
         if (success) {
             const messages = getFieldValue(data, 'getCurrentChatMessages.data')
-            if (messages && messages.length) { 
+            if (messages && messages.length) {
                 dispatch({
                     type: SET_CURRENT_CHAT_MESSAGES,
                     payload: messages
@@ -229,7 +229,7 @@ export const updateCurrentChatMessage = (messages) => dispatch => {
         })
     } catch (error) {
         console.error('error: ', error)
-        
+
     }
 }
 
@@ -274,8 +274,8 @@ export const subsCurrentSeletedChat = (handleCurrentChat) => dispatch => {
             }
             ${MessageFragment}
         `
-        const observable = client.subscribe({query:  CurrentSeletedSubscription})
-        return observable.subscribe(({data}) => handleCurrentChat(data.currentChat)) 
+        const observable = client.subscribe({ query: CurrentSeletedSubscription })
+        return observable.subscribe(({ data }) => handleCurrentChat(data.currentChat))
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -297,8 +297,8 @@ export const subsLastMessage = (handleLastMessage) => dispatch => {
             }
           }
         `
-        const observable = client.subscribe({query:  LastMessageSubscription})
-        return observable.subscribe(({data}) => handleLastMessage(data.lastMessageSubs)) 
+        const observable = client.subscribe({ query: LastMessageSubscription })
+        return observable.subscribe(({ data }) => handleLastMessage(data.lastMessageSubs))
     } catch (error) {
         console.error('error: ', error)
         dispatch({
@@ -324,8 +324,8 @@ export const subsMessageNotifications = (handleMessageNotification) => dispatch 
             }
           }
         `
-        const observable = client.subscribe({query:  messageNotificationSubscription})
-        return observable.subscribe(({data}) => handleMessageNotification(data.messageNotificationSubs)) 
+        const observable = client.subscribe({ query: messageNotificationSubscription })
+        return observable.subscribe(({ data }) => handleMessageNotification(data.messageNotificationSubs))
     } catch (error) {
         console.error('error: ', error)
         dispatch({

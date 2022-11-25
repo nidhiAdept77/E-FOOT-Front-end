@@ -16,6 +16,7 @@ footer {
 
     // heart icon scss
     span {
+
       i,
       svg {
         height: 1.51rem;
@@ -25,12 +26,15 @@ footer {
         color: $danger;
       }
     }
+
     .left-icon {
       color: $dark;
-      &:hover{
+
+      &:hover {
         color: $primary;
       }
     }
+
     .scroll-top {
       padding: 0.81rem 0.83rem;
     }
@@ -40,6 +44,7 @@ footer {
   &.footer-shadow {
     box-shadow: $box-shadow;
   }
+
   &.footer-border {
     border-top: 1px solid $border-color;
   }
@@ -59,13 +64,16 @@ footer {
       background: $white;
       box-shadow: $box-shadow;
     }
+
     // Footer Dark
     &.footer-dark {
       background: $gray-600;
       color: $white;
     }
-    .right-content{
+
+    .right-content {
       width: 60%;
+
       @include media-breakpoint-down(sm) {
         display: flex;
         width: 100%;
@@ -75,9 +83,11 @@ footer {
         margin-top: 1rem;
       }
     }
-    .left-content{
+
+    .left-content {
       width: 40%;
       text-align: right;
+
       @include media-breakpoint-down(sm) {
         display: flex;
         width: 100%;
@@ -102,6 +112,15 @@ footer {
   position: fixed;
   bottom: 9%;
   right: 10px;
+  display: none;
+  z-index: 99;
+}
+
+// scroll to Top Footer Button
+.scroll-top {
+  position: fixed;
+  bottom: 9%;
+  right: 80px;
   display: none;
   z-index: 99;
 }

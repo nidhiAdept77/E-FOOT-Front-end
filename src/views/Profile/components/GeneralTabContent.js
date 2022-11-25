@@ -7,28 +7,28 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import _ from 'underscore'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {updateUserProfile, uploadProfilePhoto} from '../../../redux/actions/auth'
-import {showToastMessage} from '../../../redux/actions/toastNotification'
+import { updateUserProfile, uploadProfilePhoto } from '../../../redux/actions/auth'
+import { showToastMessage } from '../../../redux/actions/toastNotification'
 import CountryDropdown from '../../components/CountryDropdown'
 import Flatpickr from 'react-flatpickr'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfilePhoto }) => {
   const [avatar, setAvatar] = useState(user.profileImage ? user.profileImage : 'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png')
-  
+
   const genralTabSchema = yup.object().shape({
     userName: yup.string().min(6).required(),
     firstName: yup.string().required(),
     lastName: yup.string().required()
   })
-  
+
   useEffect(() => {
     if (!_.isEmpty(user)) {
       setAvatar(user.profileImage)
     }
   }, [user])
-  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema), defaultValues: {birthDate: user.birthDate ? new Date(parseInt(user.birthDate)) : new Date()} })
-  
+  const { register, errors, handleSubmit, control, setValue } = useForm({ mode: 'onBlur', resolver: yupResolver(genralTabSchema), defaultValues: { birthDate: user.birthDate ? new Date(parseInt(user.birthDate)) : new Date() } })
+
   const onChange = e => {
     const reader = new FileReader(),
       files = e.target.files
@@ -40,7 +40,7 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
         showToastMessage(result.message, resultType)
         // setTimeout(() => {
         //   location.reload()
-        // }, 0)
+        // }, 1000)
       } catch (error) {
         console.error('error: ', error)
         showToastMessage(error.message, 'error')
@@ -48,13 +48,13 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
     }
     reader.readAsDataURL(files[0])
   }
-  
+
   const onSubmit = async data => {
     if (_.isEmpty(errors)) {
       try {
         delete data['email']
-        const {birthDate, country} = data
-        console.log(data)
+        const { birthDate, country } = data
+
         delete data['birthDate']
         delete data['country']
         const result = await updateUserProfile({
@@ -166,27 +166,27 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
             </FormGroup>
           </Col>
           <Col sm='6'>
-          <FormGroup>
-            <Label for='birth-date'>Birth Date</Label>
-            <Controller
-              name='birthDate'
-              as={Flatpickr}
-              id='birth-date'
-              control={control}
-              placeholder='Birth Date'
-              defaultValue={user.birthDate}
-              onChange={e => setValue('birthDate', e.target.value)}
-              className={classnames('form-control', {
-                'is-invalid': errors.birthDate
-              })}
-            />
+            <FormGroup>
+              <Label for='birth-date'>Birth Date</Label>
+              <Controller
+                name='birthDate'
+                as={Flatpickr}
+                id='birth-date'
+                control={control}
+                placeholder='Birth Date'
+                defaultValue={user.birthDate}
+                onChange={e => setValue('birthDate', e.target.value)}
+                className={classnames('form-control', {
+                  'is-invalid': errors.birthDate
+                })}
+              />
               {errors && errors.birthDate && <FormFeedback>{errors.birthDate.message}</FormFeedback>}
-          </FormGroup>
-        </Col>
-        <Col sm='6'>
-          <CountryDropdown errors={errors} register={register} control={control} value={user.country} setValue={setValue} />
-        </Col>
-        <Col sm='6'>
+            </FormGroup>
+          </Col>
+          <Col sm='6'>
+            <CountryDropdown errors={errors} register={register} control={control} value={user.country} setValue={setValue} />
+          </Col>
+          <Col sm='6'>
             <FormGroup>
               <Label for='instagram'>Instagram Profile</Label>
               <Controller
@@ -241,7 +241,7 @@ GeneralTabs.propTypes = {
   user: PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
-    loading: state.auth.loading,
-    user: state.auth.user
+  loading: state.auth.loading,
+  user: state.auth.user
 })
-export default connect(mapStateToProps, {uploadProfilePhoto, updateUserProfile, showToastMessage})(GeneralTabs)
+export default connect(mapStateToProps, { uploadProfilePhoto, updateUserProfile, showToastMessage })(GeneralTabs)

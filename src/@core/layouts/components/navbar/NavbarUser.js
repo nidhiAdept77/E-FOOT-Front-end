@@ -6,6 +6,8 @@ import NotificationDropdown from './NotificationDropdown'
 // ** Third Party Components
 import { Sun, Moon, Star } from 'react-feather'
 import { FaUserSlash, FaUser } from "react-icons/fa"
+import { BsArrowsFullscreen } from "react-icons/bs"
+import { AiOutlineFullscreenExit } from "react-icons/ai"
 import { NavItem, NavLink, Badge } from 'reactstrap'
 import { useEffect, useState } from 'react'
 import { CONSTANTS } from '../../../../utils/CONSTANTS'
@@ -15,9 +17,10 @@ const NavbarUser = props => {
   // ** Props
   const { skin, setSkin, showOnlineUserPopup, handleOnlineUserHidden, location, rank } = props
   const [showOnlinetoggler, setOnlineUserToggler] = useState(true)
+
   useEffect(() => {
     if (!_.isEmpty(location)) {
-      let payload =  CONSTANTS.ROUTES_HIDE_ONLINE_POPUP.findIndex(li => {
+      let payload = CONSTANTS.ROUTES_HIDE_ONLINE_POPUP.findIndex(li => {
         return li === location.pathname
       })
       payload = !(payload > -1)
@@ -37,6 +40,12 @@ const NavbarUser = props => {
     }
   }
 
+  const fullScreen1 = () => {
+
+    document.documentElement.requestFullscreen()
+  }
+
+
   const OnlineUsersToggler = () => {
     if (showOnlineUserPopup) {
       return <FaUserSlash className='ficon' onClick={() => handleOnlineUserHidden(false)} />
@@ -51,13 +60,17 @@ const NavbarUser = props => {
       <NavItem>
         <NavLink className='nav-link-style'>
           {rank && (
-            <Badge  color='light-primary' className="p-1">
+            <Badge color='light-primary' className="p-1">
               <span className='text-uppercase'>{rank}</span>
             </Badge>
           )}
         </NavLink>
       </NavItem>
       <NotificationDropdown />
+      <button className='btn btn-transparent btn-lg' style={{ color: "white" }} id='fullscreen_btn1' onClick={fullScreen1}>
+        <BsArrowsFullscreen />
+      </button>
+
       <IntlDropdown />
       <NavItem className='d-none d-sm-block d-lg-block'>
         <NavLink className='nav-link-style'>
