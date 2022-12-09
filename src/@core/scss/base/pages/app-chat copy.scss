@@ -324,7 +324,7 @@ $chat-profile-sidebar-head-height: 200px;
 
   .chat-application {
     .sidebar-content {
-      transform: translateX(-110%);
+      // transform: translateX(-110%);
       transition: all 0.3s ease-in-out;
       position: absolute;
       z-index: 5;

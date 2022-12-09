@@ -7,21 +7,21 @@ export default function GameHistory() {
     return (
         <>
             <Col md="6" className="d-flex justify-content-center align-items-center hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
             <Col md="6">
-                <Card>
+                <Card className="how_to_play">
                     <CardHeader>
-                        <CardTitle tag='h4' className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="Game History" />
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <h4 className='text-primary font-weight-bold'>
                                     How to view your recent bets and upcoming matches?
                                 </h4>

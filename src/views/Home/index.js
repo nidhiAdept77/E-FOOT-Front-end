@@ -11,13 +11,20 @@ export default function index() {
     return (
         <div>
             <Breadcrumbs breadCrumbTitle={<FormattedMessage id="Home" />} breadCrumbActive={<FormattedMessage id="Home" />} />
-            <JombotronHome />
-            <Row className='match-height'>
-                <Col md="8">
-                    <GamesComponent />
+
+            <Row>
+                <Col md="12">
+                    <JombotronHome />
                 </Col>
-                <Col md="4">
+                {/* <Col md="4">
                     <GlobalChat />
+                </Col> */}
+            </Row>
+            <Row className='match-height'>
+
+                <Col md="12">
+                    <GamesComponent />
+
                 </Col>
             </Row>
         </div>

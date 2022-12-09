@@ -121,6 +121,7 @@
     bottom: 47px;
     width: 230px;
     right: 2rem;
+    margin-right: 10vw;
 
     .card-body {
         height: 400px;
@@ -154,7 +155,7 @@
 }
 
 .jumbotron-container {
-    height: 400px;
+    height: 350px;
     padding: 0 !important;
 
     .jumbotron-div {
@@ -186,8 +187,21 @@
             display: flex;
             align-items: center;
             height: 100%;
+            margin-top: 140px !important;
+
+        }
+
+        .j_btn {
+            background-color: #007bff !important;
         }
     }
+}
+
+.inner_display_nonde {
+    height: 90vh;
+    background: url("../../assets//images/pages/efoot_register.png");
+    background-size: cover;
+    border-radius: 5px;
 }
 
 body.dark-layout {
@@ -232,15 +246,78 @@ body.dark-layout {
     background: url('/src/assets/images/howToPlay/goal-kepper.png');
 }
 
+.how-to-play-Jumbotron2 {
+    background: url('../../assets/images/howToPlay/e-foot_web01-1.png');
+    background-size: 100% 350px !important;
+    margin-bottom: 10px;
+    // border-top: 2px solid #1061ae;
+    // border-right: 2px solid #1061ae;
+    // border-left: 2px solid #1061ae;
+    // border-radius: 100px 0px;
+    // border-bottom: 20px solid #1061ae;
+}
+
+.how-to-play-Jumbotron2 {
+    margin-right: 45px !important;
+    margin-left: 15px !important;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+@media (max-width:1470px) {
+    .how-to-play-Jumbotron2 {
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: none;
+        border-radius: 0;
+    }
+}
+
+@media (max-width:767px) {
+    .how-to-play-Jumbotron2 {
+        display: none;
+    }
+
+    .jumbo_text {
+        margin-top: 5% !important;
+        background-color: #1061ae;
+        border-radius: 50px 0px;
+        margin-left: 15px;
+        margin-right: 15px;
+        width: auto;
+        padding: 5px;
+        font-size: 1.2rem !important;
+    }
+
+    .jumbotron-container-how-to-play {
+        height: 200px !important;
+        margin-bottom: 40px !important;
+        // margin-left: 70px;
+        // margin-right: 40px;
+    }
+
+    .jumbotron-container-how-to-play-h3 {
+        color: #f5f5f6;
+        font-size: 3rem;
+        margin-top: 15%;
+    }
+
+}
+
 .homepage-jumbotron {
-    background: url('/src/assets/images/home/home-banner.jpeg');
+    background: url('/src/assets/images/home/e-foot_web01.jpg');
+    // border-radius: 5px 5px 5px 5px;
+    overflow: hidden;
+    background-size: contain;
+    background-position: center;
 
     .jumbotron-overlay {
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: #ffffff2b;
+        background: rgba(0, 0, 0, .2);
     }
 }
 
@@ -257,6 +334,12 @@ body.dark-layout {
     border-right: 1px solid;
 }
 
+@media (max-width: 992px) {
+    .homepage-jumbotron {
+        background: url('/src/assets/images/home/fbpro_01.jpg');
+    }
+}
+
 @media (max-width: 767px) {
     .nav-bar-toggle-div {
         width: 100%;
@@ -268,6 +351,7 @@ body.dark-layout {
             flex-flow: column;
         }
     }
+
 
     .hide-image {
         display: none !important;
@@ -314,21 +398,44 @@ body.dark-layout {
 }
 
 .showChal {
-    display: block;
-    border: 1px solid #aaa;
-    margin-top: 13px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 0px #999,
-        2px 2px 0px #999,
-        3px 3px 0px #999,
-        4px 4px 0px #999,
-        5px 5px 0px #999,
-        6px 6px 0px #999;
+
+    // box-shadow: 1px 1px 0px #999,
+    //     2px 2px 0px #999,
+    //     3px 3px 0px #999,
+    //     4px 4px 0px #999,
+    //     5px 5px 0px #999,
+    //     6px 6px 0px #999;
+    padding: 0;
+    margin: 0;
+    width: 25%;
 }
 
-.showChal:hover {
-    transform: scale(1.02);
+@media screen and (max-width: 776px) {
+    .showChal {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .showChal {
+        width: 100%;
+    }
+}
+
+.card_game {
+    border: 1px solid #aaa;
+    border-radius: 0;
+}
+
+.btn_challeng {
+    margin-bottom: -21px !important;
+    border-radius: 0px;
+}
+
+.card_game:hover {
+    transform: scale(1.01);
     transition-duration: .6s;
+    box-shadow: rgba(107, 107, 206, 0.2) 0px 7px 29px 0px;
 }
 
 .employee-task {
@@ -376,5 +483,204 @@ body.dark-layout {
 }
 
 .form-send-message-global {
-    width: 80%;
+    width: 100%;
+    border: 1px solid #aaaa;
+    border-radius: 5px;
+}
+
+//global chat css
+
+.modal.fade .modal-bottom,
+.modal.fade .modal-left,
+.modal.fade .modal-right,
+.modal.fade .modal-top {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    width: 40vw;
+}
+
+@media (max-width: 1024px) {
+
+    .modal.fade .modal-bottom,
+    .modal.fade .modal-left,
+    .modal.fade .modal-right,
+    .modal.fade .modal-top {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        width: 80vw;
+    }
+}
+
+@media (max-width: 776px) {
+
+    .modal.fade .modal-bottom,
+    .modal.fade .modal-left,
+    .modal.fade .modal-right,
+    .modal.fade .modal-top {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        width: 100vw !important;
+    }
+}
+
+
+
+.modal.fade .modal-right {
+    left: auto !important;
+    transform: translate3d(100%, 0, 0);
+    transition: transform .3s cubic-bezier(.25, .8, .25, 1)
+}
+
+.modal.fade.show .modal-bottom,
+.modal.fade.show .modal-left,
+.modal.fade.show .modal-right,
+.modal.fade.show .modal-top {
+    transform: translate3d(0, 0, 0)
+}
+
+.w-xl {
+    width: 320px
+}
+
+.modal-content,
+.modal-footer,
+.modal-header {
+    border: none
+}
+
+@media (max-width: 992px) {
+    .display_none {
+        display: none;
+
+    }
+
+    .auth-inner {
+        margin: 0;
+
+    }
+
+    .card_register {
+        padding-top: 0;
+    }
+}
+
+.h-100 {
+    height: 100% !important
+}
+
+.list-group.no-radius .list-group-item {
+    border-radius: 0 !important
+}
+
+.btn-light {
+    color: #212529;
+    background-color: #f5f5f6;
+    border-color: #f5f5f6
+}
+
+.btn-light:hover {
+    color: #212529;
+    background-color: #e1e1e4;
+    border-color: #dadade
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-top: 1px solid rgba(160, 175, 185, .15);
+    border-bottom-right-radius: .3rem;
+    border-bottom-left-radius: .3rem
+}
+
+
+.start-chat-area {
+    background-image: url(../../assets//images//chatimages//fotball_pettern.png);
+    background-color: rgba(252, 252, 252, 0.9);
+}
+
+// .before_login {
+//     height: 300px;
+//     width: 300px;
+//     background-image: url("../../assets/images/authpagesImages/fotball_pettern2-2.png");
+//     background-size: cover;
+//     margin-left: -20vw;
+//     // background-color: black;
+
+// }
+
+// .user-chats {
+//     background-image: url("../../assets/images/chatimages/fotball_pettern.png");
+//     background-color: #1e232f !important;
+// }
+
+.change_avatar {
+    display: grid;
+    height: 80px;
+    width: 80px;
+    margin-top: -77px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.357rem;
+    place-items: center;
+
+    z-index: 1000000000;
+    position: absolute;
+    cursor: pointer;
+    // display: none;
+    // visibility: hidden;
+}
+
+.plus_icon {
+    font-size: 37px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+
+.avatar_change {
+    position: relative;
+}
+
+// .avatar_change:hover {
+//     .change_avatar {
+//         display: block;
+//     }
+// }
+
+.showme {
+    display: none;
+}
+
+.showhim:hover .showme {
+    display: block;
+}
+
+.showhim:hover .ok {
+    display: none;
+}
+
+// *::selection {
+//     color: #1061ae;
+//     background-color: #ffffff;
+
+// }
+.how_to_play {
+    border-radius: 0px 50px;
 }

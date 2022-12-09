@@ -8,18 +8,18 @@ export default function HowToPlayCard() {
     return (
         <>
             <Col md="6">
-                <Card>
+                <Card className="how_to_play">
                     <CardHeader>
-                        <CardTitle tag='h4'  className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="How To Play" />
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <p>
                                     E-FOOT.NL is the platform where you can play against other players from around the world for real money. Challenge FIFA players from anywhere in the world.
                                 </p>
@@ -33,7 +33,7 @@ export default function HowToPlayCard() {
                 </Card>
             </Col>
             <Col md="6" className="d-flex justify-content-center align-items-center hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
         </>
     )

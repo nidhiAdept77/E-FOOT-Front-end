@@ -8,21 +8,21 @@ export default function PlayNowCard() {
     return (
         <>
             <Col md="6" className="hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
             <Col md="6">
-                <Card>
+                <Card className="how_to_play">
                     <CardHeader>
-                        <CardTitle tag='h4' className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="Play Now" />
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <dl>
                                     <Row>
                                         <Col xs='3' className='text-primary stepDiv'>
@@ -31,14 +31,14 @@ export default function PlayNowCard() {
                                             </dt>
                                         </Col>
                                         <Col xs='9'>
-                                            <dd> 
+                                            <dd>
                                                 The 'Play Now' button is how you kick off all the different games and exciting new modes available on our site. Simply click 'Play Now'.
                                             </dd>
                                         </Col>
                                     </Row>
                                 </dl>
                             </Col>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <dl>
                                     <Row>
                                         <Col xs='3' className='text-primary stepDiv'>
@@ -47,14 +47,14 @@ export default function PlayNowCard() {
                                             </dt>
                                         </Col>
                                         <Col xs='9'>
-                                            <dd> 
+                                            <dd>
                                                 Choose your game mode.
                                             </dd>
                                         </Col>
                                     </Row>
                                 </dl>
                             </Col>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <dl>
                                     <Row>
                                         <Col xs='3' className='text-primary stepDiv'>
@@ -75,6 +75,6 @@ export default function PlayNowCard() {
                 </Card>
             </Col>
         </>
-        
+
     )
 }

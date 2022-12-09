@@ -40,7 +40,6 @@ const SubmitScoreButton = ({ data }) => {
         buttonsStyling: false
       })
       if (result.value) {
-        location.reload()
         dispatch(acceptChallenge({ _id: data._id, status: CONSTANTS.STATUS.ACCEPTED, opponent: data.acceptor }))
       }
     } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
@@ -54,18 +53,66 @@ const SubmitScoreButton = ({ data }) => {
       dispatch(showToastMessage("You can only upload score within 2 hours after match is accepted!", "error"))
     }
   }
+  const declineChallenge = async () => {
+    const MySwal = withReactContent(Swal)
+    const result = await MySwal.fire({
+      title: 'Are you sure?',
+      text: "You want to decline this?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ml-1'
+      },
+      buttonsStyling: false
+    })
+    if (result.value) {
+      dispatch(acceptChallenge({ _id: data._id, status: "expired", opponent: data.acceptor }))
+      alert("ok")
+    }
+  }
+  const deleteChallenge = async () => {
+    const MySwal = withReactContent(Swal)
+    const result = await MySwal.fire({
+      title: 'Are you sure?',
+      text: "You want to delete this?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-outline-danger ml-1'
+      },
+      buttonsStyling: false
+    })
+    if (result.value) {
+      dispatch(acceptChallenge({ _id: data._id, status: "expired", opponent: data.acceptor }))
+      alert("ok")
+    }
+  }
 
   const btnBasedOnStatusAndType = () => {
 
     if (data?.status === CONSTANTS.STATUS.PENDING && data?.type === CONSTANTS.STATUS.PRIVATE) {
       return (
-        <Button
-          className="btn-icon m-0"
-          color="flat-primary"
-          onClick={(e) => handleOpen(true)}
-        >
-          Accept
-        </Button>
+        <>
+          <Button
+            className="btn-icon m-0"
+            color="flat-danger"
+            onClick={declineChallenge}
+          >
+            Decline
+          </Button>
+          <Button
+            className="btn-icon m-0"
+            color="flat-primary"
+            onClick={(e) => handleOpen(true)}
+          >
+            Accept
+          </Button>
+        </>
+
       )
     } else if (data.status === CONSTANTS.STATUS.DISPUTE) {
       return (

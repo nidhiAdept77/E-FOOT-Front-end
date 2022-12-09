@@ -139,8 +139,8 @@ const BlankLayout = ({ children, ...rest }) => {
             <div className="navbar-container d-flex justify-content-between">
               <div className="blank-header-nav">
                 <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
-                  <img src={themeConfig.app.smallLogoImage} alt='logo' />
-                  <h2 className='brand-text text-primary ml-1'>E-FOOT.NL</h2>
+                  <img src="https://e-foot.nl/wp-content/uploads/2021/08/cropped-1836_FIFA-EFOOT_logo-600x466.png" width="48" height="43" alt='logo' />
+                  <h2 className='brand-text text-primary ml-1' style={{ fontSize: "1.5rem", alignSelf: 'center' }}>E-FOOT.NL</h2>
                 </Link>
               </div>
               <Menus showUserComp={true} setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} />

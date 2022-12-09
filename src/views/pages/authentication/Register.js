@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 import LoaderComponent from '../../components/Loader'
 import { CONSTANTS } from '../../../utils/CONSTANTS'
 import Select from 'react-select'
-
+import source from '../../../assets/images/pages/efoot_register.png'
 import { registerUser } from '../../../redux/actions/auth'
 const Register = (props) => {
   const { showToastMessage, loading, registerUser } = props
@@ -33,9 +33,9 @@ const Register = (props) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [terms, setTerms] = useState(false)
-
-  const illustration = skin === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg',
-    source = require(`@src/assets/images/pages/${illustration}`).default
+  // const source = require('@src/assets/images/pages/efoot_register.png')
+  // const illustration = skin === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg',
+  //   source = require(`@src/assets/images/pages/${illustration}`).default
 
   const Terms = () => {
     return (
@@ -80,131 +80,264 @@ const Register = (props) => {
   }
 
   return (
-    <div className='auth-wrapper classforoverflow auth-v2' >
-      <LoaderComponent loading={loading} />
-      <Row className='auth-inner m-0'>
-        <Col className='d-none d-lg-flex align-items-center' lg='8' sm='12'>
-          <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
-            <img className='img-fluid' src={source} alt='Login V2' />
-          </div>
-        </Col>
-        <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
-          <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
-            <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Play FIFA win Prizes 🎁
-            </CardTitle>
-            <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
-              <FormGroup>
-                <Label className='form-label' for='userName'>
-                  Username
-                </Label>
-                <Input
+    <>
+      <div className='auth-wrapper classforoverflow auth-v2'>
 
-                  type='text'
-                  value={userName}
-                  placeholder='johndoe'
-                  id='userName'
-                  name='userName'
-                  onChange={e => setUsername(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['userName'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                />
-                {errors && errors.userName && <FormFeedback>{errors.userName.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label className='form-label' for='email'>
-                  Email
-                </Label>
-                <Input
-                  type='email'
-                  value={email}
-                  id='email'
-                  name='email'
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder='john@example.com'
-                  className={classnames({ 'is-invalid': errors['email'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                />
-                {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label className='form-label' for='password'>
-                  Password
-                </Label>
-                <InputPasswordToggle
-                  value={password}
-                  id='password'
-                  name='password'
-                  className='input-group-merge'
-                  onChange={e => setPassword(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['password'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                />
-                {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label className='form-label' for='firstName'>
-                  First Name
-                </Label>
-                <Input
-                  type='text'
-                  value={firstName}
-                  placeholder='john'
-                  id='firstName'
-                  name='firstName'
-                  onChange={e => setFirstName(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['firstName'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                />
-                {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label className='form-label' for='lastName'>
-                  last Name
-                </Label>
-                <Input
-                  type='text'
-                  value={lastName}
-                  placeholder='doe'
-                  id='lastName'
-                  name='lastName'
-                  onChange={e => setLastName(e.target.value)}
-                  className={classnames({ 'is-invalid': errors['lastName'] })}
-                  innerRef={register({ required: true, validate: value => value !== '' })}
-                />
-                {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
-              </FormGroup>
-              <FormGroup>
-                <Label for='rank'>WL Rank</Label>
-                <Select
-                  theme={selectThemeColors}
-                  isClearable={false}
-                  id="rank–type"
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={CONSTANTS.GAME_RANK}
-                  onChange={(value) => { setSelectedRank(value) }}
-                  defaultValue={CONSTANTS.GAME_RANK[0]}
-                  value={selectedRank}
-                  placeholder="Select WL Rank"
-                  innerRef={register({ required: true })}
-                />
-                {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
-              </FormGroup>
-              <Button.Ripple type='submit' block color='primary'>
-                Sign up
-              </Button.Ripple>
-            </Form>
-            <p className='text-center mt-2'>
-              <span className='mr-25'>Already have an account?</span>
-              <Link to='/login'>
-                <span>Sign in instead</span>
-              </Link>
-            </p>
+        <Row className="auth-inner py-3 px-4">
+          <Col className="display_none" lg='8' sm='12'>
+            {/* <img className='img-fluid rounded' src={source} alt='Login V2' /> */}
+            <div className='inner_display_nonde'>
+
+            </div>
           </Col>
-        </Col>
-      </Row>
-    </div>
+          <Col className="card py-3 card_register " lg='4' sm='12'>
+            <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
+              <CardTitle tag='h2' className='font-weight-bold mb-1 mt-0'>
+                PLAY FIFA WIN PRIZES 🎁
+              </CardTitle>
+              <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
+                <FormGroup>
+                  <Label className='form-label' for='userName'>
+                    Username
+                  </Label>
+                  <Input
+                    type='text'
+                    value={userName}
+                    placeholder='johndoe'
+                    id='userName'
+                    name='userName'
+                    onChange={e => setUsername(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['userName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.userName && <FormFeedback>{errors.userName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='email'>
+                    Email
+                  </Label>
+                  <Input
+                    type='email'
+                    value={email}
+                    id='email'
+                    name='email'
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder='john@example.com'
+                    className={classnames({ 'is-invalid': errors['email'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='password'>
+                    Password
+                  </Label>
+                  <InputPasswordToggle
+                    value={password}
+                    id='password'
+                    name='password'
+                    className='input-group-merge'
+                    onChange={e => setPassword(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['password'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+                </FormGroup>
+                <Row>
+
+                </Row>
+                <FormGroup>
+                  <Label className='form-label' for='firstName'>
+                    First Name
+                  </Label>
+                  <Input
+                    type='text'
+                    value={firstName}
+                    placeholder='john'
+                    id='firstName'
+                    name='firstName'
+                    onChange={e => setFirstName(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['firstName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='lastName'>
+                    last Name
+                  </Label>
+                  <Input
+                    type='text'
+                    value={lastName}
+                    placeholder='doe'
+                    id='lastName'
+                    name='lastName'
+                    onChange={e => setLastName(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['lastName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label for='rank'>WL Rank</Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="rank–type"
+                    className='react-select'
+                    classNamePrefix='select'
+                    options={CONSTANTS.GAME_RANK}
+                    onChange={(value) => { setSelectedRank(value) }}
+                    defaultValue={CONSTANTS.GAME_RANK[0]}
+                    value={selectedRank}
+                    placeholder="Select WL Rank"
+                    innerRef={register({ required: true })}
+                  />
+                  {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
+                </FormGroup>
+                <Button.Ripple type='submit' block color='primary'>
+                  Sign up
+                </Button.Ripple>
+              </Form>
+              <p className='text-center mt-2'>
+                <span className='mr-25'>Already have an account?</span>
+                <Link to='/login'>
+                  <span>Sign in instead</span>
+                </Link>
+              </p>
+            </Col>
+          </Col>
+        </Row>
+      </div>
+      {/* <div className='auth-wrapper classforoverflow auth-v2' >
+        <LoaderComponent loading={loading} />
+        <Row className='auth-inner m-0'>
+          <Col className='d-none d-lg-flex align-items-center' lg='8' sm='12'>
+            <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
+              <img className='img-fluid rounded' src={source} alt='Login V2' />
+            </div>
+          </Col>
+          <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
+            <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
+              <CardTitle tag='h2' className='font-weight-bold mb-1 mt-0'>
+                Register & play FIFA win Prizes 🎁
+              </CardTitle>
+              <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
+                <FormGroup>
+                  <Label className='form-label' for='userName'>
+                    Username
+                  </Label>
+                  <Input
+
+                    type='text'
+                    value={userName}
+                    placeholder='johndoe'
+                    id='userName'
+                    name='userName'
+                    onChange={e => setUsername(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['userName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.userName && <FormFeedback>{errors.userName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='email'>
+                    Email
+                  </Label>
+                  <Input
+                    type='email'
+                    value={email}
+                    id='email'
+                    name='email'
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder='john@example.com'
+                    className={classnames({ 'is-invalid': errors['email'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='password'>
+                    Password
+                  </Label>
+                  <InputPasswordToggle
+                    value={password}
+                    id='password'
+                    name='password'
+                    className='input-group-merge'
+                    onChange={e => setPassword(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['password'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+                </FormGroup>
+                <Row>
+
+                </Row>
+                <FormGroup>
+                  <Label className='form-label' for='firstName'>
+                    First Name
+                  </Label>
+                  <Input
+                    type='text'
+                    value={firstName}
+                    placeholder='john'
+                    id='firstName'
+                    name='firstName'
+                    onChange={e => setFirstName(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['firstName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.firstName && <FormFeedback>{errors.firstName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label className='form-label' for='lastName'>
+                    last Name
+                  </Label>
+                  <Input
+                    type='text'
+                    value={lastName}
+                    placeholder='doe'
+                    id='lastName'
+                    name='lastName'
+                    onChange={e => setLastName(e.target.value)}
+                    className={classnames({ 'is-invalid': errors['lastName'] })}
+                    innerRef={register({ required: true, validate: value => value !== '' })}
+                  />
+                  {errors && errors.lastName && <FormFeedback>{errors.lastName.message}</FormFeedback>}
+                </FormGroup>
+                <FormGroup>
+                  <Label for='rank'>WL Rank</Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="rank–type"
+                    className='react-select'
+                    classNamePrefix='select'
+                    options={CONSTANTS.GAME_RANK}
+                    onChange={(value) => { setSelectedRank(value) }}
+                    defaultValue={CONSTANTS.GAME_RANK[0]}
+                    value={selectedRank}
+                    placeholder="Select WL Rank"
+                    innerRef={register({ required: true })}
+                  />
+                  {errors && errors.rank && <FormFeedback>{errors.rank.message}</FormFeedback>}
+                </FormGroup>
+                <Button.Ripple type='submit' block color='primary'>
+                  Sign up
+                </Button.Ripple>
+              </Form>
+              <p className='text-center mt-2'>
+                <span className='mr-25'>Already have an account?</span>
+                <Link to='/login'>
+                  <span>Sign in instead</span>
+                </Link>
+              </p>
+            </Col>
+          </Col>
+        </Row>
+      </div> */}
+    </>
   )
 }
 

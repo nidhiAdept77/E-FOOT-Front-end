@@ -6,19 +6,19 @@ const imageUrl = require('@src/assets/images/howToPlay/result.png').default
 export default function ReportingCard() {
     return (
         <>
-            <Col sm="6">
-                <Card>
+            <Col sm="6" >
+                <Card className="how_to_play">
                     <CardHeader>
-                        <CardTitle tag='h4'  className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="Reporting Result" />
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <p>
                                     Once the match between you and your opponent is complete click "Submit Score" to let verify your score. If your score meets the score of your opponent, the money is transferred directly to the winner's account.
                                 </p>
@@ -34,7 +34,7 @@ export default function ReportingCard() {
                 </Card>
             </Col>
             <Col sm="6" className="d-flex justify-content-center align-items-center hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
         </>
     )

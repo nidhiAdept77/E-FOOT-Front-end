@@ -74,17 +74,31 @@ const GeneralTabs = ({ user, showToastMessage, updateUserProfile, uploadProfileP
 
   return !_.isEmpty(user) ? (
     <Fragment>
-      <Media>
+      <Media style={{ display: "grid", placeItems: "center" }}>
         <Media className='mr-25' left>
-          <Media object className='rounded mr-50' src={avatar} alt='Generic placeholder image' height='80' width='80' />
+
+
+          <div class="showhim">
+            <Media object className='rounded mr-50 avatar_change' src={avatar} alt='Generic placeholder image' height='80' width='80' />
+            <div class="showme">
+              <div className='change_avatar'>
+                <Input type='file' id="inputGroupFile01" onChange={onChange} hidden accept='image/*' />
+                <label className='plus_icon' for="inputGroupFile01">+</label>
+              </div>
+
+            </div>
+
+          </div>
+
         </Media>
-        <Media className='mt-75 ml-1' body>
+        <p className='mt-2'>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+        {/* <Media className='mt-75 ml-1 p-absolute' body>
           <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
             Upload
             <Input type='file' onChange={onChange} hidden accept='image/*' />
           </Button.Ripple>
           <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
-        </Media>
+        </Media> */}
       </Media>
       <Form className='mt-2' onSubmit={handleSubmit(onSubmit)}>
         <Row>

@@ -53,6 +53,7 @@ const CardChat = ({ loading, setGlobalMessages, removeGlobalMessages, addMessage
 
       await addMessageToChannel(globalRoom2._id, msg.trim())
       setMsg('')
+      document.getElementById("btn") && document.getElementById("btn").remove()
     }
   }
 
@@ -76,7 +77,7 @@ const CardChat = ({ loading, setGlobalMessages, removeGlobalMessages, addMessage
   // console.log(tomorrow.format('YYYY-MM-DD'))
 
   return (
-    <Card className='chat-widget'>
+    <Card className='chat-widget' style={{ border: "1px solid #aaa" }}>
       <LoaderComponent loading={loading} />
       <CardHeader>
         <div className='d-flex align-items-center w-100'>
@@ -106,10 +107,10 @@ const CardChat = ({ loading, setGlobalMessages, removeGlobalMessages, addMessage
               placeholder='Press `windows + dot(•)` for emojies'
             />
           </InputGroup>
-          <Button.Ripple type="submit" className='send btn-icon' color='gradient-primary'>
+          <Button.Ripple type="submit" className='send btn-icon mr-1' color='gradient-primary'>
             <FiSend />
           </Button.Ripple>
-
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
         </Form>
       </div>

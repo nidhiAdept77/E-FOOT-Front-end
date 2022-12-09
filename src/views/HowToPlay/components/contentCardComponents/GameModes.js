@@ -7,7 +7,7 @@ export default function GameModes() {
     return (
         <>
             <Col md="6">
-                <Card>
+                <Card className="how_to_play">
                     <CardHeader>
                         <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>

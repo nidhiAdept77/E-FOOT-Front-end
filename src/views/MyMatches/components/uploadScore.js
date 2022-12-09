@@ -71,9 +71,7 @@ const UploadScore = () => {
       }))
       handleModal()
       dispatch(setAddEditPopupData({}))
-      setTimeout(() => {
-        location.reload()
-      }, 1000)
+      //here reload
     } else {
       dispatch(showToastMessage("Please contact admin if this error persist!", "error"))
     }

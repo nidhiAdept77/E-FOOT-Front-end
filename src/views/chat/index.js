@@ -27,7 +27,10 @@ const AppChat = () => {
   const [userSidebarLeft, setUserSidebarLeft] = useState(false)
 
   // ** Sidebar & overlay toggle functions
-  const handleSidebar = () => setSidebar(!sidebar)
+  const handleSidebar = () => {
+    setSidebar(!sidebar)
+
+  }
   const handleUserSidebarLeft = () => setUserSidebarLeft(!userSidebarLeft)
   const handleUserSidebarRight = () => setUserSidebarRight(!userSidebarRight)
   const handleOverlayClick = () => {

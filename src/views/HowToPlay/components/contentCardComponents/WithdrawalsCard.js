@@ -7,21 +7,21 @@ export default function WithdrawalsCard() {
     return (
         <>
             <Col sm="6" className="d-flex justify-content-center align-items-center hide-image">
-                <img src={imageUrl} className="w-100"/>
+                <img src={imageUrl} className="w-100" />
             </Col>
-            <Col sm="6">
-                <Card>
+            <Col sm="6" >
+                <Card className="how_to_play">
                     <CardHeader>
-                        <CardTitle tag='h4'  className='w-100'> 
+                        <CardTitle tag='h4' className='w-100'>
                             <h2 className='text-primary font-weight-bold'>
                                 <FormattedMessage id="Withdrawals" />
                             </h2>
                             <hr />
                         </CardTitle>
-                    </CardHeader> 
+                    </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col  lg='12'>
+                            <Col lg='12'>
                                 <p>
                                     We are continuously looking for ways to offer you convenient and cost-efficient deposit/withdrawal solutions to reduce bank charges and maximize your earnings. We are partnering with EU Banks and regulated financial institutions to offer a secure payment system that allows you to deposit in several currencies using fair and transparent conversion rates.
                                 </p>

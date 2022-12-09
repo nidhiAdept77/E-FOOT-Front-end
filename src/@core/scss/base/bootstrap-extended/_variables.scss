@@ -49,42 +49,24 @@ $container-max-widths: (
   lg: 960px,
   xl: 1140px,
   xxl: 1440px // Custom xxl size
-) !default;
+  ) !default;
 // scss-docs-end container-max-widths
 
 // stylelint-disable
 $spacer: 1rem !default;
-$spacers: () !default;
+$spacers: (
+  ) !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$spacers: map-merge(
-  (
-    0: 0,
-    25: (
-      $spacer * 0.25
-    ),
-    50: (
-      $spacer * 0.5
-    ),
-    75: (
-      $spacer * 0.75
-    ),
-    1: (
-      $spacer
-    ),
-    2: (
-      $spacer * 1.5
-    ),
-    3: (
-      $spacer * 3
-    ),
-    4: (
-      $spacer * 3.5
-    ),
-    5: (
-      $spacer * 4
-    )
-  ),
-  $spacers
+$spacers: map-merge((0: 0,
+      25: ($spacer * 0.25),
+      50: ($spacer * 0.5),
+      75: ($spacer * 0.75),
+      1: ($spacer ),
+      2: ($spacer * 1.5),
+      3: ($spacer * 3),
+      4: ($spacer * 3.5),
+      5: ($spacer * 4)),
+    $spacers
 );
 
 // Body
@@ -202,7 +184,7 @@ $btn-border-radius: 0.358rem !default;
 $btn-border-radius-lg: 0.358rem !default;
 $btn-border-radius-sm: 0.358rem !default;
 
-$btn-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, background 0s, border 0s !default;
+$btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, background 0s, border 0s !default;
 
 // Forms
 $custom-control-border-color: #d8d6de;
@@ -242,7 +224,7 @@ $input-height-sm: 2.142rem !default;
 $input-height-lg: 3.2857rem !default;
 
 $input-group-addon-bg: white !default;
-$custom-forms-transition:               background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, background 0s, border-color 0s !default;
+$custom-forms-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, background 0s, border-color 0s !default;
 
 $custom-control-indicator-border-color: $custom-control-border-color;
 

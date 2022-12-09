@@ -77,26 +77,53 @@ export default function GamesComponent() {
 
       // challenge.type
       return (
+
         <div className={showchallengeclass}>
-          <div key={challenge._id} className='employee-task d-flex justify-content-between align-items-center' id={challenge._id}>
-            <Media className="challeng_section">
-              <Avatar imgClassName='rounded' className='mr-75 challenge_img' img={challenge.gameImage} imgHeight='120' imgWidth='120' />
-              <Media className='my-auto' body>
-                <h5 className='mb-0'>{challenge.gameName}</h5>
-                <h6 className='mb-0'>By: {challenge.challengerName}</h6>
-                <small>{challenge.consoleName}</small>
-              </Media>
-            </Media>
-            <div className='d-flex align-items-center btns_for_public'>
-              <small className='text-muted challenge_time mr-75'>{getFormattedDateTime(challenge.createdAt)}</small>
-              <small className='text-muted mr-75'>
-                <Button.Ripple className="mr-1" color="primary" block onClick={() => handleClick(challenge)}>
-                  Accept
-                </Button.Ripple>
-              </small>
+
+          <div className='card m-1  p-0' id={challenge._id}>
+            <div className='card_game'>
+              <img className="card-img-top p-1" src={challenge.gameImage} height="100" alt="Card image cap" />
+              <div className="card-body">
+                <h4 className='text-center'>{challenge.gameName}</h4>
+                <hr />
+                <h6 className='mb-0'>{challenge.challengerName} |  <small>{challenge.consoleName}</small>  </h6><hr />
+
+                <small>{getFormattedDateTime(challenge.createdAt)}</small>
+              </div>
+              <div className='card-footer mb-0 p-0 '>
+                <small className='text-muted mr-75 p-0  mb-0'>
+                  <Button.Ripple className="mr-1 mb-0 btn_challeng" color="primary" block onClick={() => handleClick(challenge)}>
+                    Join Match
+                  </Button.Ripple>
+                </small>
+              </div>
             </div>
-          </div>
+
+          </div >
+
+
         </div>
+
+        // <div className={showchallengeclass}>
+        //   <div key={challenge._id} className='employee-task d-flex justify-content-between align-items-center' id={challenge._id}>
+        //     <Media className="challeng_section">
+        //       <Avatar imgClassName='rounded' className='mr-75 challenge_img' img={challenge.gameImage} imgHeight='120' imgWidth='120' />
+        //       <Media className='my-auto' body>
+        //         <h5 className='mb-0'>{challenge.gameName}</h5>
+        //         <h6 className='mb-0'>By: {challenge.challengerName}</h6>
+        //         <small>{challenge.consoleName}</small>
+        //       </Media>
+        //     </Media>
+        //     <div className='d-flex align-items-center btns_for_public'>
+        //       <small className='text-muted challenge_time mr-75'>{getFormattedDateTime(challenge.createdAt)}</small>
+        //       <small className='text-muted mr-75'>
+        //         <Button.Ripple className="mr-1" color="primary" block onClick={() => handleClick(challenge)}>
+        //           Accept
+        //         </Button.Ripple>
+        //       </small>
+        //     </div>
+        //   </div>
+        // </div>
       )
     })
   }
@@ -110,9 +137,14 @@ export default function GamesComponent() {
           <h5 className='mb-0'><FormattedMessage id="Game Available" /></h5>
         </div>
       </CardHeader>
+      <hr />
       <div className='chat-app-window '>
-        <Card className='card-employee-task challenge_card'>
-          <CardBody>{renderGames()}</CardBody>
+        <Card className='card-employee-task challenge_card '>
+          <CardBody>
+            <div className='row'>
+              {renderGames()}
+            </div>
+          </CardBody>
         </Card>
       </div>
     </Card>

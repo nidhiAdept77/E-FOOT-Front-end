@@ -11,12 +11,12 @@ export default function JombotronHome() {
     }
 
     return (
-        <Row className="mb-2">
+        <Row className="mb-2 " style={{ marginLeft: "2px", marginRight: "2px" }}>
             <Col className="jumbotron-container home-page-container">
                 <Jumbotron fluid className="jumbotron-div homepage-jumbotron">
                     <div className="jumbotron-overlay position-absolute"></div>
-                    <Container fluid className="jumbotron-button position-relative">
-                        <Button.Ripple color='gradient-success' onClick={handleClick}>Play Now</Button.Ripple>
+                    <Container fluid className="jumbotron-button position-relative ml-2 mt-5">
+                        <Button.Ripple className="m-auto mt-5 j_btn" color='gradient-primary' onClick={handleClick}>Play Now</Button.Ripple>
                     </Container>
                 </Jumbotron>
             </Col>

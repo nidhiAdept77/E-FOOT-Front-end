@@ -29,9 +29,9 @@ import { useSkin } from '@hooks/useSkin'
 import { useNavbarType } from '@hooks/useNavbarType'
 import { useFooterType } from '@hooks/useFooterType'
 import { useNavbarColor } from '@hooks/useNavbarColor'
-import {getInitOnlineUsers, removeOnlineUsers, addUserFireBaseToken, getAllOnlineUserSubs, updateOnlineUsers} from '@src/redux/actions/auth'
-import {handleOnlineUserHidden} from '@src/redux/actions/layout'
-import {getUsersRoom, removeUsersRoom} from '@src/redux/actions/rooms'
+import { getInitOnlineUsers, removeOnlineUsers, addUserFireBaseToken, getAllOnlineUserSubs, updateOnlineUsers } from '@src/redux/actions/auth'
+import { handleOnlineUserHidden } from '@src/redux/actions/layout'
+import { getUsersRoom, removeUsersRoom } from '@src/redux/actions/rooms'
 
 
 // ** Styles
@@ -41,8 +41,10 @@ import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
 // ** Custom Imports
 import firebase from '@src/firebase'
 import _ from 'underscore'
-import {CONSTANTS} from '@src/utils/CONSTANTS'
+import { CONSTANTS } from '@src/utils/CONSTANTS'
 import OnlineUserPopUp from './components/OnlineUserPopUp'
+import { RiChatSmile3Line } from 'react-icons/ri'
+import GlobalChat from '../../views/Home/components/GlobalChat.js'
 
 const VerticalLayout = props => {
   // ** Props
@@ -92,7 +94,7 @@ const VerticalLayout = props => {
       setMenuVisibility(false)
     }
     if (!_.isEmpty(location)) {
-      let payload =  CONSTANTS.ROUTES_HIDE_ONLINE_POPUP.findIndex(li => {
+      let payload = CONSTANTS.ROUTES_HIDE_ONLINE_POPUP.findIndex(li => {
         return li === location.pathname
       })
       payload = !(payload > -1)
@@ -139,7 +141,7 @@ const VerticalLayout = props => {
         const messaging = firebase.messaging()
         const token = await messaging.getToken()
         if (token) {
-          const {firebase} = user
+          const { firebase } = user
           if (firebase && firebase.web && firebase.web.length) {
             const isRegitered = firebase.web.includes(token)
             if (!isRegitered) {
@@ -184,8 +186,7 @@ const VerticalLayout = props => {
   return (
     <div
       className={classnames(
-        `wrapper vertical-layout ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${
-          footerClasses[footerType] || 'footer-static'
+        `wrapper vertical-layout ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${footerClasses[footerType] || 'footer-static'
         }`,
         {
           // Modern Menu
@@ -272,16 +273,54 @@ const VerticalLayout = props => {
         {footer ? footer : <FooterComponent footerType={footerType} footerClasses={footerClasses} />}
       </footer>
 
-      {themeConfig.layout.scrollTop === true ? (
-        <div className='scroll-to-top'>
-          <ScrollToTop showUnder={300} style={{ bottom: '9%', right:"10px", zIndex: 10000 }}>
-            <Button className='btn-icon' color='primary'>
-              <ArrowUp size={14} />
-            </Button>
-          </ScrollToTop>
+      <div className='scroll-to-top' >
+        <ScrollToTop showUnder={-10} style={{ bottom: '9%', right: "50px", zIndex: 10000 }}>
+          <Button className='btn-icon' data-toggle="modal" data-target="#modal-right"
+            data-toggle-class="modal-open-aside" color='success'>
+            <RiChatSmile3Line size={30} />
+          </Button>
+        </ScrollToTop>
+      </div>
+      <div id="modal-right" class="modal fade" data-backdrop="true" style={{ zIndex: 100000 }}>
+        <div class="modal-dialog modal-right w-xl">
+          <div class="modal-content h-100 no-radius">
+            {/* <div class="modal-header">
+              <h2 class="modal-title ">Global Chat</h2>
+              <button class="close" data-dismiss="modal">&times;</button>
+            </div> */}
+            <div class="modal-body">
+              <GlobalChat />
+            </div>
+          </div>
         </div>
-      ) : null}
-    </div>
+      </div>
+
+      {/* <div
+        className="modal  fade bd-example-modal-lg mt-2 modal-right "
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content bg-transparent">
+            <GlobalChat />
+          </div>
+        </div>
+      </div> */}
+
+      {
+        themeConfig.layout.scrollTop === true ? (
+          <div className='scroll-to-top'>
+            <ScrollToTop showUnder={300} style={{ bottom: '9%', right: "10px", zIndex: 10000 }}>
+              <Button className='btn-icon' color='primary'>
+                <ArrowUp size={14} />
+              </Button>
+            </ScrollToTop>
+          </div>
+        ) : null
+      }
+    </div >
   )
 }
 VerticalLayout.propTypes = {
@@ -304,4 +343,4 @@ const mapStateToProps = state => {
     showOnlineUserPopup: state.layout.showOnlineUserPopup
   }
 }
-export default connect(mapStateToProps, {addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, handleOnlineUserHidden, getUsersRoom, removeUsersRoom})(VerticalLayout)
+export default connect(mapStateToProps, { addUserFireBaseToken, getInitOnlineUsers, removeOnlineUsers, getAllOnlineUserSubs, updateOnlineUsers, handleOnlineUserHidden, getUsersRoom, removeUsersRoom })(VerticalLayout)
