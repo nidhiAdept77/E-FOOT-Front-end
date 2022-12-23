@@ -18,10 +18,10 @@ import { getDashboardDetails, setDashboardUserId } from '../../redux/actions/das
 import Button from 'reactstrap/lib/Button'
 
 
-const Dashboard = ({loading}) => {
+const Dashboard = ({ loading }) => {
   const dispatch = useDispatch()
-  const {dashboardUserId, userDashboardDetails} = useSelector(state => state.dashboard)
-  const {user: {_id: currentLoggedInUser = ""} = ""} = useSelector(state => state.auth)
+  const { dashboardUserId, userDashboardDetails } = useSelector(state => state.dashboard)
+  const { user: { _id: currentLoggedInUser = "" } = "" } = useSelector(state => state.auth)
   const [details, setDetails] = useState({})
   const [userId, setUserId] = useState({})
   const [loggedInUser, setLoggedInUser] = useState(true)
@@ -38,7 +38,7 @@ const Dashboard = ({loading}) => {
   useEffect(() => {
     setLoggedInUser(dashboardUserId === currentLoggedInUser)
   }, [dashboardUserId, currentLoggedInUser])
-  
+
   useEffect(() => {
     if (dashboardUserId) {
       dispatch(getDashboardDetails(dashboardUserId))
@@ -54,6 +54,7 @@ const Dashboard = ({loading}) => {
   }, [])
 
   useEffect(() => {
+    dispatch(setDashboardUserId(currentLoggedInUser))
     if (Object.keys(userDashboardDetails).length) {
       setDetails(userDashboardDetails)
     }
@@ -90,7 +91,7 @@ const Dashboard = ({loading}) => {
                     </Col>
                   </Row>
                 </Col>
-                
+
                 <Col lg='7' md='8' sm='12'>
                   <ChallangeOverview data={details} success={colors.primary.main} />
                 </Col>
@@ -104,12 +105,13 @@ const Dashboard = ({loading}) => {
         </Col> : <></>}
       </Row>
       {loggedInUser ? <Row className='match-height'>
-            <Col lg='8' md='8' sm='12' xs='12'>
-              <CardUserTimeline />
-            </Col>
-            <Col lg='4' md='4' sm='12' xs='12'>
-              <CardTransactions />
-            </Col>
+        <Col lg='8' md='8' sm='12' xs='12'>
+
+          <CardUserTimeline />
+        </Col>
+        <Col lg='4' md='4' sm='12' xs='12'>
+          <CardTransactions />
+        </Col>
       </Row> : <></>}
     </div>
   )
@@ -119,6 +121,6 @@ Dashboard.propTypes = {
   loading: PropTypes.bool.isRequired
 }
 const mapStateToProps = state => ({
-    loading: state.auth.loading
+  loading: state.auth.loading
 })
 export default connect(mapStateToProps, {})(Dashboard)

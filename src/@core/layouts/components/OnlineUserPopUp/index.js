@@ -8,12 +8,12 @@ import OnlineUsers from '@src/views/Dashboard/components/OnlineUsers'
 import AppCollapse from '@components/app-collapse'
 import { FaUser } from "react-icons/fa"
 
-function OnlineUserPopUp({onlineUsers}) {
+function OnlineUserPopUp({ onlineUsers }) {
     const { colors } = useContext(ThemeColors),
-    trackBgColor = '#e9ecef'
+        trackBgColor = '#e9ecef'
     return (
         <div className="online-pop-wrapper">
-            <AppCollapse 
+            <AppCollapse
                 data={
                     [
                         {
@@ -25,13 +25,13 @@ function OnlineUserPopUp({onlineUsers}) {
                             )
                         }
                     ]
-                } /> 
+                } />
         </div>
     )
 }
 
 OnlineUserPopUp.propTypes = {
-  onlineUsers: PropTypes.array.isRequired
+    onlineUsers: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => {

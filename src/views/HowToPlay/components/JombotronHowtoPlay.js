@@ -20,7 +20,7 @@ export default function JombotronHowtoPlay() {
                     {/* <Jumbotron fluid className="jumbotron-div how-to-play-Jumbotron"> */}
                     <Container fluid className="jumbotron-text text-center jumbo_text  " style={{ marginTop: "15%" }}>
                         <h1 className="display-3  jumbotron-container-how-to-play-h3" ><FormattedMessage id="How To Play" /></h1>
-                        <p className="lead"><FormattedMessage id="Play as a Pro not as noob." /><br></br>
+                        <p className="lead display-6 small_text"><FormattedMessage id="Play as a Pro not as noob." /><br></br>
                             <BiFootball className='mt-1' size={30} /></p>
 
                         {/* <hr className='mt-2' style={{ maxWidth: "140px", height: "10px" }} />

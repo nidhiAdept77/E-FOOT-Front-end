@@ -7,7 +7,7 @@ import {
 import { useSelector, useDispatch } from "react-redux"
 import Row from "reactstrap/lib/Row"
 import Col from "reactstrap/lib/Col"
-import {CONSTANTS} from '@src/utils/CONSTANTS'
+import { CONSTANTS } from '@src/utils/CONSTANTS'
 import Avatar from '@components/avatar'
 import { useHistory } from 'react-router-dom'
 import { setDashboardUserId } from '@src/redux/actions/dashboard'
@@ -29,10 +29,9 @@ function privateChallengeModal() {
     if (addEditPopupData?._id) {
       dispatch(setDashboardUserId(addEditPopupData._id))
       dispatch(toggleChallengeModal(false))
-      history.push("/dashboard")
+      history.push(`/other-user-dashboard/${addEditPopupData?._id}`)
     }
   }
-
   return (
     <div className="vertically-centered-modal">
       <Modal
@@ -43,7 +42,7 @@ function privateChallengeModal() {
         <ModalHeader toggle={() => dispatch(toggleChallengeModal(false))}>
           <Row>
             <Col>
-              <Avatar size='sm' imgClassName='rounded' className='mr-75' img={`${window.location.origin}/rank.png`}  imgHeight='42' imgWidth='42' />
+              <Avatar size='sm' imgClassName='rounded' className='mr-75' img={addEditPopupData.profileImage} imgHeight='42' imgWidth='42' />
               {/* <img src={`${window.location.origin}/rank.png`}/> */}
             </Col>
             <Col>

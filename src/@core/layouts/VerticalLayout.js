@@ -274,7 +274,7 @@ const VerticalLayout = props => {
       </footer>
 
       <div className='scroll-to-top' >
-        <ScrollToTop showUnder={-10} style={{ bottom: '9%', right: "50px", zIndex: 10000 }}>
+        <ScrollToTop showUnder={-10} style={{ bottom: '15%', right: "10px", zIndex: 10000 }}>
           <Button className='btn-icon' data-toggle="modal" data-target="#modal-right"
             data-toggle-class="modal-open-aside" color='success'>
             <RiChatSmile3Line size={30} />

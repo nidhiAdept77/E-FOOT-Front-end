@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _ from 'underscore'
 import client from '../../../graphql/client'
 import { getFieldValue, handleAuthResponse } from '../../../utils'
-const {SET_LOADER, SET_USER_DASHBOARD, SET_DASHBOARD_USER_ID, USER_ACTIVITIES} = require('../../types')
+const { SET_LOADER, SET_USER_DASHBOARD, SET_DASHBOARD_USER_ID, USER_ACTIVITIES } = require('../../types')
 
 export const getDashboardDetails = (userId) => async dispatch => {
     try {
@@ -33,14 +33,14 @@ export const getDashboardDetails = (userId) => async dispatch => {
                 }
             }
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: DashboardQuery,
             variables: {
                 id: userId
             }
         })
         handleAuthResponse(data.getDashboardDetails)
-        const {success} = data.getDashboardDetails
+        const { success } = data.getDashboardDetails
         if (success) {
             const stats = getFieldValue(data, 'getDashboardDetails.data')
             if (!_.isEmpty(stats)) {
@@ -101,11 +101,11 @@ export const getUserActivities = () => async dispatch => {
                 }
             }
         `
-        const {data} = await client.query({
+        const { data } = await client.query({
             query: DashboardQuery
         })
         handleAuthResponse(data.getPaginatedUserActivities)
-        const {success} = data.getPaginatedUserActivities
+        const { success } = data.getPaginatedUserActivities
         if (success) {
             const stats = getFieldValue(data, 'getPaginatedUserActivities.data.data')
             if (!_.isEmpty(stats)) {
@@ -138,7 +138,7 @@ export const getUserActivities = () => async dispatch => {
 }
 
 export const setDashboardUserId = value => dispatch => {
-    dispatch({ 
+    dispatch({
         type: SET_DASHBOARD_USER_ID,
         payload: value
     })

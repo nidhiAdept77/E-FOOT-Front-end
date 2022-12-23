@@ -69,6 +69,20 @@ const DashboardRoutes = [
     exact: true
   },
   {
+    path: '/terms-of-use',
+    component: lazy(() => import('../../views/pages/misc/TermsOfUse')),
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: '/privacy-policy',
+    component: lazy(() => import('../../views/pages/misc/PrivacyPolicy')),
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
     path: '/chat-requests',
     component: lazy(() => import('../../views/ChatRequests')),
     meta: {
@@ -115,7 +129,14 @@ const DashboardRoutes = [
     },
     exact: true
   },
-
+  {
+    path: '/other-user-dashboard/*',
+    component: lazy(() => import('../../views/Dashboard/otheruserDashboard')),
+    meta: {
+      authRoute: true
+    },
+    exact: true
+  },
   // {
   //   path: '/faqs',
   //   component: lazy(() => import('../../views/FAQs/Faqs')),

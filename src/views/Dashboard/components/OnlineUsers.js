@@ -1,11 +1,11 @@
 
 import { HelpCircle } from 'react-feather'
-import { Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, FormGroup  } from 'reactstrap'
+import { Card, CardHeader, CardTitle, CardBody, UncontrolledTooltip, FormGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import OnlineUserRow from './OnlineUserRow'
 import { useEffect, useState, useRef } from 'react'
-import {CONSTANTS} from '@src/utils/CONSTANTS'
+import { CONSTANTS } from '@src/utils/CONSTANTS'
 import InfiniteScroll from "react-infinite-scroll-component"
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Select from 'react-select'
@@ -17,7 +17,7 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
   const [hasMore, setHasMore] = useState(false)
   const [loading, setLoading] = useState(false)
   const [selectedRank, setSelectedRank] = useState()
-  
+
   useEffect(() => {
     const LIMIT = 10
     if (onlineUsers) {
@@ -49,7 +49,7 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
     }
     return newArray
   }
-  
+
   const handleLoadMore = () => {
     setLoading(true)
     setTimeout(() => {
@@ -63,61 +63,61 @@ const OnlineUsers = ({ onlineUsers, scrollContainer, showheader }) => {
     if (selectedRank) {
       onlineUsers = onlineUsers.filter(user => user.rank === selectedRank.value)
     }
-  return onlineUsers.length > 0 ? onlineUsers.map((user, index) => {
-  return (user && <OnlineUserRow user = {user}
-    index = {index}
-    key = {
-      `${user.userName}-${index}`
-    }
-    canChallenge={true}
-    />
-  )
-  }) : null
+    return onlineUsers.length > 0 ? onlineUsers.map((user, index) => {
+      return (user && <OnlineUserRow user={user}
+        index={index}
+        key={
+          `${user.userName}-${index}`
+        }
+        canChallenge={true}
+      />
+      )
+    }) : null
   }
 
   return onlineUsers ? (
     <Card className='card-employee-task'>
-      { showheader && <CardHeader>
+      {showheader && <CardHeader>
         <CardTitle tag='h4'> {hasMore} Online Users ({onlineUsers.length})</CardTitle>
         <HelpCircle size={18} id="onlineUsersHelp" className='text-muted cursor-pointer' />
         <UncontrolledTooltip placement='auto' target='onlineUsersHelp'>
-          All online users 
+          All online users
         </UncontrolledTooltip>
-      </CardHeader> }
+      </CardHeader>}
       <CardBody className="pr-0">
         <FormGroup className="pr-2">
-            <Select
-              theme={selectThemeColors}
-              isClearable={false}
-              id={`rank–type`}
-              className='react-select'
-              classNamePrefix='select'
-              isClearable={true}
-              placeholder="Select WL Rank"
-              options={CONSTANTS.GAME_RANK}
-              onChange={(value) => { setSelectedRank(value) } }
-            />
-          </FormGroup>
-      { onlineUsers && 
-            <>
-                <PerfectScrollbar
-                  id="online-card-body"
-                  className='online-card-body'
-                  options={{ wheelPropagation: false }}
-                >
-                  <InfiniteScroll
-                    dataLength={items.length}
-                    next={handleLoadMore}
-                    hasMore={hasMore}
-                    
-                    loader={<h4>Loading...</h4>}
-                    scrollableTarget="online-card-body" >
-                    {renderTasks(items)}
-                  </InfiniteScroll>
-                </PerfectScrollbar>
-                <PrivateChallengeModal />
-            </>
-      }
+          <Select
+            theme={selectThemeColors}
+            isClearable={false}
+            id={`rank–type`}
+            className='react-select'
+            classNamePrefix='select'
+            isClearable={true}
+            placeholder="Select WL Rank"
+            options={CONSTANTS.GAME_RANK}
+            onChange={(value) => { setSelectedRank(value) }}
+          />
+        </FormGroup>
+        {onlineUsers &&
+          <>
+            <PerfectScrollbar
+              id="online-card-body"
+              className='online-card-body'
+              options={{ wheelPropagation: false }}
+            >
+              <InfiniteScroll
+                dataLength={items.length}
+                next={handleLoadMore}
+                hasMore={hasMore}
+
+                loader={<h4>Loading...</h4>}
+                scrollableTarget="online-card-body" >
+                {renderTasks(items)}
+              </InfiniteScroll>
+            </PerfectScrollbar>
+            <PrivateChallengeModal />
+          </>
+        }
       </CardBody>
     </Card>
   ) : null

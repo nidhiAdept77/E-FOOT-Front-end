@@ -58,14 +58,6 @@ const PagesRoutes = [
     }
   },
   {
-    path: '/misc/error',
-    component: lazy(() => import('../../views/pages/misc/Error')),
-    layout: 'BlankLayout',
-    meta: {
-      publicRoute: true
-    }
-  },
-  {
     path: '/terms-of-use',
     component: lazy(() => import('../../views/pages/misc/TermsOfUse')),
     meta: {
@@ -75,6 +67,14 @@ const PagesRoutes = [
   {
     path: '/privacy-policy',
     component: lazy(() => import('../../views/pages/misc/PrivacyPolicy')),
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: '/misc/error',
+    component: lazy(() => import('../../views/pages/misc/Error')),
+    layout: 'BlankLayout',
     meta: {
       publicRoute: true
     }

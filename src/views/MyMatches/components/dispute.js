@@ -17,19 +17,20 @@ import { uploadProof } from "../../../redux/actions/challenges"
 
 const DisputeModal = () => {
   const dispatch = useDispatch()
-  
+
   const { disputePopup, addEditPopupData } = useSelector((state) => state.layout)
-  const {user} = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.auth)
   const [avatar, setAvatar] = useState("")
   const [file, setFile] = useState(null)
-  const {_id} = addEditPopupData
+  const { _id } = addEditPopupData
   const [disabled, setDisabled] = useState(false)
-  
+  const fullUrlOfImg = `https://ef-nl.s3.amazonaws.com/${_id + user._id}`
   useEffect(() => {
     if (!_.isEmpty(addEditPopupData)) {
       if (user._id === addEditPopupData.challenger) {
         const img = addEditPopupData?.challengerScore?.proof
-        setAvatar(addEditPopupData?.challengerScore?.proof)
+        setAvatar(fullUrlOfImg)
+
         setDisabled(img)
       } else {
         const img = addEditPopupData?.opponentScore?.proof
@@ -43,7 +44,7 @@ const DisputeModal = () => {
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={e => { dispatch(setDisputePopup(false)) }} />
   )
-  
+
 
   const onChange = e => {
     const reader = new FileReader(),
@@ -65,17 +66,17 @@ const DisputeModal = () => {
       if (!file && !_id) {
         dispatch(showToastMessage("Please include image", 'error'))
       }
-      const {success, message} = await dispatch(uploadProof({imageData:file, _id}))
+      const { success, message } = await dispatch(uploadProof({ imageData: file, _id }))
       handleModal()
       if (success) {
         dispatch(showToastMessage(message, 'success'))
       } else {
         dispatch(showToastMessage(message, 'error'))
       }
-      } catch (error) {
-          console.error('error: ', error)
-          dispatch(showToastMessage(error.message, 'error'))
-      }
+    } catch (error) {
+      console.error('error: ', error)
+      dispatch(showToastMessage(error.message, 'error'))
+    }
   }
 
   return (
@@ -115,7 +116,7 @@ const DisputeModal = () => {
               <Col md={12} className="text-center">
                 {avatar &&
                   <Media className='mr-25' left>
-                    <Media object className='rounded mr-50' src={avatar} alt='Proof Image' height='80' width='80' />
+                    <Media object className='rounded mr-50' src={fullUrlOfImg} alt='Proof Image' height='80' width='80' />
                   </Media>
                 }
               </Col>
@@ -136,7 +137,7 @@ const DisputeModal = () => {
             className="mr-1"
             color="primary"
             type="submit"
-            disabled={disabled}
+
           >
             Submit
           </Button.Ripple>

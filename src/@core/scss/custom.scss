@@ -120,7 +120,7 @@
     position: fixed;
     bottom: 47px;
     width: 230px;
-    right: 2rem;
+    right: -1rem;
     margin-right: 10vw;
 
     .card-body {
@@ -264,6 +264,28 @@ body.dark-layout {
     margin-bottom: 20px;
 }
 
+@media (max-width:767px) {
+    .footer_class {
+        font-size: 0.653434534rem !important;
+    }
+
+    .online-pop-wrapper {
+        bottom: 80px;
+    }
+
+    .footer_hr {
+        display: block !important;
+        padding: 0px;
+        margin: 3;
+
+    }
+
+    .footer-fixed footer .left-content {
+        margin-top: 0;
+    }
+}
+
+
 @media (max-width:1470px) {
     .how-to-play-Jumbotron2 {
         border-top: none;
@@ -303,6 +325,9 @@ body.dark-layout {
         margin-top: 15%;
     }
 
+    .small_text {
+        color: #f5f5f6;
+    }
 }
 
 .homepage-jumbotron {
@@ -311,6 +336,8 @@ body.dark-layout {
     overflow: hidden;
     background-size: contain;
     background-position: center;
+    border-radius: 50px 50px 0px 0px;
+    background-color: transparent;
 
     .jumbotron-overlay {
         top: 0;
@@ -634,7 +661,7 @@ body.dark-layout {
     display: grid;
     height: 80px;
     width: 80px;
-    margin-top: -77px;
+    margin-top: -80px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0.357rem;
     place-items: center;

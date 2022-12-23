@@ -33,13 +33,22 @@ const MyMatches = props => {
     const [pending, setPending] = useState(CONSTANTS.STATUS.PENDING)
     const [challengeList, setChallengeList] = useState([])
     let pendingChallangeCount = 0
-
+    let activeChallangeCount = 0
+    let acceptedChallangeCount = 0
+    let diputeChallangeCount = 0
+    // console.log(challengeList)
     const showBadgeOnPending = () => {
 
         challenges && challenges.map((data) => {
-            if (data.status === "pending") (
+            if (data.status === "pending") {
                 pendingChallangeCount += 1
-            )
+            } else if (data.status === "accepted") {
+                acceptedChallangeCount += 1
+            } else if (data.status === "dispute") {
+                diputeChallangeCount += 1
+            } else if (data.status === "active") {
+                activeChallangeCount += 1
+            }
 
         })
     }
@@ -52,8 +61,8 @@ const MyMatches = props => {
         CONSTANTS.STATUS.ACTIVE,
         CONSTANTS.STATUS.ACCEPTED,
         CONSTANTS.STATUS.DISPUTE,
-        CONSTANTS.STATUS.FINISHED,
-        CONSTANTS.STATUS.EXPIRED
+        CONSTANTS.STATUS.FINISHED
+        // CONSTANTS.STATUS.EXPIRED
     ]
 
     useEffect(() => {
@@ -65,7 +74,19 @@ const MyMatches = props => {
 
     useEffect(() => {
         if (challenges?.length) {
-            setChallengeList(challenges.filter(challenge => challenge.status === pending))
+            // setChallengeList(challenges.filter(challenge => challenge.status === pending))
+            const pendingChallenges = []
+            challenges && challenges.map((challenge) => {
+
+                if (challenge.status === pending) {
+
+                    pendingChallenges.push(challenge)
+                }
+                // else if (challenge.status === active) {
+                //     pendingChallenges.push(challenge)
+                // }
+                setChallengeList(pendingChallenges)
+            })
         }
     }, [challenges, pending])
 
@@ -99,6 +120,7 @@ const MyMatches = props => {
 
     const toggle = tab => {
         if (pending !== tab) {
+            // setActive(tab)
             setPending(tab)
             dispatch(getPaginatedChallenges(limit, currentPage, searchValue, CONSTANTS.STATUS.BOTH, tab, user._id))
         }
@@ -127,6 +149,7 @@ const MyMatches = props => {
     }
 
     const NavItems = (navs) => {
+        console.log(document.getElementById("tabsForMatches")?.innerHTML)
         return navs.map(nav => (
             <NavItem>
 
@@ -140,8 +163,23 @@ const MyMatches = props => {
                     {/* <Badge color={badgeColor ? badgeColor : 'primary'} className='badge-sm badge-up' pill>
                         {badgeText ? badgeText : '0'}
                     </Badge> */}
-                    {nav}{
+                    <span id='tabsForMatches' style={{ display: "none" }}>{nav}</span>
+                    {nav === "pending" ? "private" : ""}
+                    {nav === "active" ? "public" : ""}
+                    {nav === "accepted" ? "active" : ""}
+                    {nav === "dispute" ? "dispute" : ""}
+                    {nav === "finished" ? "finished" : ""}
+                    {
                         nav === "pending" ? <Badge color="primary" className='badge-sm  ml-1' pill>{pendingChallangeCount}</Badge> : ""
+                    }
+                    {
+                        nav === "active" ? <Badge color="warning" className='badge-sm ml-1' pill>{activeChallangeCount}</Badge> : ""
+                    }
+                    {
+                        nav === "accepted" ? <Badge color="success" className='badge-sm  ml-1' pill>{acceptedChallangeCount}</Badge> : ""
+                    }
+                    {
+                        nav === "dispute" ? <Badge color="danger" className='badge-sm  ml-1' pill>{diputeChallangeCount}</Badge> : ""
                     }
                 </NavLink>
             </NavItem>
@@ -198,7 +236,7 @@ const MyMatches = props => {
                         {NavItems(STATUS)}
                     </Nav>
                 </Row>
-                <TabContent className='py-50' activeTab={pending}>
+                <TabContent className='py-50 ' id="tabIsPending" activeTab={pending}>
                     <DataTable
                         noHeader
                         pagination

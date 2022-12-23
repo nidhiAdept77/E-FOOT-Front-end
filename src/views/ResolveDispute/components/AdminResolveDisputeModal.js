@@ -28,7 +28,7 @@ function AdminResolveDisputeModal() {
       setChallengeInfo({})
     }
   }, [addEditPopupData])
-  
+
   const handleChallengeButton = () => {
     dispatch(toggleAdminDisputeModal(false))
   }
@@ -70,9 +70,10 @@ function AdminResolveDisputeModal() {
       mode
     } = challengeInfo
 
+
     const download = (imgUrl, text) => {
       const element = document.createElement("a")
-      const file = new Blob([imgUrl], {type: "image/*"})
+      const file = new Blob([imgUrl], { type: "image/*" })
       element.href = URL.createObjectURL(file)
       element.download = `${text}.jpg`
       element.click()
@@ -81,116 +82,117 @@ function AdminResolveDisputeModal() {
     const handleDecideRadio = (event) => {
       setWhoIsWinner(event.target.value)
     }
-    
+    const challengerProof = `https://ef-nl.s3.amazonaws.com/${challengeInfo._id + challengeInfo.challenger}`
+    const accepterProof = `https://ef-nl.s3.amazonaws.com/${challengeInfo._id + challengeInfo.acceptor}`
     return (<div className="mt-2 mb-4">
       <Row>
-      <Col md={2}>
-      <Avatar imgClassName='rounded' className='mr-75' img={gameImage} imgHeight='120' imgWidth='120' />
-      </Col>
-      <Col md={4}>
-        <Row>
-          <Col><b>Game: </b></Col>
-          <Col>{gameName}</Col>
-        </Row>
-        <Row>
-          <Col><b>Console: </b></Col>
-          <Col>{consoleName}</Col>
-        </Row>
-        <hr />
-        <Row>
-          <Col><b>Challenger: </b></Col>
-          <Col>{challengerName}</Col>
-        </Row>
-        <Row>
-          <Col><b>Acceptor: </b></Col>
-          <Col>{acceptorName}</Col>
-        </Row>
-      </Col>
-      <Col md={4}>
-        <Row>
-          <Col><b>Challenger uploaded scores: </b></Col>
-        </Row>
-        <Row>
-          <Col><b>Own: </b></Col>
-          <Col>{challengerScore?.my ? challengerScore?.my : "Not uploaded."}</Col>
-        </Row>
-        <Row>
-          <Col><b>Acceptor's: </b></Col>
-          <Col>{challengerScore?.opponent ? challengerScore?.opponent : "Not uploaded."}</Col>
-        </Row>
-        <hr />
-        <Row>
-          <Col><b>Acceptor uploaded scores: </b></Col>
-        </Row>
-        <Row>
-          <Col><b>Own: </b></Col>
-          <Col>{opponentScore?.my ? opponentScore?.my : "Not uploaded."}</Col>
-        </Row>
-        <Row>
-          <Col><b>Acceptor's: </b></Col>
-          <Col>{opponentScore?.opponent ? opponentScore?.opponent : "Not uploaded."}</Col>
-        </Row>
-      </Col>
-    </Row>
-    <hr />
-    <Row>
-      <Col className="mt-1"><b>Uploaded Proofs: </b></Col>
-    </Row>
-    <Row className="mt-1">
-      <Col md={12}>
-        <Row>
-          <Col md={6}>
-            <Row>
-              <Col>
-                <b>Challenger's Proof: </b>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                {challengerScore?.proof ? (<Avatar imgClassName='rounded' className='mr-75' img={challengerScore?.proof} imgHeight='240' imgWidth='240' />) : "No proof uploaded"}
-              </Col>
-            </Row>
-            {challengerScore?.proof ? (<Row className="mt-1">
-              <Col>
-                <Button
-                  download
-                  color="primary"
-                  onClick={() => download(challengerScore?.proof, "Challenger")}
-                >
-                  Download
-                </Button>
-              </Col>
-            </Row>) : ""}
-          </Col>
-          <Col md={6}>
+        <Col md={2}>
+          <Avatar imgClassName='rounded' className='mr-75' img={gameImage} imgHeight='120' imgWidth='120' />
+        </Col>
+        <Col md={4}>
           <Row>
-              <Col>
-                <b>Acceptor's Proof: </b>
-              </Col>
-            </Row>
-            <Row>
-              <Col>{opponentScore?.proof ? (<Avatar imgClassName='rounded' className='mr-75' img={opponentScore?.proof} imgHeight='240' imgWidth='240' />) : "No proof uploaded"}</Col>
-            </Row>
-            {opponentScore?.proof ? (<Row className="mt-1">
-              <Col>
-                <Button
-                  download
-                  color="primary"
-                  onClick={() => download(opponentScore?.proof, "Acceptor")}
-                >
-                  Download
-                </Button>
-              </Col>
-            </Row>) : ""}
-          </Col>
-        </Row>
-      </Col>
-    </Row>
-    <hr />
-    <Row>
-      <Col><b>Conclude who's the Winner?</b></Col>
-    </Row>
-    <Row>
+            <Col><b>Game: </b></Col>
+            <Col>{gameName}</Col>
+          </Row>
+          <Row>
+            <Col><b>Console: </b></Col>
+            <Col>{consoleName}</Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col><b>Challenger: </b></Col>
+            <Col>{challengerName}</Col>
+          </Row>
+          <Row>
+            <Col><b>Acceptor: </b></Col>
+            <Col>{acceptorName}</Col>
+          </Row>
+        </Col>
+        <Col md={4}>
+          <Row>
+            <Col><b>Challenger uploaded scores: </b></Col>
+          </Row>
+          <Row>
+            <Col><b>Own: </b></Col>
+            <Col>{challengerScore?.my ? challengerScore?.my : "Not uploaded."}</Col>
+          </Row>
+          <Row>
+            <Col><b>Acceptor's: </b></Col>
+            <Col>{challengerScore?.opponent ? challengerScore?.opponent : "Not uploaded."}</Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col><b>Acceptor uploaded scores: </b></Col>
+          </Row>
+          <Row>
+            <Col><b>Own: </b></Col>
+            <Col>{opponentScore?.my ? opponentScore?.my : "Not uploaded."}</Col>
+          </Row>
+          <Row>
+            <Col><b>Acceptor's: </b></Col>
+            <Col>{opponentScore?.opponent ? opponentScore?.opponent : "Not uploaded."}</Col>
+          </Row>
+        </Col>
+      </Row>
+      <hr />
+      <Row>
+        <Col className="mt-1"><b>Uploaded Proofs: </b></Col>
+      </Row>
+      <Row className="mt-1">
+        <Col md={12}>
+          <Row>
+            <Col md={6}>
+              <Row>
+                <Col>
+                  <b>Challenger's Proof: </b>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Avatar imgClassName='rounded' className='mr-75' img={challengerProof} imgHeight='240' imgWidth='240' />
+                </Col>
+              </Row>
+              {challengerProof ? (<Row className="mt-1">
+                <Col>
+                  <Button
+                    download
+                    color="primary"
+                    onClick={() => download(challengerProof, "Challenger")}
+                  >
+                    Download
+                  </Button>
+                </Col>
+              </Row>) : ""}
+            </Col>
+            <Col md={6}>
+              <Row>
+                <Col>
+                  <b>Acceptor's Proof: </b>
+                </Col>
+              </Row>
+              <Row>
+                <Col><Avatar imgClassName='rounded' className='mr-75' img={accepterProof} imgHeight='240' imgWidth='240' /></Col>
+              </Row>
+              {accepterProof ? (<Row className="mt-1">
+                <Col>
+                  <Button
+                    download
+                    color="primary"
+                    onClick={() => download(accepterProof, "Acceptor")}
+                  >
+                    Download
+                  </Button>
+                </Col>
+              </Row>) : ""}
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <hr />
+      <Row>
+        <Col><b>Conclude who's the Winner?</b></Col>
+      </Row>
+      <Row>
         <Col>
           <div className='demo-inline-spacing'>
             <CustomInput type='radio' id='challenger' checked={whoIsWinner === CONSTANTS.CHALLENGER} value={CONSTANTS.CHALLENGER} name='radioDecide' inline label={`Challenger (${challengerName})`} onChange={handleDecideRadio} />

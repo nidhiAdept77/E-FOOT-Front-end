@@ -66,12 +66,12 @@ const AppCollapse = props => {
             /*eslint-disable */
             {...(toggle === 'hover'
               ? {
-                  onMouseEnter: () => handleCollapseToggle(index)
-                }
+                onMouseEnter: () => handleCollapseToggle(index)
+              }
               : {
-                  onClick: () => handleCollapseToggle(index)
-                })}
-            /*eslint-enable */
+                onClick: () => handleCollapseToggle(index)
+              })}
+          /*eslint-enable */
           >
             <CardTitle className='collapse-title'>{title}</CardTitle>
             <ChevronUp size={14} />

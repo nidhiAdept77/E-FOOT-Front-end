@@ -10,11 +10,12 @@ import { CONSTANTS } from "../../../utils/CONSTANTS"
 import { useEffect, useState } from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { acceptChallenge } from '../../../redux/actions/challenges'
+import { acceptChallenge, declineChallengeFunc } from '../../../redux/actions/challenges'
 
 const SubmitScoreButton = ({ data }) => {
   const dispatch = useDispatch()
   const { addEditPopup, disputePopup } = useSelector((state) => state.layout)
+  const user = useSelector((state) => state)
 
   const handleOpen = async (setData) => {
 
@@ -68,8 +69,8 @@ const SubmitScoreButton = ({ data }) => {
       buttonsStyling: false
     })
     if (result.value) {
-      dispatch(acceptChallenge({ _id: data._id, status: "expired", opponent: data.acceptor }))
-      alert("ok")
+      dispatch(declineChallengeFunc({ _id: data._id, status: "expired", opponent: data.acceptor }))
+
     }
   }
   const deleteChallenge = async () => {
@@ -88,13 +89,14 @@ const SubmitScoreButton = ({ data }) => {
     })
     if (result.value) {
       dispatch(acceptChallenge({ _id: data._id, status: "expired", opponent: data.acceptor }))
-      alert("ok")
+
     }
   }
 
   const btnBasedOnStatusAndType = () => {
+    // console.log(data.challenger)
 
-    if (data?.status === CONSTANTS.STATUS.PENDING && data?.type === CONSTANTS.STATUS.PRIVATE) {
+    if (data?.status === CONSTANTS.STATUS.PENDING && data?.type === CONSTANTS.STATUS.PRIVATE && (user.auth.user._id !== data.challenger)) {
       return (
         <>
           <Button
@@ -125,14 +127,38 @@ const SubmitScoreButton = ({ data }) => {
         </Button>
       )
     } else if (data.status === CONSTANTS.STATUS.ACCEPTED) {
+      let myScore = "Submit Score"
+      if (user.auth.user._id === data.challenger) {
+        if (data.challengerScore) {
+          myScore = "View Score"
+        }
+      } else if (user.auth.user._id !== data.challenger) {
+        if (data.opponentScore) {
+          myScore = "View Score"
+        }
+      }
       return (
         <Button
           className="btn-icon m-0"
           color="flat-primary"
           onClick={(e) => handleOpen(true)}
         >
-          Submit Score
+          {myScore}
         </Button>
+      )
+    } else if (user.auth.user._id === data.challenger && data.mode === "private") {
+      return (
+        <>
+          <Button
+            className="btn-icon m-0"
+            color="flat-danger"
+            onClick={deleteChallenge}
+          >
+            Delete
+          </Button>
+
+        </>
+
       )
     }
   }
@@ -193,6 +219,12 @@ export const columns = [
     cell: (row) => row.consoleName
   },
   {
+    name: "Challenger",
+    selector: "type",
+    sortable: true,
+    cell: (row) => row?.challengerName
+  },
+  {
     name: "Status",
     selector: "status",
     sortable: true,
@@ -210,6 +242,7 @@ export const columns = [
     sortable: true,
     cell: (row) => row?.mode?.name
   },
+
   {
     name: "Actions",
     sortable: false,

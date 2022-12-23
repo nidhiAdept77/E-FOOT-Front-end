@@ -158,7 +158,95 @@ export const acceptChallenge = ({ status, opponent, _id }) => async dispatch => 
                 payload: false
             })
             if (data.challengeAccept.data._id) {
-                dispatch(showToastMessage("Challenge accepted!", 'success'))
+                if (status === "expired") {
+                    dispatch(showToastMessage("Challenge deleted!", 'success'))
+                } else {
+                    dispatch(showToastMessage("Challenge accepted!", 'success'))
+                }
+                dispatch({
+                    type: UPDATE_CHALLENGES,
+                    payload: data.challengeAccept.data
+                })
+            }
+            return data.challengeAccept
+        } else {
+            dispatch(showToastMessage(data.challengeAccept.message, 'error'))
+        }
+    } catch (error) {
+        console.error('error: ', error)
+        dispatch({
+            type: SET_LOADER,
+            payload: false
+        })
+    }
+}
+
+export const declineChallengeFunc = ({ status, opponent, _id }) => async dispatch => {
+    try {
+        dispatch({
+            type: SET_LOADER,
+            payload: true
+        })
+        const acceptChallengeMutation = gql`
+            mutation challengeAccept($input: ChallengeAcceptInput){
+                challengeAccept(input: $input){
+                    statusCode
+                    success
+                    message
+                    nextToken
+                    data {
+                        _id
+                        status
+                        type
+                        consoleId
+                        gameId
+                        challenger
+                        acceptor
+                        createdAt
+                        gameImage
+                        gameName
+                        consoleName
+                        challengerName
+                        acceptorName
+                        challengerScore {
+                            my
+                            opponent
+                            status
+                            proof
+                        }
+                        opponentScore {
+                            my
+                            opponent
+                            status
+                            proof
+                        }
+                        mode {
+                            name
+                            id
+                        }
+                    }
+                }
+            }
+        `
+        const { data } = await client.mutate({
+            mutation: acceptChallengeMutation,
+            variables: {
+                input: {
+                    status,
+                    acceptor: opponent,
+                    _id
+                }
+            }
+        })
+        handleAuthResponse(data.challengeAccept)
+        const { success } = data.challengeAccept
+        if (success) {
+            dispatch({
+                type: SET_LOADER,
+                payload: false
+            })
+            if (data.challengeAccept.data._id) {
+                dispatch(showToastMessage("Challenge declined!", 'success'))
                 dispatch({
                     type: UPDATE_CHALLENGES,
                     payload: data.challengeAccept.data
@@ -386,6 +474,7 @@ export const uploadProof = ({ imageData, _id }) => async dispatch => {
     const formData = new FormData()
     formData.append('document', imageData)
     formData.append('id', _id)
+    formData.append("userId", userId)
     try {
         dispatch({
             type: SET_LOADER,

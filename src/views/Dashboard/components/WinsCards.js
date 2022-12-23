@@ -155,20 +155,22 @@ const WinsCards = ({ info, data: details }) => {
         )}
       </CardHeader>
       <CardBody className="pb-50">
-      <div id='table_matches'>
-                  <table>
-          {data?.lastMatches?.map((match) => {
-            const { challengerName = "", winLoseScore = "", opponentName = "" } = match
-            return (
-              <>  
-                    <tr>
-                      <td><small>{challengerName}</small></td>
-                      <td><small>{winLoseScore}</small></td>
-                      <td><small>{opponentName}</small></td> 
-                    </tr>
-                
+        <div id='table_matches'>
+          <table>
 
-                {/* <tr style={{ borderBottom: "1px solid black", borderTop: "1px solid black" }}>
+            {data?.lastMatches?.map((match, index) => {
+              const { challengerName = "", winLoseScore = "", opponentName = "" } = match
+              console.log(match)
+              return (
+                <>
+                  <tr key={index}>
+                    <td><small>{challengerName}</small></td>
+                    <td><small>{winLoseScore}</small></td>
+                    <td><small>{opponentName}</small></td>
+                  </tr>
+
+
+                  {/* <tr style={{ borderBottom: "1px solid black", borderTop: "1px solid black" }}>
                   <td>
                     <small>{challengerName}</small>
                   </td>
@@ -179,12 +181,12 @@ const WinsCards = ({ info, data: details }) => {
                     <small>{opponentName}</small>
                   </td>
                 </tr> */}
-              </>
-            )
-          }) || null}
-         
-         </table>
-                </div>
+                </>
+              )
+            }) || null}
+
+          </table>
+        </div>
         {/* <Chart options={options} series={series} type={type} height={height} /> */}
       </CardBody>
     </Card>

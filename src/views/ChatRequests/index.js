@@ -75,7 +75,7 @@ const ChatRequests = props => {
 
     return (
         <Fragment>
-            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="ChatRequests" />} breadCrumbActive={<FormattedMessage {...{ id: 'hello' }} />} />
+            <Breadcrumbs breadCrumbTitle={<FormattedMessage id="ChatRequests" />} breadCrumbActive={<FormattedMessage {...{ id: 'Chat requests' }} />} />
 
             <Card>
                 <LoaderComponent loading={loading} />
